@@ -1,5 +1,4 @@
 library(plyr)
-library(plyr)
 library(foreach)
 library(doParallel)
 

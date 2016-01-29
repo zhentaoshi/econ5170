@@ -6,6 +6,8 @@ Pkg.add("Distributions")
 Pkg.add("IJulia")
 Pkg.add("PyPlot")
 Pkg.add("Gadfly")
+Pkg.add("DataFrames")
+Pkg.add("Optim")
 
 
 using Atom
@@ -13,3 +15,5 @@ using Distributions
 using IJulia
 using PyPlot
 using Gadfly
+using DataFrames
+using Optim
