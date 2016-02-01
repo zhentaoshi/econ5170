@@ -70,8 +70,8 @@ library(Matrix)
 
 set.seed(111)
 
-n = 6000; Rep = 10; # 'Matrix' is quick, 'matrix' is slow, adding is OK
-# n = 50; Rep = 1000;  # 'Matrix' is slow,  'matrix' is quick, adding is OK
+# n = 6000; Rep = 10; # 'Matrix' is quick, 'matrix' is slow, adding is OK
+n = 50; Rep = 1000;  # 'Matrix' is slow,  'matrix' is quick, adding is OK
 
 for (opt in 1:4){
   
@@ -173,6 +173,9 @@ capture = function(i){
   return( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
 }
 
+
+
+
 pts0 = Sys.time() # check time
 out = ldply( .data = 1:Rep, .fun = capture ) 
 cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
@@ -205,8 +208,10 @@ In this comparative example, we try
 ```{r,warning=FALSE}
 registerDoParallel(2) # open 2 CPUs
 
+
+
 pts0 = Sys.time() # check time
-out = ldply(.data = 1:Rep, .fun = capture, .parallel = TRUE,
+out = ldply(.data = 1:Rep, .fun = capture, .parallel = T,
             .paropts = list(.export = ls(envir=globalenv() )) )
 cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
