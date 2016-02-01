@@ -17,6 +17,7 @@ References
 
 Local
 
+* git clone https://github.com/frankshi/econ5170
 * git config --global user.name <name>
 * git config --global user.email <email>
 * git init
