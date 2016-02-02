@@ -2,7 +2,9 @@
 title: "Lecture 2: Advanced R"
 author: Zhentao Shi
 date: Feb 1, 2016
-output: pdf_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 

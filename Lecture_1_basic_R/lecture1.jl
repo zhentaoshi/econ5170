@@ -1,5 +1,4 @@
 # this Julia script basically repeats the R script for lecture 1.
-
 using Distributions
 
 n = 100
