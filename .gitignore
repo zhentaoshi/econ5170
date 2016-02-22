@@ -12,7 +12,8 @@ __packages
 *.rdb
 *.rdx
 
-
+## Jupyter
+.ipynb_checkpoints
 
 
 ## Core latex/pdflatex auxiliary files:
