@@ -98,29 +98,29 @@ library(reshape2)</code></pre>
 library(ggplot2)
 library(reshape2)
 
-big150_1 = big150[, c(&quot;typb&quot;,  &quot;b1&quot;, &quot;b1_c&quot;)]
+big150_1 = big150[, c(&quot;typb&quot;, &quot;numb&quot;,  &quot;b1&quot;, &quot;b1_c&quot;)]
 print(head(big150_1))</code></pre>
-<pre><code>##       typb           b1        b1_c
-## 12001   FE  0.124616242  0.11690387
-## 12002   FE  0.267670157  0.25202802
-## 12003   FE -0.030689329 -0.03976746
-## 12004   FE  0.121169923  0.11866138
-## 12005   FE  0.008300031 -0.02399673
-## 12006   FE -0.026199118 -0.05231120</code></pre>
-<pre class="r"><code>big150_1 = melt(big150_1, id.vars = &quot;typb&quot;, measure.vars = c(&quot;b1&quot;, &quot;b1_c&quot;))
-names(big150_1)[2] = &quot;estimator&quot;
+<pre><code>##       typb numb           b1        b1_c
+## 12001   FE  150  0.124616242  0.11690387
+## 12002   FE  150  0.267670157  0.25202802
+## 12003   FE  150 -0.030689329 -0.03976746
+## 12004   FE  150  0.121169923  0.11866138
+## 12005   FE  150  0.008300031 -0.02399673
+## 12006   FE  150 -0.026199118 -0.05231120</code></pre>
+<pre class="r"><code>big150_1 = melt(big150_1, id.vars = c(&quot;typb&quot;, &quot;numb&quot;), measure.vars = c(&quot;b1&quot;, &quot;b1_c&quot;))
+names(big150_1)[3] = c(&quot;estimator&quot;)
 print(head(big150_1))</code></pre>
-<pre><code>##   typb estimator        value
-## 1   FE        b1  0.124616242
-## 2   FE        b1  0.267670157
-## 3   FE        b1 -0.030689329
-## 4   FE        b1  0.121169923
-## 5   FE        b1  0.008300031
-## 6   FE        b1 -0.026199118</code></pre>
+<pre><code>##   typb numb estimator        value
+## 1   FE  150        b1  0.124616242
+## 2   FE  150        b1  0.267670157
+## 3   FE  150        b1 -0.030689329
+## 4   FE  150        b1  0.121169923
+## 5   FE  150        b1  0.008300031
+## 6   FE  150        b1 -0.026199118</code></pre>
 <pre class="r"><code>p1 = ggplot(big150_1) 
 p1 = p1 + geom_area(stat = &quot;density&quot;, alpha = .25, 
                     aes(x = value, fill = estimator),  position = &quot;identity&quot;)
-p1 = p1 + facet_grid( typb ~ .) 
+p1 = p1 + facet_grid( typb ~ .  )  # this dataset has numb = 150, but no other sample size
 p1 = p1 + geom_vline(xintercept = 0)
 p1 = p1 + theme_bw()
 p1 = p1 + theme(strip.text = element_text( size = 12), 
