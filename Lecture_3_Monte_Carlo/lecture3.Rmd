@@ -184,7 +184,7 @@ print(Heck_b_sd)
 
 Bootstrap is particularly helpful in statistical inference. Indeed, it is possible to show in theory the higher-order improvement of bootstrap. Loosely speaking, if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing can be more accurate than its analytic asymptotic counterpart.  
 
-**Example**: a bootstrap test for the population mean. The true test is carried out via a t-statistic. The distribution of the sample is either *normal* or *zero-centered chi-square*. It shows that the bootstrap test size is more precise than that of the asymptotic approximation.
+**Example**: a bootstrap test for the population mean. The test is carried out via a t-statistic. The distribution of the sample is either *normal* or *zero-centered chi-square*. It shows that the bootstrap test size is more precise than that of the asymptotic approximation.
 
 We first prepare the workhorse functions.
 
@@ -259,5 +259,13 @@ colnames(res) = c("exact", "asym", "bootstrap")
 print( colMeans(res))
 ```
 
+When the underlying distribution is a $\chi^2$, there is no explicit exact distribution. However, we can still compare the asymptotic size with the bootstrap size.
+```{r}
+distribution = "chisq"
 
+# Monte Carlo simulation and report the rejection probability
+res = ldply( .data = 1:MC_rep, .fun = function(i) compare())[2:3]
+colnames(res) = c("asym", "bootstrap")
+print( colMeans(res))
+```
 

@@ -14,11 +14,11 @@ library(optimx)
 
 # Introduction
 
-Optimization is the key step to apply econometric extremum estimators. A general optimization problem is formulated as 
+Optimization is the key step to apply econometric extremum estimators. A general optimization problem is formulated as
 $$\min_{\theta \in \Theta } f(\theta) \mbox{     s.t. }  g(\theta) = 0, h(\theta) \leq 0,$$
-where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint, and $h(\theta)\leq 0$ is an inequality constraint. 
+where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint, and $h(\theta)\leq 0$ is an inequality constraint.
 
-Up to now, most established numerical optimization algorithm can a local minimum if it exists. However, there is no guarantee to locate the global minimum when multiple local minima exist. 
+Up to now, most established numerical optimization algorithm can a local minimum if it exists. However, there is no guarantee to locate the global minimum when multiple local minima exist.
 
 
 * unconstrained or constrained
@@ -40,7 +40,7 @@ Recently, the package [optimx](http://cran.r-project.org/web/packages/optimx/ind
 
 If $y_i$ is a continuous random variable, it obviously does not follow a possion distribution, whose support is non-negative integers. However, if the conditional mean model
 $$E[y_i | x_i] = \exp( x_i \beta),$$
-is stastified, we can still use the possion regression to obtain a consistent estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional poisson distribution, 
+is stastified, we can still use the possion regression to obtain a consistent estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional poisson distribution,
 
 To implement optimization in `R`, the criterion must be written as a function of a sole argument--the optimization parameter. All data must be provided inside or outside of the function, but not via any additional argument.
 
@@ -63,7 +63,7 @@ X =  with(RecreationDemand, cbind(1, income) )
 
 ## estimation
 b.init =  c(0,1)  # initial value
-b.hat = optimx( b.init, poisson.loglik, method = c("BFGS", "Nelder-Mead"), 
+b.hat = optimx( b.init, poisson.loglik, method = c("BFGS", "Nelder-Mead"),
                  control = list(reltol = 1e-7, abstol = 1e-7)  )
 print( b.hat )
 ```
@@ -72,7 +72,7 @@ Simply check `value` in the outcomes for the two algorithms.
 
 In practice no algorithm suits all problems. It is always recommended to use **Monte Carlo simulation**, in which the true parameter is known, to check the accuracy of one's optimization routine before applying to an empirical problem, in which the true parameter is unknown.
 
-Contour plot is a helpful tool to visualize the function surface in low dimension. 
+Contour plot is a helpful tool to visualize the function surface in low dimension.
 
 ```{r, cache=TRUE, tidy=TRUE, eval=FALSE}
 ## contour plot
@@ -104,8 +104,8 @@ opts = list("algorithm"="NLOPT_LN_NELDERMEAD",
             "xtol_rel"=1.0e-7)
 # check the solver status
 
-res_NM = nloptr( x0=b.init, 
-               eval_f=poisson.loglik, 
+res_NM = nloptr( x0=b.init,
+               eval_f=poisson.loglik,
                opts=opts)
 print( res_NM )
 
@@ -114,8 +114,8 @@ opts = list("algorithm"="NLOPT_LN_NELDERMEAD",
             maxeval = 500
 )
 
-res_NM = nloptr( x0=b.init, 
-                 eval_f=poisson.loglik, 
+res_NM = nloptr( x0=b.init,
+                 eval_f=poisson.loglik,
                  opts=opts)
 print( res_NM )
 
@@ -135,8 +135,8 @@ grad(poisson.loglik, b)
 poisson.loglik.grad(b)
 
 
-res_BFGS = nloptr( x0=b.init, 
-                   eval_f=poisson.loglik, 
+res_BFGS = nloptr( x0=b.init,
+                   eval_f=poisson.loglik,
                    eval_grad_f = poisson.loglik.grad,
                    opts=opts)
 print( res_BFGS )
@@ -151,7 +151,7 @@ print( res_BFGS )
 
 ### Convex optimization
 
-If a function is convex in its argument, then a local minimum is a global minimum. Convex optimization is particularly important in high-dimensional problems. 
+If a function is convex in its argument, then a local minimum is a global minimum. Convex optimization is particularly important in high-dimensional problems.
 
 **Example**
 
@@ -159,7 +159,7 @@ If a function is convex in its argument, then a local minimum is a global minimu
 * Lasso
 * empirical likelihood
 
-[Rmosek](http://rmosek.r-forge.r-project.org/) is an interface in R to access Mosek, a high-quality commercial solver dedicated to convex optimization. Mosek provides free academic licenses.
+[Rmosek](http://rmosek.r-forge.r-project.org/) is an interface in R to access Mosek, a high-quality commercial solver dedicated to convex optimization. Mosek provides free academic licenses. (Rtools is a prerequisite to install Rmosek.)
 
 ```{r, eval=FALSE, tidy=TRUE, include=FALSE}
 require(Rmosek)
