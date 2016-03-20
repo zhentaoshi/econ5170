@@ -66,8 +66,8 @@ If the pdf $f(X)$ is known, we can generate a sample with such a distribution by
 Metropolis-Hastings algorithm is such a method.
 R package `mcmc` implements Metropolis-Hastings algorithm.
 
-**Example**: use Metropolis-Hastings algorithm to generate a sample of normally distributed observations.
-```{r}
+**Example**: use [Metropolis-Hastings algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) to generate a sample of normally distributed observations.
+```
 library(mcmc)
 h = function(x){ y = -x^2 / 2 } # the log, unnormalized function
 
@@ -143,7 +143,7 @@ If we know the distribution of an extremum estimator, then *asymptotically* the 
 The *Laplace-type estimator* (LTE) transforms the value of the criterion function of an extremum estimator into a probability weight. In a minimization problem, the smaller is the value of the criterion function, the larger it weighs.
 
 **Example**: LTE estimation for linear regression
-```{r}
+```
 library(mcmc)
 
 # DGP
