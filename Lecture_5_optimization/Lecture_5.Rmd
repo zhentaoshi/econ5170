@@ -2,10 +2,10 @@
 output: html_document
 title: "Lecture 5: Numerical Optimization"
 author: Zhentao Shi
-date: April 2, 2016
+date: March 21, 2016
 ---
 
-```{r, warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(AER)
 library(nloptr)
 library(numDeriv)
@@ -39,10 +39,10 @@ Recently, the package [optimx](http://cran.r-project.org/web/packages/optimx/ind
 **Example**: pseudo Poisson maximum likelihood
 
 If $y_i$ is a continuous random variable, it obviously does not follow a possion distribution, whose support is non-negative integers. However, if the conditional mean model
-$$E[y_i | x_i] = \exp( x_i \beta),$$
+$$E[y_i | x_i] = \exp( x_i' \beta),$$
 is stastified, we can still use the possion regression to obtain a consistent estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional poisson distribution,
 
-To implement optimization in `R`, the criterion must be written as a function of a sole argument--the optimization parameter. All data must be provided inside or outside of the function, but not via any additional argument.
+To implement optimization in `R`, it is recommended to write the criterion as a function of the parameter. Data can be provided inside or outside of the function. If the data is fed as additional arguments, these arguments must be explicit.
 
 
 
@@ -68,15 +68,18 @@ b.hat = optimx( b.init, poisson.loglik, method = c("BFGS", "Nelder-Mead"),
 print( b.hat )
 ```
 
-Simply check `value` in the outcomes for the two algorithms.
 
-In practice no algorithm suits all problems. It is always recommended to use **Monte Carlo simulation**, in which the true parameter is known, to check the accuracy of one's optimization routine before applying to an empirical problem, in which the true parameter is unknown.
 
-Contour plot is a helpful tool to visualize the function surface in low dimension.
 
-```{r, cache=TRUE, tidy=TRUE, eval=FALSE}
+Check `value` in the outcomes for the two algorithms.
+
+In practice no algorithm suits all problems. **Monte Carlo simulation**, where the true parameter is known,  is helpful to check the accuracy of one's optimization routine before applying to an empirical problem, where the true parameter is unknown.
+
+Contour plot visualizes the function surface in a low dimension.
+
+```{r, cache=TRUE, tidy=TRUE}
 ## contour plot
-x.grid = seq(0, 2, 0.05)
+x.grid = seq(0, 1.8, 0.02)
 x.length = length(x.grid)
 y.grid = seq(-.5, .2, 0.01)
 y.length = length(y.grid)
@@ -89,7 +92,7 @@ for (i in 1:x.length){
   }
 }
 
-filled.contour( x.grid,  y.grid, z.contour)
+contour( x.grid,  y.grid, z.contour, 20)
 ```
 
 For problems that demand more accuracy, standalone solvers can be invoked via interfaces to R. For example, we can access [NLopt](http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation) through [nloptr](http://cran.r-project.org/web/packages/nloptr/index.html). However, standalone solvers usually have to be compiled and configured. These steps are often not as straightforward as installing most of Windows applications.
@@ -99,15 +102,6 @@ NLopt provides an [extensive list of algorithms](http://ab-initio.mit.edu/wiki/i
 
 ```{r, cache=TRUE, tidy=TRUE}
 ## optimization with NLoptr
-
-opts = list("algorithm"="NLOPT_LN_NELDERMEAD",
-            "xtol_rel"=1.0e-7)
-# check the solver status
-
-res_NM = nloptr( x0=b.init,
-               eval_f=poisson.loglik,
-               opts=opts)
-print( res_NM )
 
 opts = list("algorithm"="NLOPT_LN_NELDERMEAD",
             "xtol_rel"=1.0e-7,
@@ -156,12 +150,12 @@ If a function is convex in its argument, then a local minimum is a global minimu
 **Example**
 
 * linear regression model MLE
-* Lasso
-* empirical likelihood
+* Lasso (Su, Shi and Phillips, 2015)
+* (relaxed) empirical likelihood (Shi, 2015)
 
 [Rmosek](http://rmosek.r-forge.r-project.org/) is an interface in R to access Mosek, a high-quality commercial solver dedicated to convex optimization. Mosek provides free academic licenses. (Rtools is a prerequisite to install Rmosek.)
 
-```{r, eval=FALSE, tidy=TRUE, include=FALSE}
+```{r, eval=FALSE, tidy=TRUE}
 require(Rmosek)
 lo1 <- list()
 lo1$sense <- "max"
@@ -176,7 +170,7 @@ lo1$bx <- rbind(blx = c(0,0,0,0),
 r <- mosek(lo1)
 ```
 
-# Extended Readings
+## Extended Readings
 
 * Boyd and Vandenberghe (2004): [Convex Optimization](http://stanford.edu/~boyd/cvxbook/)
 * Buhlmann and van de Geer (2011): [Statistics for High-Dimensional Data](http://www.springer.com/us/book/9783642201912). Chapter 2

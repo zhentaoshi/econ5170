@@ -168,21 +168,6 @@ b_OLS = summary( lm(Y~-1+X) )
 ```
 
 
-### Bayes Estimation
-
-Example: linear regression with normal error.
-
-#### Gibbs sampling
-
-Gibbs sampling is an MCMC method that is used to generate a multivariate distribution when its marginal distribution of each component is easy to calculate.
-
-Application: the linear regression model with many coefficients.
-
-
-
-
-
-
 
 
 
