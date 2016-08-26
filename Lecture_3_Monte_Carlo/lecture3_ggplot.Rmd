@@ -60,3 +60,43 @@ print(p1)
 ```
 
 
+
+### Multiple Graphs in ggplot
+
+This is another example in one of my papers. It generate two subgraphs on one page.
+
+Text are annotated for the graphs.
+
+
+```{r}
+# graph packages
+library(lattice)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
+
+load("multigraph.Rdata") # load data
+
+
+# unify the theme in the two graphs
+theme1 = theme_bw() + theme(axis.title.x = element_blank(), 
+                            strip.text = element_text( size = 12), 
+                            axis.text = element_text( size = 12),
+                            legend.position = "bottom", legend.title = element_blank())
+
+# sub-graph 1
+p2 = qplot( x = 1:480, y = m_vec, geom = "line")
+p2 = p2 + theme1 + ylab("fraction of chartists")
+
+
+# sug-graph 2
+d2$month = 1:480
+p3 = ggplot(d2)
+p3 = p3 + geom_line(  aes(x = month, y = value, col = variable) )  
+p3 = p3 + theme1 +  ylab("price and fundamental")
+
+# generate the grahp
+grid.arrange(p3, p2, nrow=2)
+```
+
+

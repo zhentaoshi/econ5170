@@ -67,7 +67,7 @@ Metropolis-Hastings algorithm is such a method.
 R package `mcmc` implements Metropolis-Hastings algorithm.
 
 **Example**: use [Metropolis-Hastings algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) to generate a sample of normally distributed observations.
-```
+```{r}
 library(mcmc)
 h = function(x){ y = -x^2 / 2 } # the log, unnormalized function
 
