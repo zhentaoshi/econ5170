@@ -1,6 +1,6 @@
 ## LyX
 *.lyx~
-
+*.ipynb_checkpoints
 ## SWP
 *.bak
 *.aaa
