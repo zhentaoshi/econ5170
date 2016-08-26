@@ -1,6 +1,6 @@
 The Chinese University of Hong Kong
 
-## Econ5170:  Computational Methods in Economics (2016 Spring)
+## Econ5170:  Computational Methods in Economics (2017 Spring)
 
 Naijia Guo and Zhentao Shi co-teach Econ5170.
 
@@ -16,9 +16,8 @@ Zhentao covers the following topics. This README file will be updated as the cou
 
 #### Programming Languages
 * *R* is the main language for demonstration.
-* *Julia* will also be mentioned.
 
 #### Software Installation
 * **MUST**: [R](http://www.r-project.org/) and [R-studio](http://www.rstudio.com/)
-* **Recommended**: [Julia](http://julialang.org/downloads/), [Atom](https://atom.io/) and [Git](http://git-scm.com/)
+* **Recommended**: [Atom](https://atom.io/) and [Git](http://git-scm.com/)
 * For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php) help access remote servers.
