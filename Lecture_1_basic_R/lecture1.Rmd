@@ -2,7 +2,7 @@
 title: "Lecture 1: Basic R"
 author: "Zhentao Shi"
 date: Jan 25, 2016
-output: pdf_document
+output: html_document
 ---
 
 ### Basic
@@ -30,7 +30,7 @@ print(logi_12)
 
 ### Arrays 
 
-* array arithematic. elementwise. 
+* array arithmetic. elementwise. 
 * `%*%`, `solve`, `eigen`
 * matrix
 
@@ -109,6 +109,7 @@ crit = qchisq(.95, df = 3)
 
 mean( z > crit )
 ```
+
 
 ### User-defined function
 
