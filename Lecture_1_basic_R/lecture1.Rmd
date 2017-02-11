@@ -1,8 +1,8 @@
 ---
 title: "Lecture 1: Basic R"
 author: "Zhentao Shi"
-date: Jan 25, 2016
-output: html_document
+date: Feb 11, 2017
+output: pdf_document
 ---
 
 ### Basic
@@ -10,7 +10,7 @@ output: html_document
 * help system: `?`, '??'. eg. `?seq`, `??sequence`
 * `c()`
 * arithmetic
-* logical vector `!=`, `&` vs `&&`, `any`, `all`
+* logical vector `&` `|` `!=`, `any`, `all`
 * factor
 * character
 * missing values `NA`, `NaN`
@@ -30,16 +30,20 @@ print(logi_12)
 
 ### Arrays 
 
-* array arithmetic. elementwise. 
+An array is a table of numbers.  A matrix is a 2-dimensional array.
+
+* array arithmetic: element-by-element. 
 * `%*%`, `solve`, `eigen`
-* matrix
 
-example: OLS estimator with one x regressor and a constant
+example: simple regression---OLS estimation with one x regressor and a constant. 
 
+* literally translate
+$\hat{\beta} = (X' X)^{-1} X'y$ into code.
+* *t*-statistic: $\left(\hat{\beta}_2 - \beta_{02}\right)\big/\hat{\sigma}_{\hat{\beta}_2}$.
 ```{r}
 # check the OLS fitting
 rm(list = ls( ) )
-set.seed(111)
+set.seed(111) # can be removed to allow the result to change
 
 # set the parameters
 n = 100
@@ -47,7 +51,7 @@ b0 = matrix(1, nrow = 2 )
 
 # generate the data
 e = rnorm(n)
-X = cbind( 1, rnorm(n) ) # you can try this line. See what is the difference.
+X = cbind( 1, rnorm(n) ) 
 Y = X %*% b0 + e
 
 # OLS estimation
@@ -70,10 +74,33 @@ print(t_value_2)
 
 ```
 
+
+## Packages
+
+An initial installation of R is small, but R has an extensive system of add-on packages. A package can be installed and invoked by 
+```{r,eval=FALSE}
+install.packages("package_name")
+library(package_name)
+```
+
+eg: The following packages are useful for parallel computing.
+```{r,warning=FALSE,messasge=FALSE}
+library(AER)
+```
+
+
+
 ### Mixed data types
 
 * list
 * data.frame
+
+```{r}
+data("CreditCard")
+head(CreditCard)
+help(CreditCard)
+```
+
 
 ### Input and output
 
@@ -161,4 +188,5 @@ print(pts1)
 
 ### Statistical models
 * `lm(y~x, data = )`
+
 

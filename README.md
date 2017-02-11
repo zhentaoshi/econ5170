@@ -19,7 +19,7 @@ Zhentao covers the following topics. This README file will be updated as the cou
 * Lecture 6: Machine Learning
 
 #### Programming Languages
-* *R* is the main language for demonstration.
+* R is the main language for demonstration.
 
 #### Software Installation
 * **MUST**: [R](http://www.r-project.org/) and [R-studio](http://www.rstudio.com/)

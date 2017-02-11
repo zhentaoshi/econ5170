@@ -40,14 +40,7 @@ Remote
 
 
 ## Packages
-
-An initial installation of R is small, but R has an extensive system of add-on packages. A package can be installed and invoked by 
-```{r,eval=FALSE}
-install.packages("package_name")
-library(package_name)
-```
-
-eg: The following packages are useful for parallel computing.
+The following packages are useful for parallel computing.
 ```{r,warning=FALSE,messasge=FALSE}
 library(plyr)
 library(foreach)
