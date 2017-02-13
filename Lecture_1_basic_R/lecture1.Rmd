@@ -83,7 +83,7 @@ install.packages("package_name")
 library(package_name)
 ```
 
-eg: The following packages are useful for parallel computing.
+eg: The following packages are useful for econometrics.
 ```{r,warning=FALSE,messasge=FALSE}
 library(AER)
 ```

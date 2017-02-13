@@ -1,8 +1,8 @@
 ---
 title: "Lecture 3: Monte Carlo Simulation"
 author: Zhentao Shi
-date: February 22, 2016
-output: html_document
+date: February 11, 2017
+output: pdf_document
 ---
 
 Monte Carlo simulation has been widely used for
