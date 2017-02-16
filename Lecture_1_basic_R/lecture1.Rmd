@@ -1,13 +1,13 @@
 ---
 title: "Lecture 1: Basic R"
 author: "Zhentao Shi"
-date: Feb 11, 2017
+date: Feb 14, 2017
 output: pdf_document
 ---
 
 ### Basic
 
-* help system: `?`, '??'. eg. `?seq`, `??sequence`
+* help system: `?`, `??`. eg. `?seq`, `??sequence`
 * `c()`
 * arithmetic
 * logical vector `&` `|` `!=`, `any`, `all`
@@ -39,7 +39,7 @@ example: simple regression---OLS estimation with one x regressor and a constant.
 
 * literally translate
 $\hat{\beta} = (X' X)^{-1} X'y$ into code.
-* *t*-statistic: $\left(\hat{\beta}_2 - \beta_{02}\right)\big/\hat{\sigma}_{\hat{\beta}_2}$.
+
 ```{r}
 # check the OLS fitting
 rm(list = ls( ) )
@@ -63,7 +63,16 @@ abline( a= bhat[1], b = bhat[2])
 abline( a = b0[1], b = b0[2], col = "red")
 abline( h = 0, lty = 2)
 abline( v = 0, lty = 2)
+```
 
+* *t*-statistic: 
+$$ 
+t  =  \frac{\hat{\beta}_2 - \beta_{02}}{ \hat{\sigma}_{\hat{\beta}_2}  }
+   =  \frac{\hat{\beta}_2 - \beta_{02}}{ \sqrt{ \left[ (X'X)^{-1} \hat{\sigma}^2 \right]_{22} } }.
+$$
+where $[\cdot]_{22}$ is the (2,2)-element of a matrix.
+
+```{r}
 # calculate the t-value
 bhat2 = bhat[2] # parameter we want to test
 e_hat = Y - X %*% bhat
@@ -84,7 +93,7 @@ library(package_name)
 ```
 
 eg: The following packages are useful for econometrics.
-```{r,warning=FALSE,messasge=FALSE}
+```{r, warning=FALSE, messasge=FALSE}
 library(AER)
 ```
 
@@ -98,7 +107,6 @@ library(AER)
 ```{r}
 data("CreditCard")
 head(CreditCard)
-help(CreditCard)
 ```
 
 

@@ -1,7 +1,7 @@
 ---
 title: "Lecture 2: Advanced R"
 author: Zhentao Shi
-date: Feb 11, 2017
+date: Feb 14, 2017
 output: pdf_document
 ---
 
