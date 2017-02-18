@@ -1,10 +1,9 @@
 ---
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: "Feb 14, 2017"
-output:
-  html_document: default
-  pdf_document: default
+date: "Feb 18, 2017"
+output: pdf_document
+urlcolor: blue
 ---
 
 ### Prerequisite

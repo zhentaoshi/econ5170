@@ -2,9 +2,8 @@
 title: 'Lecture 2: Advanced R'
 author: "Zhentao Shi"
 date: "Feb 18, 2017"
-output:
-  pdf_document: default
-  html_document: default
+output:  pdf_document
+urlcolor: blue
 ---
 
 ## Introduction
@@ -13,7 +12,7 @@ In this lecture, we will talk about how to efficiently compute in R.
 
 * R is a vector-operation language. In most case, vectorization speeds up computation.
 * When a piece of code is already optimized, we resort to more CPUs for parallel execution.
-* Clusters are accessed remotely. Communicating with a remote cluster is different from oprating a local PC.
+* Clusters are accessed remotely. Communicating with a remote cluster is different from oprating a local PC. For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php) help access remote servers.
 
 
 ## Packages
