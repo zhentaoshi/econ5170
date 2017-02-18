@@ -1,9 +1,18 @@
 ---
-title: "Lecture 1: Basic R"
+title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: Feb 14, 2017
-output: pdf_document
+date: "Feb 14, 2017"
+output:
+  html_document: default
+  pdf_document: default
 ---
+
+### Prerequisite
+
+* Install [R](http://www.r-project.org/) 
+* Install an IDE. [RStudio](http://www.rstudio.com/) is recommended.
+
+
 
 ### Basic
 
@@ -32,7 +41,7 @@ print(logi_12)
 
 An array is a table of numbers.  A matrix is a 2-dimensional array.
 
-* array arithmetic: element-by-element. 
+* array arithmetic: element-by-element. Particular attention must be exercised in binary operations involving two objects of different length. This is error-prone.
 * `%*%`, `solve`, `eigen`
 
 example: simple regression---OLS estimation with one x regressor and a constant. 
@@ -196,5 +205,10 @@ print(pts1)
 
 ### Statistical models
 * `lm(y~x, data = )`
+
+
+### Homework
+
+One cannot acquire a new programming language without investing many hours after the lecture. [R-Introduction](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) is the best starting point. Please carefully go over this manual.
 
 
