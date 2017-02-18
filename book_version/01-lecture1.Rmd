@@ -1,0 +1,212 @@
+# Introduction
+
+
+Something under introduction
+
+## second section
+
+### Prerequisite
+
+* Install [R](http://www.r-project.org/) 
+* Install an IDE. [RStudio](http://www.rstudio.com/) is recommended.
+
+
+
+### Basic
+
+* help system: `?`, `??`. eg. `?seq`, `??sequence`
+* `c()`
+* arithmetic
+* logical vector `&` `|` `!=`, `any`, `all`
+* factor
+* character
+* missing values `NA`, `NaN`
+* index vector for selection `a[ ]`. Either positive integer or logical vector.
+
+example
+```{r}
+# logical vectors
+logi_1 = c(T,T,F)
+logi_2 = c(F,T,T)
+
+logi_12 = logi_1 & logi_2
+print(logi_12)
+```
+
+
+
+### Arrays 
+
+An array is a table of numbers.  A matrix is a 2-dimensional array.
+
+* array arithmetic: element-by-element. Particular attention must be exercised in binary operations involving two objects of different length. This is error-prone.
+* `%*%`, `solve`, `eigen`
+
+example: simple regression---OLS estimation with one x regressor and a constant. 
+
+* literally translate
+$\hat{\beta} = (X' X)^{-1} X'y$ into code.
+
+```{r}
+# check the OLS fitting
+rm(list = ls( ) )
+set.seed(111) # can be removed to allow the result to change
+
+# set the parameters
+n = 100
+b0 = matrix(1, nrow = 2 )
+
+# generate the data
+e = rnorm(n)
+X = cbind( 1, rnorm(n) ) 
+Y = X %*% b0 + e
+
+# OLS estimation
+bhat = solve( t(X) %*% X, t(X)%*% Y ) 
+
+# plot
+plot( y = Y, x = X[,2], xlab = "X", ylab = "Y", main = "regression")
+abline( a= bhat[1], b = bhat[2])
+abline( a = b0[1], b = b0[2], col = "red")
+abline( h = 0, lty = 2)
+abline( v = 0, lty = 2)
+```
+
+* *t*-statistic: 
+$$ 
+t  =  \frac{\hat{\beta}_2 - \beta_{02}}{ \hat{\sigma}_{\hat{\beta}_2}  }
+   =  \frac{\hat{\beta}_2 - \beta_{02}}{ \sqrt{ \left[ (X'X)^{-1} \hat{\sigma}^2 \right]_{22} } }.
+$$
+where $[\cdot]_{22}$ is the (2,2)-element of a matrix.
+
+```{r}
+# calculate the t-value
+bhat2 = bhat[2] # parameter we want to test
+e_hat = Y - X %*% bhat
+sigma_hat_square = sum(e_hat^2)/ (n-2)
+sig_B = solve( t(X) %*% X  ) * sigma_hat_square
+t_value_2 = ( bhat2 - b0[2]) / sqrt( sig_B[2,2] ) 
+print(t_value_2)
+
+```
+
+
+## Packages
+
+An initial installation of R is small, but R has an extensive system of add-on packages. A package can be installed and invoked by 
+```{r,eval=FALSE}
+install.packages("package_name")
+library(package_name)
+```
+
+eg: The following packages are useful for econometrics.
+```{r, warning=FALSE, messasge=FALSE}
+library(AER)
+```
+
+
+
+### Mixed data types
+
+* list
+* data.frame
+
+```{r}
+data("CreditCard")
+head(CreditCard)
+```
+
+
+### Input and output
+
+* `read.table()`
+* `write.table()`
+
+example
+```{r eval=FALSE}
+HEX = read.csv("http://ichart.finance.yahoo.com/table.csv?s=0388.HK") 
+print(head(HEX))
+write.csv(HEX, file = "HEX.csv")
+```
+
+### Statitics
+
+* `p`, `d`, `q`, `r`
+
+example: 
+
+1. plot the density of $\chi^2(3)$ over `x_axis = seq(0.01, 15, by = 0.01)`
+2. generate 1000 observations for the above distribution. plot the kernel density.
+3. calculate the 95-th quantile and the empirical probability of observing a value greater than the 95-th quantile.
+
+```{r}
+set.seed(888)
+x_axis = seq(0.01, 15, by = 0.01)
+
+y = dchisq(x_axis, df = 3)
+plot(y = y, x=x_axis, type = "l")
+z = rchisq(1000, df = 3)
+lines( density(z), col = "red")
+crit = qchisq(.95, df = 3)
+
+mean( z > crit )
+```
+
+
+### User-defined function
+
+* `fun_name = function(args) {expressions}`
+* variables defined in a functions are local.
+
+example: given a sample, calculate the 95% two-sided asymptotic confidence interval according to a central limit theorem.
+```{r}
+# construct confidence interval
+
+CI = function(x){
+  # x is a vector of random variables
+  
+  n = length(x)
+  mu = mean(x)
+  sig = sd(x)
+  upper = mu + 1.96/sqrt(n) * sig
+  lower = mu - 1.96/sqrt(n) * sig
+  return( list( lower = lower, upper = upper) )
+}
+
+```
+
+### Flow control
+
+* `if`
+* `for`, `while`
+
+example: calculate the empirical coverage probability of a poisson distribution of degree of freedom 2.
+
+
+```{r}
+Rep = 1000
+sample_size = 100
+capture = rep(0, Rep)
+
+
+pts0 = Sys.time() # check time
+for (i in 1:Rep){
+  mu = 2
+  x = rpois(sample_size, mu)
+  bounds = CI(x)
+  capture[i] = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
+}
+mean(capture) # empirical size
+pts1 = Sys.time() - pts0 # check time elapse
+print(pts1)
+```
+
+### Statistical models
+* `lm(y~x, data = )`
+
+
+### Homework
+
+One cannot acquire a new programming language without investing many hours after the lecture. [R-Introduction](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) is the best starting point. Please carefully go over this manual.
+
+
