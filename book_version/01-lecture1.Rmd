@@ -1,21 +1,36 @@
-# Introduction
+---
+title: 'Lecture 1: Basic R'
+author: "Zhentao Shi"
+date: "Feb 18, 2017"
+output: pdf_document
+urlcolor: blue
+---
+
+# Basic R
+
+## Introduction
+
+One cannot acquire a new programming language without investing many hours after the lecture. [R-Introduction](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) is the best starting point. Please carefully go over this manual---this is your exercise after the lecture.
+
+This lecture quickly sketch some key points of the manual.
+
+## Help System
+
+The first thing we need to know when picking up a new language is to get familiar with the help system.
+In R, if we know the name of a function and want to check how we can invoke it, such as the syntax, then we can either use `help(function_name)` or a single question mark `?function_name`.
+
+If we don't know the exact function name to search, then we can use the double question mark `??key_words`. This will return a fuzzy search and provide a list of related function names.
+
+eg. `?seq`, `??sequence`
 
 
-Something under introduction
 
-## second section
+## Vector
 
-### Prerequisite
-
-* Install [R](http://www.r-project.org/) 
-* Install an IDE. [RStudio](http://www.rstudio.com/) is recommended.
+The most basic object in R is a vector. A vector can be a collection of integers, Boolean values, real numbers, complex numbers, characters and factor. We use  `<-` to assign the value on the right-hand side to the object
+on the left-hand side. We use `c()` to combine two or more vectors into a single vector.
 
 
-
-### Basic
-
-* help system: `?`, `??`. eg. `?seq`, `??sequence`
-* `c()`
 * arithmetic
 * logical vector `&` `|` `!=`, `any`, `all`
 * factor
@@ -35,19 +50,20 @@ print(logi_12)
 
 
 
-### Arrays 
+## Array and Matrix
 
-An array is a table of numbers.  A matrix is a 2-dimensional array.
+An array is a table of numbers.  
+A matrix is a 2-dimensional array.
 
 * array arithmetic: element-by-element. Particular attention must be exercised in binary operations involving two objects of different length. This is error-prone.
 * `%*%`, `solve`, `eigen`
 
-example: simple regression---OLS estimation with one x regressor and a constant. 
+example: simple regression---OLS estimation with one x regressor and a constant.
 
 * literally translate
 $\hat{\beta} = (X' X)^{-1} X'y$ into code.
 
-```{r}
+```{r, cache=TRUE}
 # check the OLS fitting
 rm(list = ls( ) )
 set.seed(111) # can be removed to allow the result to change
@@ -58,11 +74,11 @@ b0 = matrix(1, nrow = 2 )
 
 # generate the data
 e = rnorm(n)
-X = cbind( 1, rnorm(n) ) 
+X = cbind( 1, rnorm(n) )
 Y = X %*% b0 + e
 
 # OLS estimation
-bhat = solve( t(X) %*% X, t(X)%*% Y ) 
+bhat = solve( t(X) %*% X, t(X)%*% Y )
 
 # plot
 plot( y = Y, x = X[,2], xlab = "X", ylab = "Y", main = "regression")
@@ -72,8 +88,8 @@ abline( h = 0, lty = 2)
 abline( v = 0, lty = 2)
 ```
 
-* *t*-statistic: 
-$$ 
+* *t*-statistic:
+$$
 t  =  \frac{\hat{\beta}_2 - \beta_{02}}{ \hat{\sigma}_{\hat{\beta}_2}  }
    =  \frac{\hat{\beta}_2 - \beta_{02}}{ \sqrt{ \left[ (X'X)^{-1} \hat{\sigma}^2 \right]_{22} } }.
 $$
@@ -85,7 +101,7 @@ bhat2 = bhat[2] # parameter we want to test
 e_hat = Y - X %*% bhat
 sigma_hat_square = sum(e_hat^2)/ (n-2)
 sig_B = solve( t(X) %*% X  ) * sigma_hat_square
-t_value_2 = ( bhat2 - b0[2]) / sqrt( sig_B[2,2] ) 
+t_value_2 = ( bhat2 - b0[2]) / sqrt( sig_B[2,2] )
 print(t_value_2)
 
 ```
@@ -93,7 +109,7 @@ print(t_value_2)
 
 ## Packages
 
-An initial installation of R is small, but R has an extensive system of add-on packages. A package can be installed and invoked by 
+An initial installation of R is small, but R has an extensive system of add-on packages. A package can be installed and invoked by
 ```{r,eval=FALSE}
 install.packages("package_name")
 library(package_name)
@@ -106,7 +122,7 @@ library(AER)
 
 
 
-### Mixed data types
+## Mixed data types
 
 * list
 * data.frame
@@ -117,23 +133,23 @@ head(CreditCard)
 ```
 
 
-### Input and output
+## Input and output
 
 * `read.table()`
 * `write.table()`
 
 example
 ```{r eval=FALSE}
-HEX = read.csv("http://ichart.finance.yahoo.com/table.csv?s=0388.HK") 
+HEX = read.csv("http://ichart.finance.yahoo.com/table.csv?s=0388.HK")
 print(head(HEX))
 write.csv(HEX, file = "HEX.csv")
 ```
 
-### Statitics
+## Statitics
 
 * `p`, `d`, `q`, `r`
 
-example: 
+example:
 
 1. plot the density of $\chi^2(3)$ over `x_axis = seq(0.01, 15, by = 0.01)`
 2. generate 1000 observations for the above distribution. plot the kernel density.
@@ -153,7 +169,7 @@ mean( z > crit )
 ```
 
 
-### User-defined function
+## User-defined function
 
 * `fun_name = function(args) {expressions}`
 * variables defined in a functions are local.
@@ -164,7 +180,7 @@ example: given a sample, calculate the 95% two-sided asymptotic confidence inter
 
 CI = function(x){
   # x is a vector of random variables
-  
+
   n = length(x)
   mu = mean(x)
   sig = sd(x)
@@ -175,7 +191,7 @@ CI = function(x){
 
 ```
 
-### Flow control
+## Flow control
 
 * `if`
 * `for`, `while`
@@ -201,12 +217,5 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
-### Statistical models
+## Statistical models
 * `lm(y~x, data = )`
-
-
-### Homework
-
-One cannot acquire a new programming language without investing many hours after the lecture. [R-Introduction](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) is the best starting point. Please carefully go over this manual.
-
-

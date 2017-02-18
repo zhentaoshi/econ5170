@@ -1,6 +1,8 @@
 ## LyX
 *.lyx~
 *.ipynb_checkpoints
+
+
 ## SWP
 *.bak
 *.aaa
@@ -135,3 +137,6 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
+book_version/_book/search_index.json
+book_version/_book/
+book_version/_bookdown_files/

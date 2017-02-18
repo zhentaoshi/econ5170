@@ -1,0 +1,33 @@
+---
+title: 'Lecture 6: Machine Learning'
+author: "Zhentao Shi"
+date: "Feb 14, 2017"
+output: pdf_document
+---
+
+
+# Machine Learning
+
+From the view of an econometrician, machine learning is a set of data fitting procedures that focuses on out-of-sample prediction.
+The simplest illustration is in the regression context. We repeat a scientific experiment for $n$ times, which generates a dataset $(y_i, x_i)_{i=1}^n$. What would be the best way to predict $y_{n+1}$ from the same experiment if we observe $x_{n+1}$?
+
+In modern scientific analysis, the number of covariates $x_i$ can be enormous. 
+
+`glmnet` Lasso, adaptive lasso (Chernozhukov's papers)
+
+boosting, forward selection, and reweighting (Bai and Ng)
+
+regression tree, bagging (Killian and Inoue), average of subsampling
+
+three steps in econometrics:
+consistency -> asymptotic normality -> efficiency
+
+rebuke from ML
+data is big, don't worry accuracy
+inference is not interested, prediction matters
+no DGP is considered, nothing to converge to
+
+
+
+In regression context, explore all sorts of nonlinear relationship.
+

@@ -11,7 +11,25 @@ link-citations: yes
 github-repo: rstudio/bookdown-demo
 description: "nothing"
 ---
+# Preface
 
-# Nothing
+This course came into being after postgraduate students request of training in programming skills.
 
-gitbook
+I believe the best way to learn programming is via examples.
+
+This is also a good writing project for me to develop some taste about constant writing.
+
+## Prerequisite
+
+For this course, please install [R](http://www.r-project.org/).
+An fully functional integrated development environment is also highly desirable and
+makes programming much more friendly and enjoyable.
+[RStudio](http://www.rstudio.com/) is recommended.
+
+## About Book Version
+
+I write in Rmarkdown. It is very convenient and highly efficient. It makes an writer easier to develop a long writing project.
+
+RStudio is of course helpful. However, in the period of writing I prefer a single-functional text editor like Atom, so that I don't need to worry about spellcheck.
+
+Is this the moment I come back to write again? I am not sure. I will see how it develops.
