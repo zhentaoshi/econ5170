@@ -1,40 +1,19 @@
 ---
-title: "Lecture 2: Advanced R"
-author: Zhentao Shi
-date: Feb 14, 2017
-output: pdf_document
+title: 'Lecture 2: Advanced R'
+author: "Zhentao Shi"
+date: "Feb 18, 2017"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
+## Introduction
 
-# Git
+In this lecture, we will talk about how to efficiently compute in R.
 
-References
-
-* [Online Tutorial](https://www.atlassian.com/git/tutorials)
-* [Pro Git](http://git-scm.com/book/en/v2)
-
-## basic commands
-
-Local
-
-* git clone https://github.com/frankshi/econ5170
-* git config --global user.name <name>
-* git config --global user.email <email>
-* git init
-* git status
-* git add
-* git commit
-* git log
-* git tag -a v1.0 -m 'message'
-* git rm --cached filename
-* git branch [brach_name]
-* git checkout [commit_id or branch name]
-* .gitignore
-
-Remote
-
-* git remote add origin
-* git push origin master
+* R is a vector-operation language. In most case, vectorization speeds up computation.
+* When a piece of code is already optimized, we resort to more CPUs for parallel execution.
+* Clusters are accessed remotely. Communicating with a remote cluster is different from oprating a local PC.
 
 
 ## Packages
@@ -49,12 +28,14 @@ library(doParallel)
 
 Mathematically equivalent though, different calculation methods perform very differently in terms of computational speed. 
 
-example: calculate the heteroskedastic-robust variance for the OLS regression of a linear probability model. The difficult part is $\sum_{i=1}^n e_i^2 x_i x_i'$. We propose four ways.
+example: The heteroskedastic-robust variance for the OLS regression is 
+$$(X'X)^{-1} X'\hat{e}\hat {e}'X (X'X)^{-1}$$
+The difficult part is $X'\hat{e}\hat {e}'X=\sum_{i=1}^n \hat{e}_i^2 x_i x_i'$. We propose four ways.
 
-1. literally add through $i=1,\ldots,n$ one by one.
-2. $X' \mathrm{diag}(e^2) X$, with a dense central matrix.
-3. $X' \mathrm{diag}(e^2) X$, with a sparse central matrix.
-4. $Xe$ cross product.
+1. literally do the summation $i=1,\ldots,n$ one by one.
+2. $X' \mathrm{diag}(\hat{e}^2) X$, with a dense central matrix.
+3. $X' \mathrm{diag}(\hat{e}^2) X$, with a sparse central matrix.
+4. Do cross product to `X*ehat`. This is different from the matrix formulation. It takes advantage of the element-by-element operation in R.
 
 ```{r}
 # an example of robust matrix, sparse matrix. Vecteroization.
