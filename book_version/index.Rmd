@@ -13,36 +13,38 @@ description: "nothing"
 ---
 # Preface
 
-This course came into being after postgraduate students request of training in programming skills.
+This course came into being after postgraduate students repeatedly requested for training in coding skills.
+Programming is an essential skill for researchers in economic analysis.
 
-I believe the best way to learn programming is via examples.
+I believe the best way to learn programming is via examples. This book contains many examples that illustrate R usage and econometric computational ideas.
 
+## Personal Reflection
 
 I have been using R since I started my postgraduate study in Peking University in 2005. R helps me with my daily research and teaching.
 
 R has many advantages.
-First, it inherits the standard program syntax from C. It is quick to learn for anyone with prior programming experience. Moreover, once you master R, it is easy to switch to other chosen language, if not R, in your workplace in the future.
+First, it inherits the standard program syntax from C. It is quick to learn for anyone with prior programming experience.
+Moreover, once you master R, it is easy to switch to other language, if not R, in your workplace in the future.
 
-Second, backed by a vast statistician community, R enjoys a large selection of packages, including the most recent ones. When they publish a paper, often times statisticians write and upload a companion package so that other researchers can adopt their methods.
+Second, backed by a vast statistician community, R enjoys a large selection of packages, including the most recent ones.
+When they publish a paper, often times statisticians write and upload a companion R package to facilitate other researchers' adoption.
 
 Third, R is free.
 It was the primary reason that I chose it at the very beginning.
-In the era of open-source software, an algorithm written in R is much easier to share, test, and improve, since anyone can run the code on any platform, free of license and fee headache.
+In the era of open-source software, an algorithm written in R is easier to share, test, and improve.
+Anyone can run R code on any platform, free of license and fee headache.
 
-R is not without limitations. For example, speed is a concern when running big and complex jobs. However, it will not be an issue in the problems that we will encounter in the first year postgraduate study.
-
+R is not without limitations. For example, speed is a concern when running big and complex jobs.
+However, it will not be an issue in the problems that we will encounter in the first year postgraduate study.
 
 ## Prerequisite
 
 For this course, please install [R](http://www.r-project.org/).
-An fully functional integrated development environment is also highly desirable and
-makes programming much more friendly and enjoyable.
+An fully functional integrated development environment (IDE) is also highly desirable.
+It makes programming more friendly and enjoyable.
 [RStudio](http://www.rstudio.com/) is recommended.
 
 ## About Book Version
 
-I write in Rmarkdown. It is very convenient and highly efficient. It makes an writer easier to develop a long writing project.
-
-RStudio is of course helpful. However, in the period of writing I prefer a single-functional text editor like Atom, so that I don't need to worry about spellcheck.
-
-Is this the moment I come back to write again? I am not sure. I will see how it develops.
+I prepare the lecture notes in Rmarkdown.
+The book version can be built in RStudio. However, I write in Atom, a text editor.
