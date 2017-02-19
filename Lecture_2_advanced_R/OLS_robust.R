@@ -1,35 +1,51 @@
-# Zhentao Shi. 4/6/2015
+# Zhentao Shi. 2/19/2017
 
 # an example of robust matrix, sparse matrix. Vecteroization.
 rm(list = ls( ) )
 library(Matrix)
 
-set.seed(111)
 
-n = 6000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK
+n = 5000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK
 # n = 50; Rep = 1000;  # Matrix is slow,  matrix is quick, adding is OK
+
+
+
+lpm = function(n){
+  # estimation in a linear probability model
+  
+  # set the parameters
+  b0 = matrix( c(-1,1), nrow = 2 )
+  
+  # generate the data
+  e = rnorm(n)
+  X = cbind( 1, rnorm(n) ) # you can try this line. See what is the difference.
+  Y = (X %*% b0 + e >=0 ) 
+  # note that in this regression b0 is not converge to b0 because the model is changed.
+  
+  # OLS estimation
+  bhat = solve( t(X) %*% X, t(X)%*% Y ) 
+  
+  
+  # calculate the t-value
+  bhat2 = bhat[2] # parameter we want to test
+  e_hat = Y - X %*% bhat
+  return( list(X = X, e_hat = as.vector( e_hat) ) )
+}
+
+
 
 for (opt in 1:4){
   
   pts0 = Sys.time()
   
   for (iter in 1:Rep){
-    # set the parameters
-    b0 = matrix( c(-1,1), nrow = 2 )
     
-    # generate the data
-    e = rnorm(n)
-    X = cbind( 1, rnorm(n) ) # you can try this line. See what is the difference.
-    Y = (X %*% b0 + e >=0 ) # note that in this regression b0 is not converge to b0 because the model is changed.
+    set.seed(iter) # to make sure that the data used 
+    # different estimation methods are the same
     
-    
-    # OLS estimation
-    bhat = solve( t(X) %*% X, t(X)%*% Y ) 
-    
-    
-    # calculate the t-value
-    bhat2 = bhat[2] # parameter we want to test
-    e_hat = Y - X %*% bhat
+    data.Xe = lpm(n)
+    X = data.Xe$X;
+    e_hat = data.Xe$e_hat
     
     XXe2 = matrix(0, nrow = 2, ncol = 2)
     
@@ -46,7 +62,7 @@ for (opt in 1:4){
       diag(e_hat2_M) = e_hat^2
       XXe2 = t(X) %*% e_hat2_M %*% X
     } else if (opt == 4)  {# the best vectorization method. No waste
-      Xe = X * e
+      Xe = X * e_hat
       XXe2 = t(Xe) %*% Xe
     } 
     
