@@ -10,34 +10,40 @@ urlcolor: blue
 
 ## Introduction
 
-One cannot acquire a new programming language without investing many hours after the lecture. [R-Introduction](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) is the best starting point. Please carefully go over this manual---this is your exercise after the lecture.
+One cannot acquire a new programming language without investing numerous hours. [R-Introduction](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) is an official manual
+developed and maintained by the R core team. This is the best starting point for you to have a taste. Please carefully go over this manual. This is your exercise after today's lecture.
 
-This lecture quickly sketch some key points of the manual.
+This lecture quickly sketches some key points of the manual.
 
 ## Help System
 
-The first thing we need to know when picking up a new language is to get familiar with the help system.
-In R, if we know the name of a function and want to check how we can invoke it, such as the syntax, then we can either use `help(function_name)` or a single question mark `?function_name`.
+The help system is the first thing we would like to learn for a new language.
+In R, if we know the name of a function and want to check its usage, we can either call `help(function_name)` or a single question mark `?function_name`.
+On the other hand, if we do not know the exact function name, we can instead call the double question mark `??key_words`. It will provide a list of related function names from a fuzzy search.
 
-If we don't know the exact function name to search, then we can use the double question mark `??key_words`. This will return a fuzzy search and provide a list of related function names.
-
-eg. `?seq`, `??sequence`
-
+**Example**: `?seq`, `??sequence`
 
 
 ## Vector
 
-The most basic object in R is a vector. A vector can be a collection of integers, Boolean values, real numbers, complex numbers, characters and factor. We use  `<-` to assign the value on the right-hand side to the object on the left-hand side.
-We can also use `=` for assignment.
-We use `c()` to combine two or more vectors into a single vector.
+A *vector* can be a collection of elements of the same type, say, integer, logical value, real number, complex number, characters and factor.
+
+ `<-` assigns the value on the right-hand side to the object on the left-hand side. `=` is an alternative for assignment.
+
+ `c()`  combines two or more vectors into a long vector.
 
 
-* arithmetic
-* logical vector `&` `|` `!=`, `any`, `all`
-* factor
-* character
-* missing values `NA`, `NaN`
-* index vector for selection `a[ ]`. Either positive integer or logical vector.
+Binary arithmetic operations `+`, `-`, `*` and `\` are performed element by element, so are the binary
+logical operations `&` `|` `!=`, `any` and `all`.
+
+*Factor* is a categorical number in econometric terminology. *Character* is text.
+
+Missing values in R is represented as `NA` (not available). When some operations are not allowed, say, `log(-1)`, R returns  `NaN` (not a number).
+
+Vector selection is specified in square bracket `a[ ]` by either positive integer or logical vector.
+
+[comment]: <> (The above part is new. Need to go over again.)
+
 
 **Example**
 
@@ -131,8 +137,6 @@ A package can be installed by
 [Applied Econometrics with R](http://www.springer.com/gp/book/9780387773162) by Christian Kleiber and Achim Zeileis is a useful book. It also has a companion package
 `AER` that contains popular econometric methods in R such as instrumental variable regression and robust variance.
 
-
-
 ## Mixed Data Types
 
 A vector can only one type of elements, either all numbers or all characters.
@@ -150,7 +154,8 @@ and categorical numbers. They can all be accommodated by data frame.
 **Example**
 
 This is a data set in a graduate-level econometrics textbook. We load the data into memory and display the first 6 records.
-```{r}
+
+```{r,message=FALSE}
 library(AER)
 data("CreditCard")
 head(CreditCard)
