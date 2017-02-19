@@ -5,6 +5,9 @@ date: "Feb 18, 2017"
 output:  pdf_document
 urlcolor: blue
 ---
+
+
+
 # Advanced R
 
 
@@ -16,11 +19,20 @@ In this lecture, we will talk about how to efficiently compute in R.
 * When a piece of code is already optimized, we resort to more CPUs for parallel execution.
 * Clusters are accessed remotely. Communicating with a remote cluster is different from oprating a local PC. For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php) help access remote servers.
 
-## Speed 
+## Speed
 
-Mathematically equivalent though, different calculation methods perform very differently in terms of computational speed. 
+Mathematically equivalent though, different calculation methods perform very differently in terms of computational speed.
 
-example: The heteroskedastic-robust variance for the OLS regression is 
+For computational job that can be completed within a minutes, the time difference is not a big deal.
+For modern structural estimation problems common in industrial organization, a single estimation can take up a week. Code optimization can be essential.
+
+Other computational intensive procedures include bootstrap, simulated likelihood or simulated method of moments. Even if a single execution does not take much time, repeating such procedure for thousand of times will take a non-trivial time span.
+
+It is important to balance the coding time and running time.
+
+**Example**
+
+The heteroskedastic-robust variance for the OLS regression is
 $$(X'X)^{-1} X'\hat{e}\hat {e}'X (X'X)^{-1}$$
 The difficult part is $X'\hat{e}\hat {e}'X=\sum_{i=1}^n \hat{e}_i^2 x_i x_i'$. We propose four ways.
 
@@ -29,76 +41,100 @@ The difficult part is $X'\hat{e}\hat {e}'X=\sum_{i=1}^n \hat{e}_i^2 x_i x_i'$. W
 3. $X' \mathrm{diag}(\hat{e}^2) X$, with a sparse central matrix.
 4. Do cross product to `X*ehat`. This is different from the matrix formulation. It takes advantage of the element-by-element operation in R.
 
+We first generate the data of binary response and regressors. We estimate the coefficients and
+obtain the residual.
+
 ```{r,cache=TRUE}
-# an example of robust matrix, sparse matrix. Vecteroization.
-rm(list = ls( ) )
-library(Matrix)
+lpm = function(n){
+    # estimation in a linear probability model
 
-set.seed(111)
-
-# n = 6000; Rep = 10; # 'Matrix' is quick, 'matrix' is slow, adding is OK
-n = 50; Rep = 1000;  # 'Matrix' is slow,  'matrix' is quick, adding is OK
-
-for (opt in 1:4){
-  
-  pts0 = Sys.time()
-  
-  for (iter in 1:Rep){
     # set the parameters
     b0 = matrix( c(-1,1), nrow = 2 )
-    
+
     # generate the data
     e = rnorm(n)
-    X = cbind( 1, rnorm(n) ) 
-    Y = (X %*% b0 + e >=0 ) 
-    # note that in this regression b0 is not converge to b0 
-    # because the model is changed.
-    
+    X = cbind( 1, rnorm(n) ) # you can try this line. See what is the difference.
+    Y = (X %*% b0 + e >=0 )
+    # note that in this regression b0 is not converge to b0 because the model is changed.
+
     # OLS estimation
-    bhat = solve( t(X) %*% X, t(X)%*% Y ) 
-        
+    bhat = solve( t(X) %*% X, t(X)%*% Y )
+
+
     # calculate the t-value
     bhat2 = bhat[2] # parameter we want to test
     e_hat = Y - X %*% bhat
-    
+    return( list(X = X, e_hat = as.vector( e_hat) ) )
+}
+```
+
+We run the 4 estimators for the same data, and compare the time.
+
+```{r,cache=TRUE}
+# an example of robust matrix, sparse matrix. Vecteroization.
+library(Matrix)
+
+# n = 5000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK
+n = 50; Rep = 1000;  # Matrix is slow,  matrix is quick, adding is OK
+
+for (opt in 1:4){
+
+  pts0 = Sys.time()
+
+  for (iter in 1:Rep){
+
+    set.seed(iter) # to make sure that the data used
+    # different estimation methods are the same
+
+    data.Xe = lpm(n)
+    X = data.Xe$X;
+    e_hat = data.Xe$e_hat
+
     XXe2 = matrix(0, nrow = 2, ncol = 2)
-    
+
     if (opt == 1){
       for ( i in 1:n){
         XXe2 = XXe2 + e_hat[i]^2 * X[i,] %*% t(X[i,])
       }
-    } else if (opt == 2) {
+    } else if (opt == 2) {# the vectorized version
       e_hat2_M = matrix(0, nrow = n, ncol = n)
       diag(e_hat2_M) = e_hat^2
       XXe2 = t(X) %*% e_hat2_M %*% X
-    } else if (opt == 3)  {
+    } else if (opt == 3)  {# the vectorized version
       e_hat2_M = Matrix( 0, ncol = n, nrow = n)
       diag(e_hat2_M) = e_hat^2
       XXe2 = t(X) %*% e_hat2_M %*% X
-    } else if (opt == 4)  {
-      Xe = X * e
+    } else if (opt == 4)  {# the best vectorization method. No waste
+      Xe = X * e_hat
       XXe2 = t(Xe) %*% Xe
-    } 
-    
-    
+    }
+
+
     XX_inv = solve( t(X) %*% X  )
-    sig_B =  XX_inv %*% XXe2 %*% XX_inv 
+    sig_B =  XX_inv %*% XXe2 %*% XX_inv
   }
-  cat("n = ", n, ", Rep = ", Rep, ", opt = ", opt, ", 
-  time = ", Sys.time() - pts0, "\n")
+  cat("n = ", n, ", Rep = ", Rep, ", opt = ", opt, ", time = ", Sys.time() - pts0, "\n")
 }
 ```
+We clearly see the difference in running time, though the 4 methods are mathematically the same.
+When $n$ is small, `matrix` is fast and `Matrix` is slow; the vectorized version is the fastest.
+When $n$ is big, `matrix` is slow and `Matrix` is fast; the vectorized version is still the fastest.
 
 ## Efficient loop
-[`plyr`](http://plyr.had.co.nz/) is an R package developed by [Hadley Wickham](http://had.co.nz/). 
 
+In standard `for` loops, we have to do a lot of housekeeping work.
+[Hadley Wickham](http://had.co.nz/) develops [`plyr`](http://plyr.had.co.nz/) for simple loops,
+and facilitate parallelization.
 
-example: calculate the empirical coverage probability of a poisson distribution of degree of freedom 2.
+**Example**
+
+Here we calculate the empirical coverage probability of a Poisson distribution of degree of freedom 2.
+This example is so simple so that the advantage of `plyr` is not be dramatic. The difference will be noticeable in complex problems with big data frame.
 
 ```{r}
 CI = function(x){ # construct confidence interval
   # x is a vector of random variables
-  
+
   n = length(x)
   mu = mean(x)
   sig = sd(x)
@@ -108,7 +144,17 @@ CI = function(x){ # construct confidence interval
 }
 ```
 
-The standard loop
+This is a standard `for` loop.
+
+Pay attention to the line `out = rep(0, Rep)`. It *pre-defines* a vector `out` to be filled by
+`out[i] = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )`. The computer opens a contunuous patch of memory for `out`, and when new result comes in, the old element is replaced. On the contrary,
+If we do not pre-define `out`
+but append one more element in each loop, the length of `out` will change in each replication and
+every time a new patch of memory will be used store it. The latter approach will spend much more time
+just to locate the vector in the memory.
+
+`out` is the result container. In a `for` loop, we pre-define a container, and replace the elements
+of the container in each loop by explicitly calling the index.
 
 ```{r,cache=TRUE}
 Rep = 10000
@@ -139,11 +185,8 @@ capture = function(i){
   return( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
 }
 
-
-
-
 pts0 = Sys.time() # check time
-out = ldply( .data = 1:Rep, .fun = capture ) 
+out = ldply( .data = 1:Rep, .fun = capture )
 cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
@@ -165,9 +208,9 @@ registerDoParallel() # opens other CPUs
 l_ply(.data = 1:10,
       .fun = myfunction,
       .parallel = TRUE,
-      .paropts = list( .packages = package.list, 
+      .paropts = list( .packages = package.list,
         .export = ls(envir=globalenv() ) )
-) 
+)
 ```
 
 In this comparative example, we try
@@ -190,7 +233,7 @@ The code below shows a different story. Each loop takes more time, which dominat
 Rep = 200
 sample_size = 2000000
 pts0 = Sys.time() # check time
-out = ldply(.data = 1:Rep, .fun = capture, .parallel = FALSE) 
+out = ldply(.data = 1:Rep, .fun = capture, .parallel = FALSE)
 cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
@@ -198,7 +241,7 @@ print(pts1)
 # compare to the parallel version
 pts0 = Sys.time() # check time
 out = ldply(.data = 1:Rep, .fun = capture, .parallel = TRUE,
-            .paropts = list(.export = ls(envir=globalenv() )) ) 
+            .paropts = list(.export = ls(envir=globalenv() )) )
 cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
