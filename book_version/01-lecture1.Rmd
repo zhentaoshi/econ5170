@@ -27,8 +27,9 @@ eg. `?seq`, `??sequence`
 
 ## Vector
 
-The most basic object in R is a vector. A vector can be a collection of integers, Boolean values, real numbers, complex numbers, characters and factor. We use  `<-` to assign the value on the right-hand side to the object
-on the left-hand side. We use `c()` to combine two or more vectors into a single vector.
+The most basic object in R is a vector. A vector can be a collection of integers, Boolean values, real numbers, complex numbers, characters and factor. We use  `<-` to assign the value on the right-hand side to the object on the left-hand side.
+We can also use `=` for assignment.
+We use `c()` to combine two or more vectors into a single vector.
 
 
 * arithmetic
@@ -38,7 +39,9 @@ on the left-hand side. We use `c()` to combine two or more vectors into a single
 * missing values `NA`, `NaN`
 * index vector for selection `a[ ]`. Either positive integer or logical vector.
 
-example
+**Example**
+
+Logical vector operation.
 ```{r}
 # logical vectors
 logi_1 = c(T,T,F)
@@ -58,13 +61,16 @@ A matrix is a 2-dimensional array.
 * array arithmetic: element-by-element. Particular attention must be exercised in binary operations involving two objects of different length. This is error-prone.
 * `%*%`, `solve`, `eigen`
 
-example: simple regression---OLS estimation with one x regressor and a constant.
+**Example**
 
-* literally translate
-$\hat{\beta} = (X' X)^{-1} X'y$ into code.
+Simple regression---OLS estimation with one x regressor and a constant.
+Graduate textbook express the OLS in matrix form
+$$\hat{\beta} = (X' X)^{-1} X'y.$$
+To conduct OLS estimation in R, we can literally translate the mathematical expression into code.
 
-```{r, cache=TRUE}
-# check the OLS fitting
+Step 1: We need data $Y$ and $X$ to run OLS. We don't have data yet. We simulate an artificial dataset.
+```{r,cache=TRUE}
+# simulate data
 rm(list = ls( ) )
 set.seed(111) # can be removed to allow the result to change
 
@@ -76,10 +82,16 @@ b0 = matrix(1, nrow = 2 )
 e = rnorm(n)
 X = cbind( 1, rnorm(n) )
 Y = X %*% b0 + e
-
+```
+Step 2: translate the formula to code
+```{r,cache=TRUE}
 # OLS estimation
 bhat = solve( t(X) %*% X, t(X)%*% Y )
+```
 
+Step 3 (additional): plot the regression graph with the scatter points and the regression line. We further compare the regression line (black) with the true coefficient line (red).
+
+```{r,cache=TRUE}
 # plot
 plot( y = Y, x = X[,2], xlab = "X", ylab = "Y", main = "regression")
 abline( a= bhat[1], b = bhat[2])
@@ -87,8 +99,7 @@ abline( a = b0[1], b = b0[2], col = "red")
 abline( h = 0, lty = 2)
 abline( v = 0, lty = 2)
 ```
-
-* *t*-statistic:
+Step 4: In econometrics we are often most interested in hypothesis testing. The *t*-statistic is widely used. To test the null $H_0: \beta_2 = 0$, we compute the associated *t*-statistic
 $$
 t  =  \frac{\hat{\beta}_2 - \beta_{02}}{ \hat{\sigma}_{\hat{\beta}_2}  }
    =  \frac{\hat{\beta}_2 - \beta_{02}}{ \sqrt{ \left[ (X'X)^{-1} \hat{\sigma}^2 \right]_{22} } }.
@@ -107,55 +118,83 @@ print(t_value_2)
 ```
 
 
-## Packages
+## Package
 
-An initial installation of R is small, but R has an extensive system of add-on packages. A package can be installed and invoked by
-```{r,eval=FALSE}
-install.packages("package_name")
-library(package_name)
-```
-
-eg: The following packages are useful for econometrics.
-```{r, warning=FALSE, messasge=FALSE}
-library(AER)
-```
+An initial installation of R is small, but R has an extensive system of add-on packages.
+This is the unique treasure for R users that is unavailable to other programming languages like Python or Matlab. Many of those packages are hosted on [CRAN](https://cran.r-project.org/web/packages/).
+A common practice is today is that statisticians upload a package to CRAN after they write or publish a paper with a new statistical method. Their work is promoted via CRAN, and users have easy access to the state-of-the-art methods.
 
 
+A package can be installed by
+`install.packages("package_name")` and invoked by `library(package_name)`.
 
-## Mixed data types
+[Applied Econometrics with R](http://www.springer.com/gp/book/9780387773162) by Christian Kleiber and Achim Zeileis is a useful book. It also has a companion package
+`AER` that contains popular econometric methods in R such as instrumental variable regression and robust variance.
 
-* list
-* data.frame
 
+
+## Mixed Data Types
+
+A vector can only one type of elements, either all numbers or all characters.
+*list* is a basket for mixed type objects. It is particularly useful when a procedure
+returns more than one useful result. For example, when we invoke `eigen`, we might be
+interested in both eigenvalues and eigenvectors,
+which are stored into `$value` and `$vector`, respectively.
+
+
+*data.frame* is a 2-dimensional table that stores the data.
+A matrix is also a 2-dimensional table, but it can only contain one type of elements.
+Real world data can be richer than one type. It can have integers, real numbers, characters
+and categorical numbers. They can all be accommodated by data frame.
+
+**Example**
+
+This is a data set in a graduate-level econometrics textbook. We load the data into memory and display the first 6 records.
 ```{r}
+library(AER)
 data("CreditCard")
 head(CreditCard)
 ```
 
 
-## Input and output
+## Input and Output
 
-* `read.table()`
-* `write.table()`
+Raw data is often saved in ASCII file or Excel.
+I discourage the use of Excel spreadsheet, because the underlying structure of these
+spreadsheet are too complicated for statistical software to read, even if there are R
+packages to handle excel. I encourage the use of `csv` format, which is of plain ASCII file.
 
-example
-```{r eval=FALSE}
+`read.table()` or `read.csv()` imports data from ASCII file to an R session, and `write.table()` or
+`write.csv()` exports the data in an R session to be a ASCII file saved on a hard disk.
+
+**Example**
+
+We can also directly download data from internet. Below is how to retrieve the daily stock price of
+*Hong Kong Exchange Limited* from *Yahoo Finance*, and save the dataset on a local computer.
+
+```{r,eval=FALSE}
 HEX = read.csv("http://ichart.finance.yahoo.com/table.csv?s=0388.HK")
 print(head(HEX))
 write.csv(HEX, file = "HEX.csv")
 ```
 
-## Statitics
+## Statistics
 
-* `p`, `d`, `q`, `r`
+R is a language initiated by statisticians. It has elegant built-in statistical functions.
+`p` (probability), `d` (density for a continuous random variable, and mass for a discrete random variable), `q` (quantile), `r` (random variable generator) are used ahead of the name of a
+common probability distribution, such as the `norm` (normal), `chisq` ($\chi^2$), `t` (*t*),
+`weibull` (Weibull), `cauchy` (Cauchy), `binomial` (Binomial), `pois` (Poisson), to name a few.
 
-example:
+**Example**
 
-1. plot the density of $\chi^2(3)$ over `x_axis = seq(0.01, 15, by = 0.01)`
-2. generate 1000 observations for the above distribution. plot the kernel density.
-3. calculate the 95-th quantile and the empirical probability of observing a value greater than the 95-th quantile.
+This example illustrate the sampling error.
 
-```{r}
+1. Plot the density of $\chi^2(3)$ over an equally spaced grid system `x_axis = seq(0.01, 15, by = 0.01)` (black line).
+2. Generate 1000 observations for the above distribution. Plot the kernel density, a nonparametric estimation of the density (red line).
+3. Calculate the 95-th quantile and the empirical probability of observing a value greater than the 95-th quantile. In population, this value should be 5%. What is the number in this experiment?
+
+
+```{r,cache=TRUE}
 set.seed(888)
 x_axis = seq(0.01, 15, by = 0.01)
 
@@ -169,12 +208,31 @@ mean( z > crit )
 ```
 
 
-## User-defined function
+## User-defined Function
 
-* `fun_name = function(args) {expressions}`
-* variables defined in a functions are local.
+R has numerous built-in function. However, in practice we will often have some  
+functionality to be used repeatedly. It is highly recommended to encapsulate it into a function.
+There are important advantages:
 
-example: given a sample, calculate the 95% two-sided asymptotic confidence interval according to a central limit theorem.
+1. In the developing state, it allows us to focus on this piece of code.
+2. A long script can have hundred or thousand of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and output have interaction with the outside.
+3. Whenever there is any change or revision of the functionality, we just change one place. We don't have to repeat the work in every place it is invoked.
+
+The format of a user-defined function in R is
+
+```{r,eval=FALSE}
+function_name = function(input) {
+  expressions
+  return(output)
+}
+```
+
+**Example**
+
+Given a sample, if a central limit theorem is applicable, then
+we can calculate the 95% two-sided asymptotic confidence interval as
+$$\left(\hat{\mu} - \frac{1.96}{\sqrt{n}} \hat{\sigma}, \hat{\mu} + \frac{1.96}{\sqrt{n}} \hat{\sigma} \right).$$
+I don't think there is a built-in function to do this.
 ```{r}
 # construct confidence interval
 
@@ -191,12 +249,13 @@ CI = function(x){
 
 ```
 
-## Flow control
+## Flow Control
 
-* `if`
-* `for`, `while`
+Flow control is common in all programming languages. `if` is use for choice, and `for` or `while` is used for loop.
 
-example: calculate the empirical coverage probability of a poisson distribution of degree of freedom 2.
+**Example**
+
+Calculate the empirical coverage probability of a Poisson distribution of degrees of freedom 2. We conduct this experiment for 1000 times.
 
 
 ```{r}
@@ -217,5 +276,7 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
-## Statistical models
-* `lm(y~x, data = )`
+## Statistical Model
+
+Statistical models are formulated as `y~x`, where `y` on the left-hand side is the dependent variable,
+and `x` on the right-hand side is the explanatory variable. The built-in OLS function is `lm`. It can be invoked by `lm(y~x, data = data_frame)`.
