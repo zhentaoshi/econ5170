@@ -1,8 +1,10 @@
 ---
 title: "Lecture 3"
-author: Zhentao Shi
-date: February 22, 2016
-output: html_document
+author: "Zhentao Shi"
+date: "February 22, 2016"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 
