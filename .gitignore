@@ -141,3 +141,5 @@ book_version/_book/search_index.json
 book_version/_book/
 book_version/_bookdown_files/
 .Rproj.user
+Julia_scripts
+Jupyter_notebooks
