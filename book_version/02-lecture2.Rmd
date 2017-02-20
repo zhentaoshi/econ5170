@@ -120,7 +120,7 @@ We clearly see the difference in running time, though the 4 methods are mathemat
 When $n$ is small, `matrix` is fast and `Matrix` is slow; the vectorized version is the fastest.
 When $n$ is big, `matrix` is slow and `Matrix` is fast; the vectorized version is still the fastest.
 
-## Efficient loop
+## Efficient Loop
 
 In standard `for` loops, we have to do a lot of housekeeping work.
 [Hadley Wickham](http://had.co.nz/) develops [`plyr`](http://plyr.had.co.nz/) for simple loops,
@@ -174,7 +174,9 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
-A `plyr` loop. It saves book keeping chores, and easier to parallelize.
+A `plyr` loop. It saves house keeping chores, and easier to parallelize. We encapsulate
+the chunk in the loop as a new function `capture`, and run the loop via `__ply`.
+`__ply` is a family of functions. Here `ldply` means the input is a list and the output is a data frame.
 
 ```{r,eval=FALSE}
 library(plyr)
@@ -192,11 +194,16 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
+In terms of speed, `plyr` does not run faster than a `for` loop. They are of similar performance.
+Parallel computing will be our next topic. It is quite easy to implement parallel execution with `plyr`.
 
-## Parallel computing
+## Parallel Computing
 
-The packages `plyr`, `foreach` and `doParallel` are useful for parallel computing.
-The basic structure for parallel computing.
+The packages `foreach` and `doParallel` are useful for parallel computing.
+Below is the basic structure. `registerDoParallel(number)` prepares other CPU cores
+to accept jobs. Next, when calling `__ply`, we explicitly specify `.parallel` to be TRUE.
+If `myfunction` also depends on other variables in the session and other packages,
+we need to export them to other cores via the argument `.paropts` (parameter options).
 
 ```{r,eval=FALSE}
 library(plyr)
@@ -213,11 +220,15 @@ l_ply(.data = 1:10,
 )
 ```
 
-In this comparative example, we try
+In theory, if we have two CPUs running simultaneously, we can cut the time to a half of that on a single CPU.
+Is it true?
+
+**Example**
+
+Compare the speed of a parallel loop and a single-core sequential loop.
+
 ```{r,warning=FALSE,eval=FALSE}
 registerDoParallel(2) # open 2 CPUs
-
-
 
 pts0 = Sys.time() # check time
 out = ldply(.data = 1:Rep, .fun = capture, .parallel = T,
@@ -226,9 +237,13 @@ cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
-The above block indeed takes more time, because each loop runs very fast.
 
-The code below shows a different story. Each loop takes more time, which dominates the overhead of the CPU communication.
+Surprisingly, the above block of parallel computing indeed takes more time.
+It is because the task in each loop can be done in very short time.
+
+The code chunk below tells a different story. Now the time in each loop is non-trivial,
+and then parallelism dominates the overhead of the CPU communication.
+
 ```{r,eval=FALSE}
 Rep = 200
 sample_size = 2000000
@@ -248,6 +263,9 @@ print(pts1)
 ```
 
 ## Econ Super
+
+[comment]:<> (I don't think we can finish up here in the second week. leave it for later.)
+
 Try out this script on our econ super computer.
 
 
