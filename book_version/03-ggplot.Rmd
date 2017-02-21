@@ -1,0 +1,89 @@
+---
+title: "Lecture 3"
+author: "Zhentao Shi"
+date: "Feb 20, 2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+## Graphics
+
+We have seen an example of R graph in the OLS regression linear example in Lecture 1.
+`plot` is a generic command for graphs, and can be viewed as the default graph engine.
+It is capable of producing preliminary statistical graphs.
+
+Over the years, developers all over the world have proposed many solutions for
+more sophisticated statistical graphs. `ggplot2`, contributed by [Hadley Wickham](http://had.co.nz/),
+is the best from my point of view.
+
+Ggplot2 is a sophisticated graphic system that generates high-quality statistical graphs.
+It is not possible to cover it in a lecture. Fortunately, the author wrote a good reference
+[ggplot2 book](http://link.springer.com/book/10.1007%2F978-0-387-98141-3),
+which can be downloaded via CUHK network.
+
+Wickham also developed `reshape2`, a package mainly dedicated to prepare data frames for ggplot2.
+
+**Example**
+
+Plot the density of two estimators under three different data generating processes.
+This is an example to generate subgraphs of the same pattern.
+
+```{r,cache=TRUE}
+load("big150.Rdata")
+library(ggplot2)
+library(reshape2)
+
+big150_1 = big150[, c("typb", "numb",  "b1", "b1_c")]
+print(head(big150_1))
+
+big150_1 = melt(big150_1, id.vars = c("typb", "numb"), measure.vars = c("b1", "b1_c"))
+names(big150_1)[3] = c("estimator")
+print(head(big150_1))
+
+p1 = ggplot(big150_1)
+p1 = p1 + geom_area(stat = "density", alpha = .25,
+                    aes(x = value, fill = estimator),  position = "identity")
+p1 = p1 + facet_grid( typb ~ .  )  # this dataset has numb = 150, but no other sample size
+p1 = p1 + geom_vline(xintercept = 0)
+p1 = p1 + theme_bw()
+p1 = p1 + theme(strip.text = element_text( size = 12),
+                axis.text = element_text( size = 12))
+print(p1)
+```
+
+**Example**
+
+This example aligns two graphs of different patterns in one page.
+
+```{r,cache=TRUE}
+# graph packages
+library(lattice)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
+
+load("multigraph.Rdata") # load data
+
+
+# unify the theme in the two graphs
+theme1 = theme_bw() + theme(axis.title.x = element_blank(),
+                            strip.text = element_text( size = 12),
+                            axis.text = element_text( size = 12),
+                            legend.position = "bottom", legend.title = element_blank())
+
+# sub-graph 1
+p2 = qplot( x = 1:480, y = m_vec, geom = "line")
+p2 = p2 + theme1 + ylab("fraction of chartists")
+
+
+# sug-graph 2
+d2$month = 1:480
+p3 = ggplot(d2)
+p3 = p3 + geom_line(  aes(x = month, y = value, col = variable) )  
+p3 = p3 + theme1 +  ylab("price and fundamental")
+
+# generate the grahp
+grid.arrange(p3, p2, nrow=2)
+```
