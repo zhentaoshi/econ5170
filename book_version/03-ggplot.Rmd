@@ -10,11 +10,21 @@ output:
 
 ## Graphics
 
+An English cliche says "One picture is worth ten thousand words".
+John Tukey, a renowned mathematical statistician, was one of the pioneers of statistical graphs
+in the computer era. Nowadays, powerful software is able to produce dazzling statistical graphs,
+sometimes web-based and interactive. Outside of academia, journalism hooks a wide readership with
+professional data-based graphs. New York Times and The Economists are first-rate examples;  
+South China Morning Post sometimes also does a respectable job.
+A well designed statistical graph can deliver an intuitive and powerful message.
+I consider graph prior to table when writing a research report or an academic paper.
+Graph is lively and engaging. Table is tedious and boring.
+
 We have seen an example of R graph in the OLS regression linear example in Lecture 1.
 `plot` is a generic command for graphs, and can be viewed as the default graph engine.
 It is capable of producing preliminary statistical graphs.
 
-Over the years, developers all over the world have proposed many solutions for
+Over the years, developers all over the world have had many proposals for
 more sophisticated statistical graphs. `ggplot2`, contributed by [Hadley Wickham](http://had.co.nz/),
 is the best from my point of view.
 
@@ -23,7 +33,15 @@ It is not possible to cover it in a lecture. Fortunately, the author wrote a goo
 [ggplot2 book](http://link.springer.com/book/10.1007%2F978-0-387-98141-3),
 which can be downloaded via CUHK network.
 
-Wickham also developed `reshape2`, a package mainly dedicated to prepare data frames for ggplot2.
+Wickham also developed `reshape2`, a package dedicated mainly to prepare data frames for ggplot2.
+
+The workflow of ggplot is to add the elements in a graph one by one, and then print out
+the graph all together.
+In contrast, `plot` draws the main graph at first, and then add the supplementary elements later.
+
+Ggplot is particularly good at drawing multiple graphs, either of the same pattern or of
+different patterns. Multiple subgraphs convey rich information.
+
 
 **Example**
 
@@ -52,6 +70,8 @@ p1 = p1 + theme(strip.text = element_text( size = 12),
                 axis.text = element_text( size = 12))
 print(p1)
 ```
+The function `ggplot` specifies which dataset to use for the graph. `geom_***` determines the shape to draw, either scatter dots, lines, curves or areas. `theme` is to fine tune the supplementary elements like the background, the size and font of the axis text and so on.
+
 
 **Example**
 
@@ -74,16 +94,20 @@ theme1 = theme_bw() + theme(axis.title.x = element_blank(),
                             legend.position = "bottom", legend.title = element_blank())
 
 # sub-graph 1
-p2 = qplot( x = 1:480, y = m_vec, geom = "line")
-p2 = p2 + theme1 + ylab("fraction of chartists")
+p1 = qplot( x = 1:480, y = m_vec, geom = "line")
+p1 = p1 + theme1 + ylab("fraction of chartists")
 
 
 # sug-graph 2
 d2$month = 1:480
-p3 = ggplot(d2)
-p3 = p3 + geom_line(  aes(x = month, y = value, col = variable) )  
-p3 = p3 + theme1 +  ylab("price and fundamental")
+p2 = ggplot(d2)
+p2 = p2 + geom_line(  aes(x = month, y = value, col = variable) )  
+p2 = p2 + theme1 +  ylab("price and fundamental")
 
 # generate the grahp
-grid.arrange(p3, p2, nrow=2)
+grid.arrange(p1, p2, nrow=2)
 ```
+
+In order to unify the theme of the two distinctive subgraphs,
+we define an object `theme1` and apply it in both graphic objects
+`p1` and `p2`.

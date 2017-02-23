@@ -11,7 +11,7 @@ link-citations: yes
 github-repo: rstudio/bookdown-demo
 description: "nothing"
 ---
-# Preface
+# Preface {-}
 
 This course came into being after postgraduate students repeatedly requested for training in coding skills.
 Programming is an essential skill for researchers in economic analysis.

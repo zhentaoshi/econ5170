@@ -1,28 +1,39 @@
 ---
-title: "Lecture 3: Monte Carlo Simulation"
+title: "Simulation"
 author: Zhentao Shi
-date: February 11, 2017
+date: February 23, 2017
 output: pdf_document
 ---
 
-# Mote Carlo Simulation
+# Simulation
 
-Monte Carlo simulation has been widely used for
+Probability theory has an infamous inception for its association with gambling.
+Monte Carlo, the European casino city state, is another unfortunate presence.
+However, naming it Macau simulation or Hong Kong Jockey Club simulation does not make me feel any better.
+I decide to call it "simulation", just like we do not have to eat sashimi with rice.
 
-* check the finite-sample performance of asymptotic theory
-* generate non-standard distribution (MCMC)
-* approximate integrals with no analytic expression (SMM)
-* bootstrap
+Simulation has been widely used for (i) checking the finite-sample performance of asymptotic theory;
+(ii) generating non-standard distributions; (iii) approximate integrals with no analytic expressions;
+(iv) bootstrap.
 
 
 
 **Example**
 
-Estimate $\pi$. (A Teaser)
+Zu Chongzhi (429–500 AD), an ancient Chinese mathematician, calculated $\pi$ being between 3.1415926 and 3.1415927.
+He was using a deterministic approximation algorithm, and held the world record for 900 years.
+ Now imagine that we present to Zu Chongzhi, with full respect and admiration,
+a modern PC. How can he achieve a more accurate approximation? Of course, we suppose that he would not google it.
+
+Standing on the shoulder of law of large numbers, $\pi$ can be approximated is by stochastic approximation.
+
+(I cannot exactly recall where I learned this example. Perhaps it was from Liangjun Su when he was an
+  assistant professor at Guanghua School of Management, Peking University.)
 
 ```{r,cache=TRUE}
 n = 2 * 10000
-Z =  matrix( 2 * ( runif(n)-0.5 ) , ncol = 2 ) # uniform distribution centered at zero, ranging (-1,1)
+Z =  matrix( 2 * ( runif(n)-0.5 ) , ncol = 2 )
+# uniform distribution centered at zero, ranging (-1,1)
 
 inside = mean(  sqrt( rowSums( Z^2 ) )  <=  1 )
 pi_hat = 4 * inside # the total area of the square base is 4.
@@ -31,7 +42,15 @@ print(pi_hat)
 
 ## Finite Sample Evaluation
 
-Example: the test size of the OLS estimator.
+Asymptotic theory is apparatus to approximate finite sample distributions.
+In the real world, nothing is infinite, so apparently all asymptotic results are fake.
+However, asymptotic theory is so far the best possible instrument that helps us
+understand the behavior of estimators and tests, either in econometrics or in statistics in general.
+Simulation is one way to evaluate how good is an approximation.
+
+**Example**
+
+the test size of the OLS estimator.
 
 Question: Is the asymptotic theory valid when $X$ follows a Cauchy distribution?
 This example also intends to illustrate the recursive process of code development.
@@ -269,4 +288,3 @@ res = ldply( .data = 1:MC_rep, .fun = function(i) compare())[2:3]
 colnames(res) = c("asym", "bootstrap")
 print( colMeans(res))
 ```
-
