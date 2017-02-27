@@ -266,16 +266,16 @@ print(pts1)
 
 ## Remote Computing
 
-Investing money from our own pocket for a powerful laptop to conduct heavy-lifting computational work
+Investing money from our own pocket to a powerful laptop to conduct heavy-lifting computational work
 will surely be a regret. (i) We do not run these long jobs every day, it is more cost efficient
-to share a workhorse. (ii) We cannot keep our laptop always on when we take it
+to share a workhorse. (ii) We cannot keep our laptop always on when we move it
 around. The right solution is remote computing on a server.
 
-There is no fundamental difference between local and remote computing.
+No fundamental difference lies between local and remote computing.
 We prepare the data and code, open a shell for communication, run the code, and collect the results.
-What might be unfamiliar is that ususally we have to deal with a command-line-based operation system.
+One potential obstacle is dealing with a command-line-based operation system.
 Such command line tools is the norm of life two or three decades ago, but today we mostly
-work in a graphic operating system like the Windows or OSX.
+work in a graphic operating system like Windows or OSX.
 For Windows users (I am one of them), I recommend [PuTTY](http://www.putty.org/), a shell, and [WinSCP](http://winscp.net/eng/download.php), a graphic interface for input and output.
 
 Here are a few commands for basic operating in a Unix/Linux operating system.
@@ -292,7 +292,7 @@ Our CUHK department runs two servers, one for students and the other for profess
 The one for professors is a 16-core server. I have opened an account for you.
 You can try out this script on `econsuper`.
 
-1. Log in `econsuper`;
+1. Log in `econsuper.econ.cuhk.edu.hk`;
 2. Save the code block below as `loop_server.R`, and upload it to the server;
 3. In a shell, run `R --vanilla <loop_server.R> result_your_name.out`;
 4. To run a command in the background, add `&` at the end of the above command. To keep it running after closing the console, add `nohup` at the beginning of the command.
