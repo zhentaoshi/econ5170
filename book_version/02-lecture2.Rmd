@@ -223,7 +223,7 @@ l_ply(.data = 1:10,
 )
 ```
 
-In theory, if we have two CPUs running simultaneously, Can we cut the time to a half of that on a single CPU?
+In theory, if we have two CPUs running simultaneously, we cut the time to a half of that on a single CPU. Is that what happening in practice?
 
 **Example**
 
@@ -240,10 +240,10 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
-Surprisingly, the above block of parallel computing runs even more slowly.
+Surprisingly, the above code block of parallel computing runs even more slowly.
 It is because the task in each loop can be done in very short time.
-
-The code chunk below tells a different story. Now the time in each loop is non-trivial,
+In contrast, the code chunk below will tell a different story.
+There the time in each loop is non-trivial,
 and then parallelism dominates the overhead of the CPU communication.
 
 ```{r,eval=FALSE}
@@ -264,17 +264,37 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
-## Econ Super
+## Remote Computing
 
-[comment]:<> (I don't think we can finish up here in the second week. leave it for later.)
+Investing money from our own pocket for a powerful laptop to conduct heavy-lifting computational work
+will surely be a regret. (i) We do not run these long jobs every day, it is more cost efficient
+to share a workhorse. (ii) We cannot keep our laptop always on when we take it
+around. The right solution is remote computing on a server.
 
-Try out this script on our econ super computer.
+There is no fundamental difference between local and remote computing.
+We prepare the data and code, open a shell for communication, run the code, and collect the results.
+What might be unfamiliar is that ususally we have to deal with a command-line-based operation system.
+Such command line tools is the norm of life two or three decades ago, but today we mostly
+work in a graphic operating system like the Windows or OSX.
+For Windows users (I am one of them), I recommend [PuTTY](http://www.putty.org/), a shell, and [WinSCP](http://winscp.net/eng/download.php), a graphic interface for input and output.
 
-For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php) help access remote servers.
+Here are a few commands for basic operating in a Unix/Linux operating system.
+
+* mkdir
+* cd
+* copy
+* top
+* screen
+* ssh user@address
+* start a program
+
+Our CUHK department runs two servers, one for students and the other for professors.
+The one for professors is a 16-core server. I have opened an account for you.
+You can try out this script on `econsuper`.
 
 1. Log in `econsuper`;
 2. Save the code block below as `loop_server.R`, and upload it to the server;
-3. In a terminal, run `R --vanilla <loop_server.R> result_your_name.out`;
+3. In a shell, run `R --vanilla <loop_server.R> result_your_name.out`;
 4. To run a command in the background, add `&` at the end of the above command. To keep it running after closing the console, add `nohup` at the beginning of the command.
 
 ```{r,eval=FALSE}

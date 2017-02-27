@@ -21,26 +21,26 @@ I consider graph prior to table when writing a research report or an academic pa
 Graph is lively and engaging. Table is tedious and boring.
 
 We have seen an example of R graph in the OLS regression linear example in Lecture 1.
-`plot` is a generic command for graphs, and can be viewed as the default graph engine.
+`plot` is a generic command for graphs, and is the default R graphic engine.
 It is capable of producing preliminary statistical graphs.
 
 Over the years, developers all over the world have had many proposals for
 more sophisticated statistical graphs. `ggplot2`, contributed by [Hadley Wickham](http://had.co.nz/),
 is the best from my point of view.
 
-Ggplot2 is a sophisticated graphic system that generates high-quality statistical graphs.
-It is not possible to cover it in a lecture. Fortunately, the author wrote a good reference
+Ggplot2 is an advanced graphic system that generates high-quality statistical graphs.
+It is not possible to cover it in a lecture. Fortunately, the author wrote a comprehensive reference
 [ggplot2 book](http://link.springer.com/book/10.1007%2F978-0-387-98141-3),
-which can be downloaded via CUHK network.
+which can be downloaded via the campus network (Perhaps you need VPN).
 
 Wickham also developed `reshape2`, a package dedicated mainly to prepare data frames for ggplot2.
 
 The workflow of ggplot is to add the elements in a graph one by one, and then print out
 the graph all together.
-In contrast, `plot` draws the main graph at first, and then add the supplementary elements later.
+In contrast, `plot` draws the main graph at first, and then adds the supplementary elements later.
 
 Ggplot is particularly good at drawing multiple graphs, either of the same pattern or of
-different patterns. Multiple subgraphs convey rich information.
+different patterns. Multiple subgraphs convey rich information and easy comparison.
 
 
 **Example**
@@ -70,7 +70,7 @@ p1 = p1 + theme(strip.text = element_text( size = 12),
                 axis.text = element_text( size = 12))
 print(p1)
 ```
-The function `ggplot` specifies which dataset to use for the graph. `geom_***` determines the shape to draw, either scatter dots, lines, curves or areas. `theme` is to fine tune the supplementary elements like the background, the size and font of the axis text and so on.
+The function `ggplot` specifies which dataset to use for the graph. `geom_***` determines the shape to draw, for example scatter dots, lines, curves or areas. `theme` is to tune the supplementary elements like the background, the size and font of the axis text and so on.
 
 
 **Example**
