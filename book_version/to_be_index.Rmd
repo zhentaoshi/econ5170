@@ -10,6 +10,7 @@ biblio-style: apalike
 link-citations: yes
 github-repo: rstudio/bookdown-demo
 description: "nothing"
+fontsize: 11pt
 ---
 # Preface {-}
 
@@ -18,7 +19,7 @@ Programming is an essential skill for researchers in economic analysis.
 
 I believe the best way to learn programming is via examples. This book contains many examples that illustrate R usage and econometric computational ideas.
 
-## Personal Reflection
+## Personal Reflection {-}
 
 I have been using R since I started my postgraduate study in Peking University in 2005. R helps me with my daily research and teaching.
 
@@ -37,14 +38,14 @@ Anyone can run R code on any platform, free of license and fee headache.
 R is not without limitations. For example, speed is a concern when running big and complex jobs.
 However, it will not be an issue in the problems that we will encounter in the first year postgraduate study.
 
-## Prerequisite
+## Prerequisite {-}
 
 For this course, please install [R](http://www.r-project.org/).
 An fully functional integrated development environment (IDE) is also highly desirable.
 It makes programming more friendly and enjoyable.
 [RStudio](http://www.rstudio.com/) is recommended.
 
-## About Book Version
+## About Book Version {-}
 
 I prepare the lecture notes in Rmarkdown.
 The book version can be built in RStudio. However, I write in Atom, a text editor.

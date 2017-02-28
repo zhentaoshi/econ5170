@@ -3,6 +3,7 @@ title: "Simulation"
 author: Zhentao Shi
 date: February 27, 2017
 output: pdf_document
+fontsize: 11pt
 ---
 
 # Simulation
@@ -180,26 +181,30 @@ nominal 5% as sample size increases.
 
 ## Bootstrap
 
-Bootstrap, originated from Efron (1979), is an extremely powerful and influential idea for statistical estimation and inference.
+Bootstrap, originated from Efron (1979), is an extremely powerful and influential idea for estimation and inference.
 
 Let $X_1, X_2, \ldots, X_n \sim F$ be an i.i.d. sample of $n$ observations following a distribution $F$. The finite sample distribution of a statistic $T_n(\theta)\sim G_n(\cdot, F)$ usually depend on the sample size $n$, as well as the known true distribution $F$. Asymptotic theory approximate $G_n(\cdot, F)$ by its limit $$G(\cdot, F) := \lim_{n\to\infty} G_n(\cdot, F);$$ if $T_n(\theta)$ if *asymptotically pivotal* then $G_n(\cdot, F)$ is independent of $F$.
 
 Instead of referring to the limiting distribution, Bootstrap replaces the unknown distribution $F$ in $G_n(\cdot, F)$ by a consistent estimator $F_n$ of the true distribution, for example, the empirical distribution function. Bootstrap inference is drawn from the bootstrap distribution
-$$G^{*}_n(\cdot):= G_n(\cdot, F_n)$$
+$$
+G^{*}_n(\cdot):= G_n(\cdot, F_n)
+$$
 
 Implementation of bootstrap is almost always a Monte Carlo simulation. In i.i.d. environment we sample over each observation with equal weight, while in dependent dataset such as time series, clustering data or networks, we must adjust the sampling schedule to preserve the dependence structure.
 
-In many regular cases, it is possible to show in theory the *consistency* of bootstrap: the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or $G^*_n(a)\to G(a)$ for $a$ such that $G(a)$ is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments.
-
-### Execution in R
-
-Bootstrap is simple enough to be done by a "ply"-family function for repeated simulations. Alternatively, R package [boot](http://cran.r-project.org/web/packages/boot/index.html) provides a general function `boot()`
+In many regular cases, it is possible to show in theory the *consistency* of bootstrap:
+the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or $G^*_n(a)\to G(a)$ for $a$ such that $G(a)$ is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, naive bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments.
 
 ### Bootstrap Estimation
 
+Bootstrap is simple enough to be done by a `ply`-family function for repeated simulations. Alternatively, R package [boot](http://cran.r-project.org/web/packages/boot/index.html) provides a general function `boot()`.
+
+
 Bootstrap is useful when the analytic formula of the variance of an econometric estimator is too complex to derive or code up.
 
-**Example**: One of the most popular estimators for a sample selection model is Heckman(1979)'s two-step method. Let the outcome equation be
+**Example**
+
+One of the most popular estimators for a sample selection model is Heckman(1979)'s two-step method. Let the outcome equation be
 $$y_i = x_i \beta + u_i$$
 and the selection equation be
 $$D_i = z_i \gamma + v_i$$
@@ -250,9 +255,11 @@ print(Heck_b_sd)
 
 ### Bootstrap Test
 
-Bootstrap is particularly helpful in statistical inference. Indeed, it is possible to show in theory the higher-order improvement of bootstrap. Loosely speaking, if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing can be more accurate than its analytic asymptotic counterpart.
+Bootstrap is particularly helpful in inference. Indeed, it is possible to show in theory the higher-order improvement of bootstrap. Loosely speaking, if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing can be more accurate than its analytic asymptotic counterpart.
 
-**Example**: a bootstrap test for the population mean. The test is carried out via a t-statistic. The distribution of the sample is either *normal* or *zero-centered chi-square*. It shows that the bootstrap test size is more precise than that of the asymptotic approximation.
+**Example**
+
+We use bootstrap to test a hypothesis about the population mean. The test is carried out via by a $t$-statistic. The distribution of the sample is either *normal* or *zero-centered chi-square*. It shows that the bootstrap test size is more precise than that of the asymptotic approximation.
 
 We first prepare the workhorse functions.
 
@@ -260,7 +267,7 @@ We first prepare the workhorse functions.
 library(plyr)
 
 # the t-statistic for a null hypothesis mu
-T_stat = function(Y, mu ) (mean(Y) - mu ) / sqrt( var(Y)/n )
+T_stat = function(Y, mu ) sqrt(n)*(mean(Y) - mu ) / sd(Y)
 
 # the bootstrap function
 boot_test = function(Y, boot_Rep){
@@ -289,7 +296,10 @@ boot_test = function(Y, boot_Rep){
 ```
 
 A key point for bootstrap test is that the null hypothesis must be imposed no matter the hypothesized parameter is true value or not. Therefore the bootstrap t-statistic is
-$$T^*_n = \frac{\bar{X^*} - \bar{X}} { s^{*} / \sqrt{  n } }.$$ That is, the bootstrap t-statistic is centered at $\bar{X}$, the sample mean of $F_n$, rather than $\theta$, the population mean of $F$. This is because in the bootstrap world the ``true'' distribution is $F_n$. If we wrongly center the bootstrap t-statistic at $\theta$, then the test will have no power when the null hypothesis is false.
+$$
+T^{*}_{n} = \frac{\bar{X^{*}} - \bar{X}} { s^{*} / \sqrt{n} }.
+$$
+That is, the bootstrap $t$-statistic is centered at $\bar{X}$, the sample mean of $F_n$, rather than $\theta$, the population mean of $F$. This is because in the bootstrap world the ``true'' distribution is $F_n$. If we wrongly center the bootstrap t-statistic at $\theta$, then the test will have no power when the null hypothesis is false.
 
 The following chuck of code report the rejection probability from three decision rules.
 
@@ -317,9 +327,11 @@ compare = function(){
 n = 20
 distribution = "normal"
 boot_Rep = 199
-MC_rep = 500
+MC_rep = 1000
 alpha = 0.05
 mu = 0
+
+set.seed(999)
 
 # Monte Carlo simulation and report the rejection probability
 res = ldply( .data = 1:MC_rep, .fun = function(i) compare())
@@ -331,8 +343,9 @@ When the underlying distribution is a $\chi^2$, there is no explicit exact distr
 ```{r,cache=TRUE}
 distribution = "chisq"
 
-# Monte Carlo simulation and report the rejection probability
-res = ldply( .data = 1:MC_rep, .fun = function(i) compare())[2:3]
-colnames(res) = c("asym", "bootstrap")
+set.seed(666)
+# Simulate and report the rejection probability
+res = ldply( .data = 1:MC_rep, .fun = function(i) compare())
+colnames(res) = c("exact","asym", "bootstrap")
 print( colMeans(res))
 ```
