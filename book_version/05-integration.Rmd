@@ -2,91 +2,84 @@
 title: 'Integration'
 author: "Zhentao Shi"
 date: "March 4, 2017"
+bibliography: book.bib
+fontsize: 11pt
 output:
-  html_document: default
   pdf_document: default
 ---
 
+# Numerical Integration
+
+In their mathematical definitions, integration and differentiation involve taking limit.
+However, our computer is a finite-precision machine that can handle neither arbitrarily
+small nor arbitrarily large numbers. It can only approximate the limiting behavior.
+In this lecture, we first briefly talk about numerical differentiation and
+integration. Next, we discuss stochastic integration in detail with examples.
 
 
-# Numerical Integrations
+## Numerical Methods
 
-Integration and differentiation involve taking limit in their mathematical definitions. However, a computer is a finite-precision machine that can handle neither arbitrarily small nor arbitrarily big numbers. We attempt to bridge the gap by approximation.
-
-In this lecture, we will briefly talk about deterministic differentiation and
- integration. However, how the computer works out these operations does not
- have anything to do with econometrics. It is a topic of numerical analysis.
-
-
+Numerical differentiation and integration are fundamental topics and of great
+practical importance. However, how the computer works out these operations has
+nothing to do with economics or econometrics; it is the content of a numerical analysis course.
+Here we quickly go over the numerical methods.
+@judd1998numerical (Chapter 7) is a useful textbook for details.
 
 
-## Derivative
+### Numerical  Differentiation
 
-Before we talk about integration, we first briefly talk about derivative.
-
-In undergraduate calculus, we have learned the analytic derivative of many common functions.
-However, there are cases that analytic forms are unavailable, or too cumbersome
-to code. For example, in Newton's method for optimization, in theory we need to
+In undergraduate calculus, we have learned the analytic differentiation of many common functions.
+However, there are cases in which analytic forms are unavailable or too cumbersome
+to program.
+For instance, in Newton's method for optimization, in principle we need to
 code the first and second derivative of an objective function if it is univariate,
 or the $K$-dimensional gradient and  $K\times K$-dimensional Hessian matrix if
-the objective function is $K$-variate. Manually program up the gradient and
-the Hessian is a time-consuming job, and it is error-prone.
-What is worse, at the experimental stage if the objective function is somehow changed,
-then the gradient and Hessian are changed as well. Therefore, we might prefer not
-to program up those analytical expressions in the trial-and-error stage.
+the objective function is $K$-variate. Programming up the gradient and
+the Hessian manually is a time-consuming and error-prone job.
+What is worse, whenever we change the objective function,
+which happens often at the experimental stage,
+we have to redo the gradient and Hessian. Therefore, it is more efficient to use
+numerical differentiation instead of coding up the analytical expressions,
+in particular in the trial-and-error stage.
 
-By definition, the partial derivative of a multivariate function
-$f:R^L \mapsto R^K$ at a point $x_0 \in R^L$ is
-$$\frac{\partial f(x)}{\partial x}\bigg|_{x=x_0}=\lim_{\epsilon \to 0}
-\frac{f(x_0+\epsilon) - f(x_0 - \epsilon)}{2\epsilon}$$
-In computer, it a follows the principle to evaluate $f(x_0\pm\epsilon)$ with a small
+The partial derivative of a multivariate function
+$f:R^K \mapsto R$ at a point $x_0 \in R^K$ is
+$$\frac{\partial f(x)}{\partial x_k}\bigg|_{x=x_0}=\lim_{\epsilon \to 0}
+\frac{f(x_0+\epsilon \cdot e_k) - f(x_0 - \epsilon \cdot e_k)}{2\epsilon},$$
+where $e_k = (0,\ldots,0,1,0,\ldots,0)$ is the identifier of the $k$-th coordinate.
+ In computer, it a follows the basic definition to evaluate $f(x_0\pm\epsilon \cdot e_k))$ with a small
 $\epsilon$. But how small is small? Usually it tries a sequence of $\epsilon$'s until
-the numerical derivative is stable. The algorithm can usually be found
-in the documentation of the numerical derivative functions.
+the numerical derivative is stable. There are also more sophisticated algorithms.
 
-In R, the package `numDeriv` does numerical derivative. In particular,
+In R, the package `numDeriv` does numerical differentiation, in which
 
-* `grad` for a scalar-valued function
-* `jacobian` for a real-vector-valued function
-* `hessian` for a scalar-valued function
-* `genD` for a real-vector-valued function
+* `grad` for a scalar-valued function;
+* `jacobian` for a real-vector-valued function;
+* `hessian` for a scalar-valued function;
+* `genD` for a real-vector-valued function.
 
 
-## Deterministic Numerical Integration
+### Numerical Integration
 
 R can also handle numerical integration. In general, integration is more difficult
 than differentiation. `integrate` carries out one-dimensional quadrature, and
 `adaptIntegrate` in the package `cubature` deals with multi-dimensional quadrature.
 You can refer to the documentation for the algorithm behind numerical integrations.
-A useful textbook that goes into detail is [Judd].
+
 
 ## Simulated Methods
 
-Only for some special cases we known the analytic form of integration. In many
-cases integration is too complex to write in a closed-form. In econometric models,
-we often introduce some latent variables. In estimation, we usually integrate out
-the latent variables since we can only deal with observable variables. Such
-integration is often too complex to be tractable. Numerical integration is a
-natural alternative when a closed-form is unavailable.
+**Motivation example**
 
-Another important advantage is that the simulated method makes the implementation
-more straightforward, because it closely follows the logic. This is like a direct
-proof is often preferred to a contrapositive proof.
+A structural model with latent variables
 
+@roy1951some
 
-**Example**
-
-Roy model is a structural model with latent variables. It describes a mechanism that
-leads to observable outcomes.
-In the classical Roy model, a man can assume one of the two occupations: a farmer or a fisher. The utility of being a farmer is
-$$U_1^{*} = x' \beta_1 + e_1$$
- and that of being a fisher is
- $$U_2^{*} = x' \beta_2 + e_2,$$
- where $U_1^{*}$
-and $U_2^{*}$ are latent (unobservable). In reality, we observe the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
+In the classical Roy model, a man can assume one of the two occupations: a farmer or a fisher.
+The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of being a fisher is $U_2^{*} = x' \beta_2 + e_2$, where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable). In reality, we observe the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
 $$
 \begin{bmatrix}
-e_1\\e_2t
+e_1\\e_2
 \end{bmatrix}
 \sim N \left(
 \begin{bmatrix}
@@ -110,7 +103,7 @@ $$
 $$
 where $s=1,\ldots,S$ is the index of simulation, and $S$ is the total number of simulation replications.
 
-### Generate Random Variables
+### Generating Random Variables
 
 If the CDF $F(X)$ is known and $U\sim \mathrm{Uniform}(0,1)$, then $F^{-1}(U)$ follows the distribution $F(X)$.
 
@@ -118,17 +111,9 @@ If the pdf $f(X)$ is known, we can generate a sample with such a distribution by
 Metropolis-Hastings algorithm is such a method.
 R package `mcmc` implements Metropolis-Hastings algorithm.
 
-The flexibility to generate any distribution given the pdf makes Bayesian analysis
-much more accessible. Bayes is conceptually appealing, but because the PC age is
-difficult in implementation. Today Bayes procedure is standard in terms of execution.
-The difficulty is the large sample justification. Hardcore Bayesian thinks that
-all their results is finite sample. However, one cannot deny the possibility of prior
-distribution misspecification. The large sample theory for Bayesian analysis is
-a way to see the robustness of finite sample misspecification.
-
 **Example**
 
-Use [Metropolis-Hastings algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) to generate a sample of normally distributed observations.
+use [Metropolis-Hastings algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) to generate a sample of normally distributed observations.
 ```{r}
 library(mcmc)
 h = function(x){ y = -x^2 / 2 } # the log, unnormalized function
@@ -149,9 +134,13 @@ plot(density(out$batch))
 
 [Expectation-Maximization algorithm](http://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm) is an iterative estimation method for statistical models in which likelihood is difficult to express in explicit forms.
 
+@arcidiacono2003finite
+
 It is better to categorize the EM algorithm as a numerical optimization method assisted by simulation.
 
 ### Indirect Inference
+
+@gourieroux1993indirect
 
 * Economic structural model
 * Reduced-form: (auxiliary model)
@@ -176,7 +165,7 @@ linear IV model.
 
 ### Simulated Method of Moments
 
-Pakes and Pollard (1989): Simulation and the asymptotics of optimization estimators
+@pakes1989simulation: Simulation and the asymptotics of optimization estimators
 
 Match moments generated the theoretical model with their empirical counterparts. The choice of the moments to be matched is not unique either. A set of valid choice is
 
@@ -198,7 +187,7 @@ Moreover, we need to choose a weighting matrix $W$ to form a quadratic criterion
 
 ### Laplace-type estimator
 
-Chernozhukov and Hong (2003): An MCMC approach to classical estimation
+@chernozhukov2003mcmc: An MCMC approach to classical estimation.
 
 
 If we know the distribution of an extremum estimator, then *asymptotically* the point estimator equals its mean under the quadratic loss function, and equals its median under the absolute-value loss function.
@@ -233,11 +222,4 @@ bhat2_CI = quantile(bhat2, c(.025, .975) )
 b_OLS = summary( lm(Y~-1+X) )
 ```
 
-
-
-
-
-## Extended Readings
-
-* Arcidiacono and Jones (2003): [Finite Mixture Distributions, Sequential Likelihood and the EM Algorithm](http://www.jstor.org/stable/1555527?seq=1#page_scan_tab_contents)
-* Gourieroux, Monfort and Renault (1993): [Infirect Inference](http://onlinelibrary.wiley.com/doi/10.1002/jae.3950080507/abstract)
+# References
