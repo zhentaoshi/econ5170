@@ -13,9 +13,9 @@ Zhentao covers the following topics. This README file will be updated as the cou
 #### Outline
 * Lecture 1: Basic R
 * Lecture 2: Advanced R
-* Lecture 3: Numerical Optimization
+* Lecture 3: Monte Carlo Simulation
 * Lecture 4: Numerical Integrations
-* Lecture 5: Monte Carlo Simulation
+* Lecture 5: Numerical Optimization
 * Lecture 6: Machine Learning
 
 #### Lecture Notes
