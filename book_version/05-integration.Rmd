@@ -26,8 +26,6 @@ Here we quickly go over the numerical methods.
 @judd1998numerical (Chapter 7) is a useful textbook for details.
 
 
-### Numerical  Differentiation
-
 In undergraduate calculus, we have learned the analytic differentiation of many common functions.
 However, there are cases in which analytic forms are unavailable or too cumbersome
 to program.
@@ -58,25 +56,53 @@ In R, the package `numDeriv` does numerical differentiation, in which
 * `hessian` for a scalar-valued function;
 * `genD` for a real-vector-valued function.
 
-
-### Numerical Integration
-
-R can also handle numerical integration. In general, integration is more difficult
-than differentiation. `integrate` carries out one-dimensional quadrature, and
+In general, integration is more difficult operation
+than differentiation. In R, `integrate` carries out one-dimensional quadrature, and
 `adaptIntegrate` in the package `cubature` deals with multi-dimensional quadrature.
 You can refer to the documentation for the algorithm behind numerical integrations.
 
+Numerical methods are not panacea. Not all functions are differentiable or integrable.
+Before turning to numerical methods, it is always important to understand the behavior
+of the function at the first place.
+R is weak in symbolic calculation, if not completely useless.
+`Mathematica` or `Wolfram Alpha` is a powerful tool for this purpose.
 
-## Simulated Methods
 
-**Motivation example**
+## Stochastic Methods
 
-A structural model with latent variables
+An alternative to numerical integration is the stochastic method.
+The underlying principle of stochastic integration is the law of large numbers.
+Let  $\int h(x) d P(x)$ be an integral where $P(x)$ is a probability distribution.
+We can approximate the integral by
+$\int h(x) d P(x) \approx S^{-1} \sum_{s=1}^S h(x_s)$, where $x_s$ randomly
+generated from $P(x)$.
+When $S$ is large, we can invoke a law of large numbers so that
+$$S^{-1} \sum_{s=1}^S h(x_s) \stackrel{\mathrm{p}}{\to} E[h(x)] = \int h(x) d P(x).$$
+If the integration is carried out not in the entire support of $P(x)$ by a subset $A$, then
+$$\int_A h(x) d P(x) \approx S^{-1} \sum_{s=1}^S h(x_s) \cdot 1\{x_s \in A\},$$
+where $1\{\cdot\}$ is the indicator function.
 
-@roy1951some
+In theory, we want to use a very large $S$. However, we are constrained by computing time
+and power. There is no clear guidance of the size of $S$ in practice. Preliminary experiment can
+be helpful to decide an $S$ that produces stable results.
+
+Stochastic integration is popular in econometrics and statistics, because of its
+convenience in execution.
+
+**Example**
+
+Structural econometric estimation starts from economic principles. There
+elements unobservable to the econometric that drive an economic agent's decision.
+@roy1951some proposes such a structural model with latent variables, and now is
+the foundation of self-selection in labor economics.
+
 
 In the classical Roy model, a man can assume one of the two occupations: a farmer or a fisher.
-The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of being a fisher is $U_2^{*} = x' \beta_2 + e_2$, where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable). In reality, we observe the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
+The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of
+being a fisher is $U_2^{*} = x' \beta_2 + e_2$,
+where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable). I
+n reality, we observe the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
+$(e_1,e_2)$ is independent of $x$, and
 $$
 \begin{bmatrix}
 e_1\\e_2
@@ -91,13 +117,18 @@ e_1\\e_2
 where $\sigma_2^2$ is normalized to be 1, we can write down the log-likelihood of an observable sample as
 $$L(\theta) = \sum_{i = 1}^n  \left\{ y_i \log P( U_{i1}^* > U_{i2}^* )
 + (1-y_i)\log P( U_{i1}^* \leq  U_{i2}^* ) \right\}.$$
-The analytical form is complicated because of the presence of correlation in the joint distribution of $(e_1, e_2)$. What is worse, analytical form may not be obtainable if $(e_1, e_2)$ follows some other distribution.
 
-The key difficulty of the analytical approach lies in the explicit form of
+Let $\theta = (\beta_1, \beta_2, \sigma_1, \sigma_{12}).$ Given a trial value $\theta$,
+we can compute
 $$p(\theta|x_i) = P\left( U^*_{i1}(\theta) > U^*_{i2}(\theta) \right)
-= P\left( x_i'(\beta_1 - \beta_2) + e_{i1} - e_{i2} > 0 \right), $$
-which is complicated because of the correlation between $e_1$ and $e_2$.
-However, given a trial value $\theta$, it is easy to simulate the probability by drawing artificial $(e^s_1, e^s_2)$ from a proposed distribution. In such a simulation approach, we estimate
+= P\left( x_i'(\beta_1 - \beta_2) > e_{i2} -e_{i1} \right).$$
+Under the joint normal assumption, $e_{i2} - e_{i1} \sim N(\sigma_1^2 - 2\sigma_{12}+1).$
+Here the analytical form can be easily computed and we do not need simulation.
+
+However, notice that the analytical form depends on the joint normal assumption and cannot be
+easily extended to other distributions. As long as the joint distribution of $e_{i1}, e_{i2}$
+can be generated from the computer, we can use the stochastic method---the simulation approach.
+We estimate
 $$
 \hat{p}(\theta|x_i) = \frac{1}{S} \sum_{i=1}^S \mathbf{1}\left( U^{s*}_{i1}(\theta) > U^{s*}_{i2}(\theta) \right),
 $$
