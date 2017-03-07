@@ -1,7 +1,7 @@
 ---
 title: "Simulation"
 author: Zhentao Shi
-date: February 27, 2017
+date: March 7, 2017
 output: pdf_document
 fontsize: 11pt
 ---
