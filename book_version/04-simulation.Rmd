@@ -63,7 +63,7 @@ However, asymptotic theory is so far the best possible instrument that helps us
 understand the behavior of estimators and tests, either in econometrics or in statistics in general.
 Simulation is one way to evaluate the accuracy of approximation.
 
-Even though real data empirical example can also be used to illustrate a statistical procedure, 
+Even though real data empirical example can also be used to illustrate a statistical procedure,
 artificial data is convenient and boast advantages. The prevalent paradigm in statistics is
 to assume that the data are generated from a model. We, as researchers, check how close is the estimate to
 the model, which is often characterized by a set of unknown parameters. In simulation
@@ -88,11 +88,10 @@ Is asymptotic inferential theory for the OLS estimator---consistency and asympto
 [Pareto distribution](https://en.wikipedia.org/wiki/Pareto_distribution) with shape coefficient 1.5?
 (A Pareto distribution with shape coefficient between 1 and 2 has finite mean but infinite variance.)
 
-
- 1. given sample size, get OLS `b_hat` and its `t_value`
- 2. wrap the `t_value` so that we can replicate for many times
+ 1. given sample size, get OLS `b_hat` and its associated `t_value`
+ 2. wrap `t_value` as a user-defined function so that we can replicate for many times
  3. given sample size, report the size under two distributions
- 4. wrap it over different sample sizes.
+ 4. wrap it again as a user-defined function, ready for different sample sizes.
  5. develop the super structure
  6. add comments and documentation
 
@@ -174,8 +173,11 @@ The first column is the when the error is normal, and we use the exactly distrib
 The second column still uses the normal distribution in the error term, but change the
 critical value to be from the normal distribution, which is based on asymptotic approximation. When sample size is small, obvious size distortion is
 observed; but the deviation is mitigated when the sample size increases.
-When the error distribution is Cauchy, the so called "exact distribution" is not longer exact---it is exact only if the error is normal and independent from $x$. If we attempt to use the asymptotic normal approximation, we find that the asymptotic approximation breaks down. The test size does not converge to the
-nominal 5% as sample size increases.
+When the error distribution is Cauchy, the so called "exact distribution" is not longer exact---
+it is exact only if the error is normal and independent from $x$.
+If we attempt to use the asymptotic normal approximation,
+we find that the asymptotic approximation breaks down. The test size does not converge to the
+nominal 5% as the sample size increases.
 
 
 
@@ -255,11 +257,19 @@ print(Heck_b_sd)
 
 ### Bootstrap Test
 
-Bootstrap is particularly helpful in inference. Indeed, it is possible to show in theory the higher-order improvement of bootstrap. Loosely speaking, if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing can be more accurate than its analytic asymptotic counterpart.
+Bootstrap is particularly helpful in inference. Indeed,
+we can rigorously prove that bootstrap enjoys high-order improvement
+relative to asymptotic approximation if the test statistic is asymptotically pivotal.
+ Loosely speaking, 
+if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing
+can be more accurate than its analytic asymptotic counterpart.
 
 **Example**
 
-We use bootstrap to test a hypothesis about the population mean. The test is carried out via by a $t$-statistic. The distribution of the sample is either *normal* or *zero-centered chi-square*. It shows that the bootstrap test size is more precise than that of the asymptotic approximation.
+We use bootstrap to test a hypothesis about the population mean. The test is
+carried out via by a $t$-statistic. The distribution of the sample is either
+*normal* or *zero-centered chi-square*. It will show that the bootstrap test size is
+more precise than that of the asymptotic approximation.
 
 We first prepare the workhorse functions.
 
@@ -295,15 +305,22 @@ boot_test = function(Y, boot_Rep){
 
 ```
 
-A key point for bootstrap test is that the null hypothesis must be imposed no matter the hypothesized parameter is true value or not. Therefore the bootstrap t-statistic is
+A key point for bootstrap test is that the null hypothesis must be imposed no matter
+the hypothesized parameter is true value or not.
+Therefore the bootstrap t-statistic is
 $$
 T^{*}_{n} = \frac{\bar{X^{*}} - \bar{X}} { s^{*} / \sqrt{n} }.
 $$
-That is, the bootstrap $t$-statistic is centered at $\bar{X}$, the sample mean of $F_n$, rather than $\theta$, the population mean of $F$. This is because in the bootstrap world the ``true'' distribution is $F_n$. If we wrongly center the bootstrap t-statistic at $\theta$, then the test will have no power when the null hypothesis is false.
+That is, the bootstrap $t$-statistic is centered at $\bar{X}$, the sample mean of $F_n$,
+rather than $\theta$, the population mean of $F$. This is because in the bootstrap world
+the ``true'' distribution is $F_n$. If we wrongly center the bootstrap t-statistic at $\theta$,
+then the test will have no power when the null hypothesis is false.
 
 The following chuck of code report the rejection probability from three decision rules.
 
-```{r,tidy=T,cache=TRUE}
+```{r,tidy=TRUE,cache=TRUE}
+library(plyr)
+
 compare = function(){
 # this function generates a sample of n observations
 # and it returns the testing results from three decision rules
@@ -327,11 +344,11 @@ compare = function(){
 n = 20
 distribution = "normal"
 boot_Rep = 199
-MC_rep = 1000
+MC_rep = 2000
 alpha = 0.05
 mu = 0
 
-set.seed(999)
+set.seed(111)
 
 # Monte Carlo simulation and report the rejection probability
 res = ldply( .data = 1:MC_rep, .fun = function(i) compare())
@@ -339,7 +356,15 @@ colnames(res) = c("exact", "asym", "bootstrap")
 print( colMeans(res))
 ```
 
-When the underlying distribution is a $\chi^2$, there is no explicit exact distribution. However, we can still compare the asymptotic size with the bootstrap size.
+Here the nominal size of the test is 5%. The program reports the empirical size
+---the ratio between the number of rejections to the total number of replications.
+The closer is the empirical size to the nominal size, the more accurate is the test.
+We find here the bootstrap test is better than the asymptotic test.
+
+When the underlying distribution is a $\chi^2$, there is no explicit exact distribution.
+However, we can still compare the asymptotic size with the bootstrap size.
+
+
 ```{r,cache=TRUE}
 distribution = "chisq"
 
@@ -349,3 +374,6 @@ res = ldply( .data = 1:MC_rep, .fun = function(i) compare())
 colnames(res) = c("exact","asym", "bootstrap")
 print( colMeans(res))
 ```
+
+Again, here the "exact test" is no longer exact. The asymptotic test works fairly
+reasonable, while the bootstrap is closer to the nominal size.

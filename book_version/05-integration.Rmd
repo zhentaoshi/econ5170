@@ -197,7 +197,8 @@ Here $\hat{b}_1$ is associated with $\beta$, and $(\hat{b}_2,\hat{b}_3)$
 are associated with $(\sigma_1,\sigma_{12})$.
 
 Now we consider the structural parameter. Given a trial value $\theta$, the model
-is parametric and we can simulate artificial error $(e_{i1}^*, e_{i2}^*)$ conditional on $x_i$. In each simulation experiment,
+is parametric and we can simulate artificial error $(e_{i1}^*, e_{i2}^*)$ conditional
+on $x_i$. In each simulation experiment,
 we can decide $y_i^*$, and we can further estimate the reduced-form parameter
 $\hat{b}^*=\hat{b}(\theta)^*$
 given the artificial data.
@@ -205,10 +206,12 @@ $b(\theta)$ is the binding function.
  Conducting such simulation for $S$ times, we measure
 the distance between $\hat{b}$ and $\hat{b}^*$ as
 $$
-Q(\theta) = \left(\hat{b} - S^{-1} \sum_{s=1}^H \hat{b}(\theta)^{*s} \right)' W \left(\hat{b} - S^{-1} \sum_{s=1}^S \hat{b}(\theta)^{*s}\right)
+Q(\theta) = \left(\hat{b} - S^{-1} \sum_{s=1}^H \hat{b}(\theta)^{*s} \right)'
+W \left(\hat{b} - S^{-1} \sum_{s=1}^S \hat{b}(\theta)^{*s}\right)
 $$   
 where $s$ indexes the simulation, and $W$ is a positive definite weighting matrix.
-The indirect inference estimator is $\hat{\theta} = \arg\min_{\theta} Q(\theta).$ That is, we seek the $\theta$
+The indirect inference estimator is $\hat{\theta} = \arg\min_{\theta} Q(\theta).$
+That is, we seek the $\theta$
 that minimizes the distance between the reduced-form parameter from the real data and that
 from the simulated artificial data.
 
@@ -264,7 +267,8 @@ summary(out)
 
 
 For some econometric estimators, finding the global optimizer is known to be difficult, because
-of irregular behavior of the objective function. @chernozhukov2003mcmc's *Laplace-type estimator* (LTE) is an alternative to circumvent the challenge in optimization. LTE transforms the value of the criterion function
+of irregular behavior of the objective function. @chernozhukov2003mcmc's *Laplace-type estimator*
+(LTE) is an alternative to circumvent the challenge in optimization. LTE transforms the value of the criterion function
 of an extremum estimator into a probability weight
 $$
 f_n (\theta) = \frac{\exp(-L_n(\theta))\pi(\theta)}{\int_{\Theta} \exp(-L_n(\theta))\pi(\theta)}
@@ -274,10 +278,12 @@ and $\pi(\theta)$ is density of a prior distribution.
 The smaller is the value of the objective function, the larger it weighs.
 
 We use MCMC to simulate the distribution of $\theta$.
-From a Bayesian's viewpoint, $f_n(\theta)$ is the posterior distribution. However, @chernozhukov2003mcmc use this distribution
+From a Bayesian's viewpoint, $f_n(\theta)$ is the posterior distribution.
+However, @chernozhukov2003mcmc use this distribution
 for classicial estimation and inference, and they justify the
 procedure via frequentist asymptotic theory. Once $f_n(\theta)$
-is known, then *asymptotically* the point estimator equals its mean under the quadratic loss function, and equals its median under the absolute-value loss function.
+is known, then *asymptotically* the point estimator equals its mean under the
+quadratic loss function, and equals its median under the absolute-value loss function.
 
 The code block below compares the OLS estimator with the LTE estimator in a linear regression model.
 ```{r,cache=TRUE}
