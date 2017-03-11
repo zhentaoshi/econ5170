@@ -1,5 +1,5 @@
 ---
-title: "Lecture 3"
+title: "Graphics"
 author: "Zhentao Shi"
 date: "Feb 20, 2017"
 output:

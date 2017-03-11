@@ -1,8 +1,8 @@
 ---
 output: html_document
-title: "Lecture 5: Numerical Optimization"
+title: "Numerical Optimization"
 author: Zhentao Shi
-date: March 21, 2016
+date: March 11, 2017
 ---
 
 ```{r,message=FALSE,warning=FALSE}
@@ -14,22 +14,45 @@ library(optimx)
 
 # Numerical Optimization
 
-## Introduction
+Optimization is the key step to apply econometric extremum estimators.
+A general optimization problem is formulated as
+$$\min_{\theta \in \Theta } f(\theta) \,\, \mbox{ s.t. }  g(\theta) = 0, h(\theta) \leq 0,$$
+where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint,
+and $h(\theta)\leq 0$ is an inequality constraint.
 
-Optimization is the key step to apply econometric extremum estimators. A general optimization problem is formulated as
-$$\min_{\theta \in \Theta } f(\theta) \mbox{     s.t. }  g(\theta) = 0, h(\theta) \leq 0,$$
-where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint, and $h(\theta)\leq 0$ is an inequality constraint.
+Up to now, most established numerical optimization algorithm can find a local minimum if it exists.
+However, there is no guarantee to locate the global minimum when multiple local minima exist.
 
-Up to now, most established numerical optimization algorithm can a local minimum if it exists. However, there is no guarantee to locate the global minimum when multiple local minima exist.
+An optimization problem without the equality and/or inequality constraints is called
+an *unconstrained* problem; otherwise it is called a constrained problem.
+We can incorporate the constraints into the criterion function via Lagrangian.
 
+There are numerous algorithm for optimization proposed in the field of operational research.
+However, there are only a small handful of major ideas.
 
-* unconstrained or constrained
+The most fundamental idea for twice-differentiable objective function is the Newton's method.
+We know what a necessary condition for optimization is that
+$s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
-Popular algorithms
+At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, we can direct the search by updating
+$$
+\theta_{t+1} = \theta_{t} +  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
+$$
+for $t=0,1,\cdots$ where
+$H(\theta) = \frac{ \partial s(\theta )}{ \partial \theta}$
+is the Hessian matrix.
+The algorithm iterates
+until $|\theta_{t+1} -\theta_{t}| < \epsilon$, where $\epsilon$ is a small positive number chosen as the tolerance level.
 
-* Newton-type algorithm
-    - gradient
-    - Hessian
+**Newton's Method.** Newton's method is a way to look for the solution to
+$s(\theta) = 0$. Recall that the first-order condition is not the sufficient
+condition. We still need to verify the second-order condition to identify
+whether a solution is associated to a minimizer or a maximizer.
+
+It is clear from the description of Newton's method that it requires the
+computation of the gradient $s(\theta)$ and the Hessian $H(\theta)$.
+Newton's method converges at quadratic rate, which is fast.
+
 * Quasi-Newton type algorithm
     - [BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm)
 * [Nelder-Mead](http://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method)
