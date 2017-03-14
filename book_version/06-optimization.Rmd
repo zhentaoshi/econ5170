@@ -18,7 +18,7 @@ $$\min_{\theta \in \Theta } f(\theta) \,\, \mbox{ s.t. }  g(\theta) = 0, h(\thet
 where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint,
 and $h(\theta)\leq 0$ is an inequality constraint.
 
-Up to now, most established numerical optimization algorithm can find a local minimum if it exists.
+Most established numerical optimization algorithms aim at finding a local minimum if it exists.
 However, there is no guarantee to locate the global minimum when multiple local minima exist.
 
 An optimization problem without the equality and/or inequality constraints is called
@@ -27,10 +27,10 @@ We can incorporate the constraints into the criterion function via Lagrangian.
 
 ## Methods
 
-There are numerous algorithm for optimization proposed in the field of operational research,
+There are numerous optimization algorithms in the field of operational research,
 but only a small handful of major ideas stand out.
 
-The most fundamental idea for twice-differentiable objective function is the Newton's method.
+The fundamental idea for twice-differentiable objective function is the Newton's method.
 We know what a necessary condition for optimization is that
 $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
@@ -43,22 +43,23 @@ $H(\theta) = \frac{ \partial s(\theta )}{ \partial \theta}$
 is the Hessian matrix.
 The algorithm iterates
 until $|\theta_{t+1} -\theta_{t}| < \epsilon$ (absolute criterion) or
-$|\theta_{t+1} -\theta_{t}|/|\theta_{t}| < \epsilon$, where $\epsilon$ is a small positive number chosen as the tolerance level.
+$|\theta_{t+1} -\theta_{t}|/|\theta_{t}| < \epsilon$ (relative criterion), where $\epsilon$ is a small positive number chosen as the tolerance level.
 
 
 
-**Newton's Method.** Newton's method is a way to look for the solution to
-$s(\theta) = 0$. Recall that the first-order condition is not the sufficient
+**Newton's Method.** Newton's method seeks the solution to
+$s(\theta) = 0$. Recall that the first-order condition is a necessary condition but not a sufficient
 condition. We still need to verify the second-order condition to identify
-whether a solution is associated to a minimizer or a maximizer.
+whether a root to $s(\theta)$ is associated to a minimizer or a maximizer, and we compare the values of the mimima to decide a
+global minimum.
 
 It is clear from the description of Newton's method that it requires the
 computation of the gradient $s(\theta)$ and the Hessian $H(\theta)$.
 Newton's method converges at quadratic rate, which is fast.
 
-**Quasi-Newton method.** The most well-known is quasi-Newton algorithm is  [BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm).
+**Quasi-Newton method.** The most well-known quasi-Newton algorithm is  [BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm).
 It avoids explicit calculation of the Hessian matrix. Instead, starting from an initial (inverse)
-Hessian, it updates the Hessian by an explicit formula motivated by the idea of quadratic approximation.
+Hessian, it updates the Hessian by an explicit formula motivated from the idea of quadratic approximation.
 
 **Derivative-Free Method.** [Nelder-Mead](http://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method)
 is a simplex method. It searches a local minimum by reflection, expansion and contraction.
@@ -67,16 +68,16 @@ is a simplex method. It searches a local minimum by reflection, expansion and co
 
 In the past, optimization was a weak spot of R. In the recent year, R's optimization infrastructure has been constantly improving. [R Optimization Task View](http://cran.r-project.org/web/views/Optimization.html) gives a survey of the available CRAN packages.
 
-For general-purpose nonlinear optimization, the package [`optimx`](http://cran.r-project.org/web/packages/optimx/index.html) effectively replaces R's default optimization commands [@nash2014best]. `optimx` delivers a unified interface for various widely-used optimization algorithms. Moreover, it facilitates comparison among optimization routines.
+For general-purpose nonlinear optimization, the package [`optimx`](http://cran.r-project.org/web/packages/optimx/index.html) [@nash2014best] effectively replaces R's default optimization commands. `optimx` provides a unified interface for various widely-used optimization algorithms. Moreover, it facilitates comparison among optimization routines.
 
 **Example**
 
 We use `optimx` to solve pseudo Poisson maximum likelihood estimation.
-If $y_i$ is a continuous random variable, it obviously does not follow a possion distribution, whose support is non-negative integers. However, if the conditional mean model
+If $y_i$ is a continuous random variable, it obviously does not follow a possion distribution, whose support consists of non-negative integers. However, if the conditional mean model
 $$E[y_i | x_i] = \exp( x_i' \beta),$$
 is satisfied, we can still use the possion regression to obtain a consistent estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional poisson distribution,
 
-To implement optimization in `R`, it is recommended to write the criterion as a function of the parameter. Data can be provided inside or outside of the function. If the data is fed as additional arguments, these arguments must be explicit.
+To implement optimization in `R`, it is recommended to write the criterion as a function of the parameter. Data can be fed inside or outside of the function. If the data is injected as additional arguments, these arguments must be explicit.
 
 ```{r,cache=TRUE,tidy=TRUE,message=FALSE,warning=FALSE}
 #implement both BFGS and Nelder-Mead for comparison.
@@ -132,11 +133,15 @@ contour( x.grid,  y.grid, z.contour, 20)
 ```
 
 For problems that demand more accuracy,  third-party standalone solvers can be invoked via interfaces to R.
-For example, we can access [`NLopt`](http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation) through [nloptr](http://cran.r-project.org/web/packages/nloptr/index.html).
+For example, we can access [`NLopt`](http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation) through the packages [`nloptr`](http://cran.r-project.org/web/packages/nloptr/index.html).
 However, standalone solvers usually have to be compiled and configured.
 These steps are often not as straightforward as installing most of Windows applications.
 
 `NLopt` provides an [extensive list of algorithms](http://ab-initio.mit.edu/wiki/index.php/NLopt_Algorithms#SLSQP).
+
+**Example**
+
+We first carry out Nelder-Mead algorithm in NLOPT. 
 
 ```{r,cache=TRUE,tidy=TRUE}
 library(nloptr)
@@ -155,7 +160,15 @@ print( res_NM )
 # "SLSQP" is indeed the BFGS algorithm in NLopt, 
 # though "BFGS" doesn't appear in the name
 opts = list("algorithm"="NLOPT_LD_SLSQP","xtol_rel"=1.0e-7)
+```
 
+
+To invoke BFGS in NLOPT, we must provide the gradient, 
+as in the function `poisson.log.grad()` below. 
+Here we compare it with the numerical gradient to make sure 
+the function is correct. 
+
+```{r,cache=TRUE,tidy=TRUE}
 poisson.loglik.grad = function( b ) {
   b = as.matrix( b )
   lambda =  exp( X %*% b )
@@ -167,8 +180,11 @@ poisson.loglik.grad = function( b ) {
 b = c(0,.5)
 grad(poisson.loglik, b)
 poisson.loglik.grad(b)
+```
 
+With the function of gradient, we are ready for BFGS.
 
+```{r,cache=TRUE,tidy=TRUE}
 res_BFGS = nloptr( x0=b.init,
                    eval_f=poisson.loglik,
                    eval_grad_f = poisson.loglik.grad,
