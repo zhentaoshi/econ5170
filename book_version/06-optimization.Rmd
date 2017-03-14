@@ -1,7 +1,7 @@
 ---
 title: "Numerical Optimization"
 author: Zhentao Shi
-date: March 11, 2017
+date: March 14, 2017
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -78,7 +78,7 @@ is satisfied, we can still use the possion regression to obtain a consistent est
 
 To implement optimization in `R`, it is recommended to write the criterion as a function of the parameter. Data can be provided inside or outside of the function. If the data is fed as additional arguments, these arguments must be explicit.
 
-```{r,cache=TRUE,tidy=TRUE}
+```{r,cache=TRUE,tidy=TRUE,message=FALSE,warning=FALSE}
 #implement both BFGS and Nelder-Mead for comparison.
 
 library(AER)
@@ -218,4 +218,4 @@ r <- mosek(lo1)
 ```
 
 
-## Reference
+## References
