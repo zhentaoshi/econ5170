@@ -22,7 +22,7 @@ From now on, we will start to write script. A script is a piece of code for a pa
 purpose. We do not write a script of thousands of lines from the beginning
 to the end; we develop it recursively. We cut a big job into small manageable tasks.
 Write a small piece, test it, and perhaps encapsulate it into a user-defined function.
-Small pieces are integrated by the super structure. This is just like building a Airbus 380.
+Small pieces are integrated by the super structure. This is just like building an Airbus 380.
 The engines and wings are made in UK, the fuselage is made in Germany and so on.
 All pieces are assembled in Toulouse, France, and the giant steel bird can fly.
 Finally, add comments to facilitate
