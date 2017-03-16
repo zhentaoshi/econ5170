@@ -36,28 +36,31 @@ $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
 At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, we can direct the search by updating
 $$
-\theta_{t+1} = \theta_{t} +  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
+\theta_{t+1} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
 $$
 for $t=0,1,\cdots$ where
 $H(\theta) = \frac{ \partial s(\theta )}{ \partial \theta}$
 is the Hessian matrix.
 The algorithm iterates
 until $|\theta_{t+1} -\theta_{t}| < \epsilon$ (absolute criterion) or
-$|\theta_{t+1} -\theta_{t}|/|\theta_{t}| < \epsilon$ (relative criterion), where $\epsilon$ is a small positive number chosen as the tolerance level.
+$|\theta_{t+1} -\theta_{t}|/|\theta_{t}| < \epsilon$ (relative criterion), where
+$\epsilon$ is a small positive number chosen as the tolerance level.
 
 
 
 **Newton's Method.** Newton's method seeks the solution to
 $s(\theta) = 0$. Recall that the first-order condition is a necessary condition but not a sufficient
 condition. We still need to verify the second-order condition to identify
-whether a root to $s(\theta)$ is associated to a minimizer or a maximizer, and we compare the values of the mimima to decide a
+whether a root to $s(\theta)$ is associated to a minimizer or a maximizer,
+and we compare the values of the mimima to decide a
 global minimum.
 
 It is clear from the description of Newton's method that it requires the
 computation of the gradient $s(\theta)$ and the Hessian $H(\theta)$.
 Newton's method converges at quadratic rate, which is fast.
 
-**Quasi-Newton method.** The most well-known quasi-Newton algorithm is  [BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm).
+**Quasi-Newton method.** The most well-known quasi-Newton algorithm is  
+[BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm).
 It avoids explicit calculation of the Hessian matrix. Instead, starting from an initial (inverse)
 Hessian, it updates the Hessian by an explicit formula motivated from the idea of quadratic approximation.
 
@@ -66,18 +69,30 @@ is a simplex method. It searches a local minimum by reflection, expansion and co
 
 ## Implementation
 
-In the past, optimization was a weak spot of R. In the recent year, R's optimization infrastructure has been constantly improving. [R Optimization Task View](http://cran.r-project.org/web/views/Optimization.html) gives a survey of the available CRAN packages.
+In the past, optimization was a weak spot of R. In the recent year, R's optimization
+infrastructure has been constantly improving.
+[R Optimization Task View](http://cran.r-project.org/web/views/Optimization.html)
+gives a survey of the available CRAN packages.
 
-For general-purpose nonlinear optimization, the package [`optimx`](http://cran.r-project.org/web/packages/optimx/index.html) [@nash2014best] effectively replaces R's default optimization commands. `optimx` provides a unified interface for various widely-used optimization algorithms. Moreover, it facilitates comparison among optimization routines.
+For general-purpose nonlinear optimization, the package
+[`optimx`](http://cran.r-project.org/web/packages/optimx/index.html) [@nash2014best]
+effectively replaces R's default optimization commands. `optimx` provides a unified
+interface for various widely-used optimization algorithms. Moreover,
+it facilitates comparison among optimization routines.
 
 **Example**
 
 We use `optimx` to solve pseudo Poisson maximum likelihood estimation.
-If $y_i$ is a continuous random variable, it obviously does not follow a possion distribution, whose support consists of non-negative integers. However, if the conditional mean model
+If $y_i$ is a continuous random variable, it obviously does not follow a possion
+distribution, whose support consists of non-negative integers. However, if the conditional mean model
 $$E[y_i | x_i] = \exp( x_i' \beta),$$
-is satisfied, we can still use the possion regression to obtain a consistent estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional poisson distribution,
+is satisfied, we can still use the possion regression to obtain a consistent
+estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional
+poisson distribution,
 
-To implement optimization in `R`, it is recommended to write the criterion as a function of the parameter. Data can be fed inside or outside of the function. If the data is injected as additional arguments, these arguments must be explicit.
+To implement optimization in `R`, it is recommended to write the criterion as a
+function of the parameter. Data can be fed inside or outside of the function.
+If the data is injected as additional arguments, these arguments must be explicit.
 
 ```{r,cache=TRUE,tidy=TRUE,message=FALSE,warning=FALSE}
 #implement both BFGS and Nelder-Mead for comparison.
@@ -101,16 +116,18 @@ X =  with(RecreationDemand, cbind(1, income) )
 
 ## estimation
 b.init =  c(0,1)  # initial value
-b.hat = optimx( b.init, poisson.loglik, 
+b.hat = optimx( b.init, poisson.loglik,
                 method = c("BFGS", "Nelder-Mead"),
-                 control = list(reltol = 1e-7, 
+                 control = list(reltol = 1e-7,
                                 abstol = 1e-7)  )
 print( b.hat )
 ```
 
 
 
-In practice no algorithm suits all problems. Simulation, where the true parameter is known,  is helpful to check the accuracy of one's optimization routine before applying to an empirical problem, where the true parameter is unknown.
+In practice no algorithm suits all problems. Simulation, where the true parameter is known,
+  is helpful to check the accuracy of one's optimization routine before applying to an empirical problem,
+  where the true parameter is unknown.
 Contour plot helps visualize the function surface in a low dimension.
 
 **Example**
@@ -132,8 +149,10 @@ for (i in 1:x.length){
 contour( x.grid,  y.grid, z.contour, 20)
 ```
 
-For problems that demand more accuracy,  third-party standalone solvers can be invoked via interfaces to R.
-For example, we can access [`NLopt`](http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation) through the packages [`nloptr`](http://cran.r-project.org/web/packages/nloptr/index.html).
+For problems that demand more accuracy,  third-party standalone solvers can be
+invoked via interfaces to R.
+For example, we can access [`NLopt`](http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation)
+through the packages [`nloptr`](http://cran.r-project.org/web/packages/nloptr/index.html).
 However, standalone solvers usually have to be compiled and configured.
 These steps are often not as straightforward as installing most of Windows applications.
 
@@ -141,7 +160,7 @@ These steps are often not as straightforward as installing most of Windows appli
 
 **Example**
 
-We first carry out Nelder-Mead algorithm in NLOPT. 
+We first carry out Nelder-Mead algorithm in NLOPT.
 
 ```{r,cache=TRUE,tidy=TRUE}
 library(nloptr)
@@ -157,16 +176,16 @@ res_NM = nloptr( x0=b.init,
                  opts=opts)
 print( res_NM )
 
-# "SLSQP" is indeed the BFGS algorithm in NLopt, 
+# "SLSQP" is indeed the BFGS algorithm in NLopt,
 # though "BFGS" doesn't appear in the name
 opts = list("algorithm"="NLOPT_LD_SLSQP","xtol_rel"=1.0e-7)
 ```
 
 
-To invoke BFGS in NLOPT, we must provide the gradient, 
-as in the function `poisson.log.grad()` below. 
-Here we compare it with the numerical gradient to make sure 
-the function is correct. 
+To invoke BFGS in NLOPT, we must provide the gradient,
+as in the function `poisson.log.grad()` below.
+Here we compare it with the numerical gradient to make sure
+the function is correct.
 
 ```{r,cache=TRUE,tidy=TRUE}
 poisson.loglik.grad = function( b ) {
@@ -197,12 +216,15 @@ print( res_BFGS )
 * `optimx` can handle simple box-constrained problems.
 * `constrOptim` can handle linear constrained problems.
 * Some algorithms in `nloptr`, for example, `NLOPT_LD_SLSQP`, can handle nonlinear constrained problems.
-* `Rdonlp2` is an alternative for general nonlinear constrained problems. Rdonlp2 is a package offered by `Rmetric` project. It can be installed by `install.packages("Rdonlp2", repos="http://R-Forge.R-project.org")`
+* `Rdonlp2` is an alternative for general nonlinear constrained problems. Rdonlp2
+is a package offered by `Rmetric` project. It can be installed by
+ `install.packages("Rdonlp2", repos="http://R-Forge.R-project.org")`
 
 ## Convex Optimization
 
-If a function is convex in its argument, then a local minimum is a global minimum. Convex optimization is particularly important in high-dimensional problems. The readers are
-referred to @boyd2004convex for an accessible comprehensive treatment. They claim that 
+If a function is convex in its argument, then a local minimum is a global minimum.
+Convex optimization is particularly important in high-dimensional problems. The readers are
+referred to @boyd2004convex for an accessible comprehensive treatment. They claim that
 "convex optimization is technology; all other optimizations are arts." This is true to some extent.
 
 
@@ -212,9 +234,9 @@ referred to @boyd2004convex for an accessible comprehensive treatment. They clai
 * Lasso [@su2016identifying]
 * Relaxed empirical likelihood [@shi2016econometric].
 
-A class of common convex optimization can be reliably implemented in R. 
-[`Rmosek`](http://rmosek.r-forge.r-project.org/) is an interface in R to access `Mosek`. 
-Mosek a high-quality commercial solver dedicated to convex optimization. 
+A class of common convex optimization can be reliably implemented in R.
+[`Rmosek`](http://rmosek.r-forge.r-project.org/) is an interface in R to access `Mosek`.
+Mosek a high-quality commercial solver dedicated to convex optimization.
 It provides free academic licenses. (Rtools is a prerequisite to install Rmosek.)
 
 ```{r,eval=FALSE,tidy=TRUE}
@@ -224,7 +246,7 @@ lo1$sense <- "max"
 lo1$c <- c(3,1,5,1)
 lo1$A <- Matrix(c(3,1,2,0,
                   2,1,3,1,
-                  0,2,0,3), 
+                  0,2,0,3),
           nrow=3, byrow=TRUE, sparse=TRUE)
 lo1$bc <- rbind(blc = c(30,15,-Inf),
                 buc = c(30,Inf,25))
