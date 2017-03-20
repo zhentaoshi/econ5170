@@ -1,19 +1,88 @@
 ---
 title: 'Lecture 6: Machine Learning'
 author: "Zhentao Shi"
-date: "Feb 14, 2017"
-output: pdf_document
+date: "March 20, 2017"
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
+fontsize: 11pt
+output:
+  pdf_document: default
 ---
 
 
 # Machine Learning
 
-From the view of an econometrician, machine learning is a set of data fitting procedures that focuses on out-of-sample prediction.
-The simplest illustration is in the regression context. We repeat a scientific experiment for $n$ times, which generates a dataset $(y_i, x_i)_{i=1}^n$. What would be the best way to predict $y_{n+1}$ from the same experiment if we observe $x_{n+1}$?
+From the view of an econometrician, machine learning is a set of data fitting procedures that focus on
+out-of-sample prediction.
+The simplest illustration is in the regression context. 
+We repeat a scientific experiment for $n$ times, which generates a dataset $(y_i, x_i)_{i=1}^n$. 
+What would be the best way to predict $y_{n+1}$ from the same experiment if we observe $x_{n+1}$?
+Mean squared errors (MSE) is a popular criterion for comparison when the response variable is continuous.
 
 In modern scientific analysis, the number of covariates $x_i$ can be enormous. 
+In DNA microarray analysis, we are looking for the association of a sympton to genes. 
+Variable selection is crucial here because we have scientific evidence that only a small handful of genes
+are involved. 
 
-`glmnet` Lasso, adaptive lasso (Chernozhukov's papers)
+## Variable Selection
+
+Back to economic analysis, the problem of variable selection is not well appreciated, though applied 
+economists are sellecting varibles implicitly. They rely on their prior knowledge to choose some
+relevant variables from a large number of potential candidates. 
+For example, the [UK Living Costs and Food Survey](https://discover.ukdataservice.ac.uk/series/?sn=2000028)
+has been widely used for analysis of demand theory and family consumption. 
+A questionaire in this survey consists of thousand of questions. It is not clear what are the most relevant 
+variables in general.
+
+The most well-known variable selection method in a regression is the least-absolute-shrinkage-and-selection-operator (Lasso) [@tibshirani1996regression]. 
+Upon on the usual OLS criterion function, Lasso penalizes the $L_1$ norm of the coefficients.
+$$
+(2n)^{-1} (Y-X\beta)'(Y-X\beta) + \lambda \Vert \beta \Vert_1
+$$
+where $\lambda \geq 0$ is a tuning parameter. In a wide range of values of $\lambda$, 
+Lasso can shrink some coefficients exact to 0, which suggests that these variables are likely to be
+irrelevant in the regression. However, later research finds that Lasso cannot consistently select
+the relevant variables from the irrelevant ones. 
+
+
+Anothe successful variable selection is smoothly-clipped-absolute-deviation (SCAD) 
+[@fan2001variable]. Their crition function is 
+$$
+(2n)^{-1} (Y-X\beta)'(Y-X\beta) + \sum_{j=1}^d \rho_{\lambda}( |\beta_j| )
+$$
+where
+$$
+\rho_{\lambda} (\theta) = \lambda \left\{ 1\{\theta\leq \lambda \} + 
+\frac{(a\lambda - \theta)_+}{(a-1)\lambda} \cdot 1 \{\theta > \lambda\} \right\}
+$$
+for some $a>2$ and $\theta>0$. This is a non-convex function, and @fan2001variable establish the so-called
+*oracle property*, which means that an estimator can achieve variable selection consistency and 
+(pointwise) asymptotic normality simultaneously.
+
+
+
+
+
+
+The follow-up *adaptive Lasso* [@zou2006adaptive] enjoys selection consistency. Adaptive Lasso is a two
+step scheme: 1. First run a Lasso or ridge regression and save the estimator $\hat{\beta}^{(1)}$. 2. Solve
+$$
+(2n)^{-1} (Y-X\beta)'(Y-X\beta) + \lambda \sum_{j=1}^d  w_j |\beta_j| 
+$$
+where $w_j = 1 \bigg/ \left|\hat{\beta}_j^{(1)}\right|^a$ and $a\geq 1$ is a constant. (Common choice is $a = 2$).
+
+
+
+
+In R,  `glmnet` or `LARS` implements Lasso, and `ncvreg` does SCAD. We can set the adaptive Lasso
+weight via the argument `penalty.factor` in `glmnet`. 
+
+
+## Prediction
+
+If the purpose of the regression is not variable selection, but for accurate prediciton of the response 
+variables, then there are other methods available. 
 
 boosting, forward selection, and reweighting (Bai and Ng)
 
@@ -21,6 +90,8 @@ regression tree, bagging (Killian and Inoue), average of subsampling
 
 three steps in econometrics:
 consistency -> asymptotic normality -> efficiency
+
+
 
 rebuke from ML
 data is big, don't worry accuracy
@@ -30,4 +101,6 @@ no DGP is considered, nothing to converge to
 
 
 In regression context, explore all sorts of nonlinear relationship.
+
+## References
 
