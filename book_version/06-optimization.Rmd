@@ -82,13 +82,52 @@ it facilitates comparison among optimization routines.
 
 **Example**
 
-We use `optimx` to solve pseudo Poisson maximum likelihood estimation.
-If $y_i$ is a continuous random variable, it obviously does not follow a possion
+We use `optimx` to solve pseudo Poisson maximum likelihood estimation (PPML).
+If $y_i$ is a continuous random variable, it obviously does not follow a Poisson
 distribution, whose support consists of non-negative integers. However, if the conditional mean model
 $$E[y_i | x_i] = \exp( x_i' \beta),$$
-is satisfied, we can still use the possion regression to obtain a consistent
+is satisfied, we can still use the Poisson regression to obtain a consistent
 estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional
-poisson distribution,
+Poisson distribution.
+
+If $Z$ follows a Poisson distribution with mean $\lambda$, the probability masss function
+$$
+\Pr(Z = k) = \frac{\mathrm{e}^{-\lambda} \lambda^k}{k!}, \mbox{ for }k=0,1,2,\ldots,
+$$
+so that
+$$
+\log \Pr(Y = y | x) =  -\exp(x'\beta) + y\cdot x'\beta - \log k!
+$$
+Since the last term is irrelevant to the parameter, the
+log-likelihood function is
+$$
+\ell(\beta) = \log \Pr( \mathbf{y} | \mathbf{x};\beta ) =
+-\sum_{i=1}^n \exp(x_i'\beta) + \sum_{i=1}^n y_i x_i'\beta.
+$$
+In addition, it is easy to write the gradient
+$$
+s(\beta) =\frac{\partial \ell(\beta)}{\partial \beta} =
+-\sum_{i=1}^n \exp(x_i'\beta)x_i + \sum_{i=1}^n y_i x_i.
+$$
+and verify that the Hessian
+$$
+H(\beta) = \frac{\partial^2 \ell(\beta)}{\partial \beta \partial \beta'} =
+-\sum_{i=1}^n \exp(x_i'\beta)x_i x_i' - \sum_{i=1}^n \exp(x_i'\beta)
+$$
+is negative definite. Therefore, $\ell(\beta)$ is strictly concave
+in $\beta$.
+
+Here I code up the negative log-likelihood to stick to minimization.
+
+```{r,cache=TRUE}
+# Poisson likelihood
+poisson.loglik = function( b ) {
+  b = as.matrix( b )
+  lambda =  exp( X %*% b )
+  ell = -sum( -lambda + y *  log(lambda) )
+  return(ell)
+}
+```
 
 To implement optimization in `R`, it is recommended to write the criterion as a
 function of the parameter. Data can be fed inside or outside of the function.
@@ -100,14 +139,6 @@ If the data is injected as additional arguments, these arguments must be explici
 library(AER)
 library(numDeriv)
 library(optimx)
-
-# Poisson likelihood
-poisson.loglik = function( b ) {
-  b = as.matrix( b )
-  lambda =  exp( X %*% b )
-  ell = -sum( -lambda + y *  log(lambda) )
-  return(ell)
-}
 
 ## prepare the data
 data("RecreationDemand")
@@ -123,6 +154,15 @@ b.hat = optimx( b.init, poisson.loglik,
 print( b.hat )
 ```
 
+Given the conditional mean model, nonlinear least squares (NLS) is also consistent.
+NLS minimizes
+$$
+\sum_{i=1}^n (y_i - \exp(x_i \beta))^2
+$$
+A natural question is: why do we prefer PPML to NLS?
+My argument is that, PPML's optimization for the linear index is globally convex, while NLS is not.
+It implies that the numerical optimization of PPML will be easier and more robust than that of NLS. I leave the derivation of the non-convexity of NLS
+as an exercise.
 
 
 In practice no algorithm suits all problems. Simulation, where the true parameter is known,
@@ -182,10 +222,9 @@ opts = list("algorithm"="NLOPT_LD_SLSQP","xtol_rel"=1.0e-7)
 ```
 
 
-To invoke BFGS in NLOPT, we must provide the gradient,
+To invoke BFGS in NLOPT, we must provide the gradient $s(\beta)$,
 as in the function `poisson.log.grad()` below.
-Here we compare it with the numerical gradient to make sure
-the function is correct.
+
 
 ```{r,cache=TRUE,tidy=TRUE}
 poisson.loglik.grad = function( b ) {
@@ -194,7 +233,11 @@ poisson.loglik.grad = function( b ) {
   ell = -colSums( -as.vector(lambda) * X + y *  X )
   return(ell)
 }
+```
+We compare the analytical gradient with the numerical gradient to make sure
+the function is correct.
 
+```{r,cache=TRUE,tidy=TRUE}
 # check the numerical gradient and the analytical gradient
 b = c(0,.5)
 grad(poisson.loglik, b)
