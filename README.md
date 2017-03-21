@@ -21,7 +21,8 @@ Zhentao covers the following topics. This README file will be updated as the cou
 #### Lecture Notes
 
 Lecture notes are provided under the folder `book_version`.
-Caveat: This is an ongoing writing project not ready to publish. The text is very incomplete, and must contain many errors. Use them at your own risk!
+
+**Caveat**: This is an ongoing writing project not ready to publish. The text is very incomplete, and must contain many errors. Use them at your own risk!
 
 #### Programming Languages
 * R is the main language for demonstration.
