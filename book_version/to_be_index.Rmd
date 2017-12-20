@@ -21,8 +21,13 @@ I believe the best way to learn programming is via examples. This book contains 
 
 ## Personal Reflection {-}
 
+Thirty years ago apsiring young econometricians picked up GAUSS. 
+Twenty years ago the new blood began with MATLAB. 
+R raised ten years ago when the time came to my generation. 
 I have been using R since I started my postgraduate study in Peking University in 2005. R helps me with my daily research and teaching.
 
+There are other candidates in statistical programming, for example Matlab, Python, Julia and Fortran. 
+Each language has its own pros and cons. 
 R has many advantages.
 First, it inherits the standard program syntax from C. It is quick to learn for anyone with prior programming experience.
 Moreover, once you master R, it is easy to switch to other language, if not R, in your workplace in the future.
@@ -38,11 +43,14 @@ Anyone can run R code on any platform, free of license and fee headache.
 R is not without limitations. For example, speed is a concern when running big and complex jobs.
 However, it will not be an issue in the problems that we will encounter in the first year postgraduate study.
 
+Lastly, learning a language is not a trivial investment. 
+It is much more important to master one language than to know several or many languages. 
+
 ## Prerequisite {-}
 
 For this course, please install [R](http://www.r-project.org/).
 An fully functional integrated development environment (IDE) is also highly desirable.
-It makes programming more friendly and enjoyable.
+It makes programming user-friendly and enjoyable.
 [RStudio](http://www.rstudio.com/) is recommended.
 
 ## About Book Version {-}
