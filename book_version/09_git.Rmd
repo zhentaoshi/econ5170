@@ -23,7 +23,7 @@ Free Git books and tutorials are available online.
 
 ## Basic Commands
 
-###Local
+### Local
 
 * `git status` inspects the contents of the working directory and staging area
 * `git add filename` add files to the staging area from working directory. **NOTE** that the filename need not the `''`
@@ -74,4 +74,4 @@ The workflow for Git collaborations typically follows this order:
 4. Fetch and merge from the remote again (in case new commits were made while you were working)
 5. Push your branch up to the remote for review
 
-**Acknowledge**: Part of this notes is based on the course offered by CodeAcademy.
+**Acknowledgement**: Part of this notes is based on the course offered by CodeAcademy.
