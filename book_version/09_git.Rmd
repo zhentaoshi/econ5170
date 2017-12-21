@@ -1,10 +1,10 @@
 ---
 title: 'Lecture 2: Git'
-author: "Zhentao Shi"
-date: "Feb 18, 2017"
+author: "Zhentao Shi and Zhan Gao"
+date: "Dec 20, 2017"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 
@@ -16,28 +16,62 @@ coding projects as well as preparing long documents.
 Git helps me manage course materials, and I use Github at [https://github.com/zhentaoshi/econ5170](https://github.com/zhentaoshi/econ5170) to share them.
 Free Git books and tutorials are available online.
 
-* [Online Tutorial](https://www.atlassian.com/git/tutorials)
+* [Atlassian Online Tutorial](https://www.atlassian.com/git/tutorials)
+* [Udacity Course](https://www.udacity.com/course/how-to-use-git-and-github--ud775)
+* [CodeAcademy Course](https://www.codecademy.com/learn/learn-git)
 * [Pro Git](http://git-scm.com/book/en/v2)
 
 ## Basic Commands
 
-**Local**
+### Local
 
-* git clone https://github.com/zhentaoshi/econ5170
-* git config --global user.name <name>
-* git config --global user.email <email>
-* git init
-* git status
-* git add
-* git commit
-* git log
-* git tag -a v1.0 -m 'message'
-* git rm --cached filename
-* git branch [brach_name]
-* git checkout [commit_id or branch name]
+* `git status` inspects the contents of the working directory and staging area
+* `git add filename` add files to the staging area from working directory. **NOTE** that the filename need not the `''`
+* `git add filename1 filename2` Add multiple files to staging area
+* If the file is changed, we can use `git diff filename` to see the difference between the file in the working directory and staging area. Reuse `git add filename` to add the updated file to staging area.
+* `git commit` stores changes from the staging area to the repository
+* `git commit -m "Commit Message"` Commit message should in quotation marks
+* `git log` see historical commits stored chronologically in the repository
+* `git config --global user.name <name>`
+* `git config --global user.email <email>`
+* `git tag -a v1.0 -m 'message'`
+* `git rm --cached filename`
+* `git branch [brach_name]`
+* `git checkout [commit_id or branch name]`
 * .gitignore
 
-**Remote**
+#### Eraser-like features
 
-* git remote add origin
-* git push origin master
+The most recently made commit is called **HEAD** commit
+* `git show HEAD`  to view the HEAD commit
+* `git checkout HEAD filename` to restore the file in the working directory to what you made in last commit
+* `git reset HEAD filename` this command unstages the file from committing in the staging area. This command resets the file in the staging area to be the same as the HEAD commit. It does not discard file changes from the working directory, it just removes them from the staging area.
+* `git reset SHA` This command works by using **the first 7 characters** of the SHA of a previous commit. 
+
+#### Branch
+* `git branch` check which branch I am in
+* `git branch [brach_name]` Create new branch. The branch name cannot contain white-space
+* `git checkout branch_name` switch to a branch
+* `git merge branch_name` merging the branch into master
+**merge conflict**: Git doesn't know which changes you want to keep. Modify the file in the working directory and commit it again to avoid the conflict.
+* `git branch -d branch_name` delete the specified branch from the project
+
+In Git, branches are usually means to an end. You create them to work on a new project feature, but the end goal is to merge that feature into the master branch.
+
+### Remote
+* `git clone https://github.com/zhentaoshi/econ5170`
+* `git remote -v` lists git project's remotes
+* `git remote add origin`
+* `git push origin master`
+* `git pull`
+* `git fetch` bring changes down to my local copy. **Note:** This command will not merge changes from the remote into your local repository. It brings those changes onto what's called a remote branch.
+
+
+The workflow for Git collaborations typically follows this order:
+1. Fetch and merge changes from the remote
+2. Create a branch to work on a new project feature
+3. Develop the feature on your branch and commit your work
+4. Fetch and merge from the remote again (in case new commits were made while you were working)
+5. Push your branch up to the remote for review
+
+**Acknowledgement**: Part of this notes is based on the course offered by CodeAcademy.
