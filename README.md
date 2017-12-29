@@ -2,7 +2,7 @@ The Chinese University of Hong Kong
 
 ## Econ5170:  Computational Methods in Economics (2018 Spring)
 
-* Time: Jan 10, 17; Feb 7 14, 28; March 7. Every Wednesday, 14:30 - 17:15
+* Time: Every Wednesday 14:30 - 17:15, except public holidays
 * Venue: Wong Foo Yuan Building (FYB) 107A
 
 Naijia Guo and Zhentao Shi co-teach Econ5170.
@@ -11,12 +11,12 @@ Zhentao covers the following topics. This README file will be updated as the cou
 
 
 #### Outline
-* Lecture 1: Basic R
-* Lecture 2: Advanced R
-* Lecture 3: Monte Carlo Simulation
-* Lecture 4: Numerical Integrations
-* Lecture 5: Numerical Optimization
-* Lecture 6: Machine Learning
+* Lecture 1 (Jan 7): Basic R
+* Lecture 2 (Jan 14): Advanced R
+* Lecture 3 (Feb 7): Monte Carlo Simulation
+* Lecture 4 (Feb 14): Numerical Integrations
+* Lecture 5 (Feb 28): Numerical Optimization
+* Lecture 6 (Mar 7): Machine Learning
 
 #### Lecture Notes
 
