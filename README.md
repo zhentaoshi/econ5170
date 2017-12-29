@@ -3,7 +3,7 @@ The Chinese University of Hong Kong
 ## Econ5170:  Computational Methods in Economics (2018 Spring)
 
 * Time: Jan 10, 17; Feb 7 14, 28; March 7. Every Wednesday, 14:30 - 17:15
-* Venue: TBD
+* Venue: Wong Foo Yuan Building (FYB) 107A
 
 Naijia Guo and Zhentao Shi co-teach Econ5170.
 
