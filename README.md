@@ -11,8 +11,8 @@ Zhentao covers the following topics. This README file will be updated as the cou
 
 
 #### Outline
-* Lecture 1 (Jan 7): Basic R
-* Lecture 2 (Jan 14): Advanced R
+* Lecture 1 (Jan 10): Basic R
+* Lecture 2 (Jan 17): Advanced R
 * Lecture 3 (Feb 7): Monte Carlo Simulation
 * Lecture 4 (Feb 14): Numerical Integrations
 * Lecture 5 (Feb 28): Numerical Optimization
