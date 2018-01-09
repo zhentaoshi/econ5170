@@ -28,9 +28,12 @@ Lecture notes are provided under the folder `book_version`.
 * R is the main language for demonstration.
 
 #### Software Installation
-* **MUST**: [R](http://www.r-project.org/) and [R-studio](http://www.rstudio.com/)
-* **Recommended**: [Atom](https://atom.io/) and [Git](http://git-scm.com/)
-* For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php) help access remote servers.
+* **MUST**
+    * [R](http://www.r-project.org/) or [Microsoft Open R](https://mran.microsoft.com/open)
+    * [R-studio](http://www.rstudio.com/)
+* **Recommended**
+    * [Git](http://git-scm.com/)
+    * For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php)
 
 #### License
 
