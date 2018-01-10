@@ -1,7 +1,7 @@
 ---
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: "Jan 10, 2018"
+date: "January 10, 2018"
 output: pdf_document
 urlcolor: blue
 ---
@@ -132,9 +132,9 @@ print(t_value_2)
 
 ## Package
 
-An pure clean installation of R is small, but R has an extensive ecosystem of add-on packages.
-This is the unique treasure for R users, and other languages like Python or Matlab are not even close.
-Many of those packages are hosted on [CRAN](https://cran.r-project.org/web/packages/).
+A pure clean installation of R is small, but R has an extensive ecosystem of add-on packages.
+This is the unique treasure for R users, and other languages like Python or MATLAB are not even close.
+Most packages are hosted on [CRAN](https://cran.r-project.org/web/packages/).
 A common practice today is that statisticians upload a package to CRAN after they write or publish a paper with a new statistical method.
 They promote their work via CRAN, and users have easy access to the state-of-the-art methods.
 
@@ -146,7 +146,8 @@ A package can be installed by
 It also has a companion package
 `AER` that contains popular econometric methods such as instrumental variable regression and robust variance.
 
-Before we can knit the *.Rmd files in R-studio, we have to install several packages such as `knitr`.
+Before we can "knit" in R-studio the Rmd file to produce the pdf document you are reading at this moment,
+we have to install several packages such as [knitr](https://yihui.name/knitr/) and those it depends on.
 
 ## Mixed Data Types
 
@@ -157,10 +158,10 @@ For example, when we invoke `eigen`, we are
 interested in both eigenvalues and eigenvectors,
 which are stored into `$value` and `$vector`, respectively.
 
-*data.frame* is a 2-dimensional table that stores the data, similar to a spreadsheet in Excel.
-A matrix is also a 2-dimensional table, but it only accommodates one type of elements.
-Real world data can be richer than one type. They can be a collection of integers, real numbers, characters
-and categorical numbers. Data frame is the best way to organize data of mixed type in R.
+*data.frame* is a two-dimensional table that stores the data, similar to a spreadsheet in Excel.
+A matrix is also a two-dimensional table, but it only accommodates one type of elements.
+Real world data can be a collection of integers, real numbers, characters, categorical numbers and so on.
+Data frame is the best way to organize data of mixed type in R.
 
 **Example**
 
@@ -176,12 +177,12 @@ head(CreditCard)
 ## Input and Output
 
 Raw data is often saved in ASCII file or Excel.
-I discourage the use of Excel spreadsheet in data analysis, because the underlying structure of a
-spreadsheet is too complicated for statistical software to read.
+I discourage the use of Excel spreadsheet in data analysis, because the underlying structure of an
+Excel file is too complicated for statistical software to read.
 I recommend the use of `csv` format, a plain ASCII file format.
 
-`read.table()` or `read.csv()` imports data from a ASCII file into an R session.
-`write.table()` or `write.csv()` exports the data in an R session to a ASCII file.
+`read.table()` or `read.csv()` imports data from an ASCII file into an R session.
+`write.table()` or `write.csv()` exports the data in an R session to an ASCII file.
 
 **Example**
 
@@ -210,7 +211,7 @@ It has elegant built-in statistical functions.
 This example illustrates the sampling error.
 
 1. Plot the density of $\chi^2(3)$ over an equally spaced grid system `x_axis = seq(0.01, 15, by = 0.01)` (black line).
-2. Generate 1000 observations for $\chi^2(3)$ distribution. Plot the kernel density, a nonparametric estimation of the density (red line).
+2. Generate 1000 observations from $\chi^2(3)$ distribution. Plot the kernel density, a nonparametric estimation of the density (red line).
 3. Calculate the 95-th quantile and the empirical probability of observing a value greater than the 95-th quantile.
 In population, this value should be 5%. What is the number in this experiment?
 
@@ -235,8 +236,8 @@ R has numerous built-in functions. However, in practice we will almost always ha
 DIY functionality to be used repeatedly. It is highly recommended to encapsulate it into a user-defined function.
 There are important advantages:
 
-1. In the developing state, it allows us to focus on a small chunk of code. It cuts an overwhelmingly big project into manageable pieces.
-2. A long script can have hundred or thousand of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and output have interaction with the outside world.
+1. In the developing stage, it allows us to focus on a small chunk of code. It cuts an overwhelmingly big project into manageable pieces.
+2. A long script can have hundred or thousand of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and the output of a function have interaction with the outside world.
 3. If a revision is necessary, We just need to change one place. We don't have to repeat the work in every place where it is invoked.
 
 The format of a user-defined function in R is
@@ -250,9 +251,10 @@ function_name = function(input) {
 
 **Example**
 
-Given a sample, if a central limit theorem is applicable, then
+If a central limit theorem is applicable, then
 we can calculate the 95% two-sided asymptotic confidence interval as
-$$\left(\hat{\mu} - \frac{1.96}{\sqrt{n}} \hat{\sigma}, \hat{\mu} + \frac{1.96}{\sqrt{n}} \hat{\sigma} \right).$$
+$$\left(\hat{\mu} - \frac{1.96}{\sqrt{n}} \hat{\sigma}, \hat{\mu} + \frac{1.96}{\sqrt{n}} \hat{\sigma} \right)$$
+from a given sample.
 It is an easy job, but I do not think there is a built-in function in R to do this.
 
 ```{r}
@@ -306,5 +308,5 @@ Statistical models are formulated as `y~x`, where `y` on the left-hand side is t
 and `x` on the right-hand side is the explanatory variable.
 The built-in OLS function is `lm`. It is called by `lm(y~x, data = data_frame)`.
 
-All built-in regression functions in R share the same structure. Only you understand one type of regression,
-it is easy to extend to other type of regressions.
+All built-in regression functions in R share the same structure. Once one type of regression is understood,
+it is easy to extend to other regressions.

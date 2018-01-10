@@ -56,4 +56,4 @@ It makes programming user-friendly and enjoyable.
 ## About Book Version {-}
 
 I prepare the lecture notes in Rmarkdown.
-The book version can be built in RStudio. However, I write in Atom, a text editor.
+The book version can be built in RStudio.
