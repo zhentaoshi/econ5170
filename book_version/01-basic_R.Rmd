@@ -110,7 +110,7 @@ abline( v = 0, lty = 2)
 ```
 Step 4: In econometrics we are often interested in hypothesis testing.
 The *t*-statistic is widely used.
-To test the null $H_0: \beta_2 = 0$, we compute the associated *t*-statistic.
+To test the null $H_0: \beta_2 = 1$, we compute the associated *t*-statistic.
 Again, this is a translation.
 $$
 t  =  \frac{\hat{\beta}_2 - \beta_{02}}{ \hat{\sigma}_{\hat{\beta}_2}  }
