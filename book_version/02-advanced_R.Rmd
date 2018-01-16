@@ -213,14 +213,21 @@ library(plyr)
 library(foreach)
 library(doParallel)
 
-registerDoParallel() # opens other CPUs
+registerDoParallel(a_number) # opens specified number of CPUs
 
-l_ply(.data = 1:10,
-      .fun = myfunction,
-      .parallel = TRUE,
-      .paropts = list( .packages = package.list,
-        .export = ls(envir=globalenv() ) )
-)
+# a new implementation using "foreach"
+out = foreach(icount(Rep), .combine = option ) %dopar% {
+  my_expressions 
+}
+# to shut down parallelism, just replace %dopar% with %do%
+
+# This is an old implementation, but I still keep it here
+# l_ply(.data = 1:10,
+#      .fun = myfunction,
+#      .parallel = TRUE,
+#      .paropts = list( .packages = package.list,
+#        .export = ls(envir=globalenv() ) )
+# )
 ```
 
 If we have two CPUs running simultaneously, in theory we can cut the time to a half of that on a single CPU. Is that what happening in practice?
@@ -229,7 +236,7 @@ If we have two CPUs running simultaneously, in theory we can cut the time to a h
 
 Compare the speed of a parallel loop and a single-core sequential loop.
 
-```{r,warning=FALSE,eval=FALSE}
+```{r,warning=FALSE,eval=TRUE}
 registerDoParallel(2) # open 2 CPUs
 
 pts0 = Sys.time() # check time
@@ -267,7 +274,7 @@ print(pts1)
 ## Remote Computing
 
 Investing money from our own pocket to an extremely powerful laptop to conduct heavy-lifting computational work
-will surely be a regret. (i) We do not run these long jobs every day, it is more cost efficient
+is unnecessary. (i) We do not run these long jobs every day, it is more cost efficient
 to share a workhorse. (ii) We cannot keep our laptop always on when we move it
 around. The right solution is remote computing on a server.
 

@@ -255,7 +255,7 @@ If a central limit theorem is applicable, then
 we can calculate the 95% two-sided asymptotic confidence interval as
 $$\left(\hat{\mu} - \frac{1.96}{\sqrt{n}} \hat{\sigma}, \hat{\mu} + \frac{1.96}{\sqrt{n}} \hat{\sigma} \right)$$
 from a given sample.
-It is an easy job, but I do not think there is a built-in function in R to do this.
+It is an easy job, but I am not aware there is a built-in function in R to do this.
 
 ```{r}
 # construct confidence interval
