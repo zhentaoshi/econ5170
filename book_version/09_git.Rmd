@@ -13,13 +13,18 @@ output:
 Git is a version control system useful when developing and maintaining
 coding projects as well as preparing long documents.
 
-Git helps me manage course materials, and I use Github at [https://github.com/zhentaoshi/econ5170](https://github.com/zhentaoshi/econ5170) to share them.
+Git helps me manage course materials, and I use Github [https://github.com/zhentaoshi/econ5170](https://github.com/zhentaoshi/econ5170) to share them.
 Free Git books and tutorials are available online.
 
 * [Atlassian Online Tutorial](https://www.atlassian.com/git/tutorials)
 * [Udacity Course](https://www.udacity.com/course/how-to-use-git-and-github--ud775)
 * [CodeAcademy Course](https://www.codecademy.com/learn/learn-git)
 * [Pro Git](http://git-scm.com/book/en/v2)
+
+We introduce some essential Git commands.
+There are two way to interact with Git. Git provides a command line tool Git Bash,
+and there are many free Git GUIs available (I recommend [SourceTree](https://www.sourcetreeapp.com/)).
+Even if we use a GUI, knowing the basic commands is still helpful.
 
 ## Basic Commands
 
@@ -42,19 +47,19 @@ Free Git books and tutorials are available online.
 
 #### Eraser-like features
 
-The most recently made commit is called **HEAD** commit
+The latest commit is called **HEAD** commit
 * `git show HEAD`  to view the HEAD commit
 * `git checkout HEAD filename` to restore the file in the working directory to what you made in last commit
 * `git reset HEAD filename` this command unstages the file from committing in the staging area. This command resets the file in the staging area to be the same as the HEAD commit. It does not discard file changes from the working directory, it just removes them from the staging area.
-* `git reset SHA` This command works by using **the first 7 characters** of the SHA of a previous commit. 
+* `git reset SHA` This command works by using **the first 7 characters** of the SHA of a previous commit.
 
 #### Branch
-* `git branch` check which branch I am in
+* `git branch` check the current branch
 * `git branch [brach_name]` Create new branch. The branch name cannot contain white-space
 * `git checkout branch_name` switch to a branch
 * `git merge branch_name` merging the branch into master
-**merge conflict**: Git doesn't know which changes you want to keep. Modify the file in the working directory and commit it again to avoid the conflict.
-* `git branch -d branch_name` delete the specified branch from the project
+**merge conflict**: Git doesn't know which changes you want to keep. Modify the file in the working directory and commit it again to avoid conflict.
+* `git branch -d branch_name` delete a branch from the project
 
 In Git, branches are usually means to an end. You create them to work on a new project feature, but the end goal is to merge that feature into the master branch.
 
@@ -64,14 +69,14 @@ In Git, branches are usually means to an end. You create them to work on a new p
 * `git remote add origin`
 * `git push origin master`
 * `git pull`
-* `git fetch` bring changes down to my local copy. **Note:** This command will not merge changes from the remote into your local repository. It brings those changes onto what's called a remote branch.
+* `git fetch` brings updates down to a local copy. **Note:** This command will not merge changes from the remote into your local repository. It brings those changes onto what's called a remote branch.
 
 
-The workflow for Git collaborations typically follows this order:
-1. Fetch and merge changes from the remote
-2. Create a branch to work on a new project feature
-3. Develop the feature on your branch and commit your work
-4. Fetch and merge from the remote again (in case new commits were made while you were working)
-5. Push your branch up to the remote for review
+The workflow for Git collaboration typically follows this order:
+1. Fetch and merge changes from the remote;
+2. Create a branch to work on a new project feature;
+3. Develop the feature on your branch and commit your work;
+4. Fetch and merge from the remote again (in case new commits have been uploaded while you were working);
+5. Push your branch up to the remote for review.
 
-**Acknowledgement**: Part of this notes is based on the course offered by CodeAcademy.
+**Acknowledgment**: Part of this notes is based on the course offered by CodeAcademy.

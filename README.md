@@ -2,8 +2,8 @@ The Chinese University of Hong Kong
 
 ## Econ5170:  Computational Methods in Economics (2018 Spring)
 
-* Time: Jan 10, 17; Feb 7 14, 28; March 7. Every Wednesday, 14:30 - 17:15
-* Venue: TBD
+* Time: Every Wednesday 14:30 - 17:15, except public holidays
+* Venue: Wong Foo Yuan Building (FYB) 107A
 
 Naijia Guo and Zhentao Shi co-teach Econ5170.
 
@@ -11,12 +11,12 @@ Zhentao covers the following topics. This README file will be updated as the cou
 
 
 #### Outline
-* Lecture 1: Basic R
-* Lecture 2: Advanced R
-* Lecture 3: Monte Carlo Simulation
-* Lecture 4: Numerical Integrations
-* Lecture 5: Numerical Optimization
-* Lecture 6: Machine Learning
+* Lecture 1 (Jan 10): Basic R
+* Lecture 2 (Jan 17): Advanced R
+* Lecture 3 (Feb 7): Monte Carlo Simulation
+* Lecture 4 (Feb 14): Numerical Integrations
+* Lecture 5 (Feb 28): Numerical Optimization
+* Lecture 6 (Mar 7): Machine Learning
 
 #### Lecture Notes
 
@@ -28,9 +28,12 @@ Lecture notes are provided under the folder `book_version`.
 * R is the main language for demonstration.
 
 #### Software Installation
-* **MUST**: [R](http://www.r-project.org/) and [R-studio](http://www.rstudio.com/)
-* **Recommended**: [Atom](https://atom.io/) and [Git](http://git-scm.com/)
-* For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php) help access remote servers.
+* **MUST**
+    * [R](http://www.r-project.org/) or [Microsoft Open R](https://mran.microsoft.com/open)
+    * [R-studio](http://www.rstudio.com/)
+* **Recommended**
+    * [Git](http://git-scm.com/)
+    * For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php)
 
 #### License
 
