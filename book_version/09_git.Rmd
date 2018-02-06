@@ -22,7 +22,7 @@ Free Git books and tutorials are available online.
 * [Pro Git](http://git-scm.com/book/en/v2)
 
 We introduce some essential Git commands.
-There are two way to interact with Git. Git provides a command line tool Git Bash,
+There are two ways to interact with Git. Git provides a command line tool Git Bash,
 and there are many free Git GUIs available (I recommend [SourceTree](https://www.sourcetreeapp.com/)).
 Even if we use a GUI, knowing the basic commands is still helpful.
 
@@ -30,13 +30,13 @@ Even if we use a GUI, knowing the basic commands is still helpful.
 
 ### Local
 
-* `git status` inspects the contents of the working directory and staging area
-* `git add filename` add files to the staging area from working directory. **NOTE** that the filename need not the `''`
-* `git add filename1 filename2` Add multiple files to staging area
-* If the file is changed, we can use `git diff filename` to see the difference between the file in the working directory and staging area. Reuse `git add filename` to add the updated file to staging area.
-* `git commit` stores changes from the staging area to the repository
-* `git commit -m "Commit Message"` Commit message should in quotation marks
-* `git log` see historical commits stored chronologically in the repository
+* `git status` inspects the contents of the working directory and staging area.
+* `git add filename` adds files to the staging area from working directory.
+* `git add filename1 filename2` adds multiple files to the staging area.
+* If the file is changed, we can use `git diff filename` to see the difference between the file in the working directory and the staging area. Reuse `git add filename` to add the updated file to the staging area.
+* `git commit` stores changes from the staging area to the repository.
+* `git commit -m "Commit Message"` The commit message must be in the quotation marks.
+* `git log` displays historical commits stored chronologically in the repository.
 * `git config --global user.name <name>`
 * `git config --global user.email <email>`
 * `git tag -a v1.0 -m 'message'`
@@ -48,31 +48,31 @@ Even if we use a GUI, knowing the basic commands is still helpful.
 #### Eraser-like features
 
 The latest commit is called **HEAD** commit
-* `git show HEAD`  to view the HEAD commit
-* `git checkout HEAD filename` to restore the file in the working directory to what you made in last commit
+* `git show HEAD`  to view the HEAD commit.
+* `git checkout HEAD filename` to restore the file in the working directory to what you made in last commit.
 * `git reset HEAD filename` this command unstages the file from committing in the staging area. This command resets the file in the staging area to be the same as the HEAD commit. It does not discard file changes from the working directory, it just removes them from the staging area.
 * `git reset SHA` This command works by using **the first 7 characters** of the SHA of a previous commit.
 
 #### Branch
-* `git branch` check the current branch
-* `git branch [brach_name]` Create new branch. The branch name cannot contain white-space
+* `git branch` displays the current branch.
+* `git branch brach_name` creates a new branch. The branch name cannot contain white-space
 * `git checkout branch_name` switch to a branch
 * `git merge branch_name` merging the branch into master
 **merge conflict**: Git doesn't know which changes you want to keep. Modify the file in the working directory and commit it again to avoid conflict.
-* `git branch -d branch_name` delete a branch from the project
+* `git branch -d branch_name` deletes a branch from the project.
 
-In Git, branches are usually means to an end. You create them to work on a new project feature, but the end goal is to merge that feature into the master branch.
+In Git, branches are usually a means to an end. We create them to work on a new project feature, but the ultimate goal is to merge that feature into the master branch.
 
 ### Remote
 * `git clone https://github.com/zhentaoshi/econ5170`
-* `git remote -v` lists git project's remotes
+* `git remote -v` lists git project's remote copies.
 * `git remote add origin`
 * `git push origin master`
 * `git pull`
-* `git fetch` brings updates down to a local copy. **Note:** This command will not merge changes from the remote into your local repository. It brings those changes onto what's called a remote branch.
+* `git fetch` fetches the remote copy to the local hard disk. **Note:** This command will not merge changes from the remote into your local repository. It inspects the changes on the remote branch.
 
 
-The workflow for Git collaboration typically follows this order:
+The collaboration on Git typically works as follows:
 1. Fetch and merge changes from the remote;
 2. Create a branch to work on a new project feature;
 3. Develop the feature on your branch and commit your work;
