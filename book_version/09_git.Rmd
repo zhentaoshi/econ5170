@@ -72,7 +72,7 @@ In Git, branches are usually a means to an end. We create them to work on a new 
 * `git fetch` fetches the remote copy to the local hard disk. **Note:** This command will not merge changes from the remote into your local repository. It inspects the changes on the remote branch.
 
 
-The collaboration on Git typically works as follows:
+Collaboration typically works as follows:
 1. Fetch and merge changes from the remote;
 2. Create a branch to work on a new project feature;
 3. Develop the feature on your branch and commit your work;

@@ -1,7 +1,7 @@
 ---
 title: "Simulation"
 author: Zhentao Shi
-date: March 7, 2017
+date: Feb 7, 2018
 output: pdf_document
 fontsize: 11pt
 ---
@@ -24,8 +24,8 @@ to the end; we develop it recursively. We cut a big job into small manageable ta
 Write a small piece, test it, and perhaps encapsulate it into a user-defined function.
 Small pieces are integrated by the super structure. This is just like building an Airbus 380.
 The engines and wings are made in UK, the fuselage is made in Germany and so on.
-All pieces are assembled in Toulouse, France, and the giant steel bird can fly.
-Finally, add comments to facilitate
+All pieces are assembled in Toulouse, France, and then the giant steel bird can fly.
+Finally, add comments to the script to facilitate
 readability. Without comments you will forget
 what you did when you open the script again one month later.
 
@@ -41,8 +41,6 @@ He used a deterministic approximation algorithm.
 a modern PC. How can he achieve a better approximation? Of course, we suppose that he would not google it.
 
 Standing on the shoulder of laws of large numbers, $\pi$ can be approximated by stochastic algorithm.
-
-(I cannot exactly recall where I learned this $\pi$ example. Perhaps it was from Liangjun Su when he was at Guanghua School of Management, Peking University. He was my instructor of postgraduate Mathematical Statistics.)
 
 ```{r,cache=TRUE}
 n = 10000
@@ -260,7 +258,7 @@ print(Heck_b_sd)
 Bootstrap is particularly helpful in inference. Indeed,
 we can rigorously prove that bootstrap enjoys high-order improvement
 relative to asymptotic approximation if the test statistic is asymptotically pivotal.
- Loosely speaking, 
+ Loosely speaking,
 if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing
 can be more accurate than its analytic asymptotic counterpart.
 
