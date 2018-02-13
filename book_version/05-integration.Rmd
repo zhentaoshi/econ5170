@@ -1,18 +1,14 @@
 ---
 title: 'Integration'
-author: "Zhentao Shi"
-date: "`r Sys.Date()`"
-bibliography: book.bib
-biblio-style: apalike
-link-citations: yes
+author: Zhentao Shi
+date: Feb 14, 2018
+output: pdf_document
 fontsize: 11pt
-output:
-  pdf_document: default
 ---
 
 # Integration
 
-In their mathematical definitions, integration and differentiation involve taking limit.
+In their mathematical definitions, integration and differentiation involve limits.
 However, our computer is a finite-precision machine that can handle neither arbitrarily
 small nor arbitrarily large numbers; it can, at best, approximate the limiting behavior.
 In this lecture, we first briefly talk about numerical differentiation and
@@ -97,16 +93,16 @@ convenience in execution.
 **Example**
 
 Structural econometric estimation starts from economic principles. In an economic model,
-some elements unobservable to the econometric dictate an economic agent's decision.
+some elements unobservable to the econometrician dictate an economic agent's decision.
 @roy1951some proposes such a structural model with latent variables, and now the Roy model is
 the foundation of self-selection in labor economics.
 
 
-In the original Roy model, a man can work on  one of the two occupations: a farmer or a fisher.
+In the original Roy model, a man can work on  one of the two occupations: farming or a fishing.
 The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of
 being a fisher is $U_2^{*} = x' \beta_2 + e_2$,
 where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable).
-In reality, we observe the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
+The econometrician observes the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
 $(e_1,e_2)$ is independent of $x$, and
 $$
 \begin{bmatrix}
