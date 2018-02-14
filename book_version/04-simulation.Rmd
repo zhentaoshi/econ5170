@@ -49,7 +49,7 @@ Z =  matrix(   runif(n)  , ncol = 2 )
 
 inside = mean(  sqrt( rowSums( (Z-.5)^2 ) )  <=  .5 )
 # the center of the cirle is (0.5,0.5)
-pi_hat = 4 * inside # the total area of the square base is 4.
+pi_hat = 4 * inside # the area of a circle = pi * r^2 
 print(pi_hat)
 ```
 
@@ -86,17 +86,17 @@ Is asymptotic inferential theory for the OLS estimator---consistency and asympto
 [Pareto distribution](https://en.wikipedia.org/wiki/Pareto_distribution) with shape coefficient 1.5?
 (A Pareto distribution with shape coefficient between 1 and 2 has finite mean but infinite variance.)
 
- 1. given sample size, get OLS `b_hat` and its associated `t_value`
- 2. wrap `t_value` as a user-defined function so that we can replicate for many times
- 3. given sample size, report the size under two distributions
+ 1. given sample size, get OLS `b_hat` and its associated `t_value`.
+ 2. wrap `t_value` as a user-defined function so that we can replicate for many times.
+ 3. given sample size, report the size under two distributions.
  4. wrap it again as a user-defined function, ready for different sample sizes.
- 5. develop the super structure
- 6. add comments and documentation
+ 5. develop the super structure.
+ 6. add comments and documentation.
 
 ```{r,cache=TRUE,warning=F,message=F}
 rm(list = ls( ) )
 library(plyr)
-library(VGAM)
+library(VGAM) # for the Pareto distribution
 
 set.seed(888)
 # set the parameters
@@ -125,7 +125,9 @@ simulation = function(n, type = "Normal", df = df){
   sig_B = solve( t(X) %*% X  ) * sigma_hat_square
   t_value_2 = ( bhat2 - b0[2]) / sqrt( sig_B[2,2] )
 
-  return( c(bhat2, t_value_2) )
+  out = c(bhat2, t_value_2)
+  names(out) = c("bhat2", "t_value")
+  return( out )
 }
 
 # report the empirical test size
@@ -136,14 +138,12 @@ report = function(n){
 
   # e ~ normal distribution, under which the t-dist is exact
   Res = ldply( .data = 1:Rep, .fun = function(i) simulation(n, "Normal")  )
-  names(Res) = c("bhat2", "t_value")
   TEST_SIZE[1] = mean( abs(Res$t_value) > qt(.975, n-2) )
   TEST_SIZE[2] = mean( abs(Res$t_value) > qnorm(.975) )
 
   # e ~ t-distribution, under which the exact distribution is complicated.
   # we rely on asymptotic normal distribution for inference instead
   Res = ldply( .data = 1:Rep, .fun = function(i) simulation(n, "T", df)  )
-  names(Res) = c("bhat2", "t_value")
   TEST_SIZE[3] = mean( abs(Res$t_value) > qnorm(.975) )
 
   return(TEST_SIZE)
