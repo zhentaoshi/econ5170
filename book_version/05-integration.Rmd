@@ -1,14 +1,18 @@
 ---
 title: 'Integration'
-author: Zhentao Shi
-date: Feb 14, 2018
-output: pdf_document
+author: "Zhentao Shi"
+date: "February 14, 2018"
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
 fontsize: 11pt
+output:
+  pdf_document: default
 ---
 
 # Integration
 
-In their mathematical definitions, integration and differentiation involve limits.
+In their mathematical definitions, integration and differentiation involve taking limit.
 However, our computer is a finite-precision machine that can handle neither arbitrarily
 small nor arbitrarily large numbers; it can, at best, approximate the limiting behavior.
 In this lecture, we first briefly talk about numerical differentiation and
@@ -64,7 +68,7 @@ Numerical methods are not panacea. Not all functions are differentiable or integ
 Before turning to numerical methods, it is always imperative to try to understand the behavior
 of the function at the first place.
 Some symbolic software, say `Mathematica` or `Wolfram Alpha`, is a powerful tool for this purpose.
-R is weak in symbolic calculation, if not completely useless.
+Though there are packages, R is weak in symbolic calculation.
 
 
 
@@ -256,7 +260,8 @@ plot(density(out$batch), main = "", lwd = 2)
 xbase = seq(-3, 3, 0.01)
 ynorm = dnorm(xbase)
 lines( x = xbase, y = ynorm, type = "l", col = "red")
-
+# the plot compare the density of the simulated sample
+# with the standard normal pdf
 summary(out)
 ```
 
