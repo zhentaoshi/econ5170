@@ -17,7 +17,11 @@ output:
 
 Machine learning has quickly grown into a big field, with applications from
 scientific research to daily life.
+An authoritative reference is @friedman2001elements,
+written at the entry-year postgraduate level.
 The ideas in machine learning are general and applicable to economic investigation.
+@taddy2018technological introduces new technology *artificial intelligence*
+and the implication of the underlying economic modeling.
 
 
 The two board classes of machine learning methods are *supervised learning* and *unsupervised learning*. Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
@@ -58,13 +62,13 @@ the most popular machine learning methods that have found growing popularity in 
 
 ## Nonparametric Estimation
 
-*Parametric* is referred to problems with a finite number of parameters, 
+*Parametric* is referred to problems with a finite number of parameters,
 whereas *nonparametric* is associated with an infinite number of parameters.
 Nonparametric estimation is nothing new to statisticians. However, some ideas
-in this old topic is directly related to the underlying principles of machine learning methods. 
+in this old topic is directly related to the underlying principles of machine learning methods.
 
 
-Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we know, or assume, that 
+Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we know, or assume, that
 the sample is drawn from a parametric family, for example the normal distribution, then we can use the
 maximum likelihood estimation to learn the mean and the variance.
 Nevertheless, when the parametric family is misspecified, the MLE estimation
@@ -73,7 +77,7 @@ If we do not want to impose a parametric assumption, then in principle
 we will have to use an infinite number of parameters to fully characterize the density.
 One well-known nonparametric estimation is the histogram. The shape of the bars of the
 histogram depends on the partition of the support. If the grid system on the support is too
-fine, then each bin will have only a few observations. Despite small bias, the estimation 
+fine, then each bin will have only a few observations. Despite small bias, the estimation
 will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff the defining feature not only for nonparametric estimation but for all machine learning methods.
 
 Another example of nonparametric estimation is  the conditional mean
@@ -81,8 +85,8 @@ $f(x) = E[y_i |x_i = x]$ given a sample $(y_i, x_i)$. This is what we encountere
 $$
 \min_f E[ (y_i - f(x_i) )^2 ]
 $$
-In Econ5121A, we use the linear projection to approximate $f(x)$. 
-But the conditional mean is in general a nonlinear function. 
+In Econ5121A, we use the linear projection to approximate $f(x)$.
+But the conditional mean is in general a nonlinear function.
 If we do not know the underlying parametric estimation of
 $(y_i,x_i)$, estimating $f(x)$ becomes a non-parametric problem.
 In practice, the sample size $n$ is always finite. The sample minimization problem is
@@ -91,7 +95,7 @@ $$
 $$
 We still have to restrict the class of functions that we search for the minimizer.
 If we assume $f$ is a continuous function, one way to estimate it is the kernel method based on density
-estimation. 
+estimation.
 
 
 An alternative is to use a series expansion to approximate the function.
@@ -101,8 +105,8 @@ linear regression.
 For example, any bounded, continuous and differentiate function has a series
 representation $f(x) = \sum_{k=0}^{\infty} \beta_k \cos (\frac{k}{2}\pi x )$. In finite sample,
 we choose a finite $K$, usually much smaller than $n$, as a cut-off.
-Asymptotically $K \to \infty$ as $n \to \infty$ so that 
-$$f_K(x) = \sum_{k=0}^{K} \beta_k \cos \left(\frac{k}{2}\pi x \right) \to f(x)$$. 
+Asymptotically $K \to \infty$ as $n \to \infty$ so that
+$$f_K(x) = \sum_{k=0}^{K} \beta_k \cos \left(\frac{k}{2}\pi x \right) \to f(x)$$.
 Similar bias-variance tradeoff appears in this nonparametric regression.
 If $K$ is too big, $f$ will be too flexible and it can achieve $100\%$ of in-sample R-squared.
 This is not useful for out-of-sample prediction. Such prediction will have large variance, but small bias.
@@ -121,7 +125,7 @@ $$
 + \lambda \sum_{k=0}^K \beta_k^2,
 $$
 where $\lambda$ is the tuning parameter such that $\lambda \to 0$ as $n\to \infty$, and
-$f_k(x_i) = \cos \left(\frac{k}{2}\pi x_i \right)$. In compact notation, let $y=(y_1,\ldots,y_n)'$ and 
+$f_k(x_i) = \cos \left(\frac{k}{2}\pi x_i \right)$. In compact notation, let $y=(y_1,\ldots,y_n)'$ and
 $X = (X_{ik} = f_k(x_i) )$, the above problem can be written as
 $$
 (2n)^{-1} (Y-X\beta)'(Y-X\beta) + \lambda \Vert \beta \Vert_2 ^2
@@ -208,7 +212,7 @@ To be discussed in the future
 
 ## Unstructured Data
 
-* text mining
+* text [@gentzkow2017text]
 * speech recognition
 * photo recognition
 
@@ -217,6 +221,7 @@ To be discussed in the future
 * Lee and Shi (2018, to be released)
 * Shi and Huang (2018, to be released)
 * Phillips and Shi (2018, to be released)
+* @chinco2017sparse
 
 
 ## References
