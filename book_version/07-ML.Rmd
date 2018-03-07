@@ -17,13 +17,16 @@ output:
 
 Machine learning has quickly grown into a big field, with applications from
 scientific research to daily life.
-The ideas in machine learning are general and adaptable to economic investigation.
+The ideas in machine learning are general and applicable to economic investigation.
 
-From an econometrician's view, machine learning is a set of data fitting procedures that focus on
-out-of-sample prediction.
+
+The two board classes of machine learning methods are *supervised learning* and *unsupervised learning*. Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
+is only about $X$. Instances of the former are various regressions; those of the latter are density estimation, principle component analysis, and clustering. These examples are all familiar econometric problems.
+
+From an econometrician's view, supervised machine learning is a set of data fitting procedures that focus on out-of-sample prediction.
 The simplest illustration is in the regression context.
-We repeat a scientific experiment for $n$ times, and we harvest a dataset $(y_i, x_i)_{i=1}^n$ in hand.
-What would be the best way to predict $y_{n+1}$ from the same experiment if we set a $x_{n+1}$?
+We repeat a scientific experiment for $n$ times, and we harvest a dataset $(y_i, x_i)_{i=1}^n$.
+What would be the best way to predict $y_{n+1}$ from the same experiment if we set $x_{n+1}$?
 
 Machine learning is a paradigm shift against conventional statistics.
 When a statistician propose a new estimator, the standard practice is to pursue
@@ -48,11 +51,89 @@ to if there is no "true parameter"? With these arguments, the paradigm of conven
 smashed. In the context of econometrics,
 such argument completely rejects the structural modeling tradition (the Cowles approach).
 
-The above argument have merit, but it is also misleading. 
+The above argument have merit, but it is also misleading.
 In this lecture, we set the ongoing philosophical debate aside. We economists are
 practical and reasonable souls.  We study
 the most popular machine learning methods that have found growing popularity in economics.
 
+## Nonparametric Estimation
+
+*Parametric* is referred to problems with a finite number of parameters, 
+whereas *nonparametric* is associated with an infinite number of parameters.
+Nonparametric estimation is nothing new to statisticians. However, some ideas
+in this old topic is directly related to the underlying principles of machine learning methods. 
+
+
+Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we know, or assume, that 
+the sample is drawn from a parametric family, for example the normal distribution, then we can use the
+maximum likelihood estimation to learn the mean and the variance.
+Nevertheless, when the parametric family is misspecified, the MLE estimation
+is inconsistent in theory. In practice, what is the correct parametric family is never known.
+If we do not want to impose a parametric assumption, then in principle
+we will have to use an infinite number of parameters to fully characterize the density.
+One well-known nonparametric estimation is the histogram. The shape of the bars of the
+histogram depends on the partition of the support. If the grid system on the support is too
+fine, then each bin will have only a few observations. Despite small bias, the estimation 
+will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff the defining feature not only for nonparametric estimation but for all machine learning methods.
+
+Another example of nonparametric estimation is  the conditional mean
+$f(x) = E[y_i |x_i = x]$ given a sample $(y_i, x_i)$. This is what we encountered in the first lecture of graduate econometrics Econ5121A. We solve the minimization problem
+$$
+\min_f E[ (y_i - f(x_i) )^2 ]
+$$
+In Econ5121A, we use the linear projection to approximate $f(x)$. 
+But the conditional mean is in general a nonlinear function. 
+If we do not know the underlying parametric estimation of
+$(y_i,x_i)$, estimating $f(x)$ becomes a non-parametric problem.
+In practice, the sample size $n$ is always finite. The sample minimization problem is
+$$
+\min_f \sum_{i=1}^n (y_i - f(x_i) )^2.
+$$
+We still have to restrict the class of functions that we search for the minimizer.
+If we assume $f$ is a continuous function, one way to estimate it is the kernel method based on density
+estimation. 
+
+
+An alternative is to use a series expansion to approximate the function.
+Series expansion generates many additive regressors whose coefficients will be
+estimated. This is one way to "create" many variables on the right-hand side of a
+linear regression.
+For example, any bounded, continuous and differentiate function has a series
+representation $f(x) = \sum_{k=0}^{\infty} \beta_k \cos (\frac{k}{2}\pi x )$. In finite sample,
+we choose a finite $K$, usually much smaller than $n$, as a cut-off.
+Asymptotically $K \to \infty$ as $n \to \infty$ so that 
+$$f_K(x) = \sum_{k=0}^{K} \beta_k \cos \left(\frac{k}{2}\pi x \right) \to f(x)$$. 
+Similar bias-variance tradeoff appears in this nonparametric regression.
+If $K$ is too big, $f$ will be too flexible and it can achieve $100\%$ of in-sample R-squared.
+This is not useful for out-of-sample prediction. Such prediction will have large variance, but small bias.
+On the other extreme, a very small $K$ will make $f_K(x)$ too rigid to approximate general nonlinear functions. It causes large bias but small variance.   
+
+
+The fundamental statistical mechanism that governs the performance is the bias-variance
+tradeoff. Thus we need *regularization* to balance the two components in the mean-squared
+error. Choosing the bandwidth is one way of regularization, choosing the terms of series
+expansion is another way of regularization.
+
+A third way of regularization is to specify a
+sufficiently large $K$, and then add a penalty term to control the complexity of the additive series. The optimization problem is
+$$
+\min_\beta \  \frac{1}{2n}  \sum_{i=1}^n \left(y_i - \sum_{k=0}^{K} \beta_k f_k(x_i) \right)^2
++ \lambda \sum_{k=0}^K \beta_k^2,
+$$
+where $\lambda$ is the tuning parameter such that $\lambda \to 0$ as $n\to \infty$, and
+$f_k(x_i) = \cos \left(\frac{k}{2}\pi x_i \right)$. In compact notation, let $y=(y_1,\ldots,y_n)'$ and 
+$X = (X_{ik} = f_k(x_i) )$, the above problem can be written as
+$$
+(2n)^{-1} (Y-X\beta)'(Y-X\beta) + \lambda \Vert \beta \Vert_2 ^2
+$$
+This is the *ridge regression* proposed in 1970's.
+ This penalization scheme is very similar
+to what we will discuss in the next section in variable selection.
+
+The practical question is, given a regularization problem, how to choose the tuning
+parameter? This is a difficult statistical problem with active research. The main
+theoretical proposal is either using an *information criterion*
+(for example, Akaike information criterion or Bayesian information criterion), or *cross validation*.
 
 ## Variable Selection and Prediction
 
@@ -125,6 +206,17 @@ To be discussed in the future
 * The idea of boosting and its association to reweighting.
 * regression tree, bagging (Killian and Inoue), average of subsampling
 
+## Unstructured Data
+
+* text mining
+* speech recognition
+* photo recognition
+
+## Economic Applications
+
+* Lee and Shi (2018, to be released)
+* Shi and Huang (2018, to be released)
+* Phillips and Shi (2018, to be released)
 
 
 ## References
