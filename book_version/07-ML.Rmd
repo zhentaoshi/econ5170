@@ -152,6 +152,7 @@ Many explanatory variables are abundant in economic analysis.
 For example, a questionnaire from the [UK Living Costs and Food Survey](https://discover.ukdataservice.ac.uk/series/?sn=2000028), a survey
 widely used for analysis of demand theory and family consumption,
 consists of thousand of questions.
+@giannone2017economic [link](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3031893) experiment variable selection methods in 6 widely used economic datasets with many predictors.
 
 Conventionally, applied economists do not appreciate the problem of variable selection, even though they always select variables implicitly. They rely on their prior knowledge to
 choose variables from a large number of potential candidates.
