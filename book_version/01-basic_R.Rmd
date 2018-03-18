@@ -1,7 +1,7 @@
 ---
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: "January 10, 2018"
+date: "January 29, 2018"
 output: pdf_document
 urlcolor: blue
 ---
@@ -310,3 +310,44 @@ The built-in OLS function is `lm`. It is called by `lm(y~x, data = data_frame)`.
 
 All built-in regression functions in R share the same structure. Once one type of regression is understood,
 it is easy to extend to other regressions.
+
+### A Linear Regression Example
+
+Add a toy example by Zhan Gao for ECON3121D tutorial.
+
+```{r}
+
+T = 100
+p = 1
+
+b0 = 1
+# Generate data
+x = matrix( rnorm(T*p), T, 1)
+y = x %*% b0 + rnorm(T)
+
+# Linear Model
+result = lm(y ~ x)
+summary(result)
+```
+
+The `result` object is a list containing the regression results. As shown in the results, we can easily read the estimated coefficients, t-test results, F-test results, and the R-sqaure. 
+
+We can plot the true value of $y$ and fitted value to examine whether the regression model fit the data well.
+```{r}
+plot(result$fitted.values, col = 'red', type = 'l', xlab = 'x', ylab = 'y', 
+     main = 'Fitted Value')
+lines(y, col = 'blue', type = 'l', lty = 2)
+legend('bottomleft', legend=c("Fitted Value", "True Value"),
+       col=c("red", "blue"), lty=1:2, cex = 0.75)
+```
+
+Then we plot the best fitted line.
+```{r}
+
+plot( y = y, x = x, xlab = "x", ylab = "y", main = "Fitted Line")
+abline( a= result$coefficients[1], b = result$coefficients[2])
+abline( a = 0, b = b0, col = "red")
+
+legend('bottomright', legend=c("Fitted Line", "True Coef"),
+       col=c("black", "red"), lty=c(1,1), cex = 0.75)
+```
