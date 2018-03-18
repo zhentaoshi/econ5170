@@ -8,6 +8,7 @@
 *.aaa
 
 ## R
+*.sav
 *.Rhistory
 *.Rdata
 __packages

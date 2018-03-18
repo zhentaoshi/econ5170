@@ -1,7 +1,7 @@
 ---
 title: "Graphics"
 author: "Zhentao Shi"
-date: "Feb 20, 2017"
+date: "Feb 7, 2018"
 output:
   pdf_document: default
   html_document: default
@@ -14,7 +14,7 @@ An English cliche says "One picture is worth ten thousand words".
 John Tukey, a renowned mathematical statistician, was one of the pioneers of statistical graphs
 in the computer era. Nowadays, powerful software is able to produce dazzling statistical graphs,
 sometimes web-based and interactive. Outside of academia, journalism hooks a wide readership with
-professional data-based graphs. New York Times and The Economists are first-rate examples;  
+professional data-based graphs. New York Times and The Economists are first-rate examples;
 South China Morning Post sometimes also does a respectable job.
 A well designed statistical graph can deliver an intuitive and powerful message.
 I consider graph prior to table when writing a research report or an academic paper.
@@ -25,21 +25,21 @@ We have seen an example of R graph in the OLS regression linear example in Lectu
 It is capable of producing preliminary statistical graphs.
 
 Over the years, developers all over the world have had many proposals for
-more sophisticated statistical graphs. `ggplot2`, contributed by [Hadley Wickham](http://had.co.nz/),
-is the best from my point of view.
+more sophisticated statistical graphs. In my opinion, `ggplot2`, contributed by [Hadley Wickham](http://had.co.nz/),
+is the best.
 
-Ggplot2 is an advanced graphic system that generates high-quality statistical graphs.
+`ggplot2` is an advanced graphic system that generates high-quality statistical graphs.
 It is not possible to cover it in a lecture. Fortunately, the author wrote a comprehensive reference
-[ggplot2 book](http://link.springer.com/book/10.1007%2F978-0-387-98141-3),
-which can be downloaded via the campus network (Perhaps you need VPN).
+[**ggplot2 book**](http://link.springer.com/book/10.1007%2F978-0-387-98141-3),
+which can be downloaded via the CUHK campus network (VPN needed).
 
-Wickham also developed `reshape2`, a package dedicated mainly to prepare data frames for ggplot2.
+Wickham also developed `reshape2`, a package dedicated mainly to prepare data frames for `ggplot2`.
 
 The workflow of ggplot is to add the elements in a graph one by one, and then print out
 the graph all together.
 In contrast, `plot` draws the main graph at first, and then adds the supplementary elements later.
 
-Ggplot is particularly good at drawing multiple graphs, either of the same pattern or of
+`ggplot2` is particularly good at drawing multiple graphs, either of the same pattern or of
 different patterns. Multiple subgraphs convey rich information and easy comparison.
 
 
@@ -53,17 +53,17 @@ load("big150.Rdata")
 library(ggplot2)
 library(reshape2)
 
-big150_1 = big150[, c("typb", "numb",  "b1", "b1_c")]
+big150_1 = big150[, c("typb", "b1", "b1_c")]
 print(head(big150_1))
 
-big150_1 = melt(big150_1, id.vars = c("typb", "numb"), measure.vars = c("b1", "b1_c"))
-names(big150_1)[3] = c("estimator")
+big150_1 = melt(big150_1, id.vars = "typb", measure.vars = c("b1", "b1_c"))
+names(big150_1)[2] = c("estimator")
 print(head(big150_1))
 
 p1 = ggplot(big150_1)
 p1 = p1 + geom_area(stat = "density", alpha = .25,
                     aes(x = value, fill = estimator),  position = "identity")
-p1 = p1 + facet_grid( typb ~ .  )  # this dataset has numb = 150, but no other sample size
+p1 = p1 + facet_grid( typb ~ .  )  
 p1 = p1 + geom_vline(xintercept = 0)
 p1 = p1 + theme_bw()
 p1 = p1 + theme(strip.text = element_text( size = 12),
@@ -94,7 +94,8 @@ theme1 = theme_bw() + theme(axis.title.x = element_blank(),
                             legend.position = "bottom", legend.title = element_blank())
 
 # sub-graph 1
-p1 = qplot( x = 1:480, y = m_vec, geom = "line")
+d1 = data.frame(month = 1:480, m = m_vec)
+p1 = qplot( x = month, y = m, data = d1, geom = "line")
 p1 = p1 + theme1 + ylab("fraction of chartists")
 
 

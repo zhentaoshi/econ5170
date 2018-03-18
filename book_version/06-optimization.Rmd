@@ -1,40 +1,41 @@
 ---
 title: "Numerical Optimization"
 author: Zhentao Shi
-date: "`r Sys.Date()`"
+date: "February 28, 2018"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 fontsize: 11pt
+urlcolor: blue
 output:
   pdf_document: default
 ---
 
 # Numerical Optimization
 
-Optimization is the key step to apply econometric extremum estimators.
+Optimization is the key step to carry out econometric extremum estimation.
 A general optimization problem is formulated as
 $$\min_{\theta \in \Theta } f(\theta) \,\, \mbox{ s.t. }  g(\theta) = 0, h(\theta) \leq 0,$$
 where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint,
 and $h(\theta)\leq 0$ is an inequality constraint.
 
-Most established numerical optimization algorithms aim at finding a local minimum if it exists.
+Most established numerical optimization algorithms aim at finding a local minimum.
 However, there is no guarantee to locate the global minimum when multiple local minima exist.
 
-An optimization problem without the equality and/or inequality constraints is called
-an *unconstrained* problem; otherwise it is called a constrained problem.
-We can incorporate the constraints into the criterion function via Lagrangian.
+Optimization without the equality and/or inequality constraints is called
+an *unconstrained* problem; otherwise it is called a *constrained* problem.
+The constraints can be incorporated into the criterion function via Lagrangian.
 
 ## Methods
 
-There are numerous optimization algorithms in the field of operational research,
-but only a small handful of major ideas stand out.
+There are many optimization algorithms in the field of operational research;
+they are variants of a small handful of main principles.
 
 The fundamental idea for twice-differentiable objective function is the Newton's method.
-We know what a necessary condition for optimization is that
+A necessary condition for optimization is
 $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
-At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, we can direct the search by updating
+At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, the research is updated by 
 $$
 \theta_{t+1} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
 $$
@@ -42,9 +43,9 @@ for $t=0,1,\cdots$ where
 $H(\theta) = \frac{ \partial s(\theta )}{ \partial \theta}$
 is the Hessian matrix.
 The algorithm iterates
-until $|\theta_{t+1} -\theta_{t}| < \epsilon$ (absolute criterion) or
+until $|\theta_{t+1} -\theta_{t}| < \epsilon$ (absolute criterion) and/or
 $|\theta_{t+1} -\theta_{t}|/|\theta_{t}| < \epsilon$ (relative criterion), where
-$\epsilon$ is a small positive number chosen as the tolerance level.
+$\epsilon$ is a small positive number chosen as a tolerance level.
 
 
 
@@ -55,13 +56,13 @@ whether a root to $s(\theta)$ is associated to a minimizer or a maximizer,
 and we compare the values of the mimima to decide a
 global minimum.
 
-It is clear from the description of Newton's method that it requires the
+It is clear that Newton's method requires 
 computation of the gradient $s(\theta)$ and the Hessian $H(\theta)$.
 Newton's method converges at quadratic rate, which is fast.
 
-**Quasi-Newton method.** The most well-known quasi-Newton algorithm is  
+**Quasi-Newton Method.** The most well-known quasi-Newton algorithm is  
 [BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm).
-It avoids explicit calculation of the Hessian matrix. Instead, starting from an initial (inverse)
+It avoids explicit calculation of the computationally expensive Hessian matrix. Instead, starting from an initial (inverse)
 Hessian, it updates the Hessian by an explicit formula motivated from the idea of quadratic approximation.
 
 **Derivative-Free Method.** [Nelder-Mead](http://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method)
@@ -69,8 +70,7 @@ is a simplex method. It searches a local minimum by reflection, expansion and co
 
 ## Implementation
 
-In the past, optimization was a weak spot of R. In the recent year, R's optimization
-infrastructure has been constantly improving.
+R's optimization infrastructure has been constantly improving.
 [R Optimization Task View](http://cran.r-project.org/web/views/Optimization.html)
 gives a survey of the available CRAN packages.
 
@@ -78,7 +78,7 @@ For general-purpose nonlinear optimization, the package
 [`optimx`](http://cran.r-project.org/web/packages/optimx/index.html) [@nash2014best]
 effectively replaces R's default optimization commands. `optimx` provides a unified
 interface for various widely-used optimization algorithms. Moreover,
-it facilitates comparison among optimization routines.
+it facilitates comparison among optimization algorithms.
 
 **Example**
 
@@ -117,7 +117,10 @@ $$
 is negative definite. Therefore, $\ell(\beta)$ is strictly concave
 in $\beta$.
 
-Here I code up the negative log-likelihood to stick to minimization.
+In economics we have utility maximization and cost minimization.
+In statistics we have maximum likelihood estimation and minimal least squared estimation.
+In operational reserach, the default optimization is minimization, not maximization.
+To follow this convention, here we formulate the *negative* log-likelihood.
 
 ```{r,cache=TRUE}
 # Poisson likelihood
@@ -131,7 +134,9 @@ poisson.loglik = function( b ) {
 
 To implement optimization in `R`, it is recommended to write the criterion as a
 function of the parameter. Data can be fed inside or outside of the function.
-If the data is injected as additional arguments, these arguments must be explicit.
+If the data is provided as additional arguments, these arguments must be explicit.
+(In constrast, in `Matlab` the parameter must be the sole argument for the function to be
+optimized, and data can only be injected through a nested function.)
 
 ```{r,cache=TRUE,tidy=TRUE,message=FALSE,warning=FALSE}
 #implement both BFGS and Nelder-Mead for comparison.
@@ -154,21 +159,21 @@ b.hat = optimx( b.init, poisson.loglik,
 print( b.hat )
 ```
 
-Given the conditional mean model, nonlinear least squares (NLS) is also consistent.
+Given the conditional mean model, nonlinear least squares (NLS) is also consistent in theory.
 NLS minimizes
 $$
 \sum_{i=1}^n (y_i - \exp(x_i \beta))^2
 $$
 A natural question is: why do we prefer PPML to NLS?
 My argument is that, PPML's optimization for the linear index is globally convex, while NLS is not.
-It implies that the numerical optimization of PPML will be easier and more robust than that of NLS. I leave the derivation of the non-convexity of NLS
+It implies that the numerical optimization of PPML is easier and more robust than that of NLS. I leave the derivation of the non-convexity of NLS
 as an exercise.
 
 
 In practice no algorithm suits all problems. Simulation, where the true parameter is known,
   is helpful to check the accuracy of one's optimization routine before applying to an empirical problem,
   where the true parameter is unknown.
-Contour plot helps visualize the function surface in a low dimension.
+Contour plot is a useful tool to visualize the function surface/manifold in a low dimension.
 
 **Example**
 
@@ -190,17 +195,17 @@ contour( x.grid,  y.grid, z.contour, 20)
 ```
 
 For problems that demand more accuracy,  third-party standalone solvers can be
-invoked via interfaces to R.
+invoked via interfaces to `R`.
 For example, we can access [`NLopt`](http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation)
 through the packages [`nloptr`](http://cran.r-project.org/web/packages/nloptr/index.html).
 However, standalone solvers usually have to be compiled and configured.
-These steps are often not as straightforward as installing most of Windows applications.
+These steps are often not as straightforward as installing commercial Windows software.
 
-`NLopt` provides an [extensive list of algorithms](http://ab-initio.mit.edu/wiki/index.php/NLopt_Algorithms#SLSQP).
+`NLopt` offers an [extensive list of algorithms](http://ab-initio.mit.edu/wiki/index.php/NLopt_Algorithms#SLSQP).
 
 **Example**
 
-We first carry out Nelder-Mead algorithm in NLOPT.
+We first carry out the Nelder-Mead algorithm in NLOPT.
 
 ```{r,cache=TRUE,tidy=TRUE}
 library(nloptr)
@@ -222,7 +227,7 @@ opts = list("algorithm"="NLOPT_LD_SLSQP","xtol_rel"=1.0e-7)
 ```
 
 
-To invoke BFGS in NLOPT, we must provide the gradient $s(\beta)$,
+To invoke BFGS in NLOPT, we must code up the gradient $s(\beta)$,
 as in the function `poisson.log.grad()` below.
 
 
@@ -277,10 +282,10 @@ referred to @boyd2004convex for an accessible comprehensive treatment. They clai
 * Lasso [@su2016identifying]
 * Relaxed empirical likelihood [@shi2016econometric].
 
-A class of common convex optimization can be reliably implemented in R.
-[`Rmosek`](http://rmosek.r-forge.r-project.org/) is an interface in R to access `Mosek`.
-Mosek a high-quality commercial solver dedicated to convex optimization.
-It provides free academic licenses. (Rtools is a prerequisite to install Rmosek.)
+A class of common convex optimization can be reliably implemented in `R`.
+[`Rmosek`](http://rmosek.r-forge.r-project.org/) is an interface in `R` to access `Mosek`.
+`Mosek` is a high-quality commercial solver dedicated to convex optimization.
+It offers free academic licenses. (`Rtools` is a prerequisite to install `Rmosek`.)
 
 ```{r,eval=FALSE,tidy=TRUE}
 require(Rmosek)
@@ -297,6 +302,8 @@ lo1$bx <- rbind(blx = c(0,0,0,0),
                 bux = c(Inf,10,Inf,Inf))
 r <- mosek(lo1)
 ```
+
+A survey paper can be found here with [some recent development in convex optimization in econometrics](https://www.researchgate.net/publication/320805166_Convex_Programming_in_Econometrics). 
 
 
 ## References

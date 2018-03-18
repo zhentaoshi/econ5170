@@ -1,7 +1,7 @@
 ---
 title: 'Integration'
 author: "Zhentao Shi"
-date: "`r Sys.Date()`"
+date: "February 14, 2018"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -68,7 +68,7 @@ Numerical methods are not panacea. Not all functions are differentiable or integ
 Before turning to numerical methods, it is always imperative to try to understand the behavior
 of the function at the first place.
 Some symbolic software, say `Mathematica` or `Wolfram Alpha`, is a powerful tool for this purpose.
-R is weak in symbolic calculation, if not completely useless.
+Though there are packages, R is weak in symbolic calculation.
 
 
 
@@ -97,16 +97,16 @@ convenience in execution.
 **Example**
 
 Structural econometric estimation starts from economic principles. In an economic model,
-some elements unobservable to the econometric dictate an economic agent's decision.
+some elements unobservable to the econometrician dictate an economic agent's decision.
 @roy1951some proposes such a structural model with latent variables, and now the Roy model is
 the foundation of self-selection in labor economics.
 
 
-In the original Roy model, a man can work on  one of the two occupations: a farmer or a fisher.
+In the original Roy model, a man can work on  one of the two occupations: farming or a fishing.
 The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of
 being a fisher is $U_2^{*} = x' \beta_2 + e_2$,
 where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable).
-In reality, we observe the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
+The econometrician observes the binary outcome $y=\mathbf{1}\{U_1^{*}> U_2^{*}\}$. If
 $(e_1,e_2)$ is independent of $x$, and
 $$
 \begin{bmatrix}
@@ -260,7 +260,8 @@ plot(density(out$batch), main = "", lwd = 2)
 xbase = seq(-3, 3, 0.01)
 ynorm = dnorm(xbase)
 lines( x = xbase, y = ynorm, type = "l", col = "red")
-
+# the plot compare the density of the simulated sample
+# with the standard normal pdf
 summary(out)
 ```
 
