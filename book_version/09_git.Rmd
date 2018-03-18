@@ -1,9 +1,8 @@
 ---
-title: 'Lecture 2: Git'
+title: 'Lecture 9: Git'
 author: "Zhentao Shi and Zhan Gao"
-date: "Dec 20, 2017"
+date: "March 18, 2018"
 output:
-  html_document: default
   pdf_document: default
 ---
 
@@ -24,7 +23,7 @@ Free Git books and tutorials are available online.
 We introduce some essential Git commands.
 There are two ways to interact with Git. Git provides a command line tool Git Bash,
 and there are many free Git GUIs available (I recommend [SourceTree](https://www.sourcetreeapp.com/)).
-Even if we use a GUI, knowing the basic commands is still helpful.
+Even if we use a GUI, knowing the basic commands is helpful.
 
 ## Basic Commands
 
@@ -79,6 +78,8 @@ Collaboration typically works as follows:
 4. Fetch and merge from the remote again (in case new commits have been uploaded while you were working);
 5. Push your branch up to the remote for review.
 
+#### Conflict
+
 Collaborators working on the same file separately might cause conflicts. In such situations, the command `git pull` will not merge chanegs from the remote into your local repository automatically due to the conflict. You are expected to see a similar message on the shell:
 ```
 git pull
@@ -127,7 +128,7 @@ You can see conflicts indicated by Git. The content between `<<<<<<< HEAD` and `
 
 In some cases, the difference between the local branch and the remote branch is significant, or the file with conflicts is of a special format, say Lyx file. It might be cumbersome to resolve all conflicts in the text editor. Another way to resovle conflicts is simply to open two versions of the files and copy and paste new updates and then commit the updated file. It easy to do so in *SourceTree*: select the commit -> right click the file -> click `Open Selected Version`.
 
-Additionally, we can resolve conflicts with *SourceTree* and external merge tools, for example [*KDiff3*](http://kdiff3.sourceforge.net/). For details, it is recommended to refer to [the answer on Stack Overflow](https://stackoverflow.com/questions/16800280/how-to-interactively-visually-resolve-conflicts-in-sourcetree-git).
+In addition, we can resolve conflicts with *SourceTree* (**preferred**) or external merge tools, for example [*KDiff3*](http://kdiff3.sourceforge.net/). For details, it is recommended to refer to [the answer on Stack Overflow](https://stackoverflow.com/questions/16800280/how-to-interactively-visually-resolve-conflicts-in-sourcetree-git).
 
 
 **Acknowledgment**: Part of this notes is based on the course offered by CodeAcademy.
