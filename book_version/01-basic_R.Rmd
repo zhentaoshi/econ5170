@@ -190,10 +190,9 @@ Besides loading a data file on the local hard disk, We can directly download dat
 Here we show how to retrieve the stock daily data of *Apple Inc.* from *Yahoo Finance*, and save the dataset locally. A package called `quantmod` is used.
 
 ```{r,eval=TRUE}
-install.packages("quantmod")
 library(quantmod)
-getSymbols("AAPL",from = "2017-01-01",to = Sys.Date(),src = "yahoo")
-print(head(AAPL))
+getSymbols("AAPL", from = "2017-01-01", to = Sys.Date(), src = "yahoo")
+print( head(AAPL) )
 write.csv(AAPL, file = "AAPL.csv")
 ```
 
