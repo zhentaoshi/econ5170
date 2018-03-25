@@ -187,16 +187,14 @@ I recommend the use of `csv` format, a plain ASCII file format.
 **Example**
 
 Besides loading a data file on the local hard disk, We can directly download data from internet.
-Here we show how to retrieve the daily stock price of
-*Hong Kong Exchange Limited* from *Yahoo Finance*, and save the dataset locally.
+Here we show how to retrieve the stock daily data of *Apple Inc.* from *Yahoo Finance*, and save the dataset locally. A package called `quantmod` is used.
 
-```{r,eval=FALSE}
-# Update in Jan 2018: the following link is no longer valid.
-# Yahoo changes the format of the inquiry to forbid massive data downloading
-# We need to figure out a new way
-HEX = read.csv("http://ichart.finance.yahoo.com/table.csv?s=0388.HK")
-print(head(HEX))
-write.csv(HEX, file = "HEX.csv")
+```{r,eval=TRUE}
+install.packages("quantmod")
+library(quantmod)
+getSymbols("AAPL",from = "2017-01-01",to = Sys.Date(),src = "yahoo")
+print(head(AAPL))
+write.csv(AAPL, file = "AAPL.csv")
 ```
 
 ## Statistics
@@ -237,7 +235,7 @@ DIY functionality to be used repeatedly. It is highly recommended to encapsulate
 There are important advantages:
 
 1. In the developing stage, it allows us to focus on a small chunk of code. It cuts an overwhelmingly big project into manageable pieces.
-2. A long script can have hundred or thousand of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and the output of a function have interaction with the outside world.
+2. A long script can have hundreds or thousands of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and the output of a function have interaction with the outside world.
 3. If a revision is necessary, We just need to change one place. We don't have to repeat the work in every place where it is invoked.
 
 The format of a user-defined function in R is
@@ -251,7 +249,7 @@ function_name = function(input) {
 
 **Example**
 
-If a central limit theorem is applicable, then
+If the central limit theorem is applicable, then
 we can calculate the 95% two-sided asymptotic confidence interval as
 $$\left(\hat{\mu} - \frac{1.96}{\sqrt{n}} \hat{\sigma}, \hat{\mu} + \frac{1.96}{\sqrt{n}} \hat{\sigma} \right)$$
 from a given sample.
@@ -283,7 +281,6 @@ Flow control is common in all programming languages.
 Calculate the empirical coverage probability of a Poisson distribution of degrees of freedom 2.
 We conduct this experiment for 1000 times.
 
-
 ```{r}
 Rep = 1000
 sample_size = 100
@@ -310,3 +307,12 @@ The built-in OLS function is `lm`. It is called by `lm(y~x, data = data_frame)`.
 
 All built-in regression functions in R share the same structure. Once one type of regression is understood,
 it is easy to extend to other regressions.
+
+**Example**
+
+```{r}
+a<-lm(women$height~women$weight)
+b<-lm(women$height~women$weight+I(women$weight^2))
+summary(a)
+summary(b)
+```
