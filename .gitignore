@@ -1,6 +1,8 @@
 ## LyX
 *.lyx~
 *.ipynb_checkpoints
+*_cache
+*_files
 
 
 ## SWP
