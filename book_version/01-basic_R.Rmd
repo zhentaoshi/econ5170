@@ -1,7 +1,7 @@
 ---
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: "January 10, 2018"
+date: "January 29, 2018"
 output: pdf_document
 urlcolor: blue
 ---
@@ -190,10 +190,9 @@ Besides loading a data file on the local hard disk, We can directly download dat
 Here we show how to retrieve the stock daily data of *Apple Inc.* from *Yahoo Finance*, and save the dataset locally. A package called `quantmod` is used.
 
 ```{r,eval=TRUE}
-install.packages("quantmod")
 library(quantmod)
-getSymbols("AAPL",from = "2017-01-01",to = Sys.Date(),src = "yahoo")
-print(head(AAPL))
+getSymbols("AAPL", from = "2017-01-01", to = Sys.Date(), src = "yahoo")
+print( head(AAPL) )
 write.csv(AAPL, file = "AAPL.csv")
 ```
 
@@ -308,11 +307,60 @@ The built-in OLS function is `lm`. It is called by `lm(y~x, data = data_frame)`.
 All built-in regression functions in R share the same structure. Once one type of regression is understood,
 it is easy to extend to other regressions.
 
-**Example**
+
+### Linear Regression Examples
+
+Add a toy example by Zhan Gao for ECON3121D tutorial.
 
 ```{r}
-a<-lm(women$height~women$weight)
-b<-lm(women$height~women$weight+I(women$weight^2))
+
+T = 100
+p = 1
+
+b0 = 1
+# Generate data
+x = matrix( rnorm(T*p), T, 1)
+y = x %*% b0 + rnorm(T)
+
+# Linear Model
+result = lm(y ~ x)
+summary(result)
+```
+
+The `result` object is a list containing the regression results. As shown in the results, we can easily read the estimated coefficients, t-test results, F-test results, and the R-sqaure.
+
+We can plot the true value of $y$ and fitted value to examine whether the regression model fit the data well.
+```{r}
+plot(result$fitted.values, col = 'red', type = 'l', xlab = 'x', ylab = 'y',
+     main = 'Fitted Value')
+lines(y, col = 'blue', type = 'l', lty = 2)
+legend('bottomleft', legend=c("Fitted Value", "True Value"),
+       col=c("red", "blue"), lty=1:2, cex = 0.75)
+```
+
+Then we plot the best fitted line.
+```{r}
+
+plot( y = y, x = x, xlab = "x", ylab = "y", main = "Fitted Line")
+abline( a= result$coefficients[1], b = result$coefficients[2])
+abline( a = 0, b = b0, col = "red")
+
+legend('bottomright', legend=c("Fitted Line", "True Coef"),
+       col=c("black", "red"), lty=c(1,1), cex = 0.75)
+```
+
+Anther example about the relationship between the height and weight of women.
+The women dataset is from the package `datasets`, which is a bulit-in package and supposed to have been downloaded automaticly with R installation. This package contains a variety of datasets. For a complete list, use `library(help = "datasets")`
+
+```{r}
+# univariate
+a<-lm(height~weight, data=women)
+
+# multivariate 
+b<-lm(height~weight+I(weight^2),data=women)
+# "weight^2" is a square term.
+# "I()" is used to inhibit the formula operator "+" from being interpreted as an arithmetical one.
+
 summary(a)
 summary(b)
 ```
