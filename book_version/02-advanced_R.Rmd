@@ -43,12 +43,10 @@ There are at least 4 mathematically equivalent ways to compute this term.
 3. $X' \mathrm{diag}(\hat{e}^2) X$, with a sparse central matrix.
 4. Do cross product to `X*e_hat`. It takes advantage of the element-by-element operation in R.
 
-We first generate the data of binary response and regressors.
-We multiple each error term by the value of corresponding x, and therefore the error term in the linear probability model is heteroskedastic. 
-It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator.
-The code chunk below estimates the coefficients and obtains the residual.
 
-```{r,cache=TRUE}
+We first generate the data of binary response and regressors. Due to the discrete nature of the dependent variable, the error term in the linear probability model is heteroskedastic. It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator. The code chunk below estimates the coefficients and obtains the residual.
+
+```
 lpm = function(n){
     # estimation in a linear probability model
 
@@ -56,11 +54,14 @@ lpm = function(n){
     b0 = matrix( c(-1,1), nrow = 2 )
 
     # generate the data
-    X = cbind( 1, runif(n,0,10) )
-    e = rnorm(n)*X[,2]/5 #divide 5 to mitigate the influence of error term
+    e = rnorm(n)
+    X = cbind( 1, rnorm(n) ) # you can try this line. See what is the difference.
+    Y = (X %*% b0 + e >=0 )
+    # note that in this regression b0 is not converge to b0 because the model is changed.
 
     # OLS estimation
     bhat = solve( t(X) %*% X, t(X)%*% Y )
+
 
     # calculate the t-value
     bhat2 = bhat[2] # parameter we want to test
