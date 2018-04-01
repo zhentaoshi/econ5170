@@ -44,9 +44,8 @@ There are at least 4 mathematically equivalent ways to compute this term.
 4. Do cross product to `X*e_hat`. It takes advantage of the element-by-element operation in R.
 
 We first generate the data of binary response and regressors.
-Due to the discrete nature of the dependent variable, the error term in
-the linear probability model is heteroskedastic. It is necessary to use the
-heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator.
+We multiple each error term by the value of corresponding x, and therefore the error term in the linear probability model is heteroskedastic. 
+It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator.
 The code chunk below estimates the coefficients and obtains the residual.
 
 ```{r,cache=TRUE}
@@ -57,14 +56,11 @@ lpm = function(n){
     b0 = matrix( c(-1,1), nrow = 2 )
 
     # generate the data
-    e = rnorm(n)
-    X = cbind( 1, rnorm(n) ) # you can try this line. See what is the difference.
-    Y = (X %*% b0 + e >=0 )
-    # note that in this regression b0 is not converge to b0 because the model is changed.
+    X = cbind( 1, runif(n,0,10) )
+    e = rnorm(n)*X[,2]/5 #divide 5 to mitigate the influence of error term
 
     # OLS estimation
     bhat = solve( t(X) %*% X, t(X)%*% Y )
-
 
     # calculate the t-value
     bhat2 = bhat[2] # parameter we want to test
@@ -172,7 +168,7 @@ print(pts1)
 Pay attention to the line `out = rep(0, Rep)`. It *pre-defines* a vector `out` to be filled by
 `out[i] = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )`. The computer opens a continuous patch of memory for the vector `out`. When new result comes in, the old element is replaced. If we do not pre-define `out`
 but append one more element in each loop, the length of `out` will change in each replication and
-every time a new patch of memory will assigned to store it. The latter approach will spend much more time just to locate the vector in the memory.
+every time a new patch of memory will be assigned to store it. The latter approach will spend much more time just to locate the vector in the memory.
 
 `out` is the result container. In a `for` loop, we pre-define a container, and replace the elements
 of the container in each loop by explicitly calling the index.
@@ -196,7 +192,7 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
-This example is so simple that the advantage of `plyr` is not be dramatic. The difference in coding will be noticeable in complex problems with big data frames.
+This example is so simple that the advantage of `plyr` is not dramatic. The difference in coding will be noticeable in complex problems with big data frames.
 In terms of speed, `plyr` does not run much faster than a `for` loop. They are of similar performance.
 Parallel computing will be our next topic. It is quite easy to implement parallel execution with `plyr`---we just need to change one argument in the function.
 
