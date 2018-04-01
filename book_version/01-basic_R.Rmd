@@ -308,7 +308,7 @@ All built-in regression functions in R share the same structure. Once one type o
 it is easy to extend to other regressions.
 
 
-### Linear Regression Examples
+### A Linear Regression Example
 
 Add a toy example by Zhan Gao for ECON3121D tutorial.
 
@@ -349,7 +349,8 @@ legend('bottomright', legend=c("Fitted Line", "True Coef"),
        col=c("black", "red"), lty=c(1,1), cex = 0.75)
 ```
 
-Anther example about the relationship between the height and weight of women.
+
+Another example about the relationship between the height and weight of women.
 The women dataset is from the package `datasets`, which is a bulit-in package and supposed to have been downloaded automaticly with R installation. This package contains a variety of datasets. For a complete list, use `library(help = "datasets")`
 
 ```{r}
