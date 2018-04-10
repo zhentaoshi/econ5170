@@ -307,11 +307,9 @@ The built-in OLS function is `lm`. It is called by `lm(y~x, data = data_frame)`.
 All built-in regression functions in R share the same structure. Once one type of regression is understood,
 it is easy to extend to other regressions.
 
-
 ### A Linear Regression Example
 
-Add a toy example by Zhan Gao for ECON3121D tutorial.
-
+This is a toy example with simulated data.
 ```{r}
 
 T = 100
@@ -349,11 +347,19 @@ legend('bottomright', legend=c("Fitted Line", "True Coef"),
        col=c("black", "red"), lty=c(1,1), cex = 0.75)
 ```
 
-Anther example.
+Here we give another example about the relationship between the height and weight of women.
+The women dataset is from the package `datasets`, which is a bulit-in package shipped with R installation. 
+This package contains a variety of datasets. For a complete list, use `library(help = "datasets")`
 
 ```{r}
-a<-lm(women$height~women$weight)
-b<-lm(women$height~women$weight+I(women$weight^2))
-summary(a)
-summary(b)
+# univariate
+reg 1 = lm(height~weight, data=women)
+
+# multivariate 
+reg2 = lm(height~weight+I(weight^2),data=women)
+# "weight^2" is a square term.
+# "I()" is used to inhibit the formula operator "+" from being interpreted as an arithmetical one.
+
+summary(reg1)
+summary(reg2)
 ```
