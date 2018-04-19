@@ -55,9 +55,11 @@ print(pi_hat)
 
 ## Finite Sample Evaluation
 
-Asymptotic theory is apparatus to approximate finite sample distributions.
-In the real world, nothing is infinite, so apparently all asymptotic results are fake.
-However, asymptotic theory is so far the best possible instrument that helps us
+In the real world, all sample is finite. The distribution of a statistic in finite sample depends on 
+the sample size $n$, which has simple mathematical expression only in rare cases. Fortunately, 
+such expressions can often be simplified when we imagine the sample size being arbitrarily large. 
+Asymptotic theory is such apparatus to approximate finite sample distributions.
+It is so far the best mathematical tool that helps us
 understand the behavior of estimators and tests, either in econometrics or in statistics in general.
 Simulation is one way to evaluate the accuracy of approximation.
 
