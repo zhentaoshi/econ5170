@@ -83,7 +83,7 @@ generated from $F(x)$.
 When $S$ is large, a law of large numbers gives
 $$S^{-1} \sum_{s=1}^S h(x_s) \stackrel{\mathrm{p}}{\to} E[h(x)] = \int h(x) d F(x).$$
 If the integration is carried out not in the entire support of $F(x)$ but on a subset $A$, then
-$$\int_A h(x) d F(x) \approx \frac {\sum_{s=1}^S h(x_s) \cdot 1\{x_s \in A\}}{\sum_{s=1}^S 1\{x_s \in A\}},$$ 
+$$\int_A h(x) d F(x) \approx S^{-1} \sum_{s=1}^S h(x_s) \cdot 1\{x_s \in A\},$$
 where $1\{\cdot\}$ is the indicator function.
 
 In theory, we want to use an $S$ as large as possible.
