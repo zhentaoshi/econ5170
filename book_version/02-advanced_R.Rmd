@@ -43,13 +43,10 @@ There are at least 4 mathematically equivalent ways to compute this term.
 3. $X' \mathrm{diag}(\hat{e}^2) X$, with a sparse central matrix.
 4. Do cross product to `X*e_hat`. It takes advantage of the element-by-element operation in R.
 
-We first generate the data of binary response and regressors.
-Due to the discrete nature of the dependent variable, the error term in
-the linear probability model is heteroskedastic. It is necessary to use the
-heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator.
-The code chunk below estimates the coefficients and obtains the residual.
 
-```{r,cache=TRUE}
+We first generate the data of binary response and regressors. Due to the discrete nature of the dependent variable, the error term in the linear probability model is heteroskedastic. It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator. The code chunk below estimates the coefficients and obtains the residual.
+
+```
 lpm = function(n){
     # estimation in a linear probability model
 
@@ -172,7 +169,7 @@ print(pts1)
 Pay attention to the line `out = rep(0, Rep)`. It *pre-defines* a vector `out` to be filled by
 `out[i] = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )`. The computer opens a continuous patch of memory for the vector `out`. When new result comes in, the old element is replaced. If we do not pre-define `out`
 but append one more element in each loop, the length of `out` will change in each replication and
-every time a new patch of memory will assigned to store it. The latter approach will spend much more time just to locate the vector in the memory.
+every time a new patch of memory will be assigned to store it. The latter approach will spend much more time just to locate the vector in the memory.
 
 `out` is the result container. In a `for` loop, we pre-define a container, and replace the elements
 of the container in each loop by explicitly calling the index.
@@ -196,7 +193,7 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
-This example is so simple that the advantage of `plyr` is not be dramatic. The difference in coding will be noticeable in complex problems with big data frames.
+This example is so simple that the advantage of `plyr` is not dramatic. The difference in coding will be noticeable in complex problems with big data frames.
 In terms of speed, `plyr` does not run much faster than a `for` loop. They are of similar performance.
 Parallel computing will be our next topic. It is quite easy to implement parallel execution with `plyr`---we just need to change one argument in the function.
 

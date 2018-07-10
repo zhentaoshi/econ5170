@@ -194,7 +194,7 @@ $\hat{b}=(\hat{b}_1,\hat{b}_2,\hat{b}_3)'$, where
 \begin{eqnarray*}
 \hat{b}_1 & = & (X'X)^{-1}X'y \\
 \hat{b}_2 & = & n^{-1}\sum_{y_i=1} (y_i - x_i' b_1)^2 = n^{-1}\sum_{y_i=1} (1 - x_i' b_1)^2  \\
-\hat{b}_2 & = & n^{-1}\sum_{y_i=0} (y_i - x_i' b_1)^2 = n^{-1}\sum_{y_i=0} (x_i' b_1)^2.
+\hat{b}_3 & = & n^{-1}\sum_{y_i=0} (y_i - x_i' b_1)^2 = n^{-1}\sum_{y_i=0} (x_i' b_1)^2.
 \end{eqnarray*}
 Here $\hat{b}_1$ is associated with $\beta$, and $(\hat{b}_2,\hat{b}_3)$
 are associated with $(\sigma_1,\sigma_{12})$.
