@@ -1,6 +1,8 @@
 ## LyX
 *.lyx~
 *.ipynb_checkpoints
+*_cache
+*_files
 
 
 ## SWP
@@ -10,7 +12,6 @@
 ## R
 *.sav
 *.Rhistory
-*.Rdata
 __packages
 *.rdb
 *.rdx

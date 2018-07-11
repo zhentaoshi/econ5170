@@ -187,16 +187,13 @@ I recommend the use of `csv` format, a plain ASCII file format.
 **Example**
 
 Besides loading a data file on the local hard disk, We can directly download data from internet.
-Here we show how to retrieve the daily stock price of
-*Hong Kong Exchange Limited* from *Yahoo Finance*, and save the dataset locally.
+Here we show how to retrieve the stock daily data of *Apple Inc.* from *Yahoo Finance*, and save the dataset locally. A package called `quantmod` is used.
 
-```{r,eval=FALSE}
-# Update in Jan 2018: the following link is no longer valid.
-# Yahoo changes the format of the inquiry to forbid massive data downloading
-# We need to figure out a new way
-HEX = read.csv("http://ichart.finance.yahoo.com/table.csv?s=0388.HK")
-print(head(HEX))
-write.csv(HEX, file = "HEX.csv")
+```{r,eval=TRUE}
+library(quantmod)
+getSymbols("AAPL", from = "2017-01-01", to = Sys.Date(), src = "yahoo")
+print( head(AAPL) )
+write.csv(AAPL, file = "AAPL.csv")
 ```
 
 ## Statistics
@@ -237,7 +234,7 @@ DIY functionality to be used repeatedly. It is highly recommended to encapsulate
 There are important advantages:
 
 1. In the developing stage, it allows us to focus on a small chunk of code. It cuts an overwhelmingly big project into manageable pieces.
-2. A long script can have hundred or thousand of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and the output of a function have interaction with the outside world.
+2. A long script can have hundreds or thousands of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and the output of a function have interaction with the outside world.
 3. If a revision is necessary, We just need to change one place. We don't have to repeat the work in every place where it is invoked.
 
 The format of a user-defined function in R is
@@ -251,7 +248,7 @@ function_name = function(input) {
 
 **Example**
 
-If a central limit theorem is applicable, then
+If the central limit theorem is applicable, then
 we can calculate the 95% two-sided asymptotic confidence interval as
 $$\left(\hat{\mu} - \frac{1.96}{\sqrt{n}} \hat{\sigma}, \hat{\mu} + \frac{1.96}{\sqrt{n}} \hat{\sigma} \right)$$
 from a given sample.
@@ -283,7 +280,6 @@ Flow control is common in all programming languages.
 Calculate the empirical coverage probability of a Poisson distribution of degrees of freedom 2.
 We conduct this experiment for 1000 times.
 
-
 ```{r}
 Rep = 1000
 sample_size = 100
@@ -313,8 +309,7 @@ it is easy to extend to other regressions.
 
 ### A Linear Regression Example
 
-Add a toy example by Zhan Gao for ECON3121D tutorial.
-
+This is a toy example with simulated data.
 ```{r}
 
 T = 100
@@ -330,11 +325,11 @@ result = lm(y ~ x)
 summary(result)
 ```
 
-The `result` object is a list containing the regression results. As shown in the results, we can easily read the estimated coefficients, t-test results, F-test results, and the R-sqaure. 
+The `result` object is a list containing the regression results. As shown in the results, we can easily read the estimated coefficients, t-test results, F-test results, and the R-sqaure.
 
 We can plot the true value of $y$ and fitted value to examine whether the regression model fit the data well.
 ```{r}
-plot(result$fitted.values, col = 'red', type = 'l', xlab = 'x', ylab = 'y', 
+plot(result$fitted.values, col = 'red', type = 'l', xlab = 'x', ylab = 'y',
      main = 'Fitted Value')
 lines(y, col = 'blue', type = 'l', lty = 2)
 legend('bottomleft', legend=c("Fitted Value", "True Value"),
@@ -350,4 +345,21 @@ abline( a = 0, b = b0, col = "red")
 
 legend('bottomright', legend=c("Fitted Line", "True Coef"),
        col=c("black", "red"), lty=c(1,1), cex = 0.75)
+```
+
+Here we give another example about the relationship between the height and weight of women.
+The women dataset is from the package `datasets`, which is a bulit-in package shipped with R installation. 
+This package contains a variety of datasets. For a complete list, use `library(help = "datasets")`
+
+```{r}
+# univariate
+reg 1 = lm(height~weight, data=women)
+
+# multivariate 
+reg2 = lm(height~weight+I(weight^2),data=women)
+# "weight^2" is a square term.
+# "I()" is used to inhibit the formula operator "+" from being interpreted as an arithmetical one.
+
+summary(reg1)
+summary(reg2)
 ```

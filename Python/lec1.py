@@ -1,3 +1,5 @@
+# %reset
+
 ### Logical variables
 
 logi_1 = [True,True,False]
@@ -7,22 +9,20 @@ logi_12 = logi_1 and logi_2
 print(logi_12)
 
 ### OLS simulation
-
+from pylab import *
 import numpy as np
-from numpy.linalg import inv
 
 np.random.seed(1)
 # set the parameters
 
 n = 100
-b0 = np.ones ( ( 2, 1) )
+b0 = ones ( ( 2, 1) )
 
 # generate the data
 e = np.random.randn(n,1) 
-X = np.hstack( (np.ones ( ( n, 1) ),  np.random.randn(n,1)  ) )
-Y = np.dot(X, b0) + e
+X = hstack( (ones ( ( n, 1) ),  np.random.randn(n,1)  ) )
+Y = dot(X, b0) + e
 
 # OLS estimator
-bhat = np.dot( inv( np.dot(np.transpose(X), X ) ),   
-              np.dot( np.transpose(X), Y ) ) 
+bhat = dot( inv( dot( X.T, X ) ), dot( X.T, Y ) ) 
 print(bhat)
