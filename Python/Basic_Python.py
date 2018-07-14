@@ -136,16 +136,46 @@ print(len([i for i in z if i > crit]) / len(z)) # don't quite understand this li
 import math
 import statistics
 
-def CI(x):
+def CI(x:int):
 
   #x is a vector of random variables
   n = len(x)  
+  
+  x = np.array( x, dtype = float) # THIS LINE IS CRUCIAL; otherwise the result is wrong
   mu = statistics.mean(x)
   sig = statistics.stdev(x)
-  upper = mu + 1.96 / math.sqrt(n) * sig
-  lower = mu - 1.96 / math.sqrt(n) * sig
+  upper = mu + 1.96 * sig / math.sqrt(n) 
+  lower = mu - 1.96 * sig / math.sqrt(n)
   return {'lower': lower, 'upper': upper}
 
+
+## the CI simulation exercise
+
+import statistics
+from scipy import stats
+import numpy as np
+
+Rep = 100
+sample_size = 50
+capture = [0] * Rep
+
+# random.seed(3)
+# start the iteration
+for i in range(Rep):
+  mu = 5
+  # x = stats.norm.rvs(mu, size = sample_size, random_state = None ) # generate random variables 
+  x = stats.poisson.rvs(mu = mu, size = sample_size, random_state = None ) # generate random variables 
+  print(i)
+  print(x)
+    
+  bounds = CI(x)
+
+  if (bounds['lower'] <= mu and mu <= bounds['upper']):
+    capture[i] = 1
+
+print(statistics.mean(capture))
+
+###########################################
 ####### OLS estimation 
 
 import numpy as np
