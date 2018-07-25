@@ -78,7 +78,7 @@ we will have to use an infinite number of parameters to fully characterize the d
 One well-known nonparametric estimation is the histogram. The shape of the bars of the
 histogram depends on the partition of the support. If the grid system on the support is too
 fine, then each bin will have only a few observations. Despite small bias, the estimation
-will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff the defining feature not only for nonparametric estimation but for all machine learning methods.
+will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff is the defining feature not only for nonparametric estimation but for all machine learning methods.
 
 Another example of nonparametric estimation is  the conditional mean
 $f(x) = E[y_i |x_i = x]$ given a sample $(y_i, x_i)$. This is what we encountered in the first lecture of graduate econometrics Econ5121A. We solve the minimization problem
@@ -197,7 +197,7 @@ where $w_j = 1 \bigg/ \left|\hat{\beta}_j^{(1)}\right|^a$ and $a\geq 1$ is a con
 
 
 In R,  `glmnet` or `LARS` implements Lasso, and `ncvreg` carries out SCAD. Adaptive Lasso
-can be done by set the weight via the argument `penalty.factor` in `glmnet`.
+can be done by setting the weight via the argument `penalty.factor` in `glmnet`.
 
 More methods are available if prediction of the response variables is the sole purpose of the regression.
 An intuitive one is called *stagewise forward selection*.

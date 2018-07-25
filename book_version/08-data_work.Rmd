@@ -50,7 +50,7 @@ that I find useful in my research, and I would like to share with you.
 
 
 
-If the data is collection somewhere online, keep a log so that you know where
+If the data is collected somewhere online, keep a log so that you know where
 it is downloaded so that we can easily repeat the process if necessary.
 
 Keep the raw data without any editing. If editing is essential, save the edited
