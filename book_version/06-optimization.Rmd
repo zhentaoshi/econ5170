@@ -90,7 +90,7 @@ is satisfied, we can still use the Poisson regression to obtain a consistent
 estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional
 Poisson distribution.
 
-If $Z$ follows a Poisson distribution with mean $\lambda$, the probability masss function
+If $Z$ follows a Poisson distribution with mean $\lambda$, the probability mass function
 $$
 \Pr(Z = k) = \frac{\mathrm{e}^{-\lambda} \lambda^k}{k!}, \mbox{ for }k=0,1,2,\ldots,
 $$
