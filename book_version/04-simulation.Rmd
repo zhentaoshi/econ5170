@@ -49,15 +49,15 @@ Z =  matrix(   runif(n)  , ncol = 2 )
 
 inside = mean(  sqrt( rowSums( (Z-.5)^2 ) )  <=  .5 )
 # the center of the cirle is (0.5,0.5)
-pi_hat = 4 * inside # the area of a circle = pi * r^2 
+pi_hat = 4 * inside # the area of a circle = pi * r^2
 print(pi_hat)
 ```
 
 ## Finite Sample Evaluation
 
-In the real world, all sample is finite. The distribution of a statistic in finite sample depends on 
-the sample size $n$, which has simple a mathematical expression only in rare cases. Fortunately, 
-the expression can often be simplified when we imagine the sample size being arbitrarily large. 
+In the real world, a sample is finite. The distribution of a statistic in finite sample depends on 
+the sample size $n$, which has simple a mathematical expression only in rare cases. Fortunately,
+the expression can often be simplified when we imagine the sample size being arbitrarily large.
 Asymptotic theory is such apparatus to approximate finite sample distributions.
 It is so far the best mathematical tool that helps us
 understand the behavior of estimators and tests, either in econometrics or in statistics in general.
