@@ -11,18 +11,18 @@ Zhentao covers the following topics. This README file will be updated as the cou
 
 
 #### Outline
-* Lecture 1 (Jan 10): Basic R
-* Lecture 2 (Jan 17): Advanced R
-* Lecture 3 (Feb 7): Monte Carlo Simulation
-* Lecture 4 (Feb 14): Numerical Integrations
-* Lecture 5 (Feb 28): Numerical Optimization
-* Lecture 6 (Mar 7): Machine Learning
+* Lecture 1: Basic R
+* Lecture 2: Advanced R
+* Lecture 3: Monte Carlo Simulation
+* Lecture 4: Numerical Integrations
+* Lecture 5: Numerical Optimization
+* Lecture 6: Machine Learning
 
 #### Lecture Notes
 
 Lecture notes are provided under the folder `book_version`.
 
-**Caveat**: This is an ongoing writing project not ready to publish. The text is very incomplete, and must contain many errors. Use them at your own risk!
+**Caveat**: This is an ongoing writing project not ready to publish. The text is incomplete, and may contain many errors. Use them at your own risk!
 
 #### Programming Languages
 * R is the main language for demonstration.
