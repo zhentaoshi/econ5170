@@ -211,6 +211,25 @@ To be discussed in the future
 * The idea of boosting and its association to reweighting.
 * regression tree, bagging (Killian and Inoue), average of subsampling
 
+### Tree and Random Forest
+```{r}
+require(randomForest)
+require(MASS)#Package which contains the Boston housing dataset
+attach(Boston)
+set.seed(101)
+
+#training Sample with 300 observations
+train=sample(1:nrow(Boston),300)
+?Boston  #to search on the dataset
+
+Boston.rf=randomForest(medv ~ . , data = Boston , subset = train)
+plot(Boston.rf)
+
+getTree(Boston.rf)
+importance(Boston.rf)
+```
+An example of random forest
+
 ## Unstructured Data
 
 * text [@gentzkow2017text]
