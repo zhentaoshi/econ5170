@@ -1,4 +1,7 @@
-function CI(x::Array{Float64})
+
+# this script can run successfully
+
+function CI(x) # ::Array{Float64})
   # x is a vector of random variables
 
   n = length(x)
@@ -12,12 +15,12 @@ end
 
 using Distributions
 # run the procedure
-Rep = 100000
+Rep = 100
 sample_size = 1000
 
 
 Rep = 200
-sample_size = 5000000
+sample_size = 500
 
 mu = 2
 dist = Poisson(mu)

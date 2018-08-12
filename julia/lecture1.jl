@@ -22,7 +22,8 @@ t_value = (bhat2 - b0[2])  /sqrt( sig_B[2,2] )
 
 y = rand(Chisq(3), 1000)
 
-using KernelDensity
-using PyPlot
-kd = kde(y)
-plot(kd) # plot can only be done in IJulia notebook
+# plot can only be done in IJulia notebook
+# using KernelDensity
+# using PyPlot
+# kd = kde(y)
+# plot(kd)
