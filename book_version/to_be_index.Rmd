@@ -50,7 +50,6 @@ Why not Python? Python is a general purpose language, not a scientific computing
 
 Why not Julia? Julia is too young to have a big community. 
 
-have been developed, they 
 ## Prerequisite {-}
 
 For this course, please install [R](http://www.r-project.org/) or  [Microsoft Open R](https://mran.microsoft.com/open).
