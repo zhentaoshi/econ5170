@@ -3,6 +3,6 @@
 
 # last successful installation: Microsoft Open R 3.5.0, Aug 16, 2018
 
-install.packages(c('repr', 'IRdisplay', 'crayon', 'pbdZMQ', 'devtools', 'sringi'))
+install.packages(c('repr', 'IRdisplay', 'crayon', 'pbdZMQ', 'devtools', 'stringi', 'uuid', 'digest'))
 devtools::install_github('IRkernel/IRkernel', force = TRUE)
 IRkernel::installspec() 
