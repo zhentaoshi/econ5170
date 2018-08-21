@@ -139,6 +139,15 @@ parameter? This is a difficult statistical problem with active research. The mai
 theoretical proposal is either using an *information criterion*
 (for example, Akaike information criterion or Bayesian information criterion), or *cross validation*.
 
+
+## Data Splitting
+
+training data:
+validation data: used to determine tuning parameters
+
+test data: pretended new data that the researcher do not observe when fit the model
+
+
 ## Variable Selection and Prediction
 
 In modern scientific analysis, the number of covariates $x_i$ can be enormous.
