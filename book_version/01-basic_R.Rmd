@@ -348,14 +348,14 @@ legend('bottomright', legend=c("Fitted Line", "True Coef"),
 ```
 
 Here we give another example about the relationship between the height and weight of women.
-The women dataset is from the package `datasets`, which is a bulit-in package shipped with R installation. 
+The women dataset is from the package `datasets`, which is a bulit-in package shipped with R installation.
 This package contains a variety of datasets. For a complete list, use `library(help = "datasets")`
 
 ```{r}
 # univariate
-reg 1 = lm(height~weight, data=women)
+reg1 = lm(height~weight, data=women)
 
-# multivariate 
+# multivariate
 reg2 = lm(height~weight+I(weight^2),data=women)
 # "weight^2" is a square term.
 # "I()" is used to inhibit the formula operator "+" from being interpreted as an arithmetical one.
