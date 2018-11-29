@@ -196,6 +196,14 @@ print( head(AAPL) )
 write.csv(AAPL, file = "AAPL.csv")
 ```
 
+Another example:
+```{r,eval=TRUE}
+library(quantmod)
+getSymbols.FRED(Symbols = c("IPB50001SQ"), env = .GlobalEnv ) 
+plot(IPB50001SQ)
+```
+
+
 ## Statistics
 
 R is a language created by statisticians.

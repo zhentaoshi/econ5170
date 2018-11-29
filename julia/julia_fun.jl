@@ -27,7 +27,7 @@ dist = Poisson(mu)
 
 # a standard loop
 out = zeros(Rep,1)
-tic() # check time
+# tic() # check time
 
 # out = SharedArray(Int64,Rep)
 for i in 1:Rep
@@ -36,4 +36,4 @@ for i in 1:Rep
   out[i] = (  bounds[1] <= mu  ) & ( mu <= bounds[2] )
 end
 println( mean(out) )
-toc()
+# toc()
