@@ -46,7 +46,11 @@ However, it will not be an issue in the problems that we will encounter in the f
 Lastly, learning a language is not a trivial investment.
 It is much more important to master one language than to know several or many languages.
 
-R is not the only language available for computing. Then why not Python? Python is a general purpose language, not a scientific computing langauge. We need to import external modules even for basic numerical operations. Then why not Julia? Julia is too young to have a big community. Most recently (as in August 2018), the newly released version 1.0.0 is incompatible with the old versions. We would wait until it grows into more stable status. Moroover, the speed advantage does not help in interactive usage in empirical research. Over the years, I have had a taste of both Python and Julia. In my opnion, R so far best suits our purpose of learning a computing language for statistics and econometrici analysis.
+R is not the only language available for computing. Then why not Python? Python is a general purpose language, not a scientific computing language. We need to import external modules even for basic numerical operations. For basic matrix manupulation, the default behavior of `numpy` is quite different from R.
+
+Then why not Julia? Julia is too young to have a big community. Most recently (as in August 2018), the newly released version 1.0.0 is incompatible with the old versions. We would wait until it grows into more stable status. Moreover, the speed advantage does not help in interactive usage in empirical research.
+
+Over the years, I have had a taste of both Python and Julia. In my opinion, R so far best suits our purpose of learning a computing language for statistics and econometric analysis.
 
 ## Prerequisite {-}
 
