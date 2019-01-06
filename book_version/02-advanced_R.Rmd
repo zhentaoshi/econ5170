@@ -1,7 +1,7 @@
 ---
 title: 'Lecture 2: Advanced R'
 author: "Zhentao Shi"
-date: "Jan 17, 2018"
+date: "Jan 6, 2019"
 output:  pdf_document
 urlcolor: blue
 ---
@@ -15,9 +15,9 @@ urlcolor: blue
 
 In this lecture, we will talk about efficient computation in R.
 
-* R is a vector-oriented language. In most case, vectorization speeds up computation.
-* We turn to more CPUs for parallel execution to save time if there is no more space to optimize the code to improve the speed.
-* Clusters are accessed remotely. Communicating with a remote cluster is different from operating a local PC.
+* R is a vector-oriented language. In most cases, vectorization speeds up computation.
+* We turn to more CPUs for parallel execution to save time if there is no more room to optimize the code to improve the speed.
+* Clusters are accessed remotely. Communicating with a remote cluster is different from operating a local machine.
 
 ## Vectorization
 
@@ -25,7 +25,7 @@ Despite mathematical equivalence, various ways of calculation can perform distin
 
 Does computational speed matter?
 For a job that takes less than a minutes, the time difference is not a big deal.
-For modern economic structural estimation problems commonly seen in industrial organization, a single estimation can take up to a week. Code optimization is essential.
+For modern economic structural estimation problems commonly seen in industrial organization, a single estimation can take up to a week. For those problems code optimization is essential.
 
 Other computational intensive procedures include bootstrap, simulated maximum likelihood and simulated method of moments. Even if a single execution does not take much time, repeating such a procedure for thousands of replications will consume a non-trivial duration.
 
@@ -46,7 +46,7 @@ There are at least 4 mathematically equivalent ways to compute this term.
 
 We first generate the data of binary response and regressors. Due to the discrete nature of the dependent variable, the error term in the linear probability model is heteroskedastic. It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator. The code chunk below estimates the coefficients and obtains the residual.
 
-```
+```{r}
 lpm = function(n){
     # estimation in a linear probability model
 
@@ -295,7 +295,7 @@ Such command line tools is the norm of life two or three decades ago, but today 
 work in a graphic operating system like Windows or OSX.
 For Windows users (I am one of them), I recommend [PuTTY](http://www.putty.org/), a shell, and [WinSCP](http://winscp.net/eng/download.php), a graphic interface for input and output.
 
-Most serves in the world are running Unix/Linux operation system.
+Most servers in the world are running Unix/Linux operation system.
 Here are a few commands for basic operations.
 
 * mkdir
