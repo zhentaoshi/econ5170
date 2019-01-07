@@ -2,8 +2,9 @@
 
 
 
-library(tibble)
+library(magrittr)
 library(readr)
+library(Matrix)
 
 
 d99 = read_csv( file = "ipums.la.99.csv", col_names = FALSE)
@@ -11,12 +12,11 @@ d98 = read_csv( file = "ipums.la.98.csv", col_names = FALSE)
 d97 = read_csv( file = "ipums.la.97.csv", col_names = FALSE)
 d0 = rbind(d97, d98, d99)
 
-X = as.matrix( cbind(1, d0[, c("X20", "X22")]) )
+X =  cbind(1, d0[, c("X20", "X22")])  %>% as.matrix
 y = d0$X11
 
-reg0 = lm(y ~ X - 1)
-e_hat = residuals(reg0)
-
+e_hat = lm(y ~ X - 1) %>% residuals()
+ 
 
 
 
