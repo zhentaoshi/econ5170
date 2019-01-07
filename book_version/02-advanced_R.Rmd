@@ -1,9 +1,14 @@
 ---
 title: 'Lecture 2: Advanced R'
 author: "Zhentao Shi"
-date: "Jan 6, 2019"
-output:  pdf_document
+date: "Jan 7, 2019"
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
+fontsize: 11pt
 urlcolor: blue
+output:
+  pdf_document: default
 ---
 
 
@@ -125,8 +130,11 @@ When $n$ is big, `matrix` is slow and `Matrix` is fast; the vectorized version i
 
 ## Efficient Loop
 
-In standard `for` loops, we have to do a lot of housekeeping work.
-[`plyr`](http://plyr.had.co.nz/), developed by [Hadley Wickham](http://had.co.nz/),  simplifies the job and facilitates parallelization.
+R was the heir of S, an old language. R evolves with packages that are designed to 
+adapt to new big data environement. Many examples can be found in @wickham2016r. 
+Here we introduce [`plyr`](http://plyr.had.co.nz/). 
+
+In standard `for` loops, we have to do a lot of housekeeping work. [Hadley Wickham](http://had.co.nz/)'s `plyr` simplifies the job and facilitates parallelization.
 
 **Example**
 
@@ -148,13 +156,26 @@ CI = function(x){ # construct confidence interval
 This is a standard `for` loop.
 
 ```{r,cache=TRUE}
-Rep = 10000
+Rep = 100000
 sample_size = 1000
+mu = 2
 
-# a standard loop
+# append a new outcome after each loop
+pts0 = Sys.time() # check time
+for (i in 1:Rep){
+  x = rpois(sample_size, mu)
+  bounds = CI(x)
+  out_i = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
+  if (i == 1){ out = out_i} else { out = c(out, out_i) }
+}
+cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 = Sys.time() - pts0 # check time elapse
+print(pts1)
+
+
+# pre-define a container
 out = rep(0, Rep)
 pts0 = Sys.time() # check time
-mu = 2
 for (i in 1:Rep){
   x = rpois(sample_size, mu)
   bounds = CI(x)
@@ -163,6 +184,7 @@ for (i in 1:Rep){
 cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
+
 ```
 
 
@@ -199,11 +221,12 @@ Parallel computing will be our next topic. It is quite easy to implement paralle
 
 ## Parallel Computing
 
+Parallel computing becomes essential when the data size is beyond the storage of a single computer, for example  @li2018embracing.
+Here we explore the speed gain of parallel computing on a multicore machine.
+
 The packages `foreach` and `doParallel` are useful for parallel computing.
 Below is the basic structure. `registerDoParallel(number)` prepares a few CPU cores
-to accept incoming jobs. When calling `__ply`, we explicitly specify `.parallel` to be `TRUE`.
-If `myfunction` also depends on other variables in the session and/or other packages,
-we  must export them to other cores via the argument `.paropts` (parameter options).
+to accept incoming jobs.
 
 ```{r,eval=FALSE}
 library(plyr)
@@ -227,6 +250,10 @@ out = foreach(icount(Rep), .combine = option ) %dopar% {
 #      .paropts = list( .packages = package.list,
 #        .export = ls(envir=globalenv() ) )
 # )
+
+# When calling `__ply`, we explicitly specify `.parallel` to be `TRUE`.
+# If `myfunction` also depends on other variables in the session and/or other packages,
+# we  must export them to other cores via the argument `.paropts` (parameter options).
 ```
 
 If we have two CPUs running simultaneously, in theory we can cut the time to a half of that on a single CPU. Is that what happening in practice?
@@ -347,8 +374,6 @@ sample_size = 5000000
 # cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
 # pts1 = Sys.time() - pts0 # check time elapse
 # print(pts1)
-# 
-# 
 
 
 # compare to the parallel version
@@ -367,3 +392,5 @@ cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
+
+## References
