@@ -4,6 +4,12 @@ author: Zhentao Shi
 date: Feb 7, 2018
 output: pdf_document
 fontsize: 11pt
+urlcolor: blue
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
+output:
+  pdf_document: default
 ---
 
 # Simulation

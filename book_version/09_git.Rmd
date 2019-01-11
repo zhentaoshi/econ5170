@@ -1,7 +1,12 @@
 ---
 title: 'Lecture 9: Git'
 author: "Zhentao Shi and Zhan Gao"
-date: "March 18, 2018"
+date: "Jan 16, 2019"
+fontsize: 11pt
+urlcolor: blue
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
 output:
   pdf_document: default
 ---
