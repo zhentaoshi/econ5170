@@ -116,3 +116,7 @@ grid.arrange(p1, p2, nrow=2)
 In order to unify the theme of the two distinctive subgraphs,
 we define an object `theme1` and apply it in both graphic objects
 `p1` and `p2`.
+
+## Reading
+
+Wickham and Grolemund: Ch 3, 26-30

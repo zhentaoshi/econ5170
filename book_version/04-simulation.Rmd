@@ -1,15 +1,13 @@
 ---
 title: "Simulation"
 author: Zhentao Shi
-date: Feb 7, 2018
+date: January 16, 2019
 output: pdf_document
 fontsize: 11pt
 urlcolor: blue
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
-output:
-  pdf_document: default
 ---
 
 # Simulation
@@ -44,9 +42,9 @@ Zu Chongzhi (429--500 AD), an ancient Chinese mathematician, calculated $\pi$ be
 for 900 years held the world record of the most accurate $\pi$.
 He used a deterministic approximation algorithm.
  Now imagine that we present to Zu Chongzhi, with full respect and admiration,
-a modern PC. How can he achieve a better approximation? Of course, we suppose that he would not google it.
+a modern PC. How can he achieve a better approximation?
 
-Standing on the shoulder of laws of large numbers, $\pi$ can be approximated by stochastic algorithm.
+Standing on the shoulder of laws of large numbers, $\pi$ can be approximated by a stochastic algorithm.
 
 ```{r,cache=TRUE}
 n = 10000
@@ -61,7 +59,7 @@ print(pi_hat)
 
 ## Finite Sample Evaluation
 
-In the real world, a sample is finite. The distribution of a statistic in finite sample depends on 
+In the real world, a sample is finite. The distribution of a statistic in finite sample depends on
 the sample size $n$, which has simple a mathematical expression only in rare cases. Fortunately,
 the expression can often be simplified when we imagine the sample size being arbitrarily large.
 Asymptotic theory is such apparatus to approximate finite sample distributions.
@@ -70,10 +68,10 @@ understand the behavior of estimators and tests, either in econometrics or in st
 Simulation is one way to evaluate the accuracy of approximation.
 
 Even though real data empirical example can also be used to illustrate a statistical procedure,
-artificial data are convenient and boast advantages. The prevalent paradigm in statistics is
+artificial data are convenient and informative. The prevalent paradigm in econometrics is
 to assume that the data are generated from a model. We, as researchers, check how close the estimate is to
-the model, which is often characterized by a set of unknown parameters. In simulation
-we have full control of the data generation process, so we also know the
+the model characterized by a set of unknown parameters. In simulation
+we have full control of the data generation process, so we know the
 true parameter.
 In a real example, however, we have no knowledge about the true model, so we cannot directly
 evaluate the quality of parameter estimation.
@@ -94,9 +92,11 @@ Is asymptotic inferential theory for the OLS estimator---consistency and asympto
 [Pareto distribution](https://en.wikipedia.org/wiki/Pareto_distribution) with shape coefficient 1.5?
 (A Pareto distribution with shape coefficient between 1 and 2 has finite mean but infinite variance.)
 
- 1. given sample size, get OLS `b_hat` and its associated `t_value`.
- 2. wrap `t_value` as a user-defined function so that we can replicate for many times.
- 3. given sample size, report the size under two distributions.
+We write a script to investigate this problem. The following steps develop the code.
+
+ 1. given a sample size, get the OLS `b_hat` and its associated `t_value`.
+ 2. wrap `t_value` as a user-defined function so that we can reuse it for many times.
+ 3. given a sample size, report the size under two distributions.
  4. wrap it again as a user-defined function, ready for different sample sizes.
  5. develop the super structure.
  6. add comments and documentation.
@@ -179,7 +179,7 @@ The first column is the when the error is normal, and we use the exactly distrib
 The second column still uses the normal distribution in the error term, but change the
 critical value to be from the normal distribution, which is based on asymptotic approximation. When sample size is small, obvious size distortion is
 observed; but the deviation is mitigated when the sample size increases.
-When the error distribution is Cauchy, the so called "exact distribution" is not longer exact---
+When the error distribution is Cauchy, the so called "exact distribution" is no longer exact---
 it is exact only if the error is normal and independent from $x$.
 If we attempt to use the asymptotic normal approximation,
 we find that the asymptotic approximation breaks down. The test size does not converge to the
@@ -189,7 +189,7 @@ nominal 5% as the sample size increases.
 
 ## Bootstrap
 
-Bootstrap, originated from Efron (1979), is an extremely powerful and influential idea for estimation and inference.
+Bootstrap, originated from @efron1979bootstrap, is an extremely powerful and influential idea for estimation and inference.
 
 Let $X_1, X_2, \ldots, X_n \sim F$ be an i.i.d. sample of $n$ observations following a distribution $F$. The finite sample distribution of a statistic $T_n(\theta)\sim G_n(\cdot, F)$ usually depends on the sample size $n$, as well as the known true distribution $F$. Asymptotic theory approximates $G_n(\cdot, F)$ by its limit $$G(\cdot, F) := \lim_{n\to\infty} G_n(\cdot, F);$$ if $T_n(\theta)$ is *asymptotically pivotal*, then $G_n(\cdot, F)$ is independent of $F$.
 
@@ -198,7 +198,7 @@ $$
 G^{*}_n(\cdot):= G_n(\cdot, F_n)
 $$
 
-Implementation of bootstrap is almost always a Monte Carlo simulation. In i.i.d. environment we sample over each observation with equal weight, while in dependent dataset such as time series, clustering data or networks, we must adjust the sampling schedule to preserve the dependence structure.
+Implementation of bootstrap is a simulation exercise. In an i.i.d. environment we sample over each observation with equal weight, while in a dependent dataset such as time series, clustering data or networks, we must adjust the sampling schedule to preserve the dependence structure.
 
 In many regular cases, it is possible to show in theory the *consistency* of bootstrap:
 the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or $G^*_n(a)\to G(a)$ for $a$ such that $G(a)$ is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, naive bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments.
@@ -212,7 +212,7 @@ Bootstrap is useful when the analytic formula of the variance of an econometric 
 
 **Example**
 
-One of the most popular estimators for a sample selection model is Heckman(1979)'s two-step method. Let the outcome equation be
+One of the most popular estimators for a sample selection model is @heckman1977sample's two-step method. Let the outcome equation be
 $$y_i = x_i \beta + u_i$$
 and the selection equation be
 $$D_i = z_i \gamma + v_i$$
@@ -237,7 +237,8 @@ print(coeftest(heck))
 
 ```
 
-Below is the function for a single bootstrap. For convenience, I keep using ```heckit``` but only save the point estimates.
+Below is the function for a single bootstrap. For convenience, I keep using ```heckit``` but only save the point estimates 
+but ignore the estimated variance. (This is a lazy option. However, if we manually program the point estimation, they must produce the same result.)
 
 ```{r,cache=TRUE,tidy=TRUE}
 n = nrow(Mroz87)
@@ -383,3 +384,9 @@ print( colMeans(res))
 
 Again, here the "exact test" is no longer exact. The asymptotic test works fairly
 reasonable, while the bootstrap is closer to the nominal size.
+
+## Reading
+
+Efron and Hastie: Ch 10 and 11
+
+## Reference
