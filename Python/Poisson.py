@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+
 """
 Created on Sat Dec  8 00:01:06 2018
 
 @author: Zhentao
 """
+
 
 import numpy as np
 
@@ -19,3 +21,5 @@ b0 = np.mat([[1],[-1],[0]])
 y = np.random.poisson( lam = np.exp( X @ b0 ) ).reshape((n,1))
 
 
+
+poissonLoglik(b0)

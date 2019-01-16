@@ -393,4 +393,9 @@ pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
+## Reading
+
+Wickham and Grolemund: Ch 10, 11, and 21
+
+
 ## References

@@ -1,9 +1,13 @@
 ---
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: "January 29, 2018"
+date: "January 16, 2019"
 output: pdf_document
+fontsize: 11pt
 urlcolor: blue
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
 ---
 
 # Basic R
@@ -371,3 +375,7 @@ reg2 = lm(height~weight+I(weight^2),data=women)
 summary(reg1)
 summary(reg2)
 ```
+
+## Reading
+
+Wickham and Grolemund: Ch 1, 2, 4, 8, 19 and 20
