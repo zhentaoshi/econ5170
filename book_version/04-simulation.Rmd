@@ -47,13 +47,13 @@ a modern PC. How can he achieve a better approximation?
 Standing on the shoulder of laws of large numbers, $\pi$ can be approximated by a stochastic algorithm.
 
 ```{r,cache=TRUE}
-n = 10000
-Z =  matrix(   runif(n)  , ncol = 2 )
-# uniform distribution ranging (0,1)
+n = 10000000
+Z =  2*matrix(   runif(n)  , ncol = 2 ) - 1 # uniform distribution in [-1, 1]
 
-inside = mean(  sqrt( rowSums( (Z-.5)^2 ) )  <=  .5 )
-# the center of the cirle is (0.5,0.5)
-pi_hat = 4 * inside # the area of a circle = pi * r^2
+inside = mean(  sqrt( rowSums( Z ^2 ) )  <=  1 )
+# the center of the cirle is (0, 0)
+pi_hat = inside * 4 # the area of a circle = pi * r^2. 
+# The multiplier 4 is the area of the square
 print(pi_hat)
 ```
 
