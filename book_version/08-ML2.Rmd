@@ -19,7 +19,7 @@ output:
 Hornik, Stinchcombe, White (1989)
 
 
-
+Too manay papers to think about
 
 
 Xiu: Empirical Asset Pricing via Machine Learning
