@@ -1,0 +1,30 @@
+---
+title: 'Machine Learning'
+author: "Zhentao Shi"
+date: "March 7, 2019"
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
+fontsize: 11pt
+urlcolor: blue
+output:
+  pdf_document: default
+---
+
+
+# Neural network
+
+@hornik1989multilayer
+
+Hornik, Stinchcombe, White (1989)
+
+
+
+
+
+Xiu: Empirical Asset Pricing via Machine Learning
+
+Xiu: Taming the Factor Zoo: A Test of New Factors
+
+
+## References
