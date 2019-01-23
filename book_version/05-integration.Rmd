@@ -1,7 +1,7 @@
 ---
 title: 'Integration'
 author: "Zhentao Shi"
-date: "February 14, 2018"
+date: "February 24, 2019"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -102,7 +102,7 @@ some elements unobservable to the econometrician dictate an economic agent's dec
 the foundation of self-selection in labor economics.
 
 
-In the original Roy model, a man can work on  one of the two occupations: farming or a fishing.
+In the original Roy model, a man can work on  one of the two occupations: farming or fishing.
 The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of
 being a fisher is $U_2^{*} = x' \beta_2 + e_2$,
 where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable).
@@ -150,7 +150,8 @@ where $s=1,\ldots,S$ is the index of simulation and $S$ is the total number of s
 This above example can be viewed as an application of simulated maximum likelihood. In parallel,
 we can simulate a moment condition if its explicit form is unavailable.
 @pakes1989simulation provide the theoretical foundation of the
-simulated method of moments (SMM).
+simulated method of moments (SMM). Our co-teacher Prof. Guo has a recent paper [@guo2018]
+applying SMM to estimate a structural labor model.
 
 [comment]:<>(**to be elaborated**.
 Match moments generated the theoretical model with their empirical counterparts.
@@ -242,7 +243,7 @@ generate a random variable with other pdf $f(x)$, we just need to replace the li
 
 ```{r,cache=TRUE}
 library(mcmc)
-h = function(x){ y = -x^2 / 2 } # the log, non-normalized function
+h = function(x){ y = -x^2 / 2 } # un-normalized function (doesn't need to integrate as 1)
 
 out = metrop( obj = h, initial = 0, nbatch = 100, nspac = 1  )
 
@@ -254,7 +255,6 @@ out = metrop( obj = h, initial = 0, nbatch = 100, nspac = 10  )
 plot(out$batch, type = "l") # a time series looks like a white noise
 
 out = metrop( obj = h, initial = 0, nbatch = 10000, nspac = 10  )
-
 plot(density(out$batch), main = "", lwd = 2)
 
 xbase = seq(-3, 3, 0.01)
@@ -262,7 +262,6 @@ ynorm = dnorm(xbase)
 lines( x = xbase, y = ynorm, type = "l", col = "red")
 # the plot compare the density of the simulated sample
 # with the standard normal pdf
-summary(out)
 ```
 
 

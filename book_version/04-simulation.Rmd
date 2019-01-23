@@ -1,7 +1,7 @@
 ---
 title: "Simulation"
 author: Zhentao Shi
-date: January 16, 2019
+date: January 24, 2019
 output: pdf_document
 fontsize: 11pt
 urlcolor: blue
@@ -201,7 +201,7 @@ $$
 Implementation of bootstrap is a simulation exercise. In an i.i.d. environment we sample over each observation with equal weight, while in a dependent dataset such as time series, clustering data or networks, we must adjust the sampling schedule to preserve the dependence structure.
 
 In many regular cases, it is possible to show in theory the *consistency* of bootstrap:
-the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or $G^*_n(a)\to G(a)$ for $a$ such that $G(a)$ is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, naive bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments.
+the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or $G^*_n(a) \stackrel{p}{ \to } G(a)$ for $a$ such that $G(a)$ is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, naive bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments.
 
 ### Bootstrap Estimation
 
@@ -266,7 +266,7 @@ print(Heck_b_sd)
 
 Bootstrap is particularly helpful in inference. Indeed,
 we can rigorously prove that bootstrap enjoys high-order improvement
-relative to asymptotic approximation if the test statistic is asymptotically pivotal.
+relative to analytic asymptotic approximation if the test statistic is asymptotically pivotal.
  Loosely speaking,
 if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing
 can be more accurate than its analytic asymptotic counterpart.
