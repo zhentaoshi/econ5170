@@ -106,7 +106,7 @@ rm(list = ls( ) )
 library(plyr)
 library(VGAM) # for the Pareto distribution
 
-set.seed(888)
+# set.seed(888)
 # set the parameters
 Rep = 1000
 b0 = matrix(1, nrow = 2 )

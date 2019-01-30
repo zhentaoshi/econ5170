@@ -1,7 +1,7 @@
 ---
 title: "Numerical Optimization"
 author: Zhentao Shi
-date: "February 28, 2018"
+date: "Jan 30, 2019"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -13,7 +13,7 @@ output:
 
 # Numerical Optimization
 
-Optimization is the key step to carry out econometric extremum estimation.
+Optimization is a key step to implement extremum estimators in econometrics.
 A general optimization problem is formulated as
 $$\min_{\theta \in \Theta } f(\theta) \,\, \mbox{ s.t. }  g(\theta) = 0, h(\theta) \leq 0,$$
 where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint,
@@ -29,13 +29,13 @@ The constraints can be incorporated into the criterion function via Lagrangian.
 ## Methods
 
 There are many optimization algorithms in the field of operational research;
-they are variants of a small handful of main principles.
+they are variants of a small handful of fundamental principles.
 
-The fundamental idea for twice-differentiable objective function is the Newton's method.
-A necessary condition for optimization is
+The essential idea for optimizing a twice-differentiable objective function is the Newton's method.
+A necessary condition for optimization is the first-order condition
 $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
-At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, the research is updated by 
+At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, the search is updated by 
 $$
 \theta_{t+1} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
 $$
@@ -51,9 +51,9 @@ $\epsilon$ is a small positive number chosen as a tolerance level.
 
 **Newton's Method.** Newton's method seeks the solution to
 $s(\theta) = 0$. Recall that the first-order condition is a necessary condition but not a sufficient
-condition. We still need to verify the second-order condition to identify
-whether a root to $s(\theta)$ is associated to a minimizer or a maximizer,
-and we compare the values of the mimima to decide a
+condition. We still need to verify the second-order condition to verify
+whether a root to $s(\theta)$ is associated with a minimizer, a maximizer or a saddle point.
+If there are multiple minima, we compare the value at each to decide the
 global minimum.
 
 It is clear that Newton's method requires 
@@ -117,10 +117,10 @@ $$
 is negative definite. Therefore, $\ell(\beta)$ is strictly concave
 in $\beta$.
 
-In economics we have utility maximization and cost minimization.
-In statistics we have maximum likelihood estimation and minimal least squared estimation.
-In operational reserach, the default optimization is minimization, not maximization.
-To follow this convention, here we formulate the *negative* log-likelihood.
+In operational reserach, the default optimization is minimization, although 
+economics has utility maximization and cost minimization and
+statistics has maximum likelihood estimation and minimal least squared estimation.
+To follow this convention in operational research, here we formulate the *negative* log-likelihood.
 
 ```{r,cache=TRUE}
 # Poisson likelihood
@@ -264,9 +264,6 @@ print( res_BFGS )
 * `optimx` can handle simple box-constrained problems.
 * `constrOptim` can handle linear constrained problems.
 * Some algorithms in `nloptr`, for example, `NLOPT_LD_SLSQP`, can handle nonlinear constrained problems.
-* `Rdonlp2` is an alternative for general nonlinear constrained problems. Rdonlp2
-is a package offered by `Rmetric` project. It can be installed by
- `install.packages("Rdonlp2", repos="http://R-Forge.R-project.org")`
 
 ## Convex Optimization
 
@@ -303,7 +300,7 @@ lo1$bx <- rbind(blx = c(0,0,0,0),
 r <- mosek(lo1)
 ```
 
-A survey paper can be found here with [some recent development in convex optimization in econometrics](https://www.researchgate.net/publication/320805166_Convex_Programming_in_Econometrics). 
+A survey and demonstration paper can be found here [@gao2018two].
 
 
 ## References
