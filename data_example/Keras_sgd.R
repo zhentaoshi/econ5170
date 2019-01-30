@@ -29,6 +29,7 @@ library(keras)
 # Download the data set and split the data
 
 boston_housing <- dataset_boston_housing()
+# boston housing has 506 observations in total. Not a big dataset
 # this data has training x y and test x y
 
 c(train_data, train_labels) %<-% boston_housing$train
@@ -56,8 +57,6 @@ colnames(train_df) <- column_names   # Make it a data frame
 
 ###################################################
 # Model Building
-# From this point on, I have difficulty understanding given limited knowledge
-# of statistical learning. I will refer to other useful links when needed.
 
 build_model <- function() {
 
@@ -91,8 +90,9 @@ model <- build_model()
 history <- model %>% fit(
   train_data,
   train_labels,
-  epochs = 500,verbose = 0,
-  validation_split = 0.2)
+  epochs = 500,verbose = 1,
+  validation_split = 0.2
+  )
 # verbose=0 -> Silent when fitting
 # epochs = number of epochs to train the model (An epoch is one iteration over the entire input data)
 
