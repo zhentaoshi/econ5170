@@ -290,6 +290,7 @@ quadratic loss function, and equals its median under the absolute-value loss fun
 
 The code block below compares the OLS estimator with the LTE estimator in a linear regression model.
 ```{r,cache=TRUE}
+set.seed(101)
 library(mcmc)
 
 # DGP
@@ -299,11 +300,11 @@ X = cbind(1, rnorm(n))
 Y = X %*% b0 + rnorm(n)
 
 # Laplace-type estimator
-L = function(b) -sum( (Y - X %*% b )^2 )  
+L = function(b) -sum( (Y - X %*% b )^2 )  # use uniform prior
 # criterion function with a flat prior
 # notice the "minus" sign of the OLS objective function
 
-out = metrop( obj = L, initial = c(0,0), nbatch = 10000, nspac = 10  )
+out = metrop( obj = L, initial = c(0,0), nbatch = 100000, nspac = 10  )
 
 # summarize the estimation
 bhat2 = out$batch[,2]
@@ -314,8 +315,33 @@ bhat2_CI = quantile(bhat2, c(.025, .975) )
 # compare with OLS
 b_OLS = summary( lm(Y~-1+X) )
 print(coef( b_OLS) )
-print(c(bhat2_point, bhat2_sd))
-```
+print(cat("The posterior mean =",  bhat2_point, " sd = ", bhat2_sd, 
+          " and C.I. = ", bhat2_CI , "\n"))
 
+plot(density(bhat2), main = "posterior from uniform prior")
+```
+```{r, cache = TRUE}
+# Laplace-type estimator
+
+L = function(b) -sum( (Y - X %*% b )^2 ) - 0.5 * crossprod( b  - c(0,0) )   # the prior of b from N(0,1)
+# criterion function with a flat prior
+# notice the "minus" sign of the OLS objective function
+
+out = metrop( obj = L, initial = c(0,0), nbatch = 100000, nspac = 10  )
+
+# summarize the estimation
+bhat2 = out$batch[,2]
+bhat2_point = mean(bhat2)
+bhat2_sd   = sd(bhat2)
+bhat2_CI = quantile(bhat2, c(.025, .975) )
+
+# compare with OLS
+b_OLS = summary( lm(Y~-1+X) )
+print(coef( b_OLS) )
+print(cat("The posterior mean =",  bhat2_point, " sd = ", bhat2_sd, 
+          " and C.I. = ", bhat2_CI , "\n"))
+
+plot(density(bhat2), main = "posterior from N(0,1) prior")
+```
 
 ## References {-}
