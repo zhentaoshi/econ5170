@@ -112,7 +112,7 @@ $$
 and verify that the Hessian
 $$
 H(\beta) = \frac{\partial^2 \ell(\beta)}{\partial \beta \partial \beta'} =
--\sum_{i=1}^n \exp(x_i'\beta)x_i x_i' - \sum_{i=1}^n \exp(x_i'\beta)
+-\sum_{i=1}^n \exp(x_i'\beta)x_i x_i' 
 $$
 is negative definite. Therefore, $\ell(\beta)$ is strictly concave
 in $\beta$.
@@ -259,6 +259,7 @@ res_BFGS = nloptr( x0=b.init,
 print( res_BFGS )
 ```
 
+
 ## Contrained Optimization
 
 * `optimx` can handle simple box-constrained problems.
@@ -301,6 +302,22 @@ r <- mosek(lo1)
 ```
 
 A survey and demonstration paper can be found here [@gao2018two].
+
+
+## Stochastic Gradient Descent
+
+When the sample size is huge and the number of parameters is also big, 
+the evaluation of the gradient can be prohibitively expensive. 
+Stochastic Gradient Descent (SGD) uses a small batch of the sample 
+to evaluate the gradient in each iteration. It can significantly save
+computational time. In complex optimization problems such as 
+training a neural network, SGD is the de facto optimization procedure.
+
+However, SGD involves tuning parameters (say, the batch size and the learning rate)
+that can dramatically affect 
+the outcome, in particular in nonlinear problems. 
+Careful experiments must be carried out before any serious implementation.
+
 
 
 ## References
