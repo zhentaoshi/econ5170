@@ -264,7 +264,8 @@ lines( x = xbase, y = ynorm, type = "l", col = "red")
 # with the standard normal pdf
 ```
 
-
+**To add this link** 
+https://chi-feng.github.io/mcmc-demo/
 
 ### Laplace-type Estimator: An Application of MCMC
 
@@ -290,24 +291,24 @@ quadratic loss function, and equals its median under the absolute-value loss fun
 
 The code block below compares the OLS estimator with the LTE estimator in a linear regression model.
 ```{r,cache=TRUE}
-set.seed(101)
+# set.seed(101)
 library(mcmc)
 
 # DGP
-n = 100
-b0 = c(1,2)
+n = 1000
+b0 = c(1,1)
 X = cbind(1, rnorm(n))
 Y = X %*% b0 + rnorm(n)
 
 # Laplace-type estimator
-L = function(b) -sum( (Y - X %*% b )^2 )  # use uniform prior
+L = function(b)  -sum( (Y - X %*% b )^2 ) # use uniform prior
 # criterion function with a flat prior
 # notice the "minus" sign of the OLS objective function
-
-out = metrop( obj = L, initial = c(0,0), nbatch = 100000, nspac = 10  )
+nbatch = 1100;
+out = metrop( obj = L, initial = c(1,0), nbatch = nbatch, nspac = 20  )
 
 # summarize the estimation
-bhat2 = out$batch[,2]
+bhat2 = out$batch[-(1:(nbatch/10)),2] # remove the burn in 
 bhat2_point = mean(bhat2)
 bhat2_sd   = sd(bhat2)
 bhat2_CI = quantile(bhat2, c(.025, .975) )
@@ -323,14 +324,15 @@ plot(density(bhat2), main = "posterior from uniform prior")
 ```{r, cache = TRUE}
 # Laplace-type estimator
 
-L = function(b) -sum( (Y - X %*% b )^2 ) - 0.5 * crossprod( b  - c(0,0) )   # the prior of b from N(0,1)
+L = function(b) - sum( (Y - X %*% b )^2 ) - 0.5 * crossprod( b  - c(0,0) )   # the prior of b from N(0,1)
 # criterion function with a flat prior
 # notice the "minus" sign of the OLS objective function
 
-out = metrop( obj = L, initial = c(0,0), nbatch = 100000, nspac = 10  )
+nbatch = 1100;
+out = metrop( obj = L, initial = c(1,0), nbatch = nbatch, nspac = 20  )
 
 # summarize the estimation
-bhat2 = out$batch[,2]
+bhat2 = out$batch[-(1:(nbatch/10)),2] # remove the burn in 
 bhat2_point = mean(bhat2)
 bhat2_sd   = sd(bhat2)
 bhat2_CI = quantile(bhat2, c(.025, .975) )
