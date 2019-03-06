@@ -1,6 +1,4 @@
-library(optimx)
-library(nloptr)
-################### the log likelihood and the gradient
+
 
 poisson.loglik = function( b, y, X ) {
   b = as.matrix( b )
@@ -26,12 +24,6 @@ X = cbind(1, matrix( runif( nn*(K-1) ), ncol = K-1 ) )
 b0 = rep(1, K) / K
 y = rpois(nn, exp( X %*% b0 ) )
 
-## the initial value 
-
-# b.init = runif( K) # runif(K) # c(1,0)
-# b.init = .01 * rep(1, K)
-# b.init = c( rep(1,5), rep(0, K-5) ) 
-# b.init = rnorm(2)
 
 b.init = runif(K); b.init  = 2 * b.init / sum(b.init)
 
@@ -53,11 +45,12 @@ X_test = X[test_ind, ]
 y_train = y[-test_ind ]
 X_train = X[-test_ind, ]
 
-
+# optimization parameters
 max_iter = 5000
 min_iter = 20
 eta=0.01
 epoch = round( 100*sqrt(K) )
+
   
 b_old = b.init
 
@@ -74,61 +67,23 @@ for (i in 1:max_iter ){
   criterion =  loglik_old - loglik_new  
   cat( "the ", i, "-th criterion = ",   criterion, "\n")
   
-  if (  criterion < 0.00001 & i >= min_iter ) break
+  if (  criterion < 0.0001 & i >= min_iter ) break
 }
 cat("point estimate =", b_new, ", log_lik = ", loglik_new, "\n")
 pts1 = Sys.time( ) - pts0
 print(pts1)
 
-# ##########################
-# pts0 = Sys.time( )
-# b.hat = optimx( b.init, poisson.loglik, y=y_train, X=X_train,
-#                 method = c("BFGS", "Nelder-Mead"),
-#                 control = list(reltol = 1e-7,
-#                                abstol = 1e-7)  )
-# print( b.hat )
-# pts1 = Sys.time( ) - pts0
-# print(pts1)
-# 
-# 
-# pts0 = Sys.time( )
-# b.hat = optimx( b.init, poisson.loglik, y=y_train, X=X_train,
-#                 gr = poisson.loglik.grad.nlopt,
-#                 method = c("BFGS", "Nelder-Mead"),
-#                 control = list(reltol = 1e-7,
-#                                abstol = 1e-7)  )
-# print( b.hat )
-# pts1 = Sys.time( ) - pts0
-# print(pts1)
 
-###############################################
+# optimx is too slow for this dataset.
+# Nelder-Mead method is too slow for this dataset
 
+# thus we only sgd with NLoptr
 
-
-## optimization with NLoptr
-
-
-# opts = list("algorithm"="NLOPT_LN_NELDERMEAD",
-#             "xtol_rel"=1.0e-7,
-#             maxeval = 5000
-# )
-# pts0 = Sys.time( )
-# res_NM = nloptr( x0=b.init,
-#                  eval_f=poisson.loglik,
-#                  opts=opts,
-#                  y = y_train, X = X_train)
-# print( res_NM )
-# 
-# pts1 = Sys.time( ) - pts0
-# print(pts1)
-
-# "SLSQP" is indeed the BFGS algorithm in NLopt,
-# though "BFGS" doesn't appear in the name
 opts = list("algorithm"="NLOPT_LD_SLSQP","xtol_rel"=1.0e-7, maxeval = 5000)
 
 
 pts0 = Sys.time( )
-res_NM = nloptr( x0=b.init,
+res_NM = nloptr::nloptr( x0=b.init,
                  eval_f=poisson.loglik,
                  eval_grad_f = poisson.loglik.grad,
                  opts=opts,

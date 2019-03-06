@@ -1,5 +1,7 @@
 # data source: https://archive.ics.uci.edu/ml/datasets/IPUMS+Census+Database
 
+# this is a demonstration of the time efficiency in the computation of 
+# the heteroskedastic-robust variance
 
 
 library(magrittr)
