@@ -20,6 +20,10 @@ scientific research to daily life.
 An authoritative reference is @friedman2001elements,
 written at the entry-year postgraduate level.
 The ideas in machine learning are general and applicable to economic investigation.
+@athey2018impact discusses the impact of machine learning techniques 
+to economic analysis. 
+@mullainathan2017machine survey a few new commonly used methods and 
+demonstrate them in a real example. 
 @taddy2018technological introduces new technology *artificial intelligence*
 and the implication of the underlying economic modeling.
 
@@ -178,6 +182,10 @@ It helps decide a set of optimal tuning parameters. Ideally, the testing sample 
 kept by a third party out of the touch of the modeler. The testing sample is the final
 judge of the superiority of the fitted model.
 
+The R package `caret` provides a framework for many macine learning methods.
+The function [`createDataPartition`](https://topepo.github.io/caret/data-splitting.html) 
+splits the data for both cross sectional data and time seies.
+
 
 ## Variable Selection and Prediction
 
@@ -264,6 +272,11 @@ To be discussed in the future
 * Shi and Huang (2018, to be released)
 * Phillips and Shi (2018, to be released)
 * @chinco2017sparse
+
+
+## Reading
+
+* Efron and Hastie: Ch. 16
 
 
 ## References
