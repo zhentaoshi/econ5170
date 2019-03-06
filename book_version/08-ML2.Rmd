@@ -12,6 +12,33 @@ output:
 ---
 
 
+# Implementation
+
+`caret` is a framework.
+
+The caret package (Classification And REgression Training) contains functions to streamline the model training process.
+
+
+
+
+### Tree and Random Forest
+```{r}
+require(randomForest)
+require(MASS)#Package which contains the Boston housing dataset
+attach(Boston)
+set.seed(101)
+
+#training Sample with 300 observations
+train=sample(1:nrow(Boston),300)
+
+Boston.rf=randomForest(medv ~ . , data = Boston , subset = train)
+plot(Boston.rf)
+
+getTree(Boston.rf)
+importance(Boston.rf)
+```
+An example of random forest
+
 # Neural network
 
 @hornik1989multilayer

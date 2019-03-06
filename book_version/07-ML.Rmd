@@ -1,18 +1,18 @@
 ---
 title: 'Machine Learning'
 author: "Zhentao Shi"
-date: "March 7, 2018"
+date: "March 7, 2019"
+output: pdf_document
+fontsize: 11pt
+urlcolor: blue
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
-fontsize: 11pt
-urlcolor: blue
-output:
-  pdf_document: default
 ---
 
 
 # Machine Learning
+
 
 
 Machine learning has quickly grown into a big field, with applications from
@@ -24,13 +24,15 @@ The ideas in machine learning are general and applicable to economic investigati
 and the implication of the underlying economic modeling.
 
 
-The two board classes of machine learning methods are *supervised learning* and *unsupervised learning*. Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
-is only about $X$. Instances of the former are various regressions; those of the latter are density estimation, principle component analysis, and clustering. These examples are all familiar econometric problems.
+The two broad classes of machine learning methods are *supervised learning* and *unsupervised learning*.
+Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
+is only about $X$. Instances of the former are various regressions; those of the latter are density estimation,
+principle component analysis, and clustering. These examples are all familiar econometric problems.
 
 From an econometrician's view, supervised machine learning is a set of data fitting procedures that focus on out-of-sample prediction.
 The simplest illustration is in the regression context.
 We repeat a scientific experiment for $n$ times, and we harvest a dataset $(y_i, x_i)_{i=1}^n$.
-What would be the best way to predict $y_{n+1}$ from the same experiment if we set $x_{n+1}$?
+What would be the best way to predict $y_{n+1}$ from the same experiment if we know $x_{n+1}$?
 
 Machine learning is a paradigm shift against conventional statistics.
 When a statistician propose a new estimator, the standard practice is to pursue
@@ -43,8 +45,19 @@ Furthermore, for an asymptotically normal estimator, we want to
 show efficiency, an optimality property. An efficient estimator achieves the smallest asymptotic variance
 in a class of asymptotically normal estimators.
 
-Machine learning deviates from such routines. Machine learning researchers dismiss
-all the three points. First, they argue efficiency is not crucial because the dataset itself is big enough so that the variance is usually small.
+In addition, econometrician also care about
+model identification and economic interpretation of the empirical results.
+Econometrics workflow interacts the data at hand and the model of interest. At the population level,
+we think about the problem of identification. Once the parameter of interest is identified,
+then we can proceed to parameter estimation and inference.
+Finally, we interpret the results and hopefully they shed light on economics.
+
+![Econometrics workflow](econometrics_workflow.png)
+
+
+
+Machine learning deviates from such routines.
+First, they argue efficiency is not crucial because the dataset itself is big enough so that the variance is usually small.
 Second, in many situations statistical inference is not the goal, so
 inferential procedure is not of interest. For example, the recommendation system on Amazon or Taobao has
 a machine learning algorithm behind it. There we care about the prediction accuracy, not the causal link
@@ -55,10 +68,10 @@ to if there is no "true parameter"? With these arguments, the paradigm of conven
 smashed. In the context of econometrics,
 such argument completely rejects the structural modeling tradition (the Cowles approach).
 
-The above argument have merit, but it is also misleading.
-In this lecture, we set the ongoing philosophical debate aside. We economists are
-practical and reasonable souls.  We study
+
+In this lecture, we set aside the ongoing philosophical debate. Instead,  we study
 the most popular machine learning methods that have found growing popularity in economics.
+
 
 ## Nonparametric Estimation
 
@@ -68,11 +81,12 @@ Nonparametric estimation is nothing new to statisticians. However, some ideas
 in this old topic is directly related to the underlying principles of machine learning methods.
 
 
-Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we know, or assume, that
+Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we assume that
 the sample is drawn from a parametric family, for example the normal distribution, then we can use the
 maximum likelihood estimation to learn the mean and the variance.
 Nevertheless, when the parametric family is misspecified, the MLE estimation
-is inconsistent in theory. In practice, what is the correct parametric family is never known.
+is inconsistent in theory, and we can at best identify a *pseudo true value*.
+In practice, what is the correct parametric family is unknown.
 If we do not want to impose a parametric assumption, then in principle
 we will have to use an infinite number of parameters to fully characterize the density.
 One well-known nonparametric estimation is the histogram. The shape of the bars of the
@@ -106,7 +120,10 @@ For example, any bounded, continuous and differentiate function has a series
 representation $f(x) = \sum_{k=0}^{\infty} \beta_k \cos (\frac{k}{2}\pi x )$. In finite sample,
 we choose a finite $K$, usually much smaller than $n$, as a cut-off.
 Asymptotically $K \to \infty$ as $n \to \infty$ so that
-$$f_K(x) = \sum_{k=0}^{K} \beta_k \cos \left(\frac{k}{2}\pi x \right) \to f(x)$$.
+$$
+f_K(x) = \sum_{k=0}^{K} \beta_k \cos \left(\frac{k}{2}\pi x \right) \to f(x).
+$$
+
 Similar bias-variance tradeoff appears in this nonparametric regression.
 If $K$ is too big, $f$ will be too flexible and it can achieve $100\%$ of in-sample R-squared.
 This is not useful for out-of-sample prediction. Such prediction will have large variance, but small bias.
@@ -142,10 +159,24 @@ theoretical proposal is either using an *information criterion*
 
 ## Data Splitting
 
-training data:
-validation data: used to determine tuning parameters
 
-test data: pretended new data that the researcher do not observe when fit the model
+
+![Learning workflow](learning_workflow.png)
+
+The workflow of machine learning methods is quite different from econometrics. The main purpose is often prediction instead of interpretation.
+They use some "off-the-shelf" learning methods, which economists often view as "black-box".
+They are flexible to allow a large number of parameters.
+The models are measured by their performance in prediction.
+In order to avoid overfitting it is often necessary to tune at least a few tuning parameters.
+
+Most machine learning methods take an agnostic view about the DGP, and they explicitly
+acknowledge model uncertainty. To address the issue of model selection (tuning parameter selection),
+in a data rich environment they often split the data into three parts. A training dataset
+is used to fit the model parameter given the tuning parameters. A validation dataset is
+used to compare the out-of-sample performance under different tuning parameters.
+It helps decide a set of optimal tuning parameters. Ideally, the testing sample should be
+kept by a third party out of the touch of the modeler. The testing sample is the final
+judge of the superiority of the fitted model.
 
 
 ## Variable Selection and Prediction
@@ -220,24 +251,6 @@ To be discussed in the future
 * The idea of boosting and its association to reweighting.
 * regression tree, bagging (Killian and Inoue), average of subsampling
 
-### Tree and Random Forest
-```{r}
-require(randomForest)
-require(MASS)#Package which contains the Boston housing dataset
-attach(Boston)
-set.seed(101)
-
-#training Sample with 300 observations
-train=sample(1:nrow(Boston),300)
-?Boston  #to search on the dataset
-
-Boston.rf=randomForest(medv ~ . , data = Boston , subset = train)
-plot(Boston.rf)
-
-getTree(Boston.rf)
-importance(Boston.rf)
-```
-An example of random forest
 
 ## Unstructured Data
 
@@ -247,7 +260,7 @@ An example of random forest
 
 ## Economic Applications
 
-* Lee and Shi (2018, to be released)
+* @lee2018
 * Shi and Huang (2018, to be released)
 * Phillips and Shi (2018, to be released)
 * @chinco2017sparse
