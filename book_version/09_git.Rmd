@@ -43,7 +43,7 @@ Even if we use a GUI, knowing the basic commands is helpful.
 * `git log` displays historical commits stored chronologically in the repository.
 * `git config --global user.name <name>`
 * `git config --global user.email <email>`
-* `git tag -a v1.0 -m 'message'`
+* `git tag -a v1.0 -m 'message' [optional:commit-id]`
 * `git rm --cached filename`
 * `git branch [brach_name]`
 * `git checkout [commit_id or branch name]`
