@@ -3,6 +3,7 @@ title: 'Machine Learning'
 author: "Zhentao Shi"
 date: "March 7, 2019"
 output: pdf_document
+# link-citations: yes
 fontsize: 11pt
 urlcolor: blue
 bibliography: book.bib
@@ -11,7 +12,7 @@ header-includes:
   - \usepackage{tikz}
   - \usepackage{pgfplots}
   - \usetikzlibrary{shapes.geometric, arrows,chains,matrix,scopes}
-link-citations: yes
+  - \usepackage{caption}
 ---
 
 
@@ -34,8 +35,10 @@ and the implication of the underlying economic modeling.
 
 The two broad classes of machine learning methods are *supervised learning* and *unsupervised learning*.
 Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
-is only about $X$. Instances of the former are various regressions; those of the latter are density estimation,
-principle component analysis, and clustering. These examples are all familiar econometric problems.
+is only about $X$. Instances of the former are various regression
+and classification methods; those of the latter are density estimation,
+principal component analysis, and clustering. 
+These examples are all familiar econometric problems.
 
 From an econometrician's view, supervised machine learning is a set of data fitting procedures that focus on out-of-sample prediction.
 The simplest illustration is in the regression context.
@@ -60,40 +63,35 @@ we think about the problem of identification. Once the parameter of interest is 
 then we can proceed to parameter estimation and inference.
 Finally, we interpret the results and hopefully they shed light on economics.
 
-![Econometrics workflow](
-\begin{tikzpicture}[node distance = 10 mm, thick, scale=1, transform shape]
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=5mm]
+    %\draw[help lines] (0,0) grid (9,7);
+
 % Nodes
-  \node[ellipse, draw] 
-    (a) [label=above left:$data$]{Training Data};
-  \node[ellipse, draw, right = of a] 
-    (b) {Validation Data};
-  \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center] 
-    (c) {(Out of Sample) Testing Data};
-  \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a] 
-    (d) {Fitting Method} ;
-  \node[ellipse, draw=blue,fill=black!0, right= of d, text width=3.5cm, align=center] 
-    (e) {Best Parameter \\ (Model)};
-  \node[ellipse, draw, left = 10 mm of d, loosely dashed] 
-    (f)
-    [label = above left: \textit{\textcolor{black!40}{Many Sets of}}, 
-    label = below: \textcolor{black!40}{$Model$}]
-    {Tuning Parameter};
-    
-% Arrows
-    \draw [->, black] (a) -- (d);
-    \draw [->, blue] (d) -- (b);
-    \draw [->, blue] (b) -- (e);
-    \draw [->, blue] (e) -- (c);
-    \draw [->, black, loosely dashed] (f) -- (d);
-    
-% Caption    
-  \node[below = of d] {
-        \begin{tabular}{l}
-            $\bullet$ Data splitting can be done by cross validation \\
-            $\bullet$ A data driven approach for future selection
-        \end{tabular}};
+    \node [draw, ellipse] (a) at (2,6) {Model};
+    \node [draw, ellipse] (b) at (8,6) {Estimation};
+    \node [color=black!40](c) at (1,5) {Population};
+    \node (d) at (5,4) {Estimation};
+    \node [color=black!40](e) at (1,2) {Sample};
+    \node (f) at (5,2) {Inference};
+    \node (g) at (5,0) {Interpretation};
+    \node [color=black!40](h) at (1,0) {Economics};
+
+% Arrows  
+    \draw[-latex] (a) to[bend right=10] node[above, yshift=2mm] {Identification}  (b);
+    \draw[-latex] (b) to[bend right=10]  (a);
+    \draw[-latex] (a) to[bend left=0]  (d);
+    \draw[-latex] (b) to[bend right=0]  (d);
+    \draw[-latex] (d) to[bend right=0]  (f);
+    \draw[-latex] (f) to[bend right=0]  (g);
+
+% Lines
+    \draw[color=black!40,very thick] (0,1) -- (2,1);
+    \draw[color=black!40,very thick] (0,4) -- (2,4);
 \end{tikzpicture}
-)
+\caption{Econometrics workflow}
+\end{figure}
 
 Machine learning deviates from such routines.
 First, they argue efficiency is not crucial because the dataset itself is big enough so that the variance is usually small.
@@ -132,6 +130,18 @@ One well-known nonparametric estimation is the histogram. The shape of the bars 
 histogram depends on the partition of the support. If the grid system on the support is too
 fine, then each bin will have only a few observations. Despite small bias, the estimation
 will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff is the defining feature not only for nonparametric estimation but for all machine learning methods.
+
+* [Add three graphs of histogram later]
+
+
+\begin{figure}
+\centering
+\includegraphics[height=5cm]{MSE.png}
+\caption{Bias-vairance tradeoff}
+\end{figure}
+
+
+
 
 Another example of nonparametric estimation is  the conditional mean
 $f(x) = E[y_i |x_i = x]$ given a sample $(y_i, x_i)$. This is what we encountered in the first lecture of graduate econometrics Econ5121A. We solve the minimization problem
@@ -199,33 +209,42 @@ theoretical proposal is either using an *information criterion*
 ## Data Splitting
 
 
-![Learning workflow](
-\begin{tikzpicture}[node distance=5mm]
-    %\draw[help lines] (0,0) grid (9,7);
-
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance = 10 mm, thick, scale=1, transform shape]
 % Nodes
-    \node [draw, ellipse] (a) at (2,6) {Model};
-    \node [draw, ellipse] (b) at (8,6) {Estimation};
-    \node [color=black!40](c) at (0,5) {Population};
-    \node (d) at (5,4) {Estimation};
-    \node [color=black!40] (e) at (0,3) {Sample};
-    \node (f) at (5,2) {Inference};
-    \node (g) at (5,0) {Interpretation};
-    \node [color=black!40](h) at (0,1) {Economics};
-
-% Arrows  
-    \draw[-latex] (a) to[bend right=10] node[above, yshift=2mm] {Identification}  (b);
-    \draw[-latex] (b) to[bend right=10]  (a);
-    \draw[-latex] (a) to[bend left=0]  (d);
-    \draw[-latex] (b) to[bend right=0]  (d);
-    \draw[-latex] (d) to[bend right=0]  (f);
-    \draw[-latex] (f) to[bend right=0]  (g);
-
-% Lines
-    \draw[color=black!40,very thick] (0,2) -- (2,2);
-    \draw[color=black!40,very thick] (0,4) -- (2,4);
+  \node[ellipse, draw] 
+    (a) [label=above left:$data$]{Training Data};
+  \node[ellipse, draw, right = of a] 
+    (b) {Validation Data};
+  \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center] 
+    (c) {(Out of Sample) Testing Data};
+  \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a] 
+    (d) {Fitting Method} ;
+  \node[ellipse, draw=blue,fill=black!0, right= of d, text width=3.5cm, align=center] 
+    (e) {Best Parameter \\ (Model)};
+  \node[ellipse, draw, left = 20 mm of d, loosely dashed] 
+    (f)
+    [label = below: \textcolor{black!40}{Many Sets of Tuning Parameters}]
+    {Model};
+    
+% Arrows
+    \draw [->, black] (a) -- (d);
+    \draw [->, blue] (d) -- (b);
+    \draw [->, blue] (b) -- (e);
+    \draw [->, blue] (e) -- (c);
+    \draw [->, black, loosely dashed] (f) -- (d);
+    
+% Caption    
+  \node[below = of d] {
+        \begin{tabular}{l}
+            $\bullet$ Data splitting can be done by cross validation \\
+            $\bullet$ A data driven approach for feature selection
+        \end{tabular}};
 \end{tikzpicture}
-)
+\caption{Learning workflow}
+\end{figure}
+
 
 The workflow of machine learning methods is quite different from econometrics. The main purpose is often prediction instead of interpretation.
 They use some "off-the-shelf" learning methods, which economists often view as "black-box".
