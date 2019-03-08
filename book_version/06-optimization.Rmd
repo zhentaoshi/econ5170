@@ -277,6 +277,22 @@ referred to @boyd2004convex for an accessible comprehensive treatment. They clai
 **Example**
 
 * linear regression model MLE
+
+
+Normal MLE. The (negative) log-likelihood is 
+$$
+\ell (\beta, \sigma) = \log \sigma + \frac{1}{\sigma^2}\sum_{i=1}^n (y_i - x_i' \beta)^2
+$$
+This is not a convex problem, because $\log \sigma$ is concave. But if we reparameterize the criterion function by $\gamma = 1/\sigma$ and $\alpha = \beta / \sigma$, then 
+$$
+\ell (\alpha, \gamma) = -\log \gamma + \sum_{i=1}^n (\gamma y_i - x_i' \alpha)^2
+$$
+This function in convex in $\alpha, \gamma$. 
+
+Indeed, many MLE estimators in the first-year econometrics are convex.
+
+
+
 * Lasso [@su2016identifying]
 * Relaxed empirical likelihood [@shi2016econometric].
 
@@ -302,6 +318,10 @@ r <- Rmosek::mosek(lo1) # as today (Feb 10, 2019), the latest version of
 ```
 
 A survey and demonstration paper can be found here [@gao2018two].
+
+
+* Convex solvers: CLEPX, MOSEK, Gurubi, (Commercial)   EOS, SDPT3, (free)
+* `CVX` is a convex modeling language, and its has its R version.
 
 
 ## Stochastic Gradient Descent (SGD)
