@@ -10,7 +10,7 @@ biblio-style: apalike
 link-citations: yes
 github-repo: rstudio/bookdown-demo
 description: "nothing"
-fontsize: 11pt
+fontsize: 12pt
 ---
 # Preface {-}
 
@@ -63,3 +63,5 @@ It makes programming user-friendly and enjoyable.
 
 I prepare the lecture notes in Rmarkdown.
 The book version can be built in RStudio.
+
+I thank (to be completed).

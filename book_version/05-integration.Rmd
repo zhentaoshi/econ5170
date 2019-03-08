@@ -346,4 +346,4 @@ print(cat("The posterior mean =",  bhat2_point, " sd = ", bhat2_sd,
 plot(density(bhat2), main = "posterior from N(0,1) prior")
 ```
 
-## References {-}
+## References
