@@ -358,4 +358,24 @@ To be discussed in the future
 * Efron and Hastie: Ch. 16
 
 
+
+## Appendix
+
+Suppose $y_i = x_i' \beta_0 + e_i$, where $e_i$ is orthogonal to $x_i$ and $\mathrm{var}[e_i] = \sigma^2$. Then
+$$
+\min_{\beta} E[ (y_i - x_i' \beta)^2 ] = E[ (y_i - x_i' \beta_0)^2 ] = E[ e_i^2 ] = \sigma^2.
+$$
+This is the minimal error that can be achieved in the population.
+
+In reality, we have a sample $(y_i, x_i)$ of $n$ observations, and we estiamted $\beta$ with the OLS estimator $\hat{\beta} = (X'X)^{-1}X'y$. 
+The expectation of the SSR is
+$$
+E\left[ \frac{1}{n} \sum_{i=1}^n (y_i - x_i' \hat{\beta})^2  \right] 
+= \frac{1}{n}  E\left[ e'(I_n - X(X'X)^{-1}X )e  \right]=  \frac{\sigma^2}{n}(n-p) = \sigma^2\left( 1 - \frac{p}{n} \right)
+< \sigma^2
+$$
+Asymptotically, if $p/n \to 0$, the two risks converge. Otherwise if $p/n \to c$, then the expected SSR is strictly 
+smaller than the minimal population risk. The model is overfitted.
+
+
 ## References
