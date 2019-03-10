@@ -39,6 +39,156 @@ importance(Boston.rf)
 ```
 An example of random forest
 
+
+
+
+## Stochastic Gradient Descent (SGD)
+
+In optimization if we update
+$$
+x_{k+1} = x_{k} + a_k p_k,
+$$
+where $a_k \in \mathbb{R}$ is the step length and $p_k$ is a vector
+of directions. Use a Talyor expansion,
+$$
+f(x_{k+1}) = f(x_k + a_k p_k ) \approx f(x_k) + a_k \nabla f(x_k) p_k,
+$$
+If in each step we want the value of the criterion function
+$f(x)$ to decrease, we need $\nabla f(x_k) p_k \leq 0$.
+A simple choice is $p_k =-\nabla f(x_k)$, which is called the deepest decent.
+Newton's method corresponds to $p_k =- (\nabla^2 f(x_k))^{-1}  \nabla f(x_k)$,
+and BFGS uses a low-rank matrix to approximate $\nabla^2 f(x_k)$.
+
+When the sample size is huge and the number of parameters is also big,
+the evaluation of the gradient can be prohibitively expensive.
+Stochastic Gradient Descent (SGD) uses a small batch of the sample
+to evaluate the gradient in each iteration. It can significantly save
+computational time. In complex optimization problems such as
+training a neural network, SGD is the de facto optimization procedure.
+
+However, SGD involves tuning parameters (say, the batch size and the learning rate)
+that can dramatically affect
+the outcome, in particular in nonlinear problems.
+Careful experiments must be carried out before serious implementation.
+
+Below is an example of SGD in the PPMLE with sample size 100,000 and
+the number of parameters 100. SGD is usually much faster.
+
+
+The new functions are defined with the data explicity as arguments.
+Because in SGD each time the log-likelihood function and the gradiant are
+evaluated at a different subsample.
+
+```{r, cache=TRUE}
+poisson.loglik = function( b, y, X ) {
+  b = as.matrix( b )
+  lambda =  exp( X %*% b )
+  ell = -mean( -lambda + y *  log(lambda) )
+  return(ell)
+}
+
+
+poisson.loglik.grad = function( b, y, X ) {
+  b = as.matrix( b )
+  lambda =  as.vector( exp( X %*% b ) )
+  ell = -colMeans( -lambda * X + y * X )
+  ell_eta = ell
+  return(ell_eta)
+}
+```
+################################3
+
+
+
+```{r, cache=TRUE, tidy=TRUE}
+##### generate the artificial data
+set.seed(898)
+nn = 1e5; K = 100
+X = cbind(1, matrix( runif( nn*(K-1) ), ncol = K-1 ) )
+b0 = rep(1, K) / K
+y = rpois(nn, exp( X %*% b0 ) )
+
+
+b.init = runif(K); b.init  = 2 * b.init / sum(b.init)
+
+# and these tuning parameters are related to N and K
+
+n = length(y)
+test_ind = sample(1:n, round(0.2*n) )
+
+y_test = y[test_ind]
+X_test = X[test_ind, ]
+
+y_train = y[-test_ind ]
+X_train = X[-test_ind, ]
+```
+
+```{r, cache=TRUE,tidy=TRUE}
+# optimization parameters
+
+# sgd depends on
+# * eta: the learning rate
+# * epoch: the averaging small batch
+# * the initial value
+
+max_iter = 5000
+min_iter = 20
+eta=0.01
+epoch = round( 100*sqrt(K) )
+
+
+b_old = b.init
+
+pts0 = Sys.time()
+# the iteration of gradient
+for (i in 1:max_iter ){
+
+  loglik_old = poisson.loglik(b_old, y_train, X_train)
+  i_sample = sample(1:length(y_train), epoch, replace = TRUE )
+  b_new = b_old - eta * poisson.loglik.grad(b_old, y_train[i_sample], X_train[i_sample, ])
+  loglik_new = poisson.loglik(b_new, y_test, X_test)
+  b_old = b_new # update
+
+  criterion =  loglik_old - loglik_new  
+  cat( "the ", i, "-th criterion = ",   criterion, "\n")
+
+  if (  criterion < 0.0001 & i >= min_iter ) break
+}
+cat("point estimate =", b_new, ", log_lik = ", loglik_new, "\n")
+pts1 = Sys.time( ) - pts0
+print(pts1)
+
+
+# optimx is too slow for this dataset.
+# Nelder-Mead method is too slow for this dataset
+
+# thus we only sgd with NLoptr
+
+opts = list("algorithm"="NLOPT_LD_SLSQP","xtol_rel"=1.0e-7, maxeval = 5000)
+
+
+pts0 = Sys.time( )
+res_BFGS = nloptr::nloptr( x0=b.init,
+                 eval_f=poisson.loglik,
+                 eval_grad_f = poisson.loglik.grad,
+                 opts=opts,
+                 y = y_train, X = X_train)
+print( res_BFGS )
+pts1 = Sys.time( ) - pts0
+print(pts1)
+
+b_hat_nlopt = res_BFGS$solution
+
+
+#### evaluation in the test sample
+cat("\n\n\n\n\n\n\n")
+cat("log lik in test data by sgd = ", poisson.loglik(b_new, y = y_test, X_test), "\n")
+cat("log lik in test data by nlopt = ", poisson.loglik(b_hat_nlopt, y = y_test, X_test), "\n")
+cat("log lik in test data by oracle = ", poisson.loglik(b0, y = y_test, X_test), "\n")
+````
+
+
+
 # Neural network
 
 @hornik1989multilayer
