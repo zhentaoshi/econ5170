@@ -136,12 +136,20 @@ will suffer a large variance. On the other hand, if the grid system is too coars
 
 \begin{figure}
 \centering
-\includegraphics[height=5cm]{MSE.png}
-\caption{Bias-vairance tradeoff}
+\begin{tikzpicture}[scale=1, transform shape] %size of the picture
+
+% Coordination System
+    \draw[->, thick] (0,0) node[below left]{0} to (12,0) node[below]{bin size};
+    \draw[->, thick] (0,0) to (0,8);
+    
+% Functions
+    \draw [color = red, thick] (2,7) .. controls (6,2) and (10,7) .. (10,7) node[left]{MSE}; % MSE
+    \draw (1,1)     node[above]{bias$^2$}   parabola (11,7); % bias^2
+    \draw (11,1)    node[above]{variance}   parabola (1,7); % variance
+    
+\end{tikzpicture}
+\caption{Bias-variance tradeoff}
 \end{figure}
-
-
-
 
 Another example of nonparametric estimation is  the conditional mean
 $f(x) = E[y_i |x_i = x]$ given a sample $(y_i, x_i)$. This is what we encountered in the first lecture of graduate econometrics Econ5121A. We solve the minimization problem
