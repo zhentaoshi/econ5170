@@ -1,7 +1,7 @@
 ---
-title: 'Machine Learning'
+title: 'Machine Learning: I'
 author: "Zhentao Shi"
-date: "March 7, 2019"
+date: "March 14, 2019"
 output: pdf_document
 # link-citations: yes
 fontsize: 11pt
@@ -16,7 +16,7 @@ header-includes:
 ---
 
 
-# Machine Learning
+# Machine Learning I
 
 
 
@@ -141,12 +141,12 @@ will suffer a large variance. On the other hand, if the grid system is too coars
 % Coordination System
     \draw[->, thick] (0,0) node[below left]{0} to (12,0) node[below]{bin size};
     \draw[->, thick] (0,0) to (0,8);
-    
+
 % Functions
     \draw [color = red, thick] (2,7) .. controls (6,2) and (10,5) .. (10.5,6.5) node[right]{MSE}; % MSE
     \draw (1,0.1)     node[above]{bias$^2$}   parabola (11,5); % bias^2
     \draw (11,1)    node[above]{variance}   parabola (1,7); % variance
-    
+
 \end{tikzpicture}
 \caption{Bias-variance tradeoff}
 \end{figure}
@@ -255,19 +255,18 @@ theoretical proposal is either using an *information criterion*
 
 
 The workflow of machine learning methods is quite different from econometrics. The main purpose is often prediction instead of interpretation.
-They use some "off-the-shelf" learning methods, which economists often view as "black-box".
-They are flexible to allow a large number of parameters.
-The models are measured by their performance in prediction.
-In order to avoid overfitting it is often necessary to tune at least a few tuning parameters.
+They use some "off-the-shelf" generic learning methods, and
+the models are measured by their performance in prediction.
+In order to avoid overfitting it is essential to tune at least a few tuning parameters.
 
 Most machine learning methods take an agnostic view about the DGP, and they explicitly
 acknowledge model uncertainty. To address the issue of model selection (tuning parameter selection),
-in a data rich environment they often split the data into three parts. A training dataset
+in a data rich environment we can split the data into three parts. A training dataset
 is used to fit the model parameter given the tuning parameters. A validation dataset is
 used to compare the out-of-sample performance under different tuning parameters.
-It helps decide a set of optimal tuning parameters. Ideally, the testing sample should be
-kept by a third party out of the touch of the modeler. The testing sample is the final
-judge of the superiority of the fitted model.
+It helps decide a set of desirable tuning parameters. Ideally, the testing sample should be
+kept by a third party away from the modeler. The testing sample is the final
+judge of the relative merit of the fitted models.
 
 The R package `caret` (Classification And REgression Training) provides a framework for many machine learning methods.
 The function [`createDataPartition`](https://topepo.github.io/caret/data-splitting.html)
@@ -283,8 +282,8 @@ but it does not pinpoint which ones are the culprits.
 Variable selection is useful to identify the relevant genes, and then we can
 think about how to edit the genes to prevent certain diseases and better people's life.
 
-Many explanatory variables are abundant in economic analysis.
-For example, a questionnaire from the [UK Living Costs and Food Survey](https://discover.ukdataservice.ac.uk/series/?sn=2000028), a survey
+Explanatory variables are abundant in some empirical economic examples.
+For instance, a questionnaire from the [UK Living Costs and Food Survey](https://discover.ukdataservice.ac.uk/series/?sn=2000028), a survey
 widely used for analysis of demand theory and family consumption,
 consists of thousand of questions.
 @giannone2017economic [link](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3031893) experiment variable selection methods in 6 widely used economic datasets with many predictors.
@@ -296,7 +295,7 @@ Recently years economists wake up from the long lasting negligence.
 They conduct a horse race of several variable selection methods.
 
 
-The most well-known variable selection method in a regression is the least-absolute-shrinkage-and-selection-operator
+The most well-known variable selection method in regression context is the least-absolute-shrinkage-and-selection-operator
 (Lasso) [@tibshirani1996regression].
 Upon the usual OLS criterion function, Lasso penalizes the $L_1$ norm of the coefficients.
 The criterion function of Lasso is written as
@@ -305,12 +304,12 @@ $$
 $$
 where $\lambda \geq 0$ is a tuning parameter. In a wide range of values of $\lambda$,
 Lasso can shrink some coefficients exactly to 0, which suggests that these variables are likely to be
-irrelevant in the regression. However, later research [@zou2006adaptive] finds that Lasso cannot consistently
+irrelevant in the regression. However, @zou2006adaptive finds that Lasso cannot consistently
 distinguish the relevant variables from the irrelevant ones.
 
 
-Another successful variable selection is smoothly-clipped-absolute-deviation (SCAD)
-[@fan2001variable]. Their criterion function is
+Another successful variable selection method is smoothly-clipped-absolute-deviation (SCAD)
+[@fan2001variable]. Its criterion function is
 $$
 (2n)^{-1} (Y-X\beta)'(Y-X\beta) + \sum_{j=1}^d \rho_{\lambda}( |\beta_j| )
 $$
@@ -348,9 +347,14 @@ which does not adjust the coefficients fitted earlier.
 * speech recognition
 * photo recognition
 
-## Economic Applications
+## Shrinkage Estimation in Econometrics
 
+* @su2016identifying
+* @shi2016estimation
 * @lee2018
+
+## Empirical Applications
+* @lehrer2017box
 * @feng2019taming
 * @chinco2017sparse
 
@@ -363,20 +367,20 @@ which does not adjust the coefficients fitted earlier.
 
 ## Appendix
 
-Suppose $y_i = x_i' \beta_0 + e_i$, where $e_i$ is orthogonal to $x_i$ and $\mathrm{var}[e_i] = \sigma^2$. Then
+Suppose $y_i = x_i' \beta_0 + e_i$, where $e_i$ is independent of $x_i$ and $\mathrm{var}[e_i] = \sigma^2$. Then
 $$
 \min_{\beta} E[ (y_i - x_i' \beta)^2 ] = E[ (y_i - x_i' \beta_0)^2 ] = E[ e_i^2 ] = \sigma^2.
 $$
 This is the minimal error that can be achieved in the population.
 
-In reality, we have a sample $(y_i, x_i)$ of $n$ observations, and we estiamted $\beta$ with the OLS estimator $\hat{\beta} = (X'X)^{-1}X'y$.
+In reality, we have a sample $(y_i, x_i)$ of $n$ observations, and we estimate $\beta$ by the OLS estimator $\hat{\beta} = (X'X)^{-1}X'y$.
 The expectation of the SSR is
 $$
 E\left[ \frac{1}{n} \sum_{i=1}^n (y_i - x_i' \hat{\beta})^2  \right]
 = \frac{1}{n}  E\left[ e'(I_n - X(X'X)^{-1}X )e  \right]=  \frac{\sigma^2}{n}(n-p) = \sigma^2\left( 1 - \frac{p}{n} \right)
 < \sigma^2
 $$
-Asymptotically, if $p/n \to 0$, the two risks converge. Otherwise if $p/n \to c$, then the expected SSR is strictly
+Asymptotically, if $p/n \to 0$, the two risks converge. Otherwise if $p/n \to c$, the expected SSR is strictly
 smaller than the minimal population risk. The model is overfitted.
 
 
