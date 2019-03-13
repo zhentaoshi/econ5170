@@ -127,12 +127,12 @@ plot(history, metrics = "mean_absolute_error", smooth = FALSE) +
 # Prediction and evaluation
 
 test_predictions <- model %>% predict(test_data)
-test_predictions
+print( test_predictions )
 # Predict test data
 
 # the underlying function is  "evalaute.keras.engine.training.model"
 test_evaluation= model %>% evaluate(test_data,test_labels)
-test_evaluation
+print( test_evaluation )
 
 # Get the loss and mean absolute error of the model on predicting test data
 #########################################
