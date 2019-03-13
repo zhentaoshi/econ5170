@@ -143,8 +143,8 @@ will suffer a large variance. On the other hand, if the grid system is too coars
     \draw[->, thick] (0,0) to (0,8);
     
 % Functions
-    \draw [color = red, thick] (2,7) .. controls (6,2) and (10,7) .. (10,7) node[left]{MSE}; % MSE
-    \draw (1,1)     node[above]{bias$^2$}   parabola (11,7); % bias^2
+    \draw [color = red, thick] (2,7) .. controls (6,2) and (10,5) .. (10.5,6.5) node[right]{MSE}; % MSE
+    \draw (1,0.1)     node[above]{bias$^2$}   parabola (11,5); % bias^2
     \draw (11,1)    node[above]{variance}   parabola (1,7); % variance
     
 \end{tikzpicture}
