@@ -8,7 +8,7 @@ fontsize: 11pt
 urlcolor: blue
 bibliography: book.bib
 biblio-style: apalike
-header-includes: 
+header-includes:
   - \usepackage{tikz}
   - \usepackage{pgfplots}
   - \usetikzlibrary{shapes.geometric, arrows,chains,matrix,scopes}
@@ -25,10 +25,10 @@ scientific research to daily life.
 An authoritative reference is @friedman2001elements,
 written at the entry-year postgraduate level.
 The ideas in machine learning are general and applicable to economic investigation.
-@athey2018impact discusses the impact of machine learning techniques 
-to economic analysis. 
-@mullainathan2017machine survey a few new commonly used methods and 
-demonstrate them in a real example. 
+@athey2018impact discusses the impact of machine learning techniques
+to economic analysis.
+@mullainathan2017machine survey a few new commonly used methods and
+demonstrate them in a real example.
 @taddy2018technological introduces new technology *artificial intelligence*
 and the implication of the underlying economic modeling.
 
@@ -37,7 +37,7 @@ The two broad classes of machine learning methods are *supervised learning* and 
 Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
 is only about $X$. Instances of the former are various regression
 and classification methods; those of the latter are density estimation,
-principal component analysis, and clustering. 
+principal component analysis, and clustering.
 These examples are all familiar econometric problems.
 
 From an econometrician's view, supervised machine learning is a set of data fitting procedures that focus on out-of-sample prediction.
@@ -213,28 +213,28 @@ theoretical proposal is either using an *information criterion*
 \centering
 \begin{tikzpicture}[node distance = 10 mm, thick, scale=1, transform shape]
 % Nodes
-  \node[ellipse, draw] 
+  \node[ellipse, draw]
     (a) [label=above left:$data$]{Training Data};
-  \node[ellipse, draw, right = of a] 
+  \node[ellipse, draw, right = of a]
     (b) {Validation Data};
-  \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center] 
+  \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center]
     (c) {(Out of Sample) Testing Data};
-  \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a] 
+  \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a]
     (d) {Fitting Method} ;
-  \node[ellipse, draw=blue,fill=black!0, right= of d, text width=3.5cm, align=center] 
+  \node[ellipse, draw=blue,fill=black!0, right= of d, text width=3.5cm, align=center]
     (e) {Best Parameter \\ (Model)};
-  \node[ellipse, draw, left = 20 mm of d, loosely dashed] 
+  \node[ellipse, draw, left = 20 mm of d, loosely dashed]
     (f)
     [label = below: \textcolor{black!40}{Many Sets of Tuning Parameters}]
     {Model};
-    
+
 % Arrows
     \draw [->, black] (a) -- (d);
     \draw [->, blue] (d) -- (b);
     \draw [->, blue] (b) -- (e);
     \draw [->, blue] (e) -- (c);
     \draw [->, black, loosely dashed] (f) -- (d);
-    
+
 % Caption    
   \node[below = of d] {
         \begin{tabular}{l}
@@ -261,9 +261,9 @@ It helps decide a set of optimal tuning parameters. Ideally, the testing sample 
 kept by a third party out of the touch of the modeler. The testing sample is the final
 judge of the superiority of the fitted model.
 
-The R package `caret` provides a framework for many macine learning methods.
-The function [`createDataPartition`](https://topepo.github.io/caret/data-splitting.html) 
-splits the data for both cross sectional data and time seies.
+The R package `caret` (Classification And REgression Training) provides a framework for many machine learning methods.
+The function [`createDataPartition`](https://topepo.github.io/caret/data-splitting.html)
+splits the sample for both cross sectional data and time series.
 
 
 ## Variable Selection and Prediction
@@ -333,11 +333,6 @@ produce the biggest $R^2$. This method is similar to the idea of $L_2$ component
 which does not adjust the coefficients fitted earlier.
 
 
-To be discussed in the future
-
-* The idea of boosting and its association to reweighting.
-* regression tree, bagging (Killian and Inoue), average of subsampling
-
 
 ## Unstructured Data
 
@@ -348,8 +343,7 @@ To be discussed in the future
 ## Economic Applications
 
 * @lee2018
-* Shi and Huang (2018, to be released)
-* Phillips and Shi (2018, to be released)
+* @feng2019taming
 * @chinco2017sparse
 
 
@@ -367,14 +361,14 @@ $$
 $$
 This is the minimal error that can be achieved in the population.
 
-In reality, we have a sample $(y_i, x_i)$ of $n$ observations, and we estiamted $\beta$ with the OLS estimator $\hat{\beta} = (X'X)^{-1}X'y$. 
+In reality, we have a sample $(y_i, x_i)$ of $n$ observations, and we estiamted $\beta$ with the OLS estimator $\hat{\beta} = (X'X)^{-1}X'y$.
 The expectation of the SSR is
 $$
-E\left[ \frac{1}{n} \sum_{i=1}^n (y_i - x_i' \hat{\beta})^2  \right] 
+E\left[ \frac{1}{n} \sum_{i=1}^n (y_i - x_i' \hat{\beta})^2  \right]
 = \frac{1}{n}  E\left[ e'(I_n - X(X'X)^{-1}X )e  \right]=  \frac{\sigma^2}{n}(n-p) = \sigma^2\left( 1 - \frac{p}{n} \right)
 < \sigma^2
 $$
-Asymptotically, if $p/n \to 0$, the two risks converge. Otherwise if $p/n \to c$, then the expected SSR is strictly 
+Asymptotically, if $p/n \to 0$, the two risks converge. Otherwise if $p/n \to c$, then the expected SSR is strictly
 smaller than the minimal population risk. The model is overfitted.
 
 
