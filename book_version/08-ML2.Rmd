@@ -39,7 +39,7 @@ we apply these methods in empirical economic analysis.
 
 We consider supervised learning setting in which we use $x$ to predict $y$.
 It can be done by traditional nonparametric methods such as kernel regression.
-Regression tree is an alternative method. It  recursively partitions the
+Regression tree [@breiman1984classification] is an alternative method. It  recursively partitions the
 the space of the regressors. The algorithm is easy to describe: each time a covariate is split into two dummies, and the splitting criterion is aggressive reduction of the SSR. In the formulate of the SSR, the fitted value is computed as the average of $y_i$'s in a partition.
 
 The tuning parameter is the depth of the tree, which is referred to the number of splits.
@@ -53,7 +53,7 @@ vary widely and they heavily influence the path of the partition.
 
 
 Bootstrap averaging, or *bagging* for short, was introduced to reduce the
-variance of the regression tree. Bagging grows a regression tree for
+variance of the regression tree [@breiman1996bagging]. Bagging grows a regression tree for
 each bootstrap sample, and then do a simple average. Let $d^{\star b}$
 be the $b$-th bootstrap sample of the original data $d$, and then the
 bagging estimator is defined as
@@ -117,7 +117,7 @@ the residual $e_i^{m} = y_i - f^m_i$. Update $m = m+1$.
 In this boosting algorithm there are three tuning parameters: the tree depth,  the shrinkage level $\alpha$, and the number of iterations $M$.
 The algorithm can be sensitive to all the three tuning parameters.
 When a model is tuned well, it often performs remarkably.
-For example, the script `Beijing_housing_gbm.R` achieves 99.5+% out-of-sample $R^2$ (in comparison with OLS's 88%) in the Beijing housing data.
+For example, the script `Beijing_housing_gbm.R` achieves 92% out-of-sample $R^2$ (in comparison with OLS's 84%) in the Beijing housing data.
 This script implements boosting via the package `gbm`, which stands for "Gradient Boosting Machine."
 
 
@@ -338,7 +338,7 @@ cat("log lik in test data by oracle = ", poisson.loglik(b0, y = y_test, X_test),
 
 ## Quotation
 
-"The world is yours, as well as ours, but in the last analysis, it is yours. You young people, full of vigor and vitality, are in the bloom of life, like the sun at eight or nine in the morning. Our hope is placed on you. The world belongs to you. China's future belongs to you."
+"The world is yours, as well as ours, but in the last analysis, it is yours. You young people, full of vigor and vitality, are in the bloom of life, like the sun at eight or nine in the morning. Our hope is placed on you."
 
 ---Mao Zedong, Talk at a meeting with Chinese students and trainees in Moscow (November 17, 1957).
 

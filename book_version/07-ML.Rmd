@@ -105,8 +105,8 @@ to if there is no "true parameter"? With these arguments, the paradigm of conven
 smashed. In the context of econometrics,
 such argument completely rejects the structural modeling tradition (the Cowles approach).
 
-
-In this lecture, we set aside the ongoing philosophical debate. Instead,  we study
+Readers interested in the debate are referred to @breiman2001statistical.
+In this lecture, we put aside the ongoing philosophical debate. Instead,  we study
 the most popular machine learning methods that have found growing popularity in economics.
 
 
@@ -228,9 +228,9 @@ theoretical proposal is either using an *information criterion*
   \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center]
     (c) {(Out of Sample) Testing Data};
   \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a]
-    (d) {Fitting Method} ;
+    (d) {Fitted model} ;
   \node[ellipse, draw=blue,fill=black!0, right= of d, text width=3.5cm, align=center]
-    (e) {Best Parameter \\ (Model)};
+    (e) {Best tuning Parameter \\ (Model)};
   \node[ellipse, draw, left = 20 mm of d, loosely dashed]
     (f)
     [label = below: \textcolor{black!40}{Many Sets of Tuning Parameters}]
