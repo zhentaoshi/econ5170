@@ -1,0 +1,6 @@
+The best tuning parameters for GBM are: 
+n.trees	interaction.depth	shrinkage	n.minobsinnode
+300	10	0.1	20
+
+R-squared of GBM prediction = 0.9487536 
+R-squared of LM prediction = 0.8445908 
