@@ -17,9 +17,9 @@ price_reg=price~
 ## Tuning Parameters
 
 train_tune=createDataPartition(1:nrow(lianjia),p=0.1)$Resample1
-gbmGrid=expand.grid(interaction.depth=1:10,
-                    n.trees=(1:15)*100,
-                    shrinkage=c(0.01,0.05,0.1,0.25,0.5,0.75),
+gbmGrid=expand.grid(interaction.depth=10:14,
+                    n.trees=(15:20)*100,
+                    shrinkage=c(0.01,0.05,0.1),
                     n.minobsinnode=20)
 gbmControl=trainControl(method="repeatedcv",number=5,repeats=1)
 
