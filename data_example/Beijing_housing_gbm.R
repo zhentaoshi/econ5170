@@ -1,8 +1,8 @@
 library(caret)
+library(doParallel)
 
 
 load("lianjia.RData")
-train_ind=createDataPartition(1:nrow(lianjia),p=0.75)$Resample1
 
 price_reg=price~
   t_trade+age+fiveYearsProperty+subway+factor(district)+dist_center+
@@ -12,37 +12,45 @@ price_reg=price~
   communityAverage+DOM+followers
 
 
-## GBM
+# GBM
 
 ## Tuning Parameters
+
 train_tune=createDataPartition(1:nrow(lianjia),p=0.1)$Resample1
 gbmGrid=expand.grid(interaction.depth=1:10,
-                    n.trees=seq(100,300,by=50),
+                    n.trees=(1:15)*100,
                     shrinkage=c(0.01,0.05,0.1,0.25,0.5,0.75),
                     n.minobsinnode=20)
 gbmControl=trainControl(method="repeatedcv",number=5,repeats=1)
-boostingReg=train(price_reg,data=lianjia[train_tune,],method="gbm",distribution="gaussian",
-                  trControl=gbmControl,tuneGrid=gbmGrid,metric="Rsquared",verbose=F)
+
+registerDoParallel(8)
+t=Sys.time()
+boostingReg=train(price_reg,data=lianjia[train_tune,],
+                  method="gbm",distribution="gaussian",
+                  trControl=gbmControl,tuneGrid=gbmGrid,metric="Rsquared",
+                  verbose=F)
+cat("Time Cost of Finding Best Tuning Parameters:",Sys.time()-t,"\n")
+stopImplicitCluster()
+
 gbmTune=boostingReg$bestTune
 cat("The best tuning parameters for GBM are: \n");print(gbmTune)
 
 ## Estimation and Prediction
-boostingReg=gbm::gbm(price_reg,data=lianjia[train_ind,],
-                     distribution="gaussian", # to decide the lost function
-                     n.trees=gbmTune$n.trees,
-                     shrinkage=gbmTune$shrinkage,
-                     interaction.depth=gbmTune$interaction.depth,
-                     n.minobsinnode=gbmTune$n.minobsinnode)
-pred.boosting=predict(boostingReg,newdata=lianjia[-train_ind,],n.trees=gbmTune$n.trees)
+
+train_ind=createDataPartition(1:nrow(lianjia),p=0.75)$Resample1
+boostingReg=train(price_reg,data=lianjia[train_ind,],method="gbm",
+                  distribution="gaussian", # to decide the lost function
+                  tuneGrid=gbmTune,verbose=F)
+pred.boosting=predict(boostingReg,newdata=lianjia[-train_ind,])
 
 
-## LM
+# LM
 
 lmReg=lm(price_reg,data=lianjia[train_ind,])
 pred.lm=predict(lmReg,newdata=lianjia[-train_ind,])
 
 
-## Comparison
+# Comparison
 
 target=lianjia[-train_ind,]$price
 cat("R-squared of GBM prediction =",miscTools::rSquared(target,target-pred.boosting),"\n")
