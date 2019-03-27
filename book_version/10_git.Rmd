@@ -30,6 +30,10 @@ There are two ways to interact with Git. Git provides a command line tool Git Ba
 and there are many free Git GUIs available (I recommend [SourceTree](https://www.sourcetreeapp.com/)).
 Even if we use a GUI, knowing the basic commands is helpful.
 
+There are lots of online tutorials about Git, for example 
+[this one](https://www.youtube.com/watch?v=SWYqp7iY_Tc).
+Self-learning is important.
+
 ## Basic Commands
 
 ### Local

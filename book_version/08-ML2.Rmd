@@ -117,7 +117,7 @@ the residual $e_i^{m} = y_i - f^m_i$. Update $m = m+1$.
 In this boosting algorithm there are three tuning parameters: the tree depth,  the shrinkage level $\alpha$, and the number of iterations $M$.
 The algorithm can be sensitive to all the three tuning parameters.
 When a model is tuned well, it often performs remarkably.
-For example, the script `Beijing_housing_gbm.R` achieves 92% out-of-sample $R^2$ (in comparison with OLS's 84%) in the Beijing housing data.
+For example, the script `Beijing_housing_gbm.R` achieves 96% out-of-sample $R^2$ (in comparison with OLS's 84%) in the Beijing housing data.
 This script implements boosting via the package `gbm`, which stands for "Gradient Boosting Machine."
 
 
