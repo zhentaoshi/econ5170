@@ -19,20 +19,19 @@ coding projects as well as preparing long documents.
 
 Git helps me manage course materials, and I use Github [https://github.com/zhentaoshi/econ5170](https://github.com/zhentaoshi/econ5170) to share them.
 Free Git books and tutorials are available online.
+Self-learning is important.
 
 * [Atlassian Online Tutorial](https://www.atlassian.com/git/tutorials)
 * [Udacity Course](https://www.udacity.com/course/how-to-use-git-and-github--ud775)
 * [CodeAcademy Course](https://www.codecademy.com/learn/learn-git)
 * [Pro Git](http://git-scm.com/book/en/v2)
+* Many video tutorials, for example [this one](https://www.youtube.com/watch?v=SWYqp7iY_Tc).
 
 We introduce some essential Git commands.
 There are two ways to interact with Git. Git provides a command line tool Git Bash,
 and there are many free Git GUIs available (I recommend [SourceTree](https://www.sourcetreeapp.com/)).
 Even if we use a GUI, knowing the basic commands is helpful.
 
-There are lots of online tutorials about Git, for example 
-[this one](https://www.youtube.com/watch?v=SWYqp7iY_Tc).
-Self-learning is important.
 
 ## Basic Commands
 
