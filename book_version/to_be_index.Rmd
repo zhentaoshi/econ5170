@@ -21,7 +21,7 @@ I believe the best way to learn programming is via examples. This book contains 
 
 ## Personal Reflection {-}
 
-Thirty years ago apsiring young econometricians picked up GAUSS.
+Thirty years ago aspiring young econometricians picked up GAUSS.
 Twenty years ago the new blood began with MATLAB.
 R raised ten years ago when the time came to my generation.
 I have been using R since I started my postgraduate study in Peking University in 2005. 
