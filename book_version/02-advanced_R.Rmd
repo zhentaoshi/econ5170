@@ -1,9 +1,14 @@
 ---
 title: 'Lecture 2: Advanced R'
 author: "Zhentao Shi"
-date: "Jan 17, 2018"
-output:  pdf_document
+date: "Jan 7, 2019"
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
+fontsize: 11pt
 urlcolor: blue
+output:
+  pdf_document: default
 ---
 
 
@@ -15,9 +20,9 @@ urlcolor: blue
 
 In this lecture, we will talk about efficient computation in R.
 
-* R is a vector-oriented language. In most case, vectorization speeds up computation.
-* We turn to more CPUs for parallel execution to save time if there is no more space to optimize the code to improve the speed.
-* Clusters are accessed remotely. Communicating with a remote cluster is different from operating a local PC.
+* R is a vector-oriented language. In most cases, vectorization speeds up computation.
+* We turn to more CPUs for parallel execution to save time if there is no more room to optimize the code to improve the speed.
+* Clusters are accessed remotely. Communicating with a remote cluster is different from operating a local machine.
 
 ## Vectorization
 
@@ -25,7 +30,7 @@ Despite mathematical equivalence, various ways of calculation can perform distin
 
 Does computational speed matter?
 For a job that takes less than a minutes, the time difference is not a big deal.
-For modern economic structural estimation problems commonly seen in industrial organization, a single estimation can take up to a week. Code optimization is essential.
+For modern economic structural estimation problems commonly seen in industrial organization, a single estimation can take up to a week. For those problems code optimization is essential.
 
 Other computational intensive procedures include bootstrap, simulated maximum likelihood and simulated method of moments. Even if a single execution does not take much time, repeating such a procedure for thousands of replications will consume a non-trivial duration.
 
@@ -46,7 +51,7 @@ There are at least 4 mathematically equivalent ways to compute this term.
 
 We first generate the data of binary response and regressors. Due to the discrete nature of the dependent variable, the error term in the linear probability model is heteroskedastic. It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator. The code chunk below estimates the coefficients and obtains the residual.
 
-```
+```{r}
 lpm = function(n){
     # estimation in a linear probability model
 
@@ -125,8 +130,11 @@ When $n$ is big, `matrix` is slow and `Matrix` is fast; the vectorized version i
 
 ## Efficient Loop
 
-In standard `for` loops, we have to do a lot of housekeeping work.
-[`plyr`](http://plyr.had.co.nz/), developed by [Hadley Wickham](http://had.co.nz/),  simplifies the job and facilitates parallelization.
+R was the heir of S, an old language. R evolves with packages that are designed to 
+adapt to new big data environement. Many examples can be found in @wickham2016r. 
+Here we introduce [`plyr`](http://plyr.had.co.nz/). 
+
+In standard `for` loops, we have to do a lot of housekeeping work. [Hadley Wickham](http://had.co.nz/)'s `plyr` simplifies the job and facilitates parallelization.
 
 **Example**
 
@@ -148,13 +156,26 @@ CI = function(x){ # construct confidence interval
 This is a standard `for` loop.
 
 ```{r,cache=TRUE}
-Rep = 10000
+Rep = 100000
 sample_size = 1000
+mu = 2
 
-# a standard loop
+# append a new outcome after each loop
+pts0 = Sys.time() # check time
+for (i in 1:Rep){
+  x = rpois(sample_size, mu)
+  bounds = CI(x)
+  out_i = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
+  if (i == 1){ out = out_i} else { out = c(out, out_i) }
+}
+cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 = Sys.time() - pts0 # check time elapse
+print(pts1)
+
+
+# pre-define a container
 out = rep(0, Rep)
 pts0 = Sys.time() # check time
-mu = 2
 for (i in 1:Rep){
   x = rpois(sample_size, mu)
   bounds = CI(x)
@@ -163,6 +184,7 @@ for (i in 1:Rep){
 cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
+
 ```
 
 
@@ -199,11 +221,12 @@ Parallel computing will be our next topic. It is quite easy to implement paralle
 
 ## Parallel Computing
 
+Parallel computing becomes essential when the data size is beyond the storage of a single computer, for example  @li2018embracing.
+Here we explore the speed gain of parallel computing on a multicore machine.
+
 The packages `foreach` and `doParallel` are useful for parallel computing.
 Below is the basic structure. `registerDoParallel(number)` prepares a few CPU cores
-to accept incoming jobs. When calling `__ply`, we explicitly specify `.parallel` to be `TRUE`.
-If `myfunction` also depends on other variables in the session and/or other packages,
-we  must export them to other cores via the argument `.paropts` (parameter options).
+to accept incoming jobs.
 
 ```{r,eval=FALSE}
 library(plyr)
@@ -227,6 +250,10 @@ out = foreach(icount(Rep), .combine = option ) %dopar% {
 #      .paropts = list( .packages = package.list,
 #        .export = ls(envir=globalenv() ) )
 # )
+
+# When calling `__ply`, we explicitly specify `.parallel` to be `TRUE`.
+# If `myfunction` also depends on other variables in the session and/or other packages,
+# we  must export them to other cores via the argument `.paropts` (parameter options).
 ```
 
 If we have two CPUs running simultaneously, in theory we can cut the time to a half of that on a single CPU. Is that what happening in practice?
@@ -295,7 +322,7 @@ Such command line tools is the norm of life two or three decades ago, but today 
 work in a graphic operating system like Windows or OSX.
 For Windows users (I am one of them), I recommend [PuTTY](http://www.putty.org/), a shell, and [WinSCP](http://winscp.net/eng/download.php), a graphic interface for input and output.
 
-Most serves in the world are running Unix/Linux operation system.
+Most servers in the world are running Unix/Linux operation system.
 Here are a few commands for basic operations.
 
 * mkdir
@@ -347,8 +374,6 @@ sample_size = 5000000
 # cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
 # pts1 = Sys.time() - pts0 # check time elapse
 # print(pts1)
-# 
-# 
 
 
 # compare to the parallel version
@@ -367,3 +392,10 @@ cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
 pts1 = Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
+
+## Reading
+
+Wickham and Grolemund: Ch 10, 11, and 21
+
+
+## References

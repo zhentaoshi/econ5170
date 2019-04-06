@@ -1,10 +1,14 @@
 ---
 title: "Graphics"
 author: "Zhentao Shi"
-date: "Feb 7, 2018"
+date: "Jan 16, 2019"
+fontsize: 11pt
+urlcolor: blue
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
 output:
   pdf_document: default
-  html_document: default
 ---
 
 
@@ -25,15 +29,15 @@ We have seen an example of R graph in the OLS regression linear example in Lectu
 It is capable of producing preliminary statistical graphs.
 
 Over the years, developers all over the world have had many proposals for
-more sophisticated statistical graphs. In my opinion, `ggplot2`, contributed by [Hadley Wickham](http://had.co.nz/),
-is the best.
+more sophisticated statistical graphs. Hadley Wickham's 
+`ggplot2`is among the most successful. 
 
 `ggplot2` is an advanced graphic system that generates high-quality statistical graphs.
 It is not possible to cover it in a lecture. Fortunately, the author wrote a comprehensive reference
 [**ggplot2 book**](http://link.springer.com/book/10.1007%2F978-0-387-98141-3),
 which can be downloaded via the CUHK campus network (VPN needed).
 
-Wickham also developed `reshape2`, a package dedicated mainly to prepare data frames for `ggplot2`.
+`ggplot2` accommodates data frames of a particular format. `reshape2` is a package that helps prepare the data frames for `ggplot2`.
 
 The workflow of ggplot is to add the elements in a graph one by one, and then print out
 the graph all together.
@@ -63,7 +67,7 @@ print(head(big150_1))
 p1 = ggplot(big150_1)
 p1 = p1 + geom_area(stat = "density", alpha = .25,
                     aes(x = value, fill = estimator),  position = "identity")
-p1 = p1 + facet_grid( typb ~ .  )  
+p1 = p1 + facet_grid( . ~ typb )  
 p1 = p1 + geom_vline(xintercept = 0)
 p1 = p1 + theme_bw()
 p1 = p1 + theme(strip.text = element_text( size = 12),
@@ -112,3 +116,7 @@ grid.arrange(p1, p2, nrow=2)
 In order to unify the theme of the two distinctive subgraphs,
 we define an object `theme1` and apply it in both graphic objects
 `p1` and `p2`.
+
+## Reading
+
+Wickham and Grolemund: Ch 3, 26-30

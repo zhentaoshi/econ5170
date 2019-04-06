@@ -1,7 +1,7 @@
 ---
 title: 'Integration'
 author: "Zhentao Shi"
-date: "February 14, 2018"
+date: "February 24, 2019"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -102,7 +102,7 @@ some elements unobservable to the econometrician dictate an economic agent's dec
 the foundation of self-selection in labor economics.
 
 
-In the original Roy model, a man can work on  one of the two occupations: farming or a fishing.
+In the original Roy model, a man can work on  one of the two occupations: farming or fishing.
 The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of
 being a fisher is $U_2^{*} = x' \beta_2 + e_2$,
 where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable).
@@ -150,7 +150,8 @@ where $s=1,\ldots,S$ is the index of simulation and $S$ is the total number of s
 This above example can be viewed as an application of simulated maximum likelihood. In parallel,
 we can simulate a moment condition if its explicit form is unavailable.
 @pakes1989simulation provide the theoretical foundation of the
-simulated method of moments (SMM).
+simulated method of moments (SMM). Our co-teacher Prof. Guo has a recent paper [@guo2018]
+applying SMM to estimate a structural labor model.
 
 [comment]:<>(**to be elaborated**.
 Match moments generated the theoretical model with their empirical counterparts.
@@ -242,7 +243,7 @@ generate a random variable with other pdf $f(x)$, we just need to replace the li
 
 ```{r,cache=TRUE}
 library(mcmc)
-h = function(x){ y = -x^2 / 2 } # the log, non-normalized function
+h = function(x){ y = -x^2 / 2 } # un-normalized function (doesn't need to integrate as 1)
 
 out = metrop( obj = h, initial = 0, nbatch = 100, nspac = 1  )
 
@@ -254,7 +255,6 @@ out = metrop( obj = h, initial = 0, nbatch = 100, nspac = 10  )
 plot(out$batch, type = "l") # a time series looks like a white noise
 
 out = metrop( obj = h, initial = 0, nbatch = 10000, nspac = 10  )
-
 plot(density(out$batch), main = "", lwd = 2)
 
 xbase = seq(-3, 3, 0.01)
@@ -262,10 +262,10 @@ ynorm = dnorm(xbase)
 lines( x = xbase, y = ynorm, type = "l", col = "red")
 # the plot compare the density of the simulated sample
 # with the standard normal pdf
-summary(out)
 ```
 
-
+**To add this link** 
+https://chi-feng.github.io/mcmc-demo/
 
 ### Laplace-type Estimator: An Application of MCMC
 
@@ -291,23 +291,24 @@ quadratic loss function, and equals its median under the absolute-value loss fun
 
 The code block below compares the OLS estimator with the LTE estimator in a linear regression model.
 ```{r,cache=TRUE}
+# set.seed(101)
 library(mcmc)
 
 # DGP
-n = 100
-b0 = c(1,2)
+n = 1000
+b0 = c(1,1)
 X = cbind(1, rnorm(n))
 Y = X %*% b0 + rnorm(n)
 
 # Laplace-type estimator
-L = function(b) -sum( (Y - X %*% b )^2 )  
+L = function(b)  -sum( (Y - X %*% b )^2 ) # use uniform prior
 # criterion function with a flat prior
 # notice the "minus" sign of the OLS objective function
-
-out = metrop( obj = L, initial = c(0,0), nbatch = 10000, nspac = 10  )
+nbatch = 1100;
+out = metrop( obj = L, initial = c(1,0), nbatch = nbatch, nspac = 20  )
 
 # summarize the estimation
-bhat2 = out$batch[,2]
+bhat2 = out$batch[-(1:(nbatch/10)),2] # remove the burn in 
 bhat2_point = mean(bhat2)
 bhat2_sd   = sd(bhat2)
 bhat2_CI = quantile(bhat2, c(.025, .975) )
@@ -315,8 +316,34 @@ bhat2_CI = quantile(bhat2, c(.025, .975) )
 # compare with OLS
 b_OLS = summary( lm(Y~-1+X) )
 print(coef( b_OLS) )
-print(c(bhat2_point, bhat2_sd))
+print(cat("The posterior mean =",  bhat2_point, " sd = ", bhat2_sd, 
+          " and C.I. = ", bhat2_CI , "\n"))
+
+plot(density(bhat2), main = "posterior from uniform prior")
+```
+```{r, cache = TRUE}
+# Laplace-type estimator
+
+L = function(b) - sum( (Y - X %*% b )^2 ) - 0.5 * crossprod( b  - c(0,0) )   # the prior of b from N(0,1)
+# criterion function with a flat prior
+# notice the "minus" sign of the OLS objective function
+
+nbatch = 1100;
+out = metrop( obj = L, initial = c(1,0), nbatch = nbatch, nspac = 20  )
+
+# summarize the estimation
+bhat2 = out$batch[-(1:(nbatch/10)),2] # remove the burn in 
+bhat2_point = mean(bhat2)
+bhat2_sd   = sd(bhat2)
+bhat2_CI = quantile(bhat2, c(.025, .975) )
+
+# compare with OLS
+b_OLS = summary( lm(Y~-1+X) )
+print(coef( b_OLS) )
+print(cat("The posterior mean =",  bhat2_point, " sd = ", bhat2_sd, 
+          " and C.I. = ", bhat2_CI , "\n"))
+
+plot(density(bhat2), main = "posterior from N(0,1) prior")
 ```
 
-
-## References {-}
+## References

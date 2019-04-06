@@ -1,9 +1,13 @@
 ---
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: "January 29, 2018"
+date: "January 16, 2019"
 output: pdf_document
+fontsize: 11pt
 urlcolor: blue
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
 ---
 
 # Basic R
@@ -196,6 +200,14 @@ print( head(AAPL) )
 write.csv(AAPL, file = "AAPL.csv")
 ```
 
+Another example:
+```{r,eval=TRUE}
+library(quantmod)
+getSymbols.FRED(Symbols = c("IPB50001SQ"), env = .GlobalEnv ) 
+plot(IPB50001SQ)
+```
+
+
 ## Statistics
 
 R is a language created by statisticians.
@@ -348,14 +360,14 @@ legend('bottomright', legend=c("Fitted Line", "True Coef"),
 ```
 
 Here we give another example about the relationship between the height and weight of women.
-The women dataset is from the package `datasets`, which is a bulit-in package shipped with R installation. 
+The women dataset is from the package `datasets`, which is a bulit-in package shipped with R installation.
 This package contains a variety of datasets. For a complete list, use `library(help = "datasets")`
 
 ```{r}
 # univariate
-reg 1 = lm(height~weight, data=women)
+reg1 = lm(height~weight, data=women)
 
-# multivariate 
+# multivariate
 reg2 = lm(height~weight+I(weight^2),data=women)
 # "weight^2" is a square term.
 # "I()" is used to inhibit the formula operator "+" from being interpreted as an arithmetical one.
@@ -363,3 +375,7 @@ reg2 = lm(height~weight+I(weight^2),data=women)
 summary(reg1)
 summary(reg2)
 ```
+
+## Reading
+
+Wickham and Grolemund: Ch 1, 2, 4, 8, 19 and 20

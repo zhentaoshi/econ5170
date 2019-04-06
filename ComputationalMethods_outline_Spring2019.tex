@@ -1,0 +1,134 @@
+\documentclass[11pt]{article}
+
+%\usepackage{times}
+%\usepackage[margin=.75in]{geometry}
+\usepackage[margin=1in]{geometry}
+\usepackage[dvipsnames,usenames]{xcolor}
+\usepackage[letterpaper=true,colorlinks=true,pdfpagemode=none,urlcolor=Blue,linkcolor=RoyalBlue,citecolor=OliveGreen,pdfstartview=FitH,linktoc=page]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+
+\begin{document}
+
+
+\begin{center}
+  {\Large\bf The Chinese University of Hong Kong \\
+  \ \\
+ECON5170  Computational Methods in Economics \\
+Spring, 2018-2019}
+\end{center}
+
+ \vspace{2pt}
+
+\begin{description}
+\item[Instructors] Naijia Guo (guonaijia@cuhk.edu.hk, ELB 913) \\
+  Zhentao Shi (zhentao.shi@cuhk.edu.hk, ELB 912)
+\end{description}
+
+\section*{Lecture Hours and Location}
+Time: January 10th - April 18th, every Thursday 9:30 - 12:15 \\
+Venue: Esther Lee Bldg 304 \\
+Office hours: By appointment
+
+
+
+
+\section*{Course Description}
+
+In modern economic research, computers enhance our capacity of solving complex problems. Computation is particularly important in fields involving massive data. The objective of this course is to introduce graduate students to computational approaches for solving economic models, with an emphasis on dynamic programming and simulation-based econometric methods. We will formulate economic problems in computationally tractable form and use techniques from numerical analysis to solve them. The substantive applications will cover a wide range of problems including labor, industrial organization, macroeconomics, and international trade.
+
+\section*{Learning outcomes}
+
+Computational economics has not been part of the core curriculum of postgraduate-level economics education, whereas programming skill is critical for a postgraduates success in academia and industry. This course intends to teach students computational methods for solving economic problems, and expose students to extensive programming exercises. We expect that at the end of the course a student would proficiently use at least one programming language (Stata, Matlab, R, etc). Moreover, we aim to equip the students with the computational ability to tackle problems of their own research areas.
+
+\section*{Assessment}
+\begin{tabular}{p{0.5in}p{0.5in}p{5in}}
+   Midterm & 30\% & A small take-home exercise. \\
+   Final  & 70\%  & A group project. Form a group of 2-3 people. Write a computer program to solve one of the three problems (micro, macro, or metrics). Present the results on April 18th or later (TBA). Hand in the final codes by May 6th.
+\end{tabular}
+
+\section*{Class Schedule}
+\begin{tabular}{p{1in}p{4in}}
+  \hline
+  Date & Content \\
+  \hline
+  10 Jan & Basic R \\
+  17 Jan & Advanced R \\
+  24 Jan & Numerical Integration  \\
+  31 Jan & Numerical Optimization  \\
+  7 Feb & No class (Lunar New Year)\\
+  14 Feb & Basic Stata (in Undergraduate Computer Lab ELB 916) \\
+  21 Feb & Advanced Stata (in Undergraduate Computer Lab ELB 916)\\
+  28 Feb & Machine Learning I  \\
+  7 Mar &  Machine Learning II \\
+  14 Mar & Linear Equations \\
+  21 Mar & Nonlinear Equations \\
+  28 Mar & Approximation methods \\
+  4 Apr & Dynamic programming \\
+  11 Apr & Office hour \\
+  18 Apr (TBA) & Presentation of group projects \\   
+  \hline
+\end{tabular}
+
+
+\section*{Required Readings}
+\begin{itemize}
+\item Judd, Kenneth (1998): Numerical Methods in Economics, the MIT Press 
+\item Efron, Bradley and Hastie, Trevor (2016): Computer Age Statistical Inference: Algorithms, Evidence, and Data Science, Cambridge University Press 
+(Freely downloadable at author's page \url{https://web.stanford.edu/~hastie/CASI/index.html})
+\item Wickham, Hadley and Grolemund, Garrett.  (2016). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media, Inc. (Open access at author's page \url{https://r4ds.had.co.nz/})
+
+
+\end{itemize}
+
+\section*{Recommended Readings}
+\begin{itemize}
+\item Altonji, J. G., \& Segal, L. M. (1996). Small-sample bias in GMM estimation of covariance structures. Journal of Business and Economic Statistics, 14(3), 353-366. 
+% Andrews, D. W. (2000). Inconsistency of the bootstrap when a parameter is on the boundary of the parameter space. Econometrica, 68(2), 399-405. \\
+% Armstrong, T., Bertanha, M. \& Hong, H.(2014) A Fast Bootstrap Method for Parametric and Semi-parametric Model, the Journal of Econometrics.179(2), 128-133. \\
+\item Athey, S. (2018). The impact of machine learning on economics. In The Economics of Artificial Intelligence: An Agenda. University of Chicago Press.
+% \item Bajari, P., Benkard, C. L., \& Levin, J. (2007). Estimating dynamic models of imperfect competition. Econometrica, 75(5), 1331-1370. 
+\item Chernozhukov, V., \& Hong, H. (2003). An MCMC approach to classical estimation. Journal of Econometrics, 115(2), 293-346. 
+% \item Efron, B., \& Tibshirani, R. J. (1994). An introduction to the bootstrap (Vol. 57). CRC press. 
+\item Fan, J., \& Li, R. (2001). Variable selection via nonconcave penalized likelihood and its oracle properties. Journal of the American statistical Association, 96(456), 1348-1360.
+\item Gentzkow, M., Kelly, B., \& Taddy, M., (2017). Text as Data. National Bureau of
+Economic Research.
+\item Gourieroux, C., Monfort, A., \& Renault, E. (1993). Indirect inference. Journal of applied econometrics, 8(S1), S85-S118.
+\item Hansen, L. P., Heaton, J., \& Yaron, A. (1996). Finite-sample properties of some alternative GMM estimators. Journal of Business and Economic Statistics,14(3), 262-280. 
+% \item Koenker, R. (2005). Quantile regression (No. 38). Cambridge university press. 
+\item Tibshirani, R. (1996) Regression shrinkage and selection via the lasso. Journal of the Royal Statistical Society. Series B, 267-288. 
+% \item Li, Q., \& Racine, J. S. (2007). Nonparametric econometrics: Theory and practice. Princeton University Press. 
+\item Li, Q., Cheng, G., Fan, J. \& Wang, Y., (2018). Embracing the Blessing of Dimensionality in Factor Models. Journal of the American Statistical Association 113 (521), 380–89.
+\item Mullainathan, S., \& Spiess, J. (2017). Machine learning: an applied econometric approach. Journal of Economic Perspectives, 31(2), 87-106.
+% \item Owen, A. B. (2010). Empirical likelihood. CRC press. 
+\item Pakes, A., \& Pollard, D. (1989). Simulation and the asymptotics of optimization estimators. Econometrica, 1027-1057. 
+\item Shi, Z., (2016). Econometric Estimation with High-Dimensional Moment Equalities. Journal of Econometrics, 195, 104-119 
+\item Su, C. L., \& Judd, K. L. (2012). Constrained optimization approaches to estimation of structural models. Econometrica, 80(5), 2213-2230.
+\item Su, L., Shi, Z., \& Phillips, P. C. B. (2016). Identifying Latent Structures in Panel Data. Econometrica, 84(6), 2215-2264
+\item Taddy, M., (2018). The Technological Elements of Artificial Intelligence. National Bureau of Economic Research 
+\item Hornik, K., Stinchcombe, M., \& White, H. (1989). Multilayer feedforward networks are universal approximators. Neural networks, 2(5), 359-366.
+\item Zou, H. (2006). The adaptive lasso and its oracle properties. Journal of the American statistical association, 101(476), 1418-1429.
+\end{itemize}
+
+
+
+\section*{Late Add/Drop Policy}
+
+Students are advised to strictly observe the official deadline for add/drop. The department, not the course teacher, will handle every late add/drop application. Late add/drop application is rarely approved; in those rare approvals, they will be based on extremely special reasons beyond students' control. Objective and substantial proofs are required. Failure to observe the deadline or negligence in checking the official course enrollment systems will not be accepted as reasons for late drop.
+
+
+\section*{Academic Honesty}
+Attention is drawn to University policy and regulations on honesty in academic work, and to the disciplinary guidelines and procedures applicable to breaches of such policy and regulations. Details may be found at \url{http://www.cuhk.edu.hk/policy/academichonesty/}. 
+
+
+\end{document}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+Time Cost of Finding Best Tuning Parameters: 26.93651 
+
+The best tuning parameters for GBM are: 
+    n.trees interaction.depth shrinkage n.minobsinnode
+300    1500                10      0.05             20
+
+R-squared of GBM prediction = 0.9573998 
+R-squared of LM prediction = 0.8451579 

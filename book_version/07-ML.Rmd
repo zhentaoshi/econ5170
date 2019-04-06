@@ -1,18 +1,23 @@
 ---
-title: 'Machine Learning'
+title: 'Machine Learning: I'
 author: "Zhentao Shi"
-date: "March 7, 2018"
-bibliography: book.bib
-biblio-style: apalike
-link-citations: yes
+date: "March 14, 2019"
+output: pdf_document
+# link-citations: yes
 fontsize: 11pt
 urlcolor: blue
-output:
-  pdf_document: default
+bibliography: book.bib
+biblio-style: apalike
+header-includes:
+  - \usepackage{tikz}
+  - \usepackage{pgfplots}
+  - \usetikzlibrary{shapes.geometric, arrows,chains,matrix,scopes}
+  - \usepackage{caption}
 ---
 
 
-# Machine Learning
+# Machine Learning I
+
 
 
 Machine learning has quickly grown into a big field, with applications from
@@ -20,17 +25,25 @@ scientific research to daily life.
 An authoritative reference is @friedman2001elements,
 written at the entry-year postgraduate level.
 The ideas in machine learning are general and applicable to economic investigation.
+@athey2018impact discusses the impact of machine learning techniques
+to economic analysis.
+@mullainathan2017machine survey a few new commonly used methods and
+demonstrate them in a real example.
 @taddy2018technological introduces new technology *artificial intelligence*
 and the implication of the underlying economic modeling.
 
 
-The two board classes of machine learning methods are *supervised learning* and *unsupervised learning*. Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
-is only about $X$. Instances of the former are various regressions; those of the latter are density estimation, principle component analysis, and clustering. These examples are all familiar econometric problems.
+The two broad classes of machine learning methods are *supervised learning* and *unsupervised learning*.
+Roughly speaking, the former is about the connection between $X$ and $Y$, while the latter
+is only about $X$. Instances of the former are various regression
+and classification methods; those of the latter are density estimation,
+principal component analysis, and clustering.
+These examples are all familiar econometric problems.
 
 From an econometrician's view, supervised machine learning is a set of data fitting procedures that focus on out-of-sample prediction.
 The simplest illustration is in the regression context.
 We repeat a scientific experiment for $n$ times, and we harvest a dataset $(y_i, x_i)_{i=1}^n$.
-What would be the best way to predict $y_{n+1}$ from the same experiment if we set $x_{n+1}$?
+What would be the best way to predict $y_{n+1}$ from the same experiment if we know $x_{n+1}$?
 
 Machine learning is a paradigm shift against conventional statistics.
 When a statistician propose a new estimator, the standard practice is to pursue
@@ -43,8 +56,45 @@ Furthermore, for an asymptotically normal estimator, we want to
 show efficiency, an optimality property. An efficient estimator achieves the smallest asymptotic variance
 in a class of asymptotically normal estimators.
 
-Machine learning deviates from such routines. Machine learning researchers dismiss
-all the three points. First, they argue efficiency is not crucial because the dataset itself is big enough so that the variance is usually small.
+In addition, econometrician also care about
+model identification and economic interpretation of the empirical results.
+Econometrics workflow interacts the data at hand and the model of interest. At the population level,
+we think about the problem of identification. Once the parameter of interest is identified,
+then we can proceed to parameter estimation and inference.
+Finally, we interpret the results and hopefully they shed light on economics.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=5mm]
+    %\draw[help lines] (0,0) grid (9,7);
+
+% Nodes
+    \node [draw, ellipse] (a) at (2,6) {Model};
+    \node [draw, ellipse] (b) at (8,6) {Estimation};
+    \node [color=black!40](c) at (1,5) {Population};
+    \node (d) at (5,4) {Estimation};
+    \node [color=black!40](e) at (1,2) {Sample};
+    \node (f) at (5,2) {Inference};
+    \node (g) at (5,0) {Interpretation};
+    \node [color=black!40](h) at (1,0) {Economics};
+
+% Arrows  
+    \draw[-latex] (a) to[bend right=10] node[above, yshift=2mm] {Identification}  (b);
+    \draw[-latex] (b) to[bend right=10]  (a);
+    \draw[-latex] (a) to[bend left=0]  (d);
+    \draw[-latex] (b) to[bend right=0]  (d);
+    \draw[-latex] (d) to[bend right=0]  (f);
+    \draw[-latex] (f) to[bend right=0]  (g);
+
+% Lines
+    \draw[color=black!40,very thick] (0,1) -- (2,1);
+    \draw[color=black!40,very thick] (0,4) -- (2,4);
+\end{tikzpicture}
+\caption{Econometrics workflow}
+\end{figure}
+
+Machine learning deviates from such routines.
+First, they argue efficiency is not crucial because the dataset itself is big enough so that the variance is usually small.
 Second, in many situations statistical inference is not the goal, so
 inferential procedure is not of interest. For example, the recommendation system on Amazon or Taobao has
 a machine learning algorithm behind it. There we care about the prediction accuracy, not the causal link
@@ -55,10 +105,10 @@ to if there is no "true parameter"? With these arguments, the paradigm of conven
 smashed. In the context of econometrics,
 such argument completely rejects the structural modeling tradition (the Cowles approach).
 
-The above argument have merit, but it is also misleading.
-In this lecture, we set the ongoing philosophical debate aside. We economists are
-practical and reasonable souls.  We study
+Readers interested in the debate are referred to @breiman2001statistical.
+In this lecture, we put aside the ongoing philosophical debate. Instead,  we study
 the most popular machine learning methods that have found growing popularity in economics.
+
 
 ## Nonparametric Estimation
 
@@ -68,17 +118,38 @@ Nonparametric estimation is nothing new to statisticians. However, some ideas
 in this old topic is directly related to the underlying principles of machine learning methods.
 
 
-Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we know, or assume, that
+Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we assume that
 the sample is drawn from a parametric family, for example the normal distribution, then we can use the
 maximum likelihood estimation to learn the mean and the variance.
 Nevertheless, when the parametric family is misspecified, the MLE estimation
-is inconsistent in theory. In practice, what is the correct parametric family is never known.
+is inconsistent in theory, and we can at best identify a *pseudo true value*.
+In practice, what is the correct parametric family is unknown.
 If we do not want to impose a parametric assumption, then in principle
 we will have to use an infinite number of parameters to fully characterize the density.
 One well-known nonparametric estimation is the histogram. The shape of the bars of the
 histogram depends on the partition of the support. If the grid system on the support is too
 fine, then each bin will have only a few observations. Despite small bias, the estimation
-will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff the defining feature not only for nonparametric estimation but for all machine learning methods.
+will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff is the defining feature not only for nonparametric estimation but for all machine learning methods.
+
+* [Add three graphs of histogram later]
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=1, transform shape] %size of the picture
+
+% Coordination System
+    \draw[->, thick] (0,0) node[below left]{0} to (12,0) node[below]{bin size};
+    \draw[->, thick] (0,0) to (0,8);
+
+% Functions
+    \draw [color = red, thick] (2,7) .. controls (6,2) and (10,5) .. (10.5,6.5) node[right]{MSE}; % MSE
+    \draw (1,0.1)     node[above]{bias$^2$}   parabola (11,5); % bias^2
+    \draw (11,1)    node[above]{variance}   parabola (1,7); % variance
+
+\end{tikzpicture}
+\caption{Bias-variance tradeoff}
+\end{figure}
 
 Another example of nonparametric estimation is  the conditional mean
 $f(x) = E[y_i |x_i = x]$ given a sample $(y_i, x_i)$. This is what we encountered in the first lecture of graduate econometrics Econ5121A. We solve the minimization problem
@@ -106,7 +177,10 @@ For example, any bounded, continuous and differentiate function has a series
 representation $f(x) = \sum_{k=0}^{\infty} \beta_k \cos (\frac{k}{2}\pi x )$. In finite sample,
 we choose a finite $K$, usually much smaller than $n$, as a cut-off.
 Asymptotically $K \to \infty$ as $n \to \infty$ so that
-$$f_K(x) = \sum_{k=0}^{K} \beta_k \cos \left(\frac{k}{2}\pi x \right) \to f(x)$$.
+$$
+f_K(x) = \sum_{k=0}^{K} \beta_k \cos \left(\frac{k}{2}\pi x \right) \to f(x).
+$$
+
 Similar bias-variance tradeoff appears in this nonparametric regression.
 If $K$ is too big, $f$ will be too flexible and it can achieve $100\%$ of in-sample R-squared.
 This is not useful for out-of-sample prediction. Such prediction will have large variance, but small bias.
@@ -139,6 +213,66 @@ parameter? This is a difficult statistical problem with active research. The mai
 theoretical proposal is either using an *information criterion*
 (for example, Akaike information criterion or Bayesian information criterion), or *cross validation*.
 
+
+## Data Splitting
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance = 10 mm, thick, scale=1, transform shape]
+% Nodes
+  \node[ellipse, draw]
+    (a) [label=above left:$data$]{Training Data};
+  \node[ellipse, draw, right = of a]
+    (b) {Validation Data};
+  \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center]
+    (c) {(Out of Sample) Testing Data};
+  \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a]
+    (d) {Fitted model} ;
+  \node[ellipse, draw=blue,fill=black!0, right= of d, text width=3.5cm, align=center]
+    (e) {Best tuning Parameter \\ (Model)};
+  \node[ellipse, draw, left = 20 mm of d, loosely dashed]
+    (f)
+    [label = below: \textcolor{black!40}{Many Sets of Tuning Parameters}]
+    {Model};
+
+% Arrows
+    \draw [->, black] (a) -- (d);
+    \draw [->, blue] (d) -- (b);
+    \draw [->, blue] (b) -- (e);
+    \draw [->, blue] (e) -- (c);
+    \draw [->, black, loosely dashed] (f) -- (d);
+
+% Caption    
+  \node[below = of d] {
+        \begin{tabular}{l}
+            $\bullet$ Data splitting can be done by cross validation \\
+            $\bullet$ A data driven approach for feature selection
+        \end{tabular}};
+\end{tikzpicture}
+\caption{Learning workflow}
+\end{figure}
+
+
+The workflow of machine learning methods is quite different from econometrics. The main purpose is often prediction instead of interpretation.
+They use some "off-the-shelf" generic learning methods, and
+the models are measured by their performance in prediction.
+In order to avoid overfitting it is essential to tune at least a few tuning parameters.
+
+Most machine learning methods take an agnostic view about the DGP, and they explicitly
+acknowledge model uncertainty. To address the issue of model selection (tuning parameter selection),
+in a data rich environment we can split the data into three parts. A training dataset
+is used to fit the model parameter given the tuning parameters. A validation dataset is
+used to compare the out-of-sample performance under different tuning parameters.
+It helps decide a set of desirable tuning parameters. Ideally, the testing sample should be
+kept by a third party away from the modeler. The testing sample is the final
+judge of the relative merit of the fitted models.
+
+The R package `caret` (Classification And REgression Training) provides a framework for many machine learning methods.
+The function [`createDataPartition`](https://topepo.github.io/caret/data-splitting.html)
+splits the sample for both cross sectional data and time series.
+
+
 ## Variable Selection and Prediction
 
 In modern scientific analysis, the number of covariates $x_i$ can be enormous.
@@ -148,8 +282,8 @@ but it does not pinpoint which ones are the culprits.
 Variable selection is useful to identify the relevant genes, and then we can
 think about how to edit the genes to prevent certain diseases and better people's life.
 
-Many explanatory variables are abundant in economic analysis.
-For example, a questionnaire from the [UK Living Costs and Food Survey](https://discover.ukdataservice.ac.uk/series/?sn=2000028), a survey
+Explanatory variables are abundant in some empirical economic examples.
+For instance, a questionnaire from the [UK Living Costs and Food Survey](https://discover.ukdataservice.ac.uk/series/?sn=2000028), a survey
 widely used for analysis of demand theory and family consumption,
 consists of thousand of questions.
 @giannone2017economic [link](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3031893) experiment variable selection methods in 6 widely used economic datasets with many predictors.
@@ -161,7 +295,7 @@ Recently years economists wake up from the long lasting negligence.
 They conduct a horse race of several variable selection methods.
 
 
-The most well-known variable selection method in a regression is the least-absolute-shrinkage-and-selection-operator
+The most well-known variable selection method in regression context is the least-absolute-shrinkage-and-selection-operator
 (Lasso) [@tibshirani1996regression].
 Upon the usual OLS criterion function, Lasso penalizes the $L_1$ norm of the coefficients.
 The criterion function of Lasso is written as
@@ -170,12 +304,12 @@ $$
 $$
 where $\lambda \geq 0$ is a tuning parameter. In a wide range of values of $\lambda$,
 Lasso can shrink some coefficients exactly to 0, which suggests that these variables are likely to be
-irrelevant in the regression. However, later research [@zou2006adaptive] finds that Lasso cannot consistently
+irrelevant in the regression. However, @zou2006adaptive finds that Lasso cannot consistently
 distinguish the relevant variables from the irrelevant ones.
 
 
-Another successful variable selection is smoothly-clipped-absolute-deviation (SCAD)
-[@fan2001variable]. Their criterion function is
+Another successful variable selection method is smoothly-clipped-absolute-deviation (SCAD)
+[@fan2001variable]. Its criterion function is
 $$
 (2n)^{-1} (Y-X\beta)'(Y-X\beta) + \sum_{j=1}^d \rho_{\lambda}( |\beta_j| )
 $$
@@ -197,7 +331,7 @@ where $w_j = 1 \bigg/ \left|\hat{\beta}_j^{(1)}\right|^a$ and $a\geq 1$ is a con
 
 
 In R,  `glmnet` or `LARS` implements Lasso, and `ncvreg` carries out SCAD. Adaptive Lasso
-can be done by set the weight via the argument `penalty.factor` in `glmnet`.
+can be done by setting the weight via the argument `penalty.factor` in `glmnet`.
 
 More methods are available if prediction of the response variables is the sole purpose of the regression.
 An intuitive one is called *stagewise forward selection*.
@@ -206,10 +340,6 @@ produce the biggest $R^2$. This method is similar to the idea of $L_2$ component
 which does not adjust the coefficients fitted earlier.
 
 
-To be discussed in the future
-
-* The idea of boosting and its association to reweighting.
-* regression tree, bagging (Killian and Inoue), average of subsampling
 
 ## Unstructured Data
 
@@ -217,12 +347,41 @@ To be discussed in the future
 * speech recognition
 * photo recognition
 
-## Economic Applications
+## Shrinkage Estimation in Econometrics
 
-* Lee and Shi (2018, to be released)
-* Shi and Huang (2018, to be released)
-* Phillips and Shi (2018, to be released)
+* @su2016identifying
+* @shi2016estimation
+* @lee2018
+
+## Empirical Applications
+* @lehrer2017box
+* @feng2019taming
 * @chinco2017sparse
+
+
+## Reading
+
+* Efron and Hastie: Ch. 16
+
+
+
+## Appendix
+
+Suppose $y_i = x_i' \beta_0 + e_i$, where $e_i$ is independent of $x_i$ and $\mathrm{var}[e_i] = \sigma^2$. Then
+$$
+\min_{\beta} E[ (y_i - x_i' \beta)^2 ] = E[ (y_i - x_i' \beta_0)^2 ] = E[ e_i^2 ] = \sigma^2.
+$$
+This is the minimal error that can be achieved in the population.
+
+In reality, we have a sample $(y_i, x_i)$ of $n$ observations, and we estimate $\beta$ by the OLS estimator $\hat{\beta} = (X'X)^{-1}X'y$.
+The expectation of the SSR is
+$$
+E\left[ \frac{1}{n} \sum_{i=1}^n (y_i - x_i' \hat{\beta})^2  \right]
+= \frac{1}{n}  E\left[ e'(I_n - X(X'X)^{-1}X )e  \right]=  \frac{\sigma^2}{n}(n-p) = \sigma^2\left( 1 - \frac{p}{n} \right)
+< \sigma^2
+$$
+Asymptotically, if $p/n \to 0$, the two risks converge. Otherwise if $p/n \to c$, the expected SSR is strictly
+smaller than the minimal population risk. The model is overfitted.
 
 
 ## References
