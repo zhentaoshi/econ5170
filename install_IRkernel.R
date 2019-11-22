@@ -9,3 +9,9 @@ IRkernel::installspec()
 
 # In case that Ipython reports "there is no package called 'IRkernel'", check in R 
 # `libPaths()` and syncronize the libraries if necessary.
+
+# As Nov 5, 2919, installation problem is encountered in the last line "IRkernel::installspec()"
+# I guess it is because "jupyter" is not in the path
+# Solution:
+# In 'anaconda prompt', cd to the location of R.exe and run ".\R" to enter R command line interface
+# Run "IRkernel::installspec()" inside and then quit. It solves the problem
