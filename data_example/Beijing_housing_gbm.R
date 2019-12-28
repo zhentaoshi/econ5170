@@ -1,7 +1,6 @@
 library(caret)
 library(doParallel)
 
-
 load("lianjia.RData")
 
 price_reg=price~
