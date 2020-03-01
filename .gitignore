@@ -16,6 +16,9 @@ __packages
 *.rdb
 *.rdx
 
+## Pandoc
+*.md
+
 ## Jupyter
 .ipynb_checkpoints
 
