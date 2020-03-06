@@ -1,7 +1,7 @@
 ---
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
-date: "January 16, 2019"
+date: "March 18, 2020"
 output: pdf_document
 fontsize: 11pt
 urlcolor: blue
@@ -195,8 +195,9 @@ Here we show how to retrieve the stock daily data of *Apple Inc.* from *Yahoo Fi
 
 ```{r,eval=TRUE}
 library(quantmod)
-getSymbols("AAPL", from = "2017-01-01", to = Sys.Date(), src = "yahoo")
+getSymbols("AAPL",  src = "yahoo") # from = "2017-01-01", to = Sys.Date(),
 print( head(AAPL) )
+print( tail(AAPL) )
 write.csv(AAPL, file = "AAPL.csv")
 ```
 
