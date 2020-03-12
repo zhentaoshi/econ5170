@@ -3,7 +3,7 @@ The Chinese University of Hong Kong
 ## Econ5170:  Computational Methods in Economics (2020 Spring)
 
 * Time: Starting from March 18, 20202. Every Wednesday 3:30--6:15, except public holidays
-* Venue: online, due to university's suspension
+* Venue: [Zoom link](https://cuhk.zoom.us/j/918474727?pwd=bzNpRllVK1BBRFd5bzdvbXA5OHlyUT09); meeting ID: 918 474 727; password: send via Blackboard.
 
 Naijia Guo and Zhentao Shi co-teach Econ5170.
 
