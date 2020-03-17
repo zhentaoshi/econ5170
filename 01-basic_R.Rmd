@@ -34,15 +34,14 @@ If we do not know the exact function name, we can instead use the double questio
 
 ## Vector
 
-A *vector* is a collection of elements of the same type, say, integer, logical value, real number, complex number, characters or factor.
-Unlike C, R does not require explicit type declaration.
+A *vector* is a collection of elements of the same type, say, integer, logical value, real number, complex number, characters or factor.R does not require explicit type declaration.
 
- `<-` assigns the value on its right-hand side to a self-defined variable name on its left-hand side. `=` is an alternative for assignment, which I prefer.
+ `<-` assigns the value on its right-hand side to a self-defined variable name on its left-hand side. `=` is an alternative for assignment.
 
  `c()`  combines two or more vectors into a long vector.
 
 
-Binary arithmetic operations `+`, `-`, `*` and `\` are performed element by element.
+Binary arithmetic operations `+`, `-`, `*` and `\` are performed element by element by default.
 So are the binary logical operations `&` `|` `!=`.
 
 *Factor* is a categorical number. *Character* is text.
@@ -50,16 +49,17 @@ So are the binary logical operations `&` `|` `!=`.
 Missing values in R is represented as `NA` (Not Available). When some operations are not allowed, say, `log(-1)`, R returns  `NaN` (Not a Number).
 
 Vector selection is specified in square bracket `a[ ]` by either positive integer or logical vector.
+The index initiates from 1, not 0 (Python's rule). 
 
 **Example**
 
 Logical vector operation.
 ```{r}
 # logical vectors
-logi_1 = c(T,T,F)
-logi_2 = c(F,T,T)
+logi_1 <- c(T, T, F)
+logi_2 <- c(F, T, T)
 
-logi_12 = logi_1 & logi_2
+logi_12 <- logi_1 & logi_2
 print(logi_12)
 ```
 
@@ -83,22 +83,22 @@ To conduct OLS estimation in R, we literally translate the mathematical expressi
 Step 1: We need data $Y$ and $X$ to run OLS. We simulate an artificial dataset.
 ```{r,cache=TRUE}
 # simulate data
-rm(list = ls( ) )
+rm(list = ls())
 set.seed(111) # can be removed to allow the result to change
 
 # set the parameters
-n = 100
-b0 = matrix(1, nrow = 2 )
+n <- 100
+b0 <- matrix(1, nrow = 2)
 
 # generate the data
-e = rnorm(n)
-X = cbind( 1, rnorm(n) )
-Y = X %*% b0 + e
+e <- rnorm(n)
+X <- cbind(1, rnorm(n))
+Y <- X %*% b0 + e
 ```
 Step 2: translate the formula to code
 ```{r,cache=TRUE}
 # OLS estimation
-bhat = solve( t(X) %*% X, t(X)%*% Y )
+bhat <- solve(t(X) %*% X, t(X) %*% Y)
 ```
 
 Step 3 (additional): plot the regression graph with the scatter points and the regression line.
@@ -106,11 +106,11 @@ Further compare the regression line (black) with the true coefficient line (red)
 
 ```{r,cache=TRUE}
 # plot
-plot( y = Y, x = X[,2], xlab = "X", ylab = "Y", main = "regression")
-abline( a= bhat[1], b = bhat[2])
-abline( a = b0[1], b = b0[2], col = "red")
-abline( h = 0, lty = 2)
-abline( v = 0, lty = 2)
+plot(y = Y, x = X[, 2], xlab = "X", ylab = "Y", main = "regression")
+abline(a = bhat[1], b = bhat[2])
+abline(a = b0[1], b = b0[2], col = "red")
+abline(h = 0, lty = 2)
+abline(v = 0, lty = 2)
 ```
 Step 4: In econometrics we are often interested in hypothesis testing.
 The *t*-statistic is widely used.
@@ -124,13 +124,12 @@ where $[\cdot]_{22}$ is the (2,2)-element of a matrix.
 
 ```{r}
 # calculate the t-value
-bhat2 = bhat[2] # the parameter we want to test
-e_hat = Y - X %*% bhat
-sigma_hat_square = sum(e_hat^2)/ (n-2)
-Sigma_B = solve( t(X) %*% X  ) * sigma_hat_square
-t_value_2 = ( bhat2 - b0[2]) / sqrt( Sigma_B[2,2] )
-print(t_value_2)
-
+bhat2 <- bhat[2] # the parameter we want to test
+e_hat <- Y - X %*% bhat
+sigma_hat_square <- sum(e_hat^2) / (n - 2)
+Sigma_B <- solve(t(X) %*% X) * sigma_hat_square
+t_value_2 <- (bhat2 - b0[2]) / sqrt(Sigma_B[2, 2])
+cat("The t-statistic =", t_value_2)
 ```
 
 
@@ -144,7 +143,10 @@ They promote their work via CRAN, and users have easy access to the state-of-the
 
 
 A package can be installed by
-`install.packages("package_name")` and invoked by `library(package_name)`.
+`install.packages("package_name")`. To invoke a function of a package, we can either call the function name after import the package by `library(package_name)` into the current session, or use 
+`package_name::function_name`. The former imports all functions in the package, and sometimes
+can cause conflict with other functions of the same name. The latter method is preferred to 
+keep the environment clean.
 
 [Applied Econometrics with R](http://www.springer.com/gp/book/9780387773162) by Christian Kleiber and Achim Zeileis is a useful book.
 It also has a companion package
@@ -165,7 +167,8 @@ which are stored into `$value` and `$vector`, respectively.
 *data.frame* is a two-dimensional table that stores the data, similar to a spreadsheet in Excel.
 A matrix is also a two-dimensional table, but it only accommodates one type of elements.
 Real world data can be a collection of integers, real numbers, characters, categorical numbers and so on.
-Data frame is the best way to organize data of mixed type in R.
+Data frame is the default way to organize data of mixed type in R. `tibble` is a new and refined
+alternative data frame type.
 
 **Example**
 
@@ -175,6 +178,7 @@ This is a data set in a graduate-level econometrics textbook. We load the data i
 library(AER)
 data("CreditCard")
 head(CreditCard)
+head(tibble::as_tibble(CreditCard))
 ```
 
 
@@ -195,16 +199,15 @@ Here we show how to retrieve the stock daily data of *Apple Inc.* from *Yahoo Fi
 
 ```{r,eval=TRUE}
 library(quantmod)
-getSymbols("AAPL",  src = "yahoo") # from = "2017-01-01", to = Sys.Date(),
-print( head(AAPL) )
-print( tail(AAPL) )
-write.csv(AAPL, file = "AAPL.csv")
+getSymbols("AAPL", src = "yahoo")
+tail(AAPL)
+# write.csv(AAPL, file = "AAPL.csv")
 ```
 
 Another example:
 ```{r,eval=TRUE}
 library(quantmod)
-getSymbols.FRED(Symbols = c("IPB50001SQ"), env = .GlobalEnv ) 
+getSymbols.FRED(Symbols = c("IPB50001SQ"), env = .GlobalEnv)
 plot(IPB50001SQ)
 ```
 
@@ -228,15 +231,15 @@ In population, this value should be 5%. What is the number in this experiment?
 
 ```{r,cache=TRUE}
 set.seed(888)
-x_axis = seq(0.01, 15, by = 0.01)
+x_axis <- seq(0.01, 15, by = 0.01)
 
-y = dchisq(x_axis, df = 3)
-plot(y = y, x=x_axis, type = "l", xlab = "x", ylab = "density")
-z = rchisq(1000, df = 3)
-lines( density(z), col = "red")
-crit = qchisq(.95, df = 3)
+y <- dchisq(x_axis, df = 3)
+plot(y = y, x = x_axis, type = "l", xlab = "x", ylab = "density")
+z <- rchisq(1000, df = 3)
+lines(density(z), col = "red")
+crit <- qchisq(.95, df = 3)
 
-mean( z > crit )
+mean(z > crit)
 ```
 
 
@@ -253,7 +256,7 @@ There are important advantages:
 The format of a user-defined function in R is
 
 ```{r,eval=FALSE}
-function_name = function(input) {
+function_name <- function(input) {
   expressions
   return(output)
 }
@@ -270,17 +273,16 @@ It is an easy job, but I am not aware there is a built-in function in R to do th
 ```{r}
 # construct confidence interval
 
-CI = function(x){
+CI <- function(x) {
   # x is a vector of random variables
 
-  n = length(x)
-  mu = mean(x)
-  sig = sd(x)
-  upper = mu + 1.96/sqrt(n) * sig
-  lower = mu - 1.96/sqrt(n) * sig
-  return( list( lower = lower, upper = upper) )
+  n <- length(x)
+  mu <- mean(x)
+  sig <- sd(x)
+  upper <- mu + 1.96 / sqrt(n) * sig
+  lower <- mu - 1.96 / sqrt(n) * sig
+  return(list(lower = lower, upper = upper))
 }
-
 ```
 
 ## Flow Control
@@ -294,21 +296,17 @@ Calculate the empirical coverage probability of a Poisson distribution of degree
 We conduct this experiment for 1000 times.
 
 ```{r}
-Rep = 1000
-sample_size = 100
-capture = rep(0, Rep)
+Rep <- 1000
+sample_size <- 100
+capture <- rep(0, Rep)
 
-
-pts0 = Sys.time() # check time
-for (i in 1:Rep){
-  mu = 2
-  x = rpois(sample_size, mu)
-  bounds = CI(x)
-  capture[i] = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
+for (i in 1:Rep) {
+  mu <- 2
+  x <- rpois(sample_size, mu)
+  bounds <- CI(x)
+  capture[i] <- ((bounds$lower <= mu) & (mu <= bounds$upper))
 }
-mean(capture) # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
-print(pts1)
+cat("the emprical size = ", mean(capture)) # empirical size
 ```
 
 ## Statistical Model
@@ -325,16 +323,16 @@ it is easy to extend to other regressions.
 This is a toy example with simulated data.
 ```{r}
 
-T = 100
-p = 1
+T <- 100
+p <- 1
 
-b0 = 1
+b0 <- 1
 # Generate data
-x = matrix( rnorm(T*p), T, 1)
-y = x %*% b0 + rnorm(T)
+x <- matrix(rnorm(T * p), T, 1)
+y <- x %*% b0 + rnorm(T)
 
 # Linear Model
-result = lm(y ~ x)
+result <- lm(y ~ x)
 summary(result)
 ```
 
@@ -342,22 +340,28 @@ The `result` object is a list containing the regression results. As shown in the
 
 We can plot the true value of $y$ and fitted value to examine whether the regression model fit the data well.
 ```{r}
-plot(result$fitted.values, col = 'red', type = 'l', xlab = 'x', ylab = 'y',
-     main = 'Fitted Value')
-lines(y, col = 'blue', type = 'l', lty = 2)
-legend('bottomleft', legend=c("Fitted Value", "True Value"),
-       col=c("red", "blue"), lty=1:2, cex = 0.75)
+plot(result$fitted.values,
+  col = "red", type = "l", xlab = "x", ylab = "y",
+  main = "Fitted Value"
+)
+lines(y, col = "blue", type = "l", lty = 2)
+legend("bottomleft",
+  legend = c("Fitted Value", "True Value"),
+  col = c("red", "blue"), lty = 1:2, cex = 0.75
+)
 ```
 
 Then we plot the best fitted line.
 ```{r}
 
-plot( y = y, x = x, xlab = "x", ylab = "y", main = "Fitted Line")
-abline( a= result$coefficients[1], b = result$coefficients[2])
-abline( a = 0, b = b0, col = "red")
+plot(y = y, x = x, xlab = "x", ylab = "y", main = "Fitted Line")
+abline(a = result$coefficients[1], b = result$coefficients[2])
+abline(a = 0, b = b0, col = "red")
 
-legend('bottomright', legend=c("Fitted Line", "True Coef"),
-       col=c("black", "red"), lty=c(1,1), cex = 0.75)
+legend("bottomright",
+  legend = c("Fitted Line", "True Coef"),
+  col = c("black", "red"), lty = c(1, 1), cex = 0.75
+)
 ```
 
 Here we give another example about the relationship between the height and weight of women.
@@ -366,12 +370,13 @@ This package contains a variety of datasets. For a complete list, use `library(h
 
 ```{r}
 # univariate
-reg1 = lm(height~weight, data=women)
+reg1 <- lm(height ~ weight, data = women)
 
 # multivariate
-reg2 = lm(height~weight+I(weight^2),data=women)
+reg2 <- lm(height ~ weight + I(weight^2), data = women)
 # "weight^2" is a square term.
-# "I()" is used to inhibit the formula operator "+" from being interpreted as an arithmetical one.
+# "I()" is used to inhibit the formula operator "+"
+# from being interpreted as an arithmetical one.
 
 summary(reg1)
 summary(reg2)

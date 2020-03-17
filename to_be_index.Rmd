@@ -12,12 +12,13 @@ github-repo: rstudio/bookdown-demo
 description: "nothing"
 fontsize: 12pt
 ---
+
 # Preface {-}
 
 This course came into being after postgraduate students repeatedly requested for training in coding skills.
 Programming is an essential skill for researchers in economic analysis.
 
-I believe the best way to learn programming is via examples. This book contains many examples that illustrate R usage and econometric computational ideas.
+I believe the best way to learn programming is via examples. These notes contain many executable  examples that illustrate R usage and econometric computational ideas.
 
 ## Personal Reflection {-}
 
@@ -38,20 +39,20 @@ When they publish a paper, often times statisticians write and upload a companio
 
 Third, R is free.
 It was the primary reason that I chose it at the very beginning.
-In the era of open-source software, an algorithm written in R is easier to share, test, and improve.
+In the era of cloud computing, an algorithm written in R is easier to share, test, and improve.
 Anyone can run R code on any platform, free of license and fee headache.
 
 R is not without limitations. For example, speed is a concern when running big and complex jobs.
-However, it will not be an issue in the problems that we will encounter in the first year postgraduate study.
+However, it will not be an issue in the problems that we will encounter in the first-year postgraduate study.
 
 Lastly, learning a language is a non-trivial investment of our precious time.
-It is much more important to master one language than to know several or many languages.
+It is much more important to master one language with fluency than to know several languages.
 
 R is not the only language available for computing. Why not Python? 
 Python is a general purpose language, not a scientific computing language. 
 We need to import external modules even for basic numerical operations.
-For example, I personally don't like `np.mean`, `np.var` and `np.log`. 
-For basic matrix manupulation, the default behavior of `numpy` is quite different from R.
+For example, I personally don't like `np.mean`, `np.var` and `np.log`, and its index from 0.
+For basic matrix manupulation, the default behavior of `numpy` is different from R.
 
 Why not Julia? Julia is too young to have a big community. 
 We would wait until it grows into more stable status. 
@@ -67,9 +68,3 @@ An fully functional integrated development environment (IDE) is also highly desi
 It makes programming user-friendly and enjoyable.
 [RStudio](http://www.rstudio.com/) is recommended.
 
-## About Book Version {-}
-
-I prepare the lecture notes in Rmarkdown.
-The book version can be built in RStudio.
-
-I thank (to be completed).
