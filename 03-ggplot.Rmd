@@ -1,7 +1,7 @@
 ---
 title: "Graphics"
 author: "Zhentao Shi"
-date: "Jan 16, 2019"
+date: "March 18, 2020"
 fontsize: 11pt
 urlcolor: blue
 bibliography: book.bib
@@ -53,25 +53,29 @@ Plot the density of two estimators under three different data generating process
 This is an example to generate subgraphs of the same pattern.
 
 ```{r,cache=TRUE}
-load("big150.Rdata")
+load("data_example/big150.Rdata")
 library(ggplot2)
 library(reshape2)
 
-big150_1 = big150[, c("typb", "b1", "b1_c")]
+big150_1 <- big150[, c("typb", "b1", "b1_c")]
 print(head(big150_1))
 
-big150_1 = melt(big150_1, id.vars = "typb", measure.vars = c("b1", "b1_c"))
-names(big150_1)[2] = c("estimator")
+big150_1 <- melt(big150_1, id.vars = "typb", measure.vars = c("b1", "b1_c"))
+names(big150_1)[2] <- c("estimator")
 print(head(big150_1))
 
-p1 = ggplot(big150_1)
-p1 = p1 + geom_area(stat = "density", alpha = .25,
-                    aes(x = value, fill = estimator),  position = "identity")
-p1 = p1 + facet_grid( . ~ typb )  
-p1 = p1 + geom_vline(xintercept = 0)
-p1 = p1 + theme_bw()
-p1 = p1 + theme(strip.text = element_text( size = 12),
-                axis.text = element_text( size = 12))
+p1 <- ggplot(big150_1)
+p1 <- p1 + geom_area(
+  stat = "density", alpha = .25,
+  aes(x = value, fill = estimator), position = "identity"
+)
+p1 <- p1 + facet_grid(. ~ typb)
+p1 <- p1 + geom_vline(xintercept = 0)
+p1 <- p1 + theme_bw()
+p1 <- p1 + theme(
+  strip.text = element_text(size = 12),
+  axis.text = element_text(size = 12)
+)
 print(p1)
 ```
 The function `ggplot` specifies which dataset to use for the graph. `geom_***` determines the shape to draw, for example scatter dots, lines, curves or areas. `theme` is to tune the supplementary elements like the background, the size and font of the axis text and so on.
@@ -88,29 +92,31 @@ library(ggplot2)
 library(reshape2)
 library(gridExtra)
 
-load("multigraph.Rdata") # load data
+load("data_example/multigraph.Rdata") # load data
 
 
 # unify the theme in the two graphs
-theme1 = theme_bw() + theme(axis.title.x = element_blank(),
-                            strip.text = element_text( size = 12),
-                            axis.text = element_text( size = 12),
-                            legend.position = "bottom", legend.title = element_blank())
+theme1 <- theme_bw() + theme(
+  axis.title.x = element_blank(),
+  strip.text = element_text(size = 12),
+  axis.text = element_text(size = 12),
+  legend.position = "bottom", legend.title = element_blank()
+)
 
 # sub-graph 1
-d1 = data.frame(month = 1:480, m = m_vec)
-p1 = qplot( x = month, y = m, data = d1, geom = "line")
-p1 = p1 + theme1 + ylab("fraction of chartists")
+d1 <- data.frame(month = 1:480, m = m_vec)
+p1 <- qplot(x = month, y = m, data = d1, geom = "line")
+p1 <- p1 + theme1 + ylab("fraction of chartists")
 
 
 # sug-graph 2
-d2$month = 1:480
-p2 = ggplot(d2)
-p2 = p2 + geom_line(  aes(x = month, y = value, col = variable) )  
-p2 = p2 + theme1 +  ylab("price and fundamental")
+d2$month <- 1:480
+p2 <- ggplot(d2)
+p2 <- p2 + geom_line(aes(x = month, y = value, col = variable))
+p2 <- p2 + theme1 + ylab("price and fundamental")
 
 # generate the grahp
-grid.arrange(p1, p2, nrow=2)
+grid.arrange(p1, p2, nrow = 2)
 ```
 
 In order to unify the theme of the two distinctive subgraphs,

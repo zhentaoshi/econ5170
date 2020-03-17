@@ -1,7 +1,7 @@
 ---
 title: 'Lecture 2: Advanced R'
 author: "Zhentao Shi"
-date: "Jan 7, 2019"
+date: "March 18, 2020"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -30,9 +30,13 @@ Despite mathematical equivalence, various ways of calculation can perform distin
 
 Does computational speed matter?
 For a job that takes less than a minutes, the time difference is not a big deal.
-For modern economic structural estimation problems commonly seen in industrial organization, a single estimation can take up to a week. For those problems code optimization is essential.
+But sometimes economic problems can be clumsy. For structural estimation commonly seen in industrial organization, a single estimation can take up to a week. 
+In econometrics, other computational intensive procedures include bootstrap, simulated maximum likelihood and simulated method of moments. Even if a single execution does not take much time, repeating such a procedure for thousands of replications will consume a non-trivial duration.
+Moreover, machine learning methods that crunch 
+big data usually involve tuning parameters, so the same procedure must be carried out
+at each point of a grid of tuning paramters. 
+For those problems, code optimization is essential.
 
-Other computational intensive procedures include bootstrap, simulated maximum likelihood and simulated method of moments. Even if a single execution does not take much time, repeating such a procedure for thousands of replications will consume a non-trivial duration.
 
 Of course, optimizing code takes human time. It is a balance of human time and machine time.
 
@@ -43,7 +47,7 @@ $$(X'X)^{-1} X'\hat{e}\hat {e}'X (X'X)^{-1}$$
 The difficult part is $X'\hat{e}\hat {e}'X=\sum_{i=1}^n \hat{e}_i^2 x_i x_i'$.
 There are at least 4 mathematically equivalent ways to compute this term.
 
-1. literally sum over $i=1,\ldots,n$ one by one.
+1. literally sum $\hat{e}_i^2 x_i x_i'$  over $i=1,\ldots,n$ one by one.
 2. $X' \mathrm{diag}(\hat{e}^2) X$, with a dense central matrix.
 3. $X' \mathrm{diag}(\hat{e}^2) X$, with a sparse central matrix.
 4. Do cross product to `X*e_hat`. It takes advantage of the element-by-element operation in R.
@@ -52,26 +56,25 @@ There are at least 4 mathematically equivalent ways to compute this term.
 We first generate the data of binary response and regressors. Due to the discrete nature of the dependent variable, the error term in the linear probability model is heteroskedastic. It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator. The code chunk below estimates the coefficients and obtains the residual.
 
 ```{r}
-lpm = function(n){
-    # estimation in a linear probability model
+lpm <- function(n) {
+  # estimation in a linear probability model
 
-    # set the parameters
-    b0 = matrix( c(-1,1), nrow = 2 )
+  # set the parameters
+  b0 <- matrix(c(-1, 1), nrow = 2)
 
-    # generate the data
-    e = rnorm(n)
-    X = cbind( 1, rnorm(n) ) # you can try this line. See what is the difference.
-    Y = (X %*% b0 + e >=0 )
-    # note that in this regression b0 is not converge to b0 because the model is changed.
+  # generate the data
+  e <- rnorm(n)
+  X <- cbind(1, rnorm(n)) # you can try this line. See what is the difference.
+  Y <- (X %*% b0 + e >= 0)
+  # note that in this regression b0 is not converge to b0 because the model is changed.
 
-    # OLS estimation
-    bhat = solve( t(X) %*% X, t(X)%*% Y )
+  # OLS estimation
+  bhat <- solve(t(X) %*% X, t(X) %*% Y)
 
-
-    # calculate the t-value
-    bhat2 = bhat[2] # parameter we want to test
-    e_hat = Y - X %*% bhat
-    return( list(X = X, e_hat = as.vector( e_hat) ) )
+  # calculate the t-value
+  bhat2 <- bhat[2] # parameter we want to test
+  e_hat <- Y - X %*% bhat
+  return(list(X = X, e_hat = as.vector(e_hat)))
 }
 ```
 
@@ -83,43 +86,43 @@ We run the 4 estimators for the same data, and compare the time.
 library(Matrix)
 
 # n = 5000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK
-n = 50; Rep = 1000;  # Matrix is slow,  matrix is quick, adding is OK
+n <- 50
+Rep <- 1000
+# Matrix is slow,  matrix is quick, adding is OK
 
-for (opt in 1:4){
+for (opt in 1:4) {
+  pts0 <- Sys.time()
 
-  pts0 = Sys.time()
-
-  for (iter in 1:Rep){
-
+  for (iter in 1:Rep) {
     set.seed(iter) # to make sure that the data used
     # different estimation methods are the same
 
-    data.Xe = lpm(n)
-    X = data.Xe$X;
-    e_hat = data.Xe$e_hat
+    data.Xe <- lpm(n)
+    X <- data.Xe$X
+    e_hat <- data.Xe$e_hat
 
-    XXe2 = matrix(0, nrow = 2, ncol = 2)
+    XXe2 <- matrix(0, nrow = 2, ncol = 2)
 
-    if (opt == 1){
-      for ( i in 1:n){
-        XXe2 = XXe2 + e_hat[i]^2 * X[i,] %*% t(X[i,])
+    if (opt == 1) {
+      for (i in 1:n) {
+        XXe2 <- XXe2 + e_hat[i]^2 * X[i, ] %*% t(X[i, ])
       }
-    } else if (opt == 2) {# the vectorized version
-      e_hat2_M = matrix(0, nrow = n, ncol = n)
-      diag(e_hat2_M) = e_hat^2
-      XXe2 = t(X) %*% e_hat2_M %*% X
-    } else if (opt == 3)  {# the vectorized version
-      e_hat2_M = Matrix( 0, ncol = n, nrow = n)
-      diag(e_hat2_M) = e_hat^2
-      XXe2 = t(X) %*% e_hat2_M %*% X
-    } else if (opt == 4)  {# the best vectorization method. No waste
-      Xe = X * e_hat
-      XXe2 = t(Xe) %*% Xe
+    } else if (opt == 2) { # the vectorized version with dense matrix
+      e_hat2_M <- matrix(0, nrow = n, ncol = n)
+      diag(e_hat2_M) <- e_hat^2
+      XXe2 <- t(X) %*% e_hat2_M %*% X
+    } else if (opt == 3) { # the vectorized version with sparse matrix
+      e_hat2_M <- Matrix(0, ncol = n, nrow = n)
+      diag(e_hat2_M) <- e_hat^2
+      XXe2 <- t(X) %*% e_hat2_M %*% X
+    } else if (opt == 4) { # the best vectorization method. No waste
+      Xe <- X * e_hat
+      XXe2 <- t(Xe) %*% Xe
     }
 
 
-    XX_inv = solve( t(X) %*% X  )
-    sig_B =  XX_inv %*% XXe2 %*% XX_inv
+    XX_inv <- solve(t(X) %*% X)
+    sig_B <- XX_inv %*% XXe2 %*% XX_inv
   }
   cat("n = ", n, ", Rep = ", Rep, ", opt = ", opt, ", time = ", Sys.time() - pts0, "\n")
 }
@@ -141,50 +144,53 @@ In standard `for` loops, we have to do a lot of housekeeping work. [Hadley Wickh
 Here we calculate the empirical coverage probability of a Poisson distribution of degrees of freedom 2. We first write a user-defined function `CI` for confidence interval, which was used in the last lecture.
 
 ```{r}
-CI = function(x){ # construct confidence interval
+CI <- function(x) { # construct confidence interval
   # x is a vector of random variables
 
-  n = length(x)
-  mu = mean(x)
-  sig = sd(x)
-  upper = mu + 1.96/sqrt(n) * sig
-  lower = mu - 1.96/sqrt(n) * sig
-  return( list( lower = lower, upper = upper) )
+  n <- length(x)
+  mu <- mean(x)
+  sig <- sd(x)
+  upper <- mu + 1.96 / sqrt(n) * sig
+  lower <- mu - 1.96 / sqrt(n) * sig
+  return(list(lower = lower, upper = upper))
 }
 ```
 
 This is a standard `for` loop.
 
 ```{r,cache=TRUE}
-Rep = 100000
-sample_size = 1000
-mu = 2
+Rep <- 100000
+sample_size <- 1000
+mu <- 2
 
 # append a new outcome after each loop
-pts0 = Sys.time() # check time
-for (i in 1:Rep){
-  x = rpois(sample_size, mu)
-  bounds = CI(x)
-  out_i = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
-  if (i == 1){ out = out_i} else { out = c(out, out_i) }
+pts0 <- Sys.time() # check time
+for (i in 1:Rep) {
+  x <- rpois(sample_size, mu)
+  bounds <- CI(x)
+  out_i <- ((bounds$lower <= mu) & (mu <= bounds$upper))
+  if (i == 1) {
+    out <- out_i
+  } else {
+    out <- c(out, out_i)
+  }
 }
-cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
 
 
 # pre-define a container
-out = rep(0, Rep)
-pts0 = Sys.time() # check time
-for (i in 1:Rep){
-  x = rpois(sample_size, mu)
-  bounds = CI(x)
-  out[i] = ( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
+out <- rep(0, Rep)
+pts0 <- Sys.time() # check time
+for (i in 1:Rep) {
+  x <- rpois(sample_size, mu)
+  bounds <- CI(x)
+  out[i] <- ((bounds$lower <= mu) & (mu <= bounds$upper))
 }
-cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
-
 ```
 
 
@@ -202,16 +208,16 @@ In contrast, a `plyr` loop saves the house keeping chores, and makes it easier t
 ```{r,cache=TRUE,eval=TRUE}
 library(plyr)
 
-capture = function(i){
-  x = rpois(sample_size, mu)
-  bounds = CI(x)
-  return( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
+capture <- function(i) {
+  x <- rpois(sample_size, mu)
+  bounds <- CI(x)
+  return((bounds$lower <= mu) & (mu <= bounds$upper))
 }
 
-pts0 = Sys.time() # check time
-out = ldply( .data = 1:Rep, .fun = capture )
-cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+pts0 <- Sys.time() # check time
+out <- ldply(.data = 1:Rep, .fun = capture)
+cat("empirical coverage probability = ", mean(out$V1), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
@@ -235,25 +241,9 @@ library(doParallel)
 
 registerDoParallel(a_number) # opens specified number of CPUs
 
-# a new implementation using "foreach" (Jan 16, 2018)
-out = foreach(icount(Rep), .combine = option ) %dopar% {
-  my_expressions 
+out <- foreach(icount(Rep), .combine = option) %dopar% {
+  my_expressions
 }
-# to shut down parallelism, just replace %dopar% with %do%
-
-
-
-# This is an old implementation, but I still keep it here (Jan 16, 2018)
-# l_ply(.data = 1:10,
-#      .fun = myfunction,
-#      .parallel = TRUE,
-#      .paropts = list( .packages = package.list,
-#        .export = ls(envir=globalenv() ) )
-# )
-
-# When calling `__ply`, we explicitly specify `.parallel` to be `TRUE`.
-# If `myfunction` also depends on other variables in the session and/or other packages,
-# we  must export them to other cores via the argument `.paropts` (parameter options).
 ```
 
 If we have two CPUs running simultaneously, in theory we can cut the time to a half of that on a single CPU. Is that what happening in practice?
@@ -268,16 +258,17 @@ library(doParallel)
 
 registerDoParallel(2) # open 2 CPUs
 
-pts0 = Sys.time()# check time
+pts0 <- Sys.time() # check time
 
-out = foreach(1:Rep, .combine = c ) %dopar% {
-  capture(i) 
+out <- foreach(1:Rep, .combine = c) %dopar% {
+  capture(i)
 }
 
 # out = ldply(.data = 1:Rep, .fun = capture, .parallel = T,
 #            .paropts = list(.export = ls(envir=globalenv() )) )
-cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
+print(pts1)
 print(pts1)
 ```
 
@@ -286,25 +277,31 @@ It is because the task in each loop can be done in very short time.
 In contrast, the code chunk below will tell a different story.
 There the time in each loop is non-trivial,
 and then parallelism dominates the overhead of the CPU communication.
+The only difference between the two implementations below is 
+that the first uses `%dopar%` and the latter uses `%do%`.
 
 ```{r,cache = TRUE, eval=TRUE}
-Rep = 200
-sample_size = 2000000
+Rep <- 200
+sample_size <- 2000000
 
-registerDoParallel(8) # change the number of open CPUs according to 
+registerDoParallel(8) # change the number of open CPUs according to
 # the specification of your computer
 
-pts0 = Sys.time() # check time
-out = foreach(icount(Rep), .combine = c ) %dopar% { capture() }
+pts0 <- Sys.time() # check time
+out <- foreach(icount(Rep), .combine = c) %dopar% {
+  capture()
+}
 
-cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
 
-pts0 = Sys.time()
-out = foreach(icount(Rep), .combine = c ) %do% { capture() }
-cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+pts0 <- Sys.time()
+out <- foreach(icount(Rep), .combine = c) %do% {
+  capture()
+}
+cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
@@ -334,8 +331,9 @@ Here are a few commands for basic operations.
 * start a program
 
 Our department's computation infrastructure has been improving.
-A server dedicated to  professors is a 16-core machine. I have opened an account for you.
-You can try out this script on `econsuper`.
+A server dedicated to  professors is a 16-core machine. Students also have 
+access to a powerful multi-core computer.
+
 
 1. Log in `econsuper.econ.cuhk.edu.hk`;
 2. Save the code block below as `loop_server.R`, and upload it to the server;
@@ -348,48 +346,46 @@ library(foreach)
 library(doParallel)
 
 # prepare the functions
-mu = 2
-CI = function(x){
+mu <- 2
+CI <- function(x) {
   # x is a vector of random variables
-  
-  n = length(x)
-  mu = mean(x)
-  sig = sd(x)
-  upper = mu + 1.96/sqrt(n) * sig
-  lower = mu - 1.96/sqrt(n) * sig
-  return( list( lower = lower, upper = upper) )
+
+  n <- length(x)
+  mu <- mean(x)
+  sig <- sd(x)
+  upper <- mu + 1.96 / sqrt(n) * sig
+  lower <- mu - 1.96 / sqrt(n) * sig
+  return(list(lower = lower, upper = upper))
 }
 
-capture = function(){
-  x = rpois(sample_size, mu)
-  bounds = CI(x)
-  return( ( bounds$lower <= mu  ) & (mu <= bounds$upper) )
+capture <- function() {
+  x <- rpois(sample_size, mu)
+  bounds <- CI(x)
+  return((bounds$lower <= mu) & (mu <= bounds$upper))
 }
 
 ############ implementation ###############
-Rep = 400
-sample_size = 5000000
-# pts0 = Sys.time() # check time
-# out = ldply(.data = 1:Rep, .fun = capture, .parallel = FALSE)
-# cat( "empirical coverage probability = ", mean(out$V1), "\n") # empirical size
-# pts1 = Sys.time() - pts0 # check time elapse
-# print(pts1)
-
+Rep <- 400
+sample_size <- 5000000
 
 # compare to the parallel version
 registerDoParallel(16) # opens other CPUs
 
-pts0 = Sys.time() # check time
-out = foreach(icount(Rep), .combine = c ) %dopar% { capture() }
+pts0 <- Sys.time() # check time
+out <- foreach(icount(Rep), .combine = c) %dopar% {
+  capture()
+}
 
-cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
 
-pts0 = Sys.time()
-out = foreach(icount(Rep), .combine = c ) %do% { capture() }
-cat( "empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 = Sys.time() - pts0 # check time elapse
+pts0 <- Sys.time()
+out <- foreach(icount(Rep), .combine = c) %do% {
+  capture()
+}
+cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
 ```
 
