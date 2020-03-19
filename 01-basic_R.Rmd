@@ -41,7 +41,7 @@ A *vector* is a collection of elements of the same type, say, integer, logical v
  `c()`  combines two or more vectors into a long vector.
 
 
-Binary arithmetic operations `+`, `-`, `*` and `\` are performed element by element by default.
+Binary arithmetic operations `+`, `-`, `*` and `/` are performed element by element by default.
 So are the binary logical operations `&` `|` `!=`.
 
 *Factor* is a categorical number. *Character* is text.
@@ -198,16 +198,14 @@ Besides loading a data file on the local hard disk, We can directly download dat
 Here we show how to retrieve the stock daily data of *Apple Inc.* from *Yahoo Finance*, and save the dataset locally. A package called `quantmod` is used.
 
 ```{r,eval=TRUE}
-library(quantmod)
-getSymbols("AAPL", src = "yahoo")
+quantmod::getSymbols("AAPL", src = "yahoo")
 tail(AAPL)
-# write.csv(AAPL, file = "AAPL.csv")
+plot(AAPL$AAPL.Close)
 ```
 
-Another example:
+Another example: [Quarterly US Industrial Production Index](https://fred.stlouisfed.org/series/IPB50001SQ)
 ```{r,eval=TRUE}
-library(quantmod)
-getSymbols.FRED(Symbols = c("IPB50001SQ"), env = .GlobalEnv)
+quantmod::getSymbols.FRED(Symbols = c("IPB50001SQ"), env = .GlobalEnv)
 plot(IPB50001SQ)
 ```
 
@@ -384,4 +382,4 @@ summary(reg2)
 
 ## Reading
 
-Wickham and Grolemund: Ch 1, 2, 4, 8, 19 and 20
+[Wickham and Grolemund](https://r4ds.had.co.nz/): Ch 1, 2, 4, 8, 19 and 20
