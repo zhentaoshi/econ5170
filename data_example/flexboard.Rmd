@@ -18,7 +18,7 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
-load("big150.Rdata")
+load("data/big150.Rdata")
 library(ggplot2)
 library(reshape2)
 
@@ -52,7 +52,7 @@ library(lattice)
 library(ggplot2)
 library(reshape2)
 
-load("multigraph.Rdata") # load data
+load("data/multigraph.Rdata") # load data
 
 
 # unify the theme in the two graphs
