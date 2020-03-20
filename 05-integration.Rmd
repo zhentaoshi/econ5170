@@ -243,23 +243,25 @@ generate a random variable with other pdf $f(x)$, we just need to replace the li
 
 ```{r,cache=TRUE}
 library(mcmc)
-h = function(x){ y = -x^2 / 2 } # un-normalized function (doesn't need to integrate as 1)
+h <- function(x) {
+  y <- -x^2 / 2
+} # un-normalized function (doesn't need to integrate as 1)
 
-out = metrop( obj = h, initial = 0, nbatch = 100, nspac = 1  )
+out <- metrop(obj = h, initial = 0, nbatch = 100, nspac = 1)
 
-par(mfrow = c(3,1))
-par(mar = c(2,2,1,1))
+par(mfrow = c(3, 1))
+par(mar = c(2, 2, 1, 1))
 plot(out$batch, type = "l") # a time series with flat steps
 
-out = metrop( obj = h, initial = 0, nbatch = 100, nspac = 10  )
+out <- metrop(obj = h, initial = 0, nbatch = 100, nspac = 10)
 plot(out$batch, type = "l") # a time series looks like a white noise
 
-out = metrop( obj = h, initial = 0, nbatch = 10000, nspac = 10  )
+out <- metrop(obj = h, initial = 0, nbatch = 10000, nspac = 10)
 plot(density(out$batch), main = "", lwd = 2)
 
-xbase = seq(-3, 3, 0.01)
-ynorm = dnorm(xbase)
-lines( x = xbase, y = ynorm, type = "l", col = "red")
+xbase <- seq(-3, 3, 0.01)
+ynorm <- dnorm(xbase)
+lines(x = xbase, y = ynorm, type = "l", col = "red")
 # the plot compare the density of the simulated sample
 # with the standard normal pdf
 ```
@@ -295,53 +297,57 @@ The code block below compares the OLS estimator with the LTE estimator in a line
 library(mcmc)
 
 # DGP
-n = 1000
-b0 = c(1,1)
-X = cbind(1, rnorm(n))
-Y = X %*% b0 + rnorm(n)
+n <- 1000
+b0 <- c(1, 1)
+X <- cbind(1, rnorm(n))
+Y <- X %*% b0 + rnorm(n)
 
 # Laplace-type estimator
-L = function(b)  -sum( (Y - X %*% b )^2 ) # use uniform prior
+L <- function(b) -sum((Y - X %*% b)^2) # use uniform prior
 # criterion function with a flat prior
 # notice the "minus" sign of the OLS objective function
-nbatch = 1100;
-out = metrop( obj = L, initial = c(1,0), nbatch = nbatch, nspac = 20  )
+nbatch <- 1100
+out <- metrop(obj = L, initial = c(1, 0), nbatch = nbatch, nspac = 20)
 
 # summarize the estimation
-bhat2 = out$batch[-(1:(nbatch/10)),2] # remove the burn in 
-bhat2_point = mean(bhat2)
-bhat2_sd   = sd(bhat2)
-bhat2_CI = quantile(bhat2, c(.025, .975) )
+bhat2 <- out$batch[-(1:(nbatch / 10)), 2] # remove the burn in
+bhat2_point <- mean(bhat2)
+bhat2_sd <- sd(bhat2)
+bhat2_CI <- quantile(bhat2, c(.025, .975))
 
 # compare with OLS
-b_OLS = summary( lm(Y~-1+X) )
-print(coef( b_OLS) )
-print(cat("The posterior mean =",  bhat2_point, " sd = ", bhat2_sd, 
-          " and C.I. = ", bhat2_CI , "\n"))
+b_OLS <- summary(lm(Y ~ -1 + X))
+print(coef(b_OLS))
+print(cat(
+  "The posterior mean =", bhat2_point, " sd = ", bhat2_sd,
+  " and C.I. = ", bhat2_CI, "\n"
+))
 
 plot(density(bhat2), main = "posterior from uniform prior")
 ```
 ```{r, cache = TRUE}
 # Laplace-type estimator
 
-L = function(b) - sum( (Y - X %*% b )^2 ) - 0.5 * crossprod( b  - c(0,0) )   # the prior of b from N(0,1)
+L <- function(b) -sum((Y - X %*% b)^2) - 0.5 * crossprod(b - c(0, 0)) # the prior of b from N(0,1)
 # criterion function with a flat prior
 # notice the "minus" sign of the OLS objective function
 
-nbatch = 1100;
-out = metrop( obj = L, initial = c(1,0), nbatch = nbatch, nspac = 20  )
+nbatch <- 1100
+out <- metrop(obj = L, initial = c(1, 0), nbatch = nbatch, nspac = 20)
 
 # summarize the estimation
-bhat2 = out$batch[-(1:(nbatch/10)),2] # remove the burn in 
-bhat2_point = mean(bhat2)
-bhat2_sd   = sd(bhat2)
-bhat2_CI = quantile(bhat2, c(.025, .975) )
+bhat2 <- out$batch[-(1:(nbatch / 10)), 2] # remove the burn in
+bhat2_point <- mean(bhat2)
+bhat2_sd <- sd(bhat2)
+bhat2_CI <- quantile(bhat2, c(.025, .975))
 
 # compare with OLS
-b_OLS = summary( lm(Y~-1+X) )
-print(coef( b_OLS) )
-print(cat("The posterior mean =",  bhat2_point, " sd = ", bhat2_sd, 
-          " and C.I. = ", bhat2_CI , "\n"))
+b_OLS <- summary(lm(Y ~ -1 + X))
+print(coef(b_OLS))
+print(cat(
+  "The posterior mean =", bhat2_point, " sd = ", bhat2_sd,
+  " and C.I. = ", bhat2_CI, "\n"
+))
 
 plot(density(bhat2), main = "posterior from N(0,1) prior")
 ```
