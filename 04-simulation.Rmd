@@ -1,7 +1,7 @@
 ---
 title: "Simulation"
 author: Zhentao Shi
-date: January 24, 2019
+date: March 25, 2020
 output: pdf_document
 fontsize: 11pt
 urlcolor: blue
@@ -9,7 +9,6 @@ bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 ---
-
 # Simulation
 
 Probability theory has an infamous inception for its association with gambling.
@@ -47,12 +46,12 @@ a modern PC. How can he achieve a better approximation?
 Standing on the shoulder of laws of large numbers, $\pi$ can be approximated by a stochastic algorithm.
 
 ```{r,cache=TRUE}
-n = 10000000
-Z =  2*matrix(   runif(n)  , ncol = 2 ) - 1 # uniform distribution in [-1, 1]
+n <- 10000000
+Z <- 2 * matrix(runif(n), ncol = 2) - 1 # uniform distribution in [-1, 1]
 
-inside = mean(  sqrt( rowSums( Z ^2 ) )  <=  1 )
+inside <- mean(sqrt(rowSums(Z^2)) <= 1)
 # the center of the cirle is (0, 0)
-pi_hat = inside * 4 # the area of a circle = pi * r^2. 
+pi_hat <- inside * 4 # the area of a circle = pi * r^2.
 # The multiplier 4 is the area of the square
 print(pi_hat)
 ```
@@ -102,71 +101,69 @@ We write a script to investigate this problem. The following steps develop the c
  6. add comments and documentation.
 
 ```{r,cache=TRUE,warning=F,message=F}
-rm(list = ls( ) )
-library(plyr)
-library(VGAM) # for the Pareto distribution
+rm(list = ls())
 
-# set.seed(888)
+set.seed(888)
 # set the parameters
-Rep = 1000
-b0 = matrix(1, nrow = 2 )
-df = 1 # t dist. with df = 1 is Cauchy
+Rep <- 1000
+b0 <- matrix(1, nrow = 2)
+df <- 1 # t dist. with df = 1 is Cauchy
 
 # the workhorse functions
-simulation = function(n, type = "Normal", df = df){
+simulation <- function(n, type = "Normal", df = df) {
   # a function gives the t-value under the null
-  if (type == "Normal"){
-    e = rnorm(n)
-  } else if (type == "T"){
-    e = rt(n, df )
+  if (type == "Normal") {
+    e <- rnorm(n)
+  } else if (type == "T") {
+    e <- rt(n, df)
   }
 
-  X = cbind( 1, rpareto(n, shape = 1.5) )
-  Y = X %*% b0 + e
+  X <- cbind(1, VGAM::rpareto(n, shape = 1.5))
+  Y <- X %*% b0 + e
   rm(e)
 
-  bhat = solve( t(X) %*% X, t(X)%*% Y )
-  bhat2 = bhat[2] # parameter we want to test
+  bhat <- solve(t(X) %*% X, t(X) %*% Y)
+  bhat2 <- bhat[2] # parameter we want to test
 
-  e_hat = Y - X %*% bhat
-  sigma_hat_square = sum(e_hat^2)/ (n-2)
-  sig_B = solve( t(X) %*% X  ) * sigma_hat_square
-  t_value_2 = ( bhat2 - b0[2]) / sqrt( sig_B[2,2] )
+  e_hat <- Y - X %*% bhat
+  sigma_hat_square <- sum(e_hat^2) / (n - 2)
+  sig_B <- solve(t(X) %*% X) * sigma_hat_square
+  t_value_2 <- (bhat2 - b0[2]) / sqrt(sig_B[2, 2])
 
-  out = c(bhat2, t_value_2)
-  names(out) = c("bhat2", "t_value")
-  return( out )
+  out <- c(bhat2, t_value_2)
+  names(out) <- c("bhat2", "t_value")
+  return(out)
 }
 
 # report the empirical test size
-report = function(n){
+report <- function(n) {
   # collect the test size from the two distributions
   # this function contains some repetitive code, but is OK for such a simple one
-  TEST_SIZE = rep(0,3)
+  TEST_SIZE <- rep(0, 3)
 
   # e ~ normal distribution, under which the t-dist is exact
-  Res = ldply( .data = 1:Rep, .fun = function(i) simulation(n, "Normal")  )
-  TEST_SIZE[1] = mean( abs(Res$t_value) > qt(.975, n-2) )
-  TEST_SIZE[2] = mean( abs(Res$t_value) > qnorm(.975) )
+  Res <- plyr::ldply(.data = 1:Rep, .fun = function(i) simulation(n, "Normal"))
+  TEST_SIZE[1] <- mean(abs(Res$t_value) > qt(.975, n - 2))
+  TEST_SIZE[2] <- mean(abs(Res$t_value) > qnorm(.975))
 
   # e ~ t-distribution, under which the exact distribution is complicated.
   # we rely on asymptotic normal distribution for inference instead
-  Res = ldply( .data = 1:Rep, .fun = function(i) simulation(n, "T", df)  )
-  TEST_SIZE[3] = mean( abs(Res$t_value) > qnorm(.975) )
+  Res <- plyr::ldply(.data = 1:Rep, .fun = function(i) simulation(n, "T", df))
+  TEST_SIZE[3] <- mean(abs(Res$t_value) > qnorm(.975))
 
   return(TEST_SIZE)
 }
 
 
-pts0 = Sys.time()
+pts0 <- Sys.time()
 # run the calculation of the empirical sizes for different sample sizes
-NN = c(5, 10, 200, 5000)
-RES = ldply(.data = NN, .fun = report )
-names(RES) = c("exact", "normal.asym", "cauchy.asym") # to make the results readable
-RES$n = NN
-RES = RES[, c(4,1:3)] # beautify the results
+NN <- c(5, 10, 200, 5000)
+RES <- plyr::ldply(.data = NN, .fun = report)
+names(RES) <- c("exact", "normal.asym", "cauchy.asym") # to make the results readable
+RES$n <- NN
+RES <- RES[, c(4, 1:3)] # beautify the results
 print(RES)
-print( Sys.time() - pts0 )
+print(Sys.time() - pts0)
 ```
 When we look at the table, we witness that the distribution of $X$ indeed
 does not matter. Why?
@@ -220,44 +217,39 @@ To obtain a point estimator, we simply run a Probit in the selection model, pred
 
 
 ```{r,cache=TRUE,tidy=TRUE,warning=FALSE,message=FALSE}
-library(plyr)
-library(AER)
-library(sampleSelection)
 # the dataset comes from
 # Greene( 2003 ): example 22.8, page 786
-
-data( Mroz87 )
+library(sampleSelection);data(Mroz87)
 # equations
-selection_eq = lfp ~ age + faminc + exper + educ
-outcome_eq   = wage ~ exper + educ
+selection_eq <- lfp ~ age + faminc + exper + educ
+outcome_eq <- wage ~ exper + educ
 
 # Heckman two-step estimation
-heck = heckit( selection_eq, outcome_eq, data = Mroz87 )
-print(coeftest(heck))
-
+heck <- sampleSelection::heckit(selection_eq, outcome_eq, data=Mroz87)
+print(lmtest::coeftest(heck))
 ```
 
 Below is the function for a single bootstrap. For convenience, I keep using ```heckit``` but only save the point estimates 
 but ignore the estimated variance. (This is a lazy option. However, if we manually program the point estimation, they must produce the same result.)
 
 ```{r,cache=TRUE,tidy=TRUE}
-n = nrow(Mroz87)
-boot_heck = function(){
-  indices = sample(1:n, n, replace = T) # resample the index set
-  Mroz87_b = Mroz87[ indices, ] # generate the bootstrap sample
-  heck_b = heckit( selection_eq, outcome_eq, data = Mroz87_b )
-  return( coef(heck_b) )
+n <- nrow(Mroz87)
+boot_heck <- function() {
+  indices <- sample(1:n, n, replace = T) # resample the index set
+  Mroz87_b <- Mroz87[ indices, ] # generate the bootstrap sample
+  heck_b <- sampleSelection::heckit(selection_eq, outcome_eq, data = Mroz87_b)
+  return(coef(heck_b))
 }
 ```
 
 Implementation is just a repeated evaluation.
 ```{r,cache=TRUE,tidy=TRUE}
 # repeat the bootstrap
-boot_Rep = 199
-Heck_B = ldply( .data = 1:boot_Rep, .fun = function(i) boot_heck() )
+boot_Rep <- 199
+Heck_B <- plyr::ldply(.data = 1:boot_Rep, .fun = function(i) boot_heck())
 
 # collect the bootstrap outcomes
-Heck_b_sd =  apply(Heck_B, 2, sd)
+Heck_b_sd <- apply(Heck_B, 2, sd)
 print(Heck_b_sd)
 ```
 
@@ -281,35 +273,32 @@ more precise than that of the asymptotic approximation.
 We first prepare the workhorse functions.
 
 ```{r,tidy=TRUE,cache=TRUE}
-library(plyr)
-
 # the t-statistic for a null hypothesis mu
-T_stat = function(Y, mu ) sqrt(n)*(mean(Y) - mu ) / sd(Y)
+T_stat <- function(Y, mu) sqrt(n) * (mean(Y) - mu) / sd(Y)
 
 # the bootstrap function
-boot_test = function(Y, boot_Rep){
-# INPUT
-# Y: the sample
-# boot_Rep: number of bootstrap replications
+boot_test <- function(Y, boot_Rep) {
+  # INPUT
+  # Y: the sample
+  # boot_Rep: number of bootstrap replications
 
-  n = length(Y)
-  boot_T = rep(0, boot_Rep)
+  n <- length(Y)
+  boot_T <- rep(0, boot_Rep)
 
   # bootstrap in action
-  for (r in 1:boot_Rep){
-    indices = sample.int(n, n, replace = T) # resampling the index
-    resampled_Y = Y[indices] # construct a bootstrap artificial sample
-    boot_T[r] = abs( T_stat( resampled_Y, mean(Y) ) )
+  for (r in 1:boot_Rep) {
+    indices <- sample.int(n, n, replace = T) # resampling the index
+    resampled_Y <- Y[indices] # construct a bootstrap artificial sample
+    boot_T[r] <- abs(T_stat(resampled_Y, mean(Y)))
     # the bootstrapped t-statistic
     # mu is replaced by "mean(Y)" to mimic the situation under the null
   }
 
   # bootstrap critical value
-  boot_critical_value = quantile(boot_T, 1-alpha)
+  boot_critical_value <- quantile(boot_T, 1 - alpha)
   # bootstrap test decision
-  return( abs( T_stat(Y, mu) ) > boot_critical_value  )
+  return(abs(T_stat(Y, mu)) > boot_critical_value)
 }
-
 ```
 
 A key point for bootstrap test is that the null hypothesis must be imposed no matter
@@ -328,39 +317,43 @@ The following chuck of code report the rejection probability from three decision
 ```{r,tidy=TRUE,cache=TRUE}
 library(plyr)
 
-compare = function(){
-# this function generates a sample of n observations
-# and it returns the testing results from three decision rules
+compare <- function() {
+  # this function generates a sample of n observations
+  # and it returns the testing results from three decision rules
 
-  if (distribution == "normal") {  X = rnorm(n) }
-  else if (distribution == "chisq") {  X = rchisq(n, df = 3) - 3 }
+  if (distribution == "normal") {
+    X <- rnorm(n)
+  }
+  else if (distribution == "chisq") {
+    X <- rchisq(n, df = 3) - 3
+  }
 
-  t_value_X = T_stat(X, mu ) # T-statistic
+  t_value_X <- T_stat(X, mu) # T-statistic
 
   # compare it to the 97.5% of t-distribution
-  exact = abs( t_value_X ) > qt(0.975, df = n-1)
+  exact <- abs(t_value_X) > qt(0.975, df = n - 1)
   # compare it to the 97.5% of normal distribution
-  asym  = abs( t_value_X ) > 1.96
+  asym <- abs(t_value_X) > 1.96
   # decision from bootstrap
-  boot_decision = boot_test(X, boot_Rep)
+  boot_decision <- boot_test(X, boot_Rep)
 
-  return( c( exact, asym, boot_decision  ))
+  return(c(exact, asym, boot_decision))
 }
 
 # set the parameters
-n = 20
-distribution = "normal"
-boot_Rep = 199
-MC_rep = 2000
-alpha = 0.05
-mu = 0
+n <- 20
+distribution <- "normal"
+boot_Rep <- 199
+MC_rep <- 2000
+alpha <- 0.05
+mu <- 0
 
 set.seed(111)
 
 # Monte Carlo simulation and report the rejection probability
-res = ldply( .data = 1:MC_rep, .fun = function(i) compare())
-colnames(res) = c("exact", "asym", "bootstrap")
-print( colMeans(res))
+res <- plyr::ldply(.data = 1:MC_rep, .fun = function(i) compare())
+colnames(res) <- c("exact", "asym", "bootstrap")
+print(colMeans(res))
 ```
 
 Here the nominal size of the test is 5%. The program reports the empirical size
@@ -373,13 +366,13 @@ However, we can still compare the asymptotic size with the bootstrap size.
 
 
 ```{r,cache=TRUE}
-distribution = "chisq"
+distribution <- "chisq"
 
 set.seed(666)
 # Simulate and report the rejection probability
-res = ldply( .data = 1:MC_rep, .fun = function(i) compare())
-colnames(res) = c("exact","asym", "bootstrap")
-print( colMeans(res))
+res <- ldply(.data = 1:MC_rep, .fun = function(i) compare())
+colnames(res) <- c("exact", "asym", "bootstrap")
+print(colMeans(res))
 ```
 
 Again, here the "exact test" is no longer exact. The asymptotic test works fairly
