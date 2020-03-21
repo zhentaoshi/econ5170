@@ -9,6 +9,10 @@ fontsize: 11pt
 urlcolor: blue
 output:
   pdf_document: default
+header-includes:
+  - \usepackage{graphics}
+  - \usepackage{pgfplots}
+  - \usepackage{caption}
 ---
 
 
@@ -323,18 +327,24 @@ For Windows users (I am one of them), I recommend [PuTTY](http://www.putty.org/)
 Most servers in the world are running Unix/Linux operation system.
 Here are a few commands for basic operations.
 
-* mkdir
-* cd
-* copy
-* top
-* screen
-* ssh user@address
+* `mkdir`: make directory
+* `cd`: change directory
+* `copy`: copy files
+* `top`: check login status
+* `screen`: a separated screen for isolation
+* `ssh`: user@address
 * start a program
 
 Our department's computation infrastructure has been improving.
-A server dedicated to  professors is a 16-core machine. Students also have 
+A server dedicated to  professors is a 32-core machine. Students also have 
 access to a powerful multi-core computer.
 
+
+\begin{figure}
+\centering
+\includegraphics[width = 15cm]{graph/econ_super}
+\caption{Log into `econsuper`}
+\end{figure}
 
 1. Log in `econsuper.econ.cuhk.edu.hk`;
 2. Save the code block below as `loop_server.R`, and upload it to the server;
