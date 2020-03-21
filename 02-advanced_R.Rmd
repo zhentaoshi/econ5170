@@ -336,7 +336,7 @@ Here are a few commands for basic operations.
 * start a program
 
 Our department's computation infrastructure has been improving.
-A server dedicated to  professors is a 32-core machine. Students also have 
+A server dedicated to professors is a 32-core machine. Students also have 
 access to a powerful multi-core computer.
 
 
