@@ -15,6 +15,7 @@
 __packages
 *.rdb
 *.rdx
+_book/
 
 ## Pandoc
 *.md

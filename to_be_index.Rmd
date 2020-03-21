@@ -8,9 +8,10 @@ documentclass: book
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+# github-repo: rstudio/bookdown-demo
 description: "nothing"
 fontsize: 12pt
+geometry: margin=1in
 ---
 
 # Preface {-}
@@ -68,3 +69,13 @@ An fully functional integrated development environment (IDE) is also highly desi
 It makes programming user-friendly and enjoyable.
 [RStudio](http://www.rstudio.com/) is recommended.
 
+## Structure {-}
+
+The book version can be partitioned into three parts: R, Econometrics, and Machine Learning.
+
+
+## Packages {-}
+
+```{r,eval=FALSE}
+install.packages(c("sampleSelection", "AER", "mcmc", "randomForest"))
+```
