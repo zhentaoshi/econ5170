@@ -1,6 +1,6 @@
 # a new version based on Wang Yishu's implementation
 # As in the paper in Feb 2020
-# Only use 10% of the full data for demonstration
+# Only use 15% of the full data for demonstration
 
 # The full data runs for 8 hours with 24 cores on Econsuper
 
@@ -13,14 +13,14 @@ set.seed(666)
 # load("data_example/lianjia.RData") # the raw data
 load("lianjia.RData")
 N <- nrow(lianjia) # a smaller sample
-lianjia <- lianjia[base::sample(1:N, round(N / 10)), ]
+lianjia <- lianjia[base::sample(1:N, round(N * 0.15 )), ]
 
 tune_ind <- createDataPartition(1:nrow(lianjia), p = 0.1)$Resample1
 
 gbmGrid <- expand.grid(
-  interaction.depth = seq(from = 10, to = 50, by = 20),
-  n.trees = seq(from = 1000, to = 10000, by = 5000),
-  shrinkage = c(0.001, 0.005, 0.01),
+  interaction.depth = seq(from = 10, to = 50, by = 10),
+  n.trees = seq(from = 1000, to = 10000, by = 2000),
+  shrinkage = c(0.001, 0.005, 0.01, 0.05),
   n.minobsinnode = 20
 )
 
