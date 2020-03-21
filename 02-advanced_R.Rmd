@@ -26,7 +26,7 @@ In this lecture, we will talk about efficient computation in R.
 
 * R is a vector-oriented language. In most cases, vectorization speeds up computation.
 * We turn to more CPUs for parallel execution to save time if there is no more room to optimize the code to improve the speed.
-* Clusters are accessed remotely. Communicating with a remote cluster is different from operating a local machine.
+* Servers are accessed remotely. Communicating with a remote cluster is different from operating a local machine.
 
 ## Vectorization
 
@@ -46,10 +46,23 @@ Of course, optimizing code takes human time. It is a balance of human time and m
 
 **Example**
 
-The heteroskedastic-robust variance for the OLS regression is
-$$(X'X)^{-1} X'\hat{e}\hat {e}'X (X'X)^{-1}$$
-The difficult part is $X'\hat{e}\hat {e}'X=\sum_{i=1}^n \hat{e}_i^2 x_i x_i'$.
-There are at least 4 mathematically equivalent ways to compute this term.
+In OLS regression, under homoskedasticity
+\[
+\sqrt{n}\left(\widehat{\beta}-\beta_{0}\right)\stackrel{d}{\to}N\left(0,\sigma^{2}\left(E\left[x_{i}x_{i}'\right]\right)^{-1}\right)
+\]
+where the asymptotic variance can be consistently estimated by 
+$\widehat{\sigma}^{2}=\frac{1}{n}\sum_{i=1}\widehat{\epsilon}^{2}$,
+$E\left[x_{i}x_{i}'\right]=\frac{1}{n}X'X$. However, under heteroskedasticity
+\[
+\sqrt{n}\left(\widehat{\beta}-\beta_{0}\right)\stackrel{d}{\to}N\left(0,E\left[x_{i}x_{i}'\right]^{-1}\mbox{var}\left(x_{i}\epsilon_{i}\right)E\left[x_{i}x_{i}'\right]^{-1}\right)
+\]
+where $\mbox{var}\left(x_{i}\epsilon_{i}\right)$ can be estimated by 
+\[
+\underset{\mbox{opt 1}}{\frac{1}{n}\sum_{i=1}^{n}x_{i}x_{i}'\widehat{\epsilon}_{i}^{2}}=\underset{\mbox{opt 2 and 3}}{\frac{1}{n}X'DX}=\underset{\mbox{opt 4}}{\frac{1}{n}\left(X'D^{1/2}\right)\left(D^{1/2}X\right)}
+\]
+where $D$ is a diagonal matrix of $\left(\widehat{\epsilon}_{1}^{2},\widehat{\epsilon}_{2,}^{2},\ldots,\widehat{\epsilon}_{n}^{2}\right)$.
+There are at least 4 mathematically equivalent ways to compute 
+the "meat" of the sandwich form.
 
 1. literally sum $\hat{e}_i^2 x_i x_i'$  over $i=1,\ldots,n$ one by one.
 2. $X' \mathrm{diag}(\hat{e}^2) X$, with a dense central matrix.
@@ -87,7 +100,6 @@ We run the 4 estimators for the same data, and compare the time.
 ```{r,cache=TRUE}
 # an example of robust variance matrix.
 # compare the implementation via matrix, Matrix (package) and vecteroization.
-library(Matrix)
 
 # n = 5000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK
 n <- 50
@@ -116,7 +128,7 @@ for (opt in 1:4) {
       diag(e_hat2_M) <- e_hat^2
       XXe2 <- t(X) %*% e_hat2_M %*% X
     } else if (opt == 3) { # the vectorized version with sparse matrix
-      e_hat2_M <- Matrix(0, ncol = n, nrow = n)
+      e_hat2_M <- Matrix::Matrix(0, ncol = n, nrow = n)
       diag(e_hat2_M) <- e_hat^2
       XXe2 <- t(X) %*% e_hat2_M %*% X
     } else if (opt == 4) { # the best vectorization method. No waste
@@ -269,8 +281,6 @@ out <- foreach(1:Rep, .combine = c) %dopar% {
   capture(i)
 }
 
-# out = ldply(.data = 1:Rep, .fun = capture, .parallel = T,
-#            .paropts = list(.export = ls(envir=globalenv() )) )
 cat("empirical coverage probability = ", mean(out), "\n") # empirical size
 pts1 <- Sys.time() - pts0 # check time elapse
 print(pts1)
@@ -347,58 +357,35 @@ access to a powerful multi-core computer.
 \end{figure}
 
 1. Log in `econsuper.econ.cuhk.edu.hk`;
-2. Save the code block below as `loop_server.R`, and upload it to the server;
-3. In a shell, run `R --vanilla <loop_server.R> result_your_name.out`;
+2. Upload `loop_remote.R` it to the server;
+3. In a shell, run `R --vanilla <file_name.R> result_file_name.out`;
 4. To run a command in the background, add `&` at the end of the above command. To keep it running after closing the console, add `nohup` at the beginning of the command.
 
-```{r,eval=FALSE}
-library(plyr)
-library(foreach)
-library(doParallel)
+This example comes from @lin2020
 
-# prepare the functions
-mu <- 2
-CI <- function(x) {
-  # x is a vector of random variables
-
-  n <- length(x)
-  mu <- mean(x)
-  sig <- sd(x)
-  upper <- mu + 1.96 / sqrt(n) * sig
-  lower <- mu - 1.96 / sqrt(n) * sig
-  return(list(lower = lower, upper = upper))
-}
-
-capture <- function() {
-  x <- rpois(sample_size, mu)
-  bounds <- CI(x)
-  return((bounds$lower <= mu) & (mu <= bounds$upper))
-}
-
-############ implementation ###############
-Rep <- 400
-sample_size <- 5000000
-
-# compare to the parallel version
-registerDoParallel(16) # opens other CPUs
-
-pts0 <- Sys.time() # check time
-out <- foreach(icount(Rep), .combine = c) %dopar% {
-  capture()
-}
-
-cat("empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
-
-pts0 <- Sys.time()
-out <- foreach(icount(Rep), .combine = c) %do% {
-  capture()
-}
-cat("empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
 ```
+ssh ztshi@econsuper.econ.cuhk.edu.hk
+cd data_example
+R --vanilla <Beijing_housing_gbm.R> GBM_BJ.out & 
+```
+
+
+\begin{figure}
+\centering
+\includegraphics[width = 15cm]{graph/econ_super_top}
+\caption{Running 24 cores on `econsuper`}
+\end{figure}
+
+```
+# Starting Tuning with Coordinates at: 2020-03-21 22:44:28 
+registerDoParallel(24)
+...
+tc <- Sys.time() - tc
+# Time difference of 9.158825 mins
+
+```
+
+* Check the script `loop_remote.R`. 
 
 
 ## Graphics
