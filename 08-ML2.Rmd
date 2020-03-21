@@ -151,7 +151,7 @@ Popular choices of the activation function are sigmoid ($1/(1+\exp(-x))$) and re
 
 \begin{figure}
 \centering
-\includegraphics[width = 5cm]{Colored_neural_network}
+\includegraphics[width = 5cm]{graph/Colored_neural_network}
 \caption{A Single Layer Feedforward Neural Network}
 \end{figure}
 

@@ -77,5 +77,6 @@ The book version can be partitioned into three parts: R, Econometrics, and Machi
 ## Packages {-}
 
 ```{r,eval=FALSE}
-install.packages(c("sampleSelection", "AER", "mcmc", "randomForest"))
+install.packages(c("plyr", "foreach", "doParallel", 
+                   "sampleSelection", "AER", "mcmc", "randomForest"))
 ```

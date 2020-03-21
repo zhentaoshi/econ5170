@@ -308,6 +308,12 @@ irrelevant in the regression. However, @zou2006adaptive finds that Lasso cannot 
 distinguish the relevant variables from the irrelevant ones.
 
 
+\begin{figure}
+\centering
+\includegraphics[width = 10cm]{graph/lasso_regression2}
+\caption{Lasso with two parameters}
+\end{figure}
+
 Another successful variable selection method is smoothly-clipped-absolute-deviation (SCAD)
 [@fan2001variable]. Its criterion function is
 $$
