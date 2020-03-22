@@ -1,7 +1,7 @@
 ---
 title: 'Lecture 2: Advanced R'
 author: "Zhentao Shi"
-date: "March 18, 2020"
+date: "March 26, 2020"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -39,8 +39,9 @@ In econometrics, other computational intensive procedures include bootstrap, sim
 Moreover, machine learning methods that crunch 
 big data usually involve tuning parameters, so the same procedure must be carried out
 at each point of a grid of tuning paramters. 
+For example, the preferred algorithm in @lin2020 takes 8 hours on a 24-core remote server to find out 
+the best combination of tuning parameters.
 For those problems, code optimization is essential.
-
 
 Of course, optimizing code takes human time. It is a balance of human time and machine time.
 
@@ -51,14 +52,13 @@ In OLS regression, under homoskedasticity
 \sqrt{n}\left(\widehat{\beta}-\beta_{0}\right)\stackrel{d}{\to}N\left(0,\sigma^{2}\left(E\left[x_{i}x_{i}'\right]\right)^{-1}\right)
 \]
 where the asymptotic variance can be consistently estimated by 
-$\widehat{\sigma}^{2}=\frac{1}{n}\sum_{i=1}\widehat{\epsilon}^{2}$,
-$E\left[x_{i}x_{i}'\right]=\frac{1}{n}X'X$. However, under heteroskedasticity
+$(X'X)^{-1} \sum_{i=1}^n \widehat{e}^{2}$. However, under heteroskedasticity
 \[
-\sqrt{n}\left(\widehat{\beta}-\beta_{0}\right)\stackrel{d}{\to}N\left(0,E\left[x_{i}x_{i}'\right]^{-1}\mbox{var}\left(x_{i}\epsilon_{i}\right)E\left[x_{i}x_{i}'\right]^{-1}\right)
+\sqrt{n}\left(\widehat{\beta}-\beta_{0}\right)\stackrel{d}{\to}N\left(0,E\left[x_{i}x_{i}'\right]^{-1}\mbox{var}\left(x_{i}e_{i}\right)E\left[x_{i}x_{i}'\right]^{-1}\right)
 \]
-where $\mbox{var}\left(x_{i}\epsilon_{i}\right)$ can be estimated by 
+where $\mbox{var}\left(x_{i}e_{i}\right)$ can be estimated by 
 \[
-\underset{\mbox{opt 1}}{\frac{1}{n}\sum_{i=1}^{n}x_{i}x_{i}'\widehat{\epsilon}_{i}^{2}}=\underset{\mbox{opt 2 and 3}}{\frac{1}{n}X'DX}=\underset{\mbox{opt 4}}{\frac{1}{n}\left(X'D^{1/2}\right)\left(D^{1/2}X\right)}
+\underset{\mbox{opt 1}}{\frac{1}{n}\sum_{i=1}^{n}x_{i}x_{i}'\widehat{e}_{i}^{2}}=\underset{\mbox{opt 2 and 3}}{\frac{1}{n}X'DX}=\underset{\mbox{opt 4}}{\frac{1}{n}\left(X'D^{1/2}\right)\left(D^{1/2}X\right)}
 \]
 where $D$ is a diagonal matrix of $\left(\widehat{\epsilon}_{1}^{2},\widehat{\epsilon}_{2,}^{2},\ldots,\widehat{\epsilon}_{n}^{2}\right)$.
 There are at least 4 mathematically equivalent ways to compute 
@@ -73,39 +73,28 @@ the "meat" of the sandwich form.
 We first generate the data of binary response and regressors. Due to the discrete nature of the dependent variable, the error term in the linear probability model is heteroskedastic. It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator. The code chunk below estimates the coefficients and obtains the residual.
 
 ```{r}
-lpm <- function(n) {
-  # estimation in a linear probability model
+# an example of robust variance matrix.
+# compare the implementation via matrix, Matrix (package) and vecteroization.
 
-  # set the parameters
-  b0 <- matrix(c(-1, 1), nrow = 2)
+# n = 5000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK
 
-  # generate the data
-  e <- rnorm(n)
-  X <- cbind(1, rnorm(n)) # you can try this line. See what is the difference.
-  Y <- (X %*% b0 + e >= 0)
-  # note that in this regression b0 is not converge to b0 because the model is changed.
+source("data_example/lec2.R")
 
-  # OLS estimation
-  bhat <- solve(t(X) %*% X, t(X) %*% Y)
+n <- 50
+Rep <- 1000 # we repeat the precedure to make the time comparison easier
+# because this is a very simple operation, 
+# a single execution takes very short time.
 
-  # calculate the t-value
-  bhat2 <- bhat[2] # parameter we want to test
-  e_hat <- Y - X %*% bhat
-  return(list(X = X, e_hat = as.vector(e_hat)))
-}
+data.Xe <- lpm(n) # see the function in "data_example/lec2.R"
+X <- data.Xe$X
+e_hat <- data.Xe$e_hat
+
+XXe2 <- matrix(0, nrow = 2, ncol = 2)
 ```
 
 We run the 4 estimators for the same data, and compare the time.
 
 ```{r,cache=TRUE}
-# an example of robust variance matrix.
-# compare the implementation via matrix, Matrix (package) and vecteroization.
-
-# n = 5000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK
-n <- 50
-Rep <- 1000
-# Matrix is slow,  matrix is quick, adding is OK
-
 for (opt in 1:4) {
   pts0 <- Sys.time()
 
@@ -113,11 +102,6 @@ for (opt in 1:4) {
     set.seed(iter) # to make sure that the data used
     # different estimation methods are the same
 
-    data.Xe <- lpm(n)
-    X <- data.Xe$X
-    e_hat <- data.Xe$e_hat
-
-    XXe2 <- matrix(0, nrow = 2, ncol = 2)
 
     if (opt == 1) {
       for (i in 1:n) {
@@ -140,7 +124,7 @@ for (opt in 1:4) {
     XX_inv <- solve(t(X) %*% X)
     sig_B <- XX_inv %*% XXe2 %*% XX_inv
   }
-  cat("n = ", n, ", Rep = ", Rep, ", opt = ", opt, ", time = ", Sys.time() - pts0, "\n")
+  cat("n =", n, ", Rep =", Rep, ", opt =", opt, ", time =", Sys.time() - pts0, "\n")
 }
 ```
 We clearly see the difference in running time, though the 4 methods are mathematically the same.
@@ -159,19 +143,6 @@ In standard `for` loops, we have to do a lot of housekeeping work. [Hadley Wickh
 
 Here we calculate the empirical coverage probability of a Poisson distribution of degrees of freedom 2. We first write a user-defined function `CI` for confidence interval, which was used in the last lecture.
 
-```{r}
-CI <- function(x) { # construct confidence interval
-  # x is a vector of random variables
-
-  n <- length(x)
-  mu <- mean(x)
-  sig <- sd(x)
-  upper <- mu + 1.96 / sqrt(n) * sig
-  lower <- mu - 1.96 / sqrt(n) * sig
-  return(list(lower = lower, upper = upper))
-}
-```
-
 This is a standard `for` loop.
 
 ```{r,cache=TRUE}
@@ -179,6 +150,7 @@ Rep <- 100000
 sample_size <- 1000
 mu <- 2
 
+source("data_example/lec2.R")
 # append a new outcome after each loop
 pts0 <- Sys.time() # check time
 for (i in 1:Rep) {
@@ -191,9 +163,9 @@ for (i in 1:Rep) {
     out <- c(out, out_i)
   }
 }
-cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+
 pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
+cat("loop without pre-definition takes", pts1, "seconds\n")
 
 
 # pre-define a container
@@ -204,9 +176,9 @@ for (i in 1:Rep) {
   bounds <- CI(x)
   out[i] <- ((bounds$lower <= mu) & (mu <= bounds$upper))
 }
-cat("empirical coverage probability = ", mean(out), "\n") # empirical size
+
 pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
+cat("loop with pre-definition takes", pts1, "seconds\n")
 ```
 
 
@@ -232,9 +204,9 @@ capture <- function(i) {
 
 pts0 <- Sys.time() # check time
 out <- ldply(.data = 1:Rep, .fun = capture)
-cat("empirical coverage probability = ", mean(out$V1), "\n") # empirical size
+
 pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
+cat("plyr loop takes", pts1, "seconds\n")
 ```
 
 This example is so simple that the advantage of `plyr` is not dramatic. The difference in coding will be noticeable in complex problems with big data frames.
@@ -252,9 +224,7 @@ Below is the basic structure. `registerDoParallel(number)` prepares a few CPU co
 to accept incoming jobs.
 
 ```{r,eval=FALSE}
-library(plyr)
-library(foreach)
-library(doParallel)
+library(plyr); library(foreach); library(doParallel)
 
 registerDoParallel(a_number) # opens specified number of CPUs
 
@@ -281,10 +251,8 @@ out <- foreach(1:Rep, .combine = c) %dopar% {
   capture(i)
 }
 
-cat("empirical coverage probability = ", mean(out), "\n") # empirical size
 pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
-print(pts1)
+cat("parallel loop takes", pts1, "seconds\n")
 ```
 
 Surprisingly, the above code block of parallel computing runs even more slowly.
@@ -307,17 +275,14 @@ out <- foreach(icount(Rep), .combine = c) %dopar% {
   capture()
 }
 
-cat("empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
+cat("8-core parallel loop takes", Sys.time() - pts0 , "seconds\n")
 
 pts0 <- Sys.time()
 out <- foreach(icount(Rep), .combine = c) %do% {
   capture()
 }
-cat("empirical coverage probability = ", mean(out), "\n") # empirical size
-pts1 <- Sys.time() - pts0 # check time elapse
-print(pts1)
+
+cat("single-core loop takes", Sys.time() - pts0 , "seconds\n")
 ```
 
 ## Remote Computing
@@ -332,9 +297,9 @@ We prepare the data and code, open a shell for communication, run the code, and 
 One potential obstacle is dealing with a command-line-based operation system.
 Such command line tools is the norm of life two or three decades ago, but today we mostly
 work in a graphic operating system like Windows or OSX.
-For Windows users (I am one of them), I recommend [PuTTY](http://www.putty.org/), a shell, and [WinSCP](http://winscp.net/eng/download.php), a graphic interface for input and output.
+For Windows users (I am one of them), I recommend `Git Bash` as a shell, and [`WinSCP`](http://winscp.net/eng/download.php), a graphic interface for input and output.
 
-Most servers in the world are running Unix/Linux operation system.
+Most servers run Unix/Linux operation system.
 Here are a few commands for basic operations.
 
 * `mkdir`: make directory
@@ -349,19 +314,19 @@ Our department's computation infrastructure has been improving.
 A server dedicated to professors is a 32-core machine. Students also have 
 access to a powerful multi-core computer.
 
-
 \begin{figure}
 \centering
 \includegraphics[width = 15cm]{graph/econ_super}
-\caption{Log into `econsuper`}
+\caption{Log into \texttt{econsuper} and check CPU with \texttt{lscpu} }
 \end{figure}
 
 1. Log in `econsuper.econ.cuhk.edu.hk`;
-2. Upload `loop_remote.R` it to the server;
+2. Upload R scripts and data to the server;
 3. In a shell, run `R --vanilla <file_name.R> result_file_name.out`;
-4. To run a command in the background, add `&` at the end of the above command. To keep it running after closing the console, add `nohup` at the beginning of the command.
+4. To run a command in the background, add `&` at the end of the above command.
 
-This example comes from @lin2020
+This example comes from @lin2020. As a demonstration, we only use 15% of the data and 
+a sparse grid of tuning parameters. It makes about 9 minutes with 24 cores.
 
 ```
 ssh ztshi@econsuper.econ.cuhk.edu.hk
@@ -369,23 +334,11 @@ cd data_example
 R --vanilla <Beijing_housing_gbm.R> GBM_BJ.out & 
 ```
 
-
 \begin{figure}
 \centering
-\includegraphics[width = 15cm]{graph/econ_super_top}
+\includegraphics[width = 12cm]{graph/econ_super_top}
 \caption{Running 24 cores on `econsuper`}
 \end{figure}
-
-```
-# Starting Tuning with Coordinates at: 2020-03-21 22:44:28 
-registerDoParallel(24)
-...
-tc <- Sys.time() - tc
-# Time difference of 9.158825 mins
-
-```
-
-* Check the script `loop_remote.R`. 
 
 
 ## Graphics
@@ -406,7 +359,7 @@ It is capable of producing preliminary statistical graphs.
 
 Over the years, developers all over the world have had many proposals for
 more sophisticated statistical graphs. Hadley Wickham's 
-`ggplot2`is among the most successful. 
+`ggplot2` is among the most successful. 
 
 `ggplot2` is an advanced graphic system that generates high-quality statistical graphs.
 It is not possible to cover it in a lecture. Fortunately, the author wrote a comprehensive reference
