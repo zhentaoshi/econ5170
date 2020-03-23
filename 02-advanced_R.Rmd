@@ -299,6 +299,9 @@ Such command line tools is the norm of life two or three decades ago, but today 
 work in a graphic operating system like Windows or OSX.
 For Windows users (I am one of them), I recommend `Git Bash` as a shell, and [`WinSCP`](http://winscp.net/eng/download.php), a graphic interface for input and output.
 
+
+### Command Line
+
 Most servers run Unix/Linux operation system.
 Here are a few commands for basic operations.
 
@@ -339,6 +342,11 @@ R --vanilla <Beijing_housing_gbm.R> GBM_BJ.out &
 \includegraphics[width = 12cm]{graph/econ_super_top}
 \caption{Running 24 cores on `econsuper`}
 \end{figure}
+
+
+### Rstudio Server
+
+Econsuper, Rstudio Cloud, AWS cloud
 
 
 ## Graphics
