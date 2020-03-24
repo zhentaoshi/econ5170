@@ -359,7 +359,7 @@ R --vanilla <Beijing_housing_gbm.R> GBM_BJ.out &
 \begin{figure}
 \centering
 \includegraphics[width = 12cm]{graph/econ_super_top}
-\caption{Running 24 cores on `econsuper`}
+\caption{Running 24 cores on \texttt{econsuper}}
 \end{figure}
 
 
@@ -380,7 +380,7 @@ best local computer we can affford.
 
 \begin{figure}
 \centering
-\includegraphics[width = 12cm]{graph/AWS}
+\includegraphics[width = 14cm]{graph/AWS}
 \caption{RStudio on AWS \texttt{t2.large} (2 CPUs, 8G Memory)}
 \end{figure}
 
