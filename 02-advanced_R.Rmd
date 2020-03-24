@@ -1,30 +1,30 @@
 ---
 title: 'Lecture 2: Advanced R'
 author: "Zhentao Shi"
-date: "March 26, 2020"
+date: "March 25, 2020"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 fontsize: 11pt
 urlcolor: blue
 
-output:
-  pdf_document: default
+# output:
+#  pdf_document: default
 
 
 header-includes:
   - \usepackage{graphics}
   - \usepackage{pgfplots}
-  - \pgfplotsset{compat=1.17} 
+#  - \pgfplotsset{compat=1.17} 
   - \usepackage{caption}
   - \usepackage{setspace}
   - \singlespacing
 
 # documentclass: article
 
-# documentclass: ctexart
-# output:
-#  rticles::ctex:
+documentclass: ctexart
+output:
+  rticles::ctex:
     # fig_caption: yes
     # number_sections: yes
     # toc: yes
@@ -37,6 +37,9 @@ geometry: margin=1in
 
 
 # Advanced R
+
+
+古人学问无遗力，少壮工夫老始成。纸上得来终觉浅，绝知此事要躬行。
 
 
 ## Introduction
@@ -458,6 +461,7 @@ The function `ggplot` specifies which dataset to use for the graph. `geom_***` d
 **Example**
 
 This example aligns two graphs of different patterns in one page.
+Similar graphs appear in @shi2018structural.
 
 ```{r,cache=TRUE}
 # graph packages
@@ -497,7 +501,11 @@ In order to unify the theme of the two distinctive subgraphs,
 we define an object `theme1` and apply it in both graphic objects
 `p1` and `p2`.
 
+### Interactive Graph
 
+In the folder of `data_example`, we give a preliminary example 
+of `flexdashboard`. It is very easy to convert a ggplot2 graph 
+into an HTML interactive graph by `plotly::ggplotly()`.
 
 ## Reading
 
