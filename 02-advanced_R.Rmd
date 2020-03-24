@@ -7,12 +7,31 @@ biblio-style: apalike
 link-citations: yes
 fontsize: 11pt
 urlcolor: blue
+
 output:
   pdf_document: default
+
+
 header-includes:
   - \usepackage{graphics}
   - \usepackage{pgfplots}
+  - \pgfplotsset{compat=1.17} 
   - \usepackage{caption}
+  - \usepackage{setspace}
+  - \singlespacing
+
+# documentclass: article
+
+# documentclass: ctexart
+# output:
+#  rticles::ctex:
+    # fig_caption: yes
+    # number_sections: yes
+    # toc: yes
+
+        
+description: "nothing"
+geometry: margin=1in
 ---
 
 
@@ -344,9 +363,27 @@ R --vanilla <Beijing_housing_gbm.R> GBM_BJ.out &
 \end{figure}
 
 
-### Rstudio Server
+### RStudio Server
 
-Econsuper, Rstudio Cloud, AWS cloud
+The command line shells lack a graphic interface for interactive data analysis. 
+[RStudio server](https://rstudio.com/products/rstudio/#rstudio-server) offers a local-like
+environment via a web browser to communicate with a remote server. 
+The remote server can be specified for users' need.
+
+
+* `RStudio Cloud` is a free service to facilitate teaching and demonstration. The underlying computation unit is 
+too weak to execute serious tasks.
+* `Econsuper` is our department's service, which resembles a workplace environment in a small company. We can contact the technicians for our needs. The service is always online (with VPN connection), and much more powerful than the 
+best local computer we can affford.
+* `Amazon Web Service Cloud` is commercial service that can be tailored according to one's budget, from tiny demonstrative display to big enterprise business applications.
+
+
+\begin{figure}
+\centering
+\includegraphics[width = 12cm]{graph/AWS}
+\caption{RStudio on AWS \texttt{t2.large} (2 CPUs, 8G Memory)}
+\end{figure}
+
 
 
 ## Graphics
