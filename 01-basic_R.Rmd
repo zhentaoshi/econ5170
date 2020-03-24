@@ -2,15 +2,37 @@
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
 date: "March 18, 2020"
-output: pdf_document
+# output: pdf_document
 fontsize: 11pt
 urlcolor: blue
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
+
+header-includes:
+  - \usepackage{graphics}
+  - \usepackage{pgfplots}
+  - \usepackage{caption}
+  - \usepackage{setspace}
+  - \singlespacing
+
+
+documentclass: ctexart
+output:
+  rticles::ctex:
+    # fig_caption: yes
+    # number_sections: yes
+    # toc: yes
+
+        
+description: "nothing"
+geometry: margin=1in
 ---
 
 # Basic R
+
+安得倚天剑，跨海斩长鲸
+
 
 ## Introduction
 
