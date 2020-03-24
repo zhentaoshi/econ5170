@@ -1,8 +1,8 @@
 ---
-title: "Experiment"
+title: "Premilinary Example of Flexdashboard"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
+    orientation: rows
     theme: bootstrap
     vertical_layout: fill
 ---
@@ -18,7 +18,7 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
-load("data/big150.Rdata")
+load("big150.Rdata")
 library(ggplot2)
 library(reshape2)
 
@@ -52,7 +52,7 @@ library(lattice)
 library(ggplot2)
 library(reshape2)
 
-load("data/multigraph.Rdata") # load data
+load("multigraph.Rdata") # load data
 
 
 # unify the theme in the two graphs
@@ -66,9 +66,6 @@ d2$month = 1:480
 p2 = ggplot(d2)
 p2 = p2 + geom_line(  aes(x = month, y = value, col = variable) )  
 p2 = p2 + theme1 +  ylab("price and fundamental")
-
-# generate the grahp
-# grid.arrange(p1, p2, nrow=2)
 
 p2_ly = ggplotly(p2)
 p2_ly
