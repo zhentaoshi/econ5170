@@ -268,8 +268,8 @@ registerDoParallel(2) # open 2 CPUs
 
 pts0 <- Sys.time() # check time
 
-out <- foreach(1:Rep, .combine = c) %dopar% {
-  capture(i)
+out <- foreach(icount(Rep), .combine = c) %dopar% {
+  capture()
 }
 
 pts1 <- Sys.time() - pts0 # check time elapse
