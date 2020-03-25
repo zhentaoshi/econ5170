@@ -102,9 +102,7 @@ We first generate the data of binary response and regressors. Due to the discret
 source("data_example/lec2.R")
 
 n <- 50
-Rep <- 1000 # we repeat the precedure to make the time comparison easier
-# because this is a very simple operation, 
-# a single execution takes very short time.
+Rep <- 1000 
 
 data.Xe <- lpm(n) # see the function in "data_example/lec2.R"
 X <- data.Xe$X
@@ -151,6 +149,14 @@ for (opt in 1:4) {
 We clearly see the difference in running time, though the 4 methods are mathematically the same.
 When $n$ is small, `matrix` is fast and `Matrix` is slow; the vectorized version is the fastest.
 When $n$ is big, `matrix` is slow and `Matrix` is fast; the vectorized version is still the fastest.
+
+In this simulation exercise, we repeat the precedure many times to make the time comparison more evident, for a single execution takes very short time in this simple operation. A real-data example is in `data_example/IPUMS.R` with  234 thousand observations, where the time difference is dramatic but the intuitive solution indeed does not take much time. 
+It demonstrates the usefulness of vectorization. Vectorization can 
+significantly saves computing time in more complicated operations, for example, in 
+heteroskedastic and autocorrelation consistent variance estimation (HAC)
+in econometrics which involves many layers of matrices.
+
+
 
 ## Efficient Loop
 
