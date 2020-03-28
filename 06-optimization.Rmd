@@ -11,7 +11,9 @@ output:
   pdf_document: default
 ---
 
-# Numerical Optimization
+# Numerical 
+
+止于至善
 
 Optimization is a key step to implement extremum estimators in econometrics.
 A general optimization problem is formulated as

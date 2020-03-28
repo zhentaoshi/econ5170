@@ -17,6 +17,8 @@ header-includes:
 
 # Machine Learning II
 
+一切有为法，如梦幻泡影，如露亦如电，应作如是观
+
 In this lecture, we introduce supervised learning methods that induces
 data-driven interaction of the covariates.
 The interaction makes the covariates much more flexible

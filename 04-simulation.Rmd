@@ -11,6 +11,8 @@ link-citations: yes
 ---
 # Simulation
 
+若夫乘天地之正，而御六气之辩，以游无穷者，彼且恶乎待哉
+
 Probability theory has an infamous inception for its association with gambling.
 Monte Carlo, the European casino capital, is another unfortunate presence.
 However, naming it Macau simulation or Hong Kong Jockey Club simulation does not make me feel any better.
