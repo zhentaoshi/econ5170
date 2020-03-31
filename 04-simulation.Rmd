@@ -2,12 +2,37 @@
 title: "Simulation"
 author: Zhentao Shi
 date: March 25, 2020
-output: pdf_document
-fontsize: 11pt
-urlcolor: blue
+
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
+fontsize: 11pt
+urlcolor: blue
+
+# output:
+#  pdf_document: default
+
+
+header-includes:
+#  - \usepackage{graphics}
+#  - \usepackage{pgfplots}
+#  - \pgfplotsset{compat=1.17} 
+  - \usepackage{caption}
+  - \usepackage{setspace}
+  - \singlespacing
+
+# documentclass: article
+
+documentclass: ctexart
+output:
+  rticles::ctex:
+    # fig_caption: yes
+    # number_sections: yes
+    # toc: yes
+
+        
+description: "nothing"
+geometry: margin=1in
 ---
 # Simulation
 
@@ -210,7 +235,8 @@ nominal 5% as the sample size increases.
 
 ## Bootstrap
 
-Bootstrap, originated from @efron1979bootstrap, is an extremely powerful and influential idea for estimation and inference.
+Bootstrap, originated from @efron1979bootstrap, is an extremely powerful and influential idea for estimation and inference. Here we give a brief introductoin. 
+Textbook exposition can be found in @cameron2005microeconometrics (Chapter 11).
 
 Let $X_1, X_2, \ldots, X_n \sim F$ be an i.i.d. sample of $n$ observations following a distribution $F$. The finite sample distribution of a statistic $T_n(\theta)\sim G_n(\cdot, F)$ usually depends on the sample size $n$, as well as the known true distribution $F$. Asymptotic theory approximates $G_n(\cdot, F)$ by its limit $$G(\cdot, F) := \lim_{n\to\infty} G_n(\cdot, F);$$ if $T_n(\theta)$ is *asymptotically pivotal*, then $G_n(\cdot, F)$ is independent of $F$.
 
