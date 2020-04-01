@@ -201,6 +201,18 @@ RES <- RES[, c(4, 1:3)] # beautify the results
 print(RES)
 print(Sys.time() - pts0)
 ```
+
+The first column is the when the error is normal, and we use the exactly distribution theory to find the critical value (according to the $t$ distribution.)
+The second column still uses the normal distribution in the error term, but change the
+critical value to be from the normal distribution, which is based on asymptotic approximation. When sample size is small, obvious size distortion is
+observed; but the deviation is mitigated when the sample size increases.
+When the error distribution is Cauchy, the so called "exact distribution" is no longer exact---
+it is exact only if the error is normal and independent from $x$.
+If we attempt to use the asymptotic normal approximation,
+we find that the asymptotic approximation breaks down. The test size does not converge to the
+nominal 5% as the sample size increases.
+
+
 In this simulation design, $X$ is always Pareto while we vary the distribution of the error term.
 When we look at the table, we witness that the distribution of $X$ indeed
 does not matter. Why? Since
@@ -220,16 +232,7 @@ T_{k}  =\frac{\widehat{\beta}_{k}-\beta_{k}}{\sqrt{s^{2}\left[\left(X'X\right)^{
 
 Even though $X'X/n$ does not converge, the self-normalized $t$ statistic is immune of the problem.
 Regardless the distribution of $X$, when 
-the error term is normal, the numerator of the above expression follows a normal distribution and the demonimator follows a $\chi^2$, and moreover these two components are independent.
-The first column is the when the error is normal, and we use the exactly distribution theory to find the critical value (according to the $t$ distribution.)
-The second column still uses the normal distribution in the error term, but change the
-critical value to be from the normal distribution, which is based on asymptotic approximation. When sample size is small, obvious size distortion is
-observed; but the deviation is mitigated when the sample size increases.
-When the error distribution is Cauchy, the so called "exact distribution" is no longer exact---
-it is exact only if the error is normal and independent from $x$.
-If we attempt to use the asymptotic normal approximation,
-we find that the asymptotic approximation breaks down. The test size does not converge to the
-nominal 5% as the sample size increases.
+the error term is normal, the numerator of the above expression follows a normal distribution and the demonimator follows a $\chi^2$, and moreover these two components are independent. The resulting statistic follows a t-distribution.
 
 
 
