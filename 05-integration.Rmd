@@ -10,9 +10,6 @@ urlcolor: blue
 
 
 header-includes:
-#  - \usepackage{graphics}
-#  - \usepackage{pgfplots}
-#  - \usepackage{caption}
   - \usepackage{setspace}
   - \singlespacing
 
