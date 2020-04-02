@@ -70,6 +70,17 @@ He used a deterministic approximation algorithm.
  Now imagine that we present to Zu Chongzhi, with full respect and admiration,
 a modern computer. How can he achieve a better approximation?
 
+```{r,cache=TRUE,warning=F,message=F}
+require(plotrix)
+require(grid)
+
+plot(c(-1, 1), c(-1, 1), type = "n", asp = 1, xlab = "x", ylab = "y")
+rect(-1, -1, 1, 1)
+draw.circle(0, 0, 1)
+points(x = runif(100) * 2 - 1, y = runif(100) * 2 - 1, pch = 20, col = "blue")
+```
+
+
 Standing on the shoulder of laws of large numbers, $\pi$ can be approximated by a stochastic algorithm. Since
 \[
 \frac{\mbox{area of a circle}}{\mbox{area of the smallest encompassing square}}=\frac{\pi r^{2}}{\left(2r\right)^{2}}=E\left[\boldsymbol{1}\left\{ x^{2}+y^{2}\leq1\right\} \right],
@@ -238,7 +249,8 @@ $$G(\cdot, F) := \lim_{n\to\infty} G_n(\cdot, F).$$
 In particular, if $T_n(\theta)$ is *asymptotically pivotal*, then $G_n(\cdot, F)$ is independent of $F$ and it becomes $G(\cdot)$.
 
 ```{r, cache=TRUE}
-runif(10) %>% ecdf() %>% 
+runif(10) %>%
+  ecdf() %>%
   plot(, xlim = c(0, 1), main = "ECDF for uniform distribution")
 ```
 
@@ -258,17 +270,17 @@ residual, we call it *parametric bootstrap*. If the error term is heteroskedasci
 the relationship between $X$ and $\hat{e}$ can be preserved by *wild bootstrap* [@davidson2010wild].
 
 ```{r, cache=TRUE}
-n = 9 # sample size
-boot_Rep = 3 # bootstrap 3 times
+n <- 9 # sample size
+boot_Rep <- 3 # bootstrap 3 times
 
-real_sample = rnorm(n) # the real sample
-d0 = tibble(no = 1:n, x = real_sample)
+real_sample <- rnorm(n) # the real sample
+d0 <- tibble(no = 1:n, x = real_sample)
 print(d0)
 
-d_boot = list() # save the bootstrap sample
-for( b in 1:boot_Rep){
-  boot_index = sample(1:n, n, replace = TRUE)
-  d_boot[[b]] = tibble(no = boot_index, x = real_sample[boot_index] )
+d_boot <- list() # save the bootstrap sample
+for (b in 1:boot_Rep) {
+  boot_index <- sample(1:n, n, replace = TRUE)
+  d_boot[[b]] <- tibble(no = boot_index, x = real_sample[boot_index])
 }
 
 d_boot %>% as_tibble(, .name_repair = "minimal") %>% print()
