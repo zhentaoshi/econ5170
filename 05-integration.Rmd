@@ -233,7 +233,7 @@ the distance between $\hat{b}$ and $\hat{b}^*$ as
 $$
 Q(\theta) = \left(\hat{b} - S^{-1} \sum_{s=1}^S \hat{b}^*(\theta)^{s} \right)'
 W \left(\hat{b} - S^{-1} \sum_{s=1}^S \hat{b}^*(\theta)^{s}\right)
-$$   
+$$
 where $s$ indexes the simulation and $W$ is a positive definite weighting matrix.
 The indirect inference estimator is $\hat{\theta} = \arg\min_{\theta} Q(\theta).$
 That is, we seek the $\theta$
@@ -307,7 +307,7 @@ The smaller is the value of the objective function, the larger it weighs.
 We use MCMC to simulate the distribution of $\theta$.
 From a Bayesian's viewpoint, $f_n(\theta)$ is the posterior distribution.
 However, @chernozhukov2003mcmc use this distribution
-for classicial estimation and inference, and they justify the
+for classical estimation and inference, and they justify the
 procedure via frequentist asymptotic theory. Once $f_n(\theta)$
 is known, then *asymptotically* the point estimator equals its mean under the
 quadratic loss function, and equals its median under the absolute-value loss function.

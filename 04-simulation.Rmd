@@ -48,7 +48,6 @@ Simulation has been widely used for (i) checking finite-sample performance of as
 (iii) generating non-standard distributions; (iv) approximating integrals with no analytic expressions. In this lecture, we will focus on (i) and (ii), whereas (iii) and (iv)
 will be deferred to the next lecture on integration.
 
-
 From now on, we will start to write script. A script is a piece of code for a particular
 purpose. A script of thousands of lines is not written from the beginning
 to the end; we develop it recursively. We cut a big job into small manageable tasks.
@@ -241,7 +240,7 @@ the error term is normal, the numerator of the above expression follows a standa
 
 ## Bootstrap
 
-Bootstrap, originated from @efron1979bootstrap, is an extremely powerful and influential idea for estimation and inference. Here we give a brief introductoin. 
+Bootstrap, originated from @efron1979bootstrap, is an extremely powerful and influential idea for estimation and inference. Here we give a brief introduction. 
 Textbook exposition can be found in @cameron2005microeconometrics (Chapter 11).
 
 Let $X_1, X_2, \ldots, X_n \sim F$ be an i.i.d. sample of $n$ observations following a distribution $F$. The finite sample distribution of a statistic $T_n(\theta)\sim G_n(\cdot, F)$ usually depends on the sample size $n$, as well as the known true distribution $F$. Asymptotic theory approximates $G_n(\cdot, F)$ by its limit 
@@ -265,7 +264,7 @@ $$
 
 Implementation of bootstrap is a simulation exercise. In an i.i.d. environment we sample over each observation with equal weight, which is called *nonparametric bootstrap*.
 However, the species of bootstrap creatures has many varieties adapted to their living environment.
-In a dependent dataset such as time series [@chang2004bootstrap], clustering data or networks, we must adjust the sampling schedule to preserve the dependence structure. In regression context if we hold the indepdendent variables fixed and only bootstrap the 
+In a dependent dataset such as time series [@chang2004bootstrap], clustering data or networks, we must adjust the sampling schedule to preserve the dependence structure. In regression context if we hold the independent variables fixed and only bootstrap the 
 residual, we call it *parametric bootstrap*. If the error term is heteroskedascity, 
 the relationship between $X$ and $\hat{e}$ can be preserved by *wild bootstrap* [@davidson2010wild].
 
@@ -286,9 +285,8 @@ for (b in 1:boot_Rep) {
 d_boot %>% as_tibble(, .name_repair = "minimal") %>% print()
 ```
 
-
 In many regular cases, it is possible to show in theory the *consistency* of bootstrap:
-the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or $G^*_n(a) \stackrel{p}{ \to } G(a)$ for $a$ such that $G(a)$ is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, naive bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments. More sophisticated alternatives are need to fix the inconsistency of bootstrap, which we don't mention in this lecture.
+the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or $G^*_n(a) \stackrel{p}{ \to } G(a)$ for $a$ such that $G(a)$ is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, naïve bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments. More sophisticated alternatives are need to fix the inconsistency of bootstrap, which we don't mention in this lecture.
 
 ### Bootstrap Estimation
 
@@ -320,7 +318,7 @@ heck <- sampleSelection::heckit(selection_eq, outcome_eq, data = Mroz87)
 print(lmtest::coeftest(heck))
 ```
 
-Below is the function for a single bootstrap. For convenience, we save the point estimates of `heckit` but ignore the estimated variance. (This is a lazy option though,  it must produce the same result if we take the effor to manually program the Heckit point estimation.)
+Below is the function for a single bootstrap. For convenience, we save the point estimates of `heckit` but ignore the estimated variance. (This is a lazy option though,  it must produce the same result if we take the effort to manually program the Heckit point estimation.)
 Implementation is just a repeated evaluation.
 ```{r,cache=TRUE,tidy=TRUE}
 n <- nrow(Mroz87)
