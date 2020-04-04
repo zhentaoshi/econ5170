@@ -59,7 +59,7 @@ But sometimes economic problems can be clumsy. For structural estimation commonl
 In econometrics, other computational intensive procedures include bootstrap, simulated maximum likelihood and simulated method of moments. Even if a single execution does not take much time, repeating such a procedure for thousands of replications will consume a non-trivial duration.
 Moreover, machine learning methods that crunch 
 big data usually involve tuning parameters, so the same procedure must be carried out
-at each point of a grid of tuning paramters. 
+at each point of a grid of tuning parameters. 
 For example, the preferred algorithm in @lin2020 takes 8 hours on a 24-core remote server to find out 
 the best combination of tuning parameters.
 For those problems, code optimization is essential.
@@ -150,7 +150,7 @@ We clearly see the difference in running time, though the 4 methods are mathemat
 When $n$ is small, `matrix` is fast and `Matrix` is slow; the vectorized version is the fastest.
 When $n$ is big, `matrix` is slow and `Matrix` is fast; the vectorized version is still the fastest.
 
-In this simulation exercise, we repeat the precedure many times to make the time comparison more evident, for a single execution takes very short time in this simple operation. A real-data example is in `data_example/IPUMS.R` with  234 thousand observations, where the time difference is dramatic but the intuitive solution indeed does not take much time. 
+In this simulation exercise, we repeat the procedure many times to make the time comparison more evident, for a single execution takes very short time in this simple operation. A real-data example is in `data_example/IPUMS.R` with  234 thousand observations, where the time difference is dramatic but the intuitive solution indeed does not take much time. 
 It demonstrates the usefulness of vectorization. Vectorization can 
 significantly saves computing time in more complicated operations, for example, in 
 heteroskedastic and autocorrelation consistent variance estimation (HAC)
@@ -161,7 +161,7 @@ in econometrics which involves many layers of matrices.
 ## Efficient Loop
 
 R was the heir of S, an old language. R evolves with packages that are designed to 
-adapt to new big data environement. Many examples can be found in @wickham2016r. 
+adapt to new big data environment. Many examples can be found in @wickham2016r. 
 Here we introduce [`plyr`](http://plyr.had.co.nz/). 
 
 In standard `for` loops, we have to do a lot of housekeeping work. [Hadley Wickham](http://had.co.nz/)'s `plyr` simplifies the job and facilitates parallelization.
@@ -245,7 +245,7 @@ Parallel computing will be our next topic. It is quite easy to implement paralle
 Parallel computing becomes essential when the data size is beyond the storage of a single computer, for example  @li2018embracing.
 Here we explore the speed gain of parallel computing on a multicore machine.
 
-Here we introduce how to cooridate multiple cores on a single computer. 
+Here we introduce how to coordinate multiple cores on a single computer. 
 The packages `foreach` and `doParallel` are useful for parallel computing.
 Below is the basic structure. `registerDoParallel(number)` prepares a few CPU cores
 to accept incoming jobs.
@@ -312,19 +312,24 @@ out <- foreach(icount(Rep), .combine = c) %do% {
 cat("single-core loop takes", Sys.time() - pts0 , "seconds\n")
 ```
 
-## Remote Computing
+## Cloud Computing
 
 Investing money from our own pocket to an extremely powerful laptop to conduct heavy-lifting computational work
 is unnecessary. (i) We do not run these long jobs every day, it is more cost efficient
 to share a workhorse. (ii) We cannot keep our laptop always on when we move it
-around. The right solution is remote computing on a server.
+around. The right solution is cloud computing on a server.
 
-No fundamental difference lies between local and remote computing.
-We prepare the data and code, open a shell for communication, run the code, and collect the results.
+Many of us have experience with cloud storage, such as Dropbox and Baidu Netdisk. 
+Few people are exposed to cloud computing. However, no fundamental difference lies between local and cloud computing.
+We prepare in the cloud serve the data and code, open a shell for communication, run the code, and collect the results.
 One potential obstacle is dealing with a command-line-based operation system.
 Such command line tools is the norm of life two or three decades ago, but today we mostly
 work in a graphic operating system like Windows or OSX.
 For Windows users (I am one of them), I recommend `Git Bash` as a shell, and [`WinSCP`](http://winscp.net/eng/download.php), a graphic interface for input and output.
+
+Cloud computing also provides a strong justification for open-source languages such as R or Python. These open-source languages can be installed on as many remote serves as the resource permits. In contrast, proprietary software will be prohibitively expensive for server licensing.
+
+
 
 
 ### Command Line
@@ -382,7 +387,7 @@ The remote server can be specified for users' need.
 * `RStudio Cloud` is a free service to facilitate teaching and demonstration. The underlying computation unit is 
 too weak to execute serious tasks.
 * `Econsuper` is our department's service, which resembles a workplace environment in a small company. We can contact the technicians for our needs. The service is always online (with VPN connection), and much more powerful than the 
-best local computer we can affford.
+best local computer we can afford.
 * `Amazon Web Service Cloud` is commercial service that can be tailored according to one's budget, from tiny demonstrative display to big enterprise business applications.
 
 
@@ -396,7 +401,7 @@ best local computer we can affford.
 
 ## Graphics
 
-An English cliche says "One picture is worth ten thousand words".
+An English cliché says "One picture is worth ten thousand words".
 John Tukey, a renowned mathematical statistician, was one of the pioneers of statistical graphs
 in the computer era. Nowadays, powerful software is able to produce dazzling statistical graphs,
 sometimes web-based and interactive. Outside of academia, journalism hooks a wide readership with
