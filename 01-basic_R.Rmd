@@ -2,15 +2,37 @@
 title: 'Lecture 1: Basic R'
 author: "Zhentao Shi"
 date: "March 18, 2020"
-output: pdf_document
+# output: pdf_document
 fontsize: 11pt
 urlcolor: blue
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
+
+header-includes:
+  - \usepackage{graphics}
+  - \usepackage{pgfplots}
+  - \usepackage{caption}
+  - \usepackage{setspace}
+  - \singlespacing
+
+
+documentclass: ctexart
+output:
+  rticles::ctex:
+    # fig_caption: yes
+    # number_sections: yes
+    # toc: yes
+
+        
+description: "nothing"
+geometry: margin=1in
 ---
 
 # Basic R
+
+安得倚天剑，跨海斩长鲸
+
 
 ## Introduction
 
@@ -223,7 +245,7 @@ This example illustrates the sampling error.
 
 1. Plot the density of $\chi^2(3)$ over an equally spaced grid system `x_axis = seq(0.01, 15, by = 0.01)` (black line).
 2. Generate 1000 observations from $\chi^2(3)$ distribution. Plot the kernel density, a nonparametric estimation of the density (red line).
-3. Calculate the 95-th quantile and the empirical probability of observing a value greater than the 95-th quantile.
+3. Calculate the 95th quantile and the empirical probability of observing a value greater than the 95-th quantile.
 In population, this value should be 5%. What is the number in this experiment?
 
 
@@ -334,7 +356,7 @@ result <- lm(y ~ x)
 summary(result)
 ```
 
-The `result` object is a list containing the regression results. As shown in the results, we can easily read the estimated coefficients, t-test results, F-test results, and the R-sqaure.
+The `result` object is a list containing the regression results. As shown in the results, we can easily read the estimated coefficients, t-test results, F-test results, and the R-squared.
 
 We can plot the true value of $y$ and fitted value to examine whether the regression model fit the data well.
 ```{r}
@@ -363,7 +385,7 @@ legend("bottomright",
 ```
 
 Here we give another example about the relationship between the height and weight of women.
-The women dataset is from the package `datasets`, which is a bulit-in package shipped with R installation.
+The women dataset is from the package `datasets`, which is a built-in package shipped with R installation.
 This package contains a variety of datasets. For a complete list, use `library(help = "datasets")`
 
 ```{r}

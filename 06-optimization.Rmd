@@ -1,17 +1,29 @@
 ---
 title: "Numerical Optimization"
 author: Zhentao Shi
-date: "Jan 30, 2019"
+date: "April 8, 2020"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 fontsize: 11pt
 urlcolor: blue
+
+
+header-includes:
+  - \usepackage{setspace}
+  - \singlespacing
+
+documentclass: ctexart
 output:
-  pdf_document: default
+  rticles::ctex:
+        
+description: "nothing"
+geometry: margin=1in
 ---
 
-# Numerical Optimization
+# Numerical 
+
+止于至善
 
 Optimization is a key step to implement extremum estimators in econometrics.
 A general optimization problem is formulated as
@@ -117,7 +129,7 @@ $$
 is negative definite. Therefore, $\ell(\beta)$ is strictly concave
 in $\beta$.
 
-In operational reserach, the default optimization is minimization, although
+In operational research, the default optimization is minimization, although
 economics has utility maximization and cost minimization and
 statistics has maximum likelihood estimation and minimal least squared estimation.
 To follow this convention in operational research, here we formulate the *negative* log-likelihood.
@@ -135,7 +147,7 @@ poisson.loglik <- function(b) {
 To implement optimization in `R`, it is recommended to write the criterion as a
 function of the parameter. Data can be fed inside or outside of the function.
 If the data is provided as additional arguments, these arguments must be explicit.
-(In constrast, in `Matlab` the parameter must be the sole argument for the function to be
+(In contrast, in `Matlab` the parameter must be the sole argument for the function to be
 optimized, and data can only be injected through a nested function.)
 
 ```{r,cache=TRUE,tidy=TRUE,message=FALSE,warning=FALSE}
@@ -268,7 +280,7 @@ print(res_BFGS)
 ```
 
 
-## Contrained Optimization
+## Constrained Optimization
 
 * `optimx` can handle simple box-constrained problems.
 * Some algorithms in `nloptr`, for example, `NLOPT_LD_SLSQP`, can handle nonlinear constrained problems.
@@ -295,7 +307,7 @@ Normal MLE. The (negative) log-likelihood is
 $$
 \ell (\beta, \sigma) = \log \sigma + \frac{1}{\sigma^2}\sum_{i=1}^n (y_i - x_i' \beta)^2
 $$
-This is not a convex problem, because $\log \sigma$ is concave. But if we reparameterize the criterion function by $\gamma = 1/\sigma$ and $\alpha = \beta / \sigma$, then
+This is not a convex problem, because $\log \sigma$ is concave. But if we re-parameterize the criterion function by $\gamma = 1/\sigma$ and $\alpha = \beta / \sigma$, then
 $$
 \ell (\alpha, \gamma) = -\log \gamma + \sum_{i=1}^n (\gamma y_i - x_i' \alpha)^2
 $$

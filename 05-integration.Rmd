@@ -1,22 +1,40 @@
 ---
 title: 'Integration'
 author: "Zhentao Shi"
-date: "February 24, 2019"
+date: "April 1, 2020"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 fontsize: 11pt
+urlcolor: blue
+
+
+header-includes:
+  - \usepackage{setspace}
+  - \singlespacing
+
+documentclass: ctexart
 output:
-  pdf_document: default
+  rticles::ctex:
+        
+description: "nothing"
+geometry: margin=1in
 ---
 
 # Integration
+
+若于旷野中，积土成佛庙，乃至童子戏，聚沙为佛塔。如是诸人等，皆已成佛道。
 
 In their mathematical definitions, integration and differentiation involve taking limit.
 However, our computer is a finite-precision machine that can handle neither arbitrarily
 small nor arbitrarily large numbers; it can, at best, approximate the limiting behavior.
 In this lecture, we first briefly talk about numerical differentiation and
-integration, and then we discuss stochastic methods with examples.
+integration, and then we discuss stochastic methods with examples from 
+econometrics. In particular, we will introduce simulated method of moments,
+indirect inference, and Markov Chain Monte Carlo. These methods are beyond the 
+in-class coverage of Econ5121A and Econ5150. 
+Interested readers are referred to @cameron2005microeconometrics (Chapters 12 and 13)
+for details. 
 
 
 ## Numerical Methods
@@ -37,7 +55,7 @@ code the $K$-dimensional gradient and  the $K\times K$-dimensional Hessian matri
 Programming up the gradient and
 the Hessian manually is a time-consuming and error-prone job.
 What is worse, whenever we change the objective function,
-which happens often at the experimental stage,
+which happens often at the experimental stage of research,
 we have to redo the gradient and Hessian. Therefore, it is more efficient to use
 numerical differentiation instead of coding up the analytical expressions,
 in particular in the trial-and-error stage.
@@ -49,7 +67,7 @@ $$\frac{\partial f(x)}{\partial x_k}\bigg|_{x=x_0}=\lim_{\epsilon \to 0}
 where $e_k = (0,\ldots,0,1,0,\ldots,0)$ is the identifier of the $k$-th coordinate.
 The numerical execution in a computer follows the basic definition to evaluate
 $f(x_0\pm\epsilon \cdot e_k))$ with a small
-$\epsilon$. But how small is small? Usually it tries a sequence of $\epsilon$'s until
+$\epsilon$. But how small is small? Usually we try a sequence of $\epsilon$'s until
 the numerical derivative is stable. There are also more sophisticated algorithms.
 
 In R, the package `numDeriv` conducts numerical differentiation, in which
@@ -67,8 +85,8 @@ The reader is referred to the documentation for the algorithm behind numerical i
 Numerical methods are not panacea. Not all functions are differentiable or integrable.
 Before turning to numerical methods, it is always imperative to try to understand the behavior
 of the function at the first place.
-Some symbolic software, say `Mathematica` or `Wolfram Alpha`, is a powerful tool for this purpose.
-Though there are packages, R is weak in symbolic calculation.
+Some symbolic software, say `Mathematica` or `Wolfram Alpha`, is a useful tool for this purpose. R is weak in symbolic calculation despite the existence of a few packages
+for this purpose.
 
 
 
@@ -87,8 +105,8 @@ $$\int_A h(x) d F(x) \approx S^{-1} \sum_{s=1}^S h(x_s) \cdot 1\{x_s \in A\},$$
 where $1\{\cdot\}$ is the indicator function.
 
 In theory, we want to use an $S$ as large as possible.
-In reality, we are constrained by computing time
-and power. There is no clear guidance of the size of $S$ in practice. Preliminary experiment can
+In reality, we are constrained by the computer's memory and computing time.
+There is no clear guidance of the size of $S$ in practice. Preliminary experiment can
 help decide an $S$ that produces stable results.
 
 Stochastic integration is popular in econometrics and statistics, thanks to its
@@ -98,11 +116,11 @@ convenience in execution.
 
 Structural econometric estimation starts from economic principles. In an economic model,
 some elements unobservable to the econometrician dictate an economic agent's decision.
-@roy1951some proposes such a structural model with latent variables, and now the Roy model is
+@roy1951some proposes such a structural model with latent variables, and the Roy model is
 the foundation of self-selection in labor economics.
 
 
-In the original Roy model, a man can work on  one of the two occupations: farming or fishing.
+In the original paper of the Roy model, an economic agent can work on one of the two occupations: farming or fishing.
 The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of
 being a fisher is $U_2^{*} = x' \beta_2 + e_2$,
 where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable).
@@ -144,19 +162,9 @@ $$
 $$
 where $s=1,\ldots,S$ is the index of simulation and $S$ is the total number of simulation replications.
 
-
-
-
-This above example can be viewed as an application of simulated maximum likelihood. In parallel,
-we can simulate a moment condition if its explicit form is unavailable.
-@pakes1989simulation provide the theoretical foundation of the
-simulated method of moments (SMM). Our co-teacher Prof. Guo has a recent paper [@guo2018]
-applying SMM to estimate a structural labor model.
-
-[comment]:<>(**to be elaborated**.
 Match moments generated the theoretical model with their empirical counterparts.
 The choice of the moments to be matched is not unique either.
-A set of valid choice is in the Roy model example is
+A set of valid choice for the Roy model example is
 \begin{eqnarray*}
 g_1(\theta) & = & n^{-1} \sum_{i=1}^n x_i (y_i - \hat{p}(\theta | x_i))  \approx  0\\
 g_2(\theta) & = & n^{-1} \sum_{i=1}^n (y_i - \bar{y})^2 - \bar{\hat{p}}(\theta| x_i) (1- \bar{\hat{p}}(\theta| x_i))  \approx  0\\
@@ -171,15 +179,28 @@ Since the moment conditions $(g_j(\theta))_{j=1}^3$ equals the number of unknonw
 these moment conditions just-identifies the parameter $\theta$.
 We need to come up with more moment conditions for over-identification.
 Moreover, we need to choose a weighting matrix $W$ to form a quadratic criterion for GMM in
-over-identification.)
+over-identification.
+
+
+This above example can be viewed as an application of simulated maximum likelihood. In parallel,
+we can simulate a moment condition if its explicit form is unavailable.
+@pakes1989simulation provide the theoretical foundation of the
+simulated method of moments (SMM). Our co-teacher Prof. Guo [@guo2018] recently
+applies SMM to estimate a structural labor model.
+
+
 
 
 ### Indirect Inference
 
 Indirect inference [@gourieroux1993indirect] 
 is yet another simulated-based estimation method.
-Indirect inference is widely used in estimating structural models.
-The basic idea of indirect inference is to inversely recover the structural parameter from
+Indirect inference is extensively used in structural model estimatoin [@li2010indirect]. 
+Theoretical analysis of indirect inference reveals its nice properties in 
+bias deduction via a proper choice of the binding function [@phillips2012folklore].
+
+
+The basic idea of indirect inference is to recover the structural parameter from
 an *auxiliary model*---usually an reduced-form regression.
 The reduced-form regression ignores the underlying economic structure and is a purely statistical
 procedure; thus the reduced-form regression is relatively easier to implement.
@@ -212,7 +233,7 @@ the distance between $\hat{b}$ and $\hat{b}^*$ as
 $$
 Q(\theta) = \left(\hat{b} - S^{-1} \sum_{s=1}^S \hat{b}^*(\theta)^{s} \right)'
 W \left(\hat{b} - S^{-1} \sum_{s=1}^S \hat{b}^*(\theta)^{s}\right)
-$$   
+$$
 where $s$ indexes the simulation and $W$ is a positive definite weighting matrix.
 The indirect inference estimator is $\hat{\theta} = \arg\min_{\theta} Q(\theta).$
 That is, we seek the $\theta$
@@ -230,11 +251,13 @@ If the pdf $f(X)$ is known, we can generate a sample with such a distribution by
  [Metropolis-Hastings algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm)
  (MH algorithm) is such a method.
 MH is one of the [Markov Chain Monte Carlo](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo) methods.
-It can be implemented in the R package `mcmc`.
+It can be implemented in the R package `mcmc`. 
+[This page](https://chi-feng.github.io/mcmc-demo/) contains demonstrative 
+examples of MCMC.
 
 ### Metropolis-Hastings Algorithm
 
-The underlying theory of the MH is obscure, but implementation is straightforward.
+The underlying theory of the MH requies long derivation, but implementation is straightforward.
 Here we use MH to generate a sample of normally distributed observations. To
 generate a random variable with other pdf $f(x)$, we just need to replace the line
 `h = function(x){ y = -x^2 / 2 }` below by
@@ -248,6 +271,7 @@ h <- function(x) {
 } # un-normalized function (doesn't need to integrate as 1)
 
 out <- metrop(obj = h, initial = 0, nbatch = 100, nspac = 1)
+set.seed(123)
 
 par(mfrow = c(3, 1))
 par(mar = c(2, 2, 1, 1))
@@ -266,9 +290,6 @@ lines(x = xbase, y = ynorm, type = "l", col = "red")
 # with the standard normal pdf
 ```
 
-**To add this link** 
-https://chi-feng.github.io/mcmc-demo/
-
 ### Laplace-type Estimator: An Application of MCMC
 
 
@@ -286,7 +307,7 @@ The smaller is the value of the objective function, the larger it weighs.
 We use MCMC to simulate the distribution of $\theta$.
 From a Bayesian's viewpoint, $f_n(\theta)$ is the posterior distribution.
 However, @chernozhukov2003mcmc use this distribution
-for classicial estimation and inference, and they justify the
+for classical estimation and inference, and they justify the
 procedure via frequentist asymptotic theory. Once $f_n(\theta)$
 is known, then *asymptotically* the point estimator equals its mean under the
 quadratic loss function, and equals its median under the absolute-value loss function.
@@ -295,6 +316,7 @@ The code block below compares the OLS estimator with the LTE estimator in a line
 ```{r,cache=TRUE}
 # set.seed(101)
 library(mcmc)
+set.seed(321)
 
 # DGP
 n <- 1000
@@ -323,11 +345,11 @@ print(cat(
   " and C.I. = ", bhat2_CI, "\n"
 ))
 
-plot(density(bhat2), main = "posterior from uniform prior")
+# plot(density(bhat2), main = "posterior from uniform prior")
 ```
 ```{r, cache = TRUE}
 # Laplace-type estimator
-
+set.seed(456)
 L <- function(b) -sum((Y - X %*% b)^2) - 0.5 * crossprod(b - c(0, 0)) # the prior of b from N(0,1)
 # criterion function with a flat prior
 # notice the "minus" sign of the OLS objective function
@@ -348,8 +370,6 @@ print(cat(
   "The posterior mean =", bhat2_point, " sd = ", bhat2_sd,
   " and C.I. = ", bhat2_CI, "\n"
 ))
-
-plot(density(bhat2), main = "posterior from N(0,1) prior")
 ```
 
 ## References
