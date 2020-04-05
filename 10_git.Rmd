@@ -71,13 +71,14 @@ The latest commit is called **HEAD** commit
 In Git, branches are usually a means to an end. We create them to work on a new project feature, but the ultimate goal is to merge that feature into the master branch.
 
 ### Remote
-* `git clone https://github.com/zhentaoshi/econ5170`
-* `git remote -v` lists git project's remote copies.
-* `git remote add origin`
-* `git push origin master`
-* `git pull`
-* `git fetch` fetches the remote copy to the local hard disk. **Note:** This command will not merge changes from the remote into your local repository. It inspects the changes on the remote branch.
 
+* `git clone https://github.com/zhentaoshi/econ5170`
+* `git remote add origin` adds the origin remote's URL.
+* `git remote -v` lists git project's remote copies.
+* `git push origin master` upload local commits to the remote repository.
+* `git pull` download the remote copy and merge.
+* `git fetch` fetches the remote copy to the local hard disk. **Note:** This command will not merge changes from the remote into your local repository. It inspects the changes on the remote branch.
+* `git remote set-url origin https://github.com/zhentaoshi/econ5170` changes the remote's URL.
 
 Collaboration typically works as follows:
 1. Fetch and merge changes from the remote;
