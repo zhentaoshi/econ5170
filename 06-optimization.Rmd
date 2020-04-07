@@ -21,29 +21,30 @@ description: "nothing"
 geometry: margin=1in
 ---
 
-# Numerical 
+# Numerical Optimization
 
 止于至善
 
-Optimization is a key step to implement extremum estimators in econometrics.
+Except for a few Bayesian estimators, almost all estimators in econometrics, such as OLS, MLE, 2SLS, and GMM, are optimizers of some criterion functions. Understanding how to construct an optimization problem and how to implement optimization by oneself is the key step to transform from a consumer of econometrics to a developer of econometrics. Unfortunately,  traditionally econometrics curriculum does not pay enough attention in numerical optimization. The consequence is that many students rely on the procedures that the econometric packages offer. They are unable to tailor econometric methods for their purposes; instead, they modify their data to meet standard econometric methods.
+
 A general optimization problem is formulated as
 $$\min_{\theta \in \Theta } f(\theta) \,\, \mbox{ s.t. }  g(\theta) = 0, h(\theta) \leq 0,$$
-where $f(\cdot)$ is a criterion function, $g(\theta) = 0$ is an equality constraint,
-and $h(\theta)\leq 0$ is an inequality constraint.
+where $f(\cdot)\in \mathbb{R}$ is a scalar-valued criterion function, $g(\theta) = 0$ is a vector of equality constraints,
+and $h(\theta)\leq 0$ is a vector of inequality constraints.
 
 Most established numerical optimization algorithms aim at finding a local minimum.
-However, there is no guarantee to locate the global minimum when multiple local minima exist.
+However, there is little guarantee that these methods should locate the global minimum when multiple local minima exist.
 
 Optimization without the equality and/or inequality constraints is called
 an *unconstrained* problem; otherwise it is called a *constrained* problem.
-The constraints can be incorporated into the criterion function via Lagrangian.
+The constraints can be incorporated into the criterion function via Lagrangian. Economic students are very familiar with constrained optimization---consider utility maximization given a budget constraint.
 
 ## Methods
 
 There are many optimization algorithms in the field of operational research;
 they are variants of a small handful of fundamental principles.
 
-The essential idea for optimizing a twice-differentiable objective function is the Newton's method.
+Many textbook MLE estimators are twice-differentiable but do not admit an explicit solution, for example Logit, Probit, and Tobit. The essential idea for optimizing a twice-differentiable objective function is the Newton's method. 
 A necessary condition for optimization is the first-order condition
 $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
@@ -51,7 +52,7 @@ At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, the search is upd
 $$
 \theta_{t+1} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
 $$
-for $t=0,1,\cdots$ where
+for the index of iteration $t=0,1,\cdots$, where
 $H(\theta) = \frac{ \partial s(\theta )}{ \partial \theta}$
 is the Hessian matrix.
 The algorithm iterates
@@ -63,14 +64,13 @@ $\epsilon$ is a small positive number chosen as a tolerance level.
 
 **Newton's Method.** Newton's method seeks the solution to
 $s(\theta) = 0$. Recall that the first-order condition is a necessary condition but not a sufficient
-condition. We still need to verify the second-order condition to verify
-whether a root to $s(\theta)$ is associated with a minimizer, a maximizer or a saddle point.
+condition. We need to verify the second-order condition for each root of $s(\theta)$ to decide whether it is a minimizer, maximizer or saddle point.
 If there are multiple minima, we compare the value at each to decide the
 global minimum.
 
 It is clear that Newton's method requires
-computation of the gradient $s(\theta)$ and the Hessian $H(\theta)$.
-Newton's method converges at quadratic rate, which is fast.
+computing the gradient $s(\theta)$ and the Hessian $H(\theta)$.
+Newton's method numerically converges at quadratic rate.
 
 **Quasi-Newton Method.** The most well-known quasi-Newton algorithm is  
 [BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm).
@@ -84,19 +84,16 @@ is a simplex method. It searches a local minimum by reflection, expansion and co
 
 R's optimization infrastructure has been constantly improving.
 [R Optimization Task View](http://cran.r-project.org/web/views/Optimization.html)
-gives a survey of the available CRAN packages.
-
-For general-purpose nonlinear optimization, the package
+gives a survey of the available CRAN packages. For general-purpose nonlinear optimization, the package
 [`optimx`](http://cran.r-project.org/web/packages/optimx/index.html) [@nash2014best]
 effectively replaces R's default optimization commands. `optimx` provides a unified
 interface for various widely-used optimization algorithms. Moreover,
-it facilitates comparison among optimization algorithms.
+it facilitates comparison among optimization algorithms. A relatively new package [`ROI`](https://cran.r-project.org/web/packages/ROI/index.html) [@epubwu5858] attempts to offer a consistent modeling framework to communicate with solvers. We will incorporate `ROI` in a future draft.
 
 **Example**
 
-We use `optimx` to solve pseudo Poisson maximum likelihood estimation (PPML).
-If $y_i$ is a continuous random variable, it obviously does not follow a Poisson
-distribution, whose support consists of non-negative integers. However, if the conditional mean model
+We use `optimx` to solve pseudo Poisson maximum likelihood estimation (PPML), which is a popular estimator in international trade for cross-country bilateral trade [@silva2006log]. If $y_i$ is a continuous random variable, it obviously does not follow a Poisson
+distribution whose support consists of non-negative integers. However, if the conditional mean model
 $$E[y_i | x_i] = \exp( x_i' \beta),$$
 is satisfied, we can still use the Poisson regression to obtain a consistent
 estimator of the parameter $\beta$ even if $y_i$ does not follow a conditional
@@ -130,8 +127,7 @@ is negative definite. Therefore, $\ell(\beta)$ is strictly concave
 in $\beta$.
 
 In operational research, the default optimization is minimization, although
-economics has utility maximization and cost minimization and
-statistics has maximum likelihood estimation and minimal least squared estimation.
+ utility is maximized in economics and likelihood is maximized in statistics. 
 To follow this convention in operational research, here we formulate the *negative* log-likelihood.
 
 ```{r,cache=TRUE}
@@ -154,8 +150,6 @@ optimized, and data can only be injected through a nested function.)
 # implement both BFGS and Nelder-Mead for comparison.
 
 library(AER)
-library(numDeriv)
-library(optimx)
 
 ## prepare the data
 data("RecreationDemand")
@@ -164,7 +158,7 @@ X <- with(RecreationDemand, cbind(1, income))
 
 ## estimation
 b.init <- c(0, 1) # initial value
-b.hat <- optimx(b.init, poisson.loglik,
+b.hat <- optimx::optimx(b.init, poisson.loglik,
   method = c("BFGS", "Nelder-Mead"),
   control = list(
     reltol = 1e-7,
@@ -179,10 +173,8 @@ NLS minimizes
 $$
 \sum_{i=1}^n (y_i - \exp(x_i \beta))^2
 $$
-A natural question is: why do we prefer PPML to NLS?
-My argument is that, PPML's optimization for the linear index is globally convex, while NLS is not.
-It implies that the numerical optimization of PPML is easier and more robust than that of NLS. I leave the derivation of the non-convexity of NLS
-as an exercise.
+A natural question is: why do we prefer PPML to NLS?  PPML's optimization for the linear index is globally convex, while NLS is not.
+It implies that the numerical optimization of PPML is easier and more robust than that of NLS. I leave the derivation of the non-convexity of NLS as an exercise.
 
 
 In practice no algorithm suits all problems. Simulation, where the true parameter is known,
@@ -223,7 +215,7 @@ These steps are often not as straightforward as installing commercial Windows so
 We first carry out the Nelder-Mead algorithm in NLOPT.
 
 ```{r,cache=TRUE,tidy=TRUE}
-library(nloptr)
+
 ## optimization with NLoptr
 
 opts <- list(
@@ -232,7 +224,7 @@ opts <- list(
   maxeval = 500
 )
 
-res_NM <- nloptr(
+res_NM <- nloptr::nloptr(
   x0 = b.init,
   eval_f = poisson.loglik,
   opts = opts
@@ -263,14 +255,14 @@ the function is correct.
 ```{r,cache=TRUE,tidy=TRUE}
 # check the numerical gradient and the analytical gradient
 b <- c(0, .5)
-grad(poisson.loglik, b)
+numDeriv::grad(poisson.loglik, b) 
 poisson.loglik.grad(b)
 ```
 
 With the function of gradient, we are ready for BFGS.
 
 ```{r,cache=TRUE,tidy=TRUE}
-res_BFGS <- nloptr(
+res_BFGS <- nloptr::nloptr(
   x0 = b.init,
   eval_f = poisson.loglik,
   eval_grad_f = poisson.loglik.grad,
@@ -287,7 +279,7 @@ print(res_BFGS)
 
 
 * New packages to be elaborated next year:
-[ROI](https://cran.r-project.org/web/packages/ROI/index.html) General R optimization infrastructure
+ General R optimization infrastructure
 
 
 ## Convex Optimization
@@ -296,7 +288,6 @@ If a function is convex in its argument, then a local minimum is a global minimu
 Convex optimization is particularly important in high-dimensional problems. The readers are
 referred to @boyd2004convex for an accessible comprehensive treatment. They claim that
 "convex optimization is technology; all other optimizations are arts." This is true to some extent.
-
 
 **Example**
 
@@ -311,59 +302,24 @@ This is not a convex problem, because $\log \sigma$ is concave. But if we re-par
 $$
 \ell (\alpha, \gamma) = -\log \gamma + \sum_{i=1}^n (\gamma y_i - x_i' \alpha)^2
 $$
-This function in convex in $\alpha, \gamma$.
+ in convex in $\alpha, \gamma$. Many MLE estimators in econometric textbooks are convex. 
 
-Indeed, many MLE estimators in the first-year econometrics are convex.
+In view of the importance of high-dimensional estimation problems, @gao2018two explore the infrastructure in R to carry out convex optimization with two econometric examples. There are several options. `CVXR` [@fu2018cvxr] is a convenient convex modeling language that supports proprietary convex solvers `CLEPX`, `MOSEK`, `Gurubi` as well as open-source solvers 	`ECOS` and `SDPT3`. While open-source solvers does not require license and can be installed in large scale in cloud computing, proprietary solvers are more faster and more reliable. `MOSEK` offers free academic license and we have had extensive experience with it. 
+ [`Rmosek`](http://rmosek.r-forge.r-project.org/) offers an interface in `R` to access `Mosek` (`Rtools` is a prerequisite to install `Rmosek`.)
+
+**Example: Relaxed empirical likelihood**
 
 
 
-* Lasso [@su2016identifying]
-* Relaxed empirical likelihood [@shi2016econometric].
-* A companion paper can be found here [@gao2018two].
-
-A class of common convex optimization can be reliably implemented in `R`.
-[`Rmosek`](http://rmosek.r-forge.r-project.org/) is an interface in `R` to access `Mosek`.
-`Mosek` is a high-quality commercial solver dedicated to convex optimization.
-It offers free academic licenses. (`Rtools` is a prerequisite to install `Rmosek`.)
-
-```{r,eval=FALSE,tidy=TRUE}
-lo1 <- list()
-lo1$sense <- "max"
-lo1$c <- c(3, 1, 5, 1)
-lo1$A <- Matrix::Matrix(c(
-  3, 1, 2, 0,
-  2, 1, 3, 1,
-  0, 2, 0, 3
-),
-nrow = 3, byrow = TRUE, sparse = TRUE
-)
-lo1$bc <- rbind(
-  blc = c(30, 15, -Inf),
-  buc = c(30, Inf, 25)
-)
-lo1$bx <- rbind(
-  blx = c(0, 0, 0, 0),
-  bux = c(Inf, 10, Inf, Inf)
-)
-r <- Rmosek::mosek(lo1) # as today (Feb 10, 2019), the latest version of
-# Rmosek is not functional. I can make it work on R3.4, but not the latest R3.5
-```
-
-* Convex solvers: CLEPX, MOSEK, Gurubi, (Commercial)   ECOS, SDPT3, (free)
-* `CVXR` [@fu2018cvxr] is a convex modeling language in R.
-
-### Relaxed empirical likelihood (REL) [@shi2016econometric]
-
-Consider a model with a "true" parameter $\beta_0$ satisfying the moment condition $\mathrm{E}\left[  g\left(Z_i, \beta_0 \right)\right] = 0_m$, where $\left\{Z_i \right\}_{i=1}^n$ is the observed data, $\beta\in\mathcal{B\subset}\mathbb{R}^{D}$
-is a finite dimensional vector in the parameter space $\mathcal{B}$,
-and $g$ is an $\mathbb{R}^{m}$-valued moment function. 
+Consider a model with a "true" parameter $\beta_0$ satisfying the moment condition $\mathrm{E}\left[  h\left(Z_i, \beta_0 \right)\right] = 0_m$, where $\left\{Z_i \right\}_{i=1}^n$ is the observed data, $\beta$
+is a low dimensional parameter of interest, and  $h$ is an $\mathbb{R}^{m}$-valued moment function. 
 Empirical likelihood (EL) [@owen1988empirical] [@qin1994empirical] solves
 $$
 \max_{\beta \in \mathcal{B}, \pi \Delta_n} \; \sum_{i=1}^n \log\left(\pi_i\right) \; \text{s.t.} \; \sum_{i=1}^n \pi_i g\left( Z_i, \beta \right) = 0_m
 $$
 where $\Delta_{n} = \left\{ \pi\in\left[0,1\right]^{n}:\sum_{i=1}^{n}\pi_{i}=1 \right\}$ is the $n$-dimensional probability simplex.
 
-To handle the high-dimensional case, i.e., $m > n$, REL is defined as the solution to 
+To handle the high-dimensional case, i.e., $m > n$, @shi2016econometric proposes the relaxed empirical likelihood (REL),  defined as the solution to 
 $$
 \max_{\beta\in\mathcal{B}}\max_{\pi\in\Delta_{n}^{\lambda}\left(\beta\right)}\,\sum_{i=1}^{n}\log\pi_{i}
 $$
@@ -371,12 +327,8 @@ where
 $$
 \Delta_{n}^{\lambda}\left(\beta\right)=\left\{ \pi\in\Delta_{n}:\big|\sum_{i=1}^{n}\pi_{i}h_{ij}\left(\beta\right)\big|\leq\lambda,\:j=1,2,\cdots,m\right\} 
 $$
-is a relaxed simplex, $\lambda\geq0$ is a tuning parameter, $h_{ij}\left(\beta\right)=g_{j}\left(Z_{i},\beta\right)/\hat{\sigma}_{j}\left(\beta\right)$,
-$g_{j}\left(Z_{i},\beta\right)$ is the $j$-th component of $g\left(Z_{i},\beta\right)$,
-and $\hat{\sigma}_{j}\left(\beta\right)$ is the
-sample standard deviation of $\left\{ g_{j}\left(Z_{i},\beta\right)\right\} _{i=1}^{n}$.
-The scale-normalization ensures that the estimation is invariant to
-a scale change of $g$.
+is a relaxed simplex, $\lambda\geq0$ is a tuning parameter, $h_{ij}\left(\beta\right)=h_{j}\left(Z_{i},\beta\right)$
+is the $j$-th component of $h\left(Z_{i},\beta\right)$.
 
 Similar to standard EL, REL's optimization involves an inner loop
 and an outer loop. The outer loop for $\beta$ is a general low-dimensional
@@ -410,9 +362,9 @@ h_{1 m}(\beta) & h_{2 m}(\beta) & \cdots & h_{n m}(\beta)
 &\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}, 0 \leq \pi_{i} \leq 1, \text { for each } i=1,2, \cdots, n
 \end{aligned}
 $$
-and it is readily solvable in Rmosek by translating the mathematical expression into computer code.
+and it is readily solvable in `Rmosek` by translating the mathematical expression into computer code.
 
-```{r, rel}
+```{r, rel, cache=TRUE}
 innerloop <- function(b, y, X, Z, tau) {
   n <- nrow(Z)
   m <- ncol(Z)
@@ -451,19 +403,21 @@ innerloop <- function(b, y, X, Z, tau) {
   # Invoke Mosek
   mosek.out <- mosek(Prob, opts = list(verbose = 0, soldetail = 1))
   
-  
   if (mosek.out$sol$itr$solsta == "OPTIMAL") {
     # Since the default of NLOPTR is to do minimization, need to set it as negative
     return(-mosek.out$sol$itr$pobjval)
   } else{
-    warning("WARNING: Inner loop not optimized")
+    warning("WARNING: Inner 
+loop not optimized")
     return(Inf)
   }
 }
 ```
 
-The innerloop of the REL can also be solved by `CVXR` and `nloptr`, details see @gao2018two.
+## Future writing plan
 
+* more convex optimization examples, for example Lasso, portfolio optimization (Shi, Su, and Xie 2020)
+* more implementation  from `CVXR` (REL as a separable problem)
 
 
 ## References
