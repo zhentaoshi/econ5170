@@ -1,23 +1,31 @@
 ---
-title: 'Machine Learning: II'
+title: 'Prediction-Oriented Algorithms'
 author: "Zhentao Shi"
-date: "March 14, 2019"
+date: "April 23, 2020"
+
+documentclass: ctexart
+output:
+  rticles::ctex:
+
+description: "nothing"
+geometry: margin=1in
+
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 fontsize: 11pt
 urlcolor: blue
-output:
-  pdf_document: default
+
+
 header-includes:
   - \usepackage{graphics}
   - \usepackage{pgfplots}
   - \usepackage{caption}
 ---
 
-# Machine Learning II
+# Prediction-Oriented Algorithms
 
-一切有为法，如梦幻泡影，如露亦如电，应作如是观
+一切有为法，如梦幻泡影，如露亦如电。
 
 In this lecture, we introduce supervised learning methods that induces
 data-driven interaction of the covariates.

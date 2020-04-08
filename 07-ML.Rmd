@@ -1,13 +1,22 @@
 ---
-title: 'Machine Learning: I'
+title: 'From Nonparametrics to Machine Learning'
 author: "Zhentao Shi"
-date: "March 14, 2019"
-output: pdf_document
-# link-citations: yes
-fontsize: 11pt
-urlcolor: blue
+date: "April 15, 2020"
+
+
+documentclass: ctexart
+output:
+  rticles::ctex:
+
+description: "nothing"
+geometry: margin=1in
+
 bibliography: book.bib
 biblio-style: apalike
+link-citations: yes
+fontsize: 11pt
+urlcolor: blue
+
 header-includes:
   - \usepackage{tikz}
   - \usepackage{pgfplots}
@@ -16,10 +25,11 @@ header-includes:
 ---
 
 
-# Machine Learning I
+# From Nonparametrics to Machine Learning
 
 公输子削竹木以为鹊，成而飞之，三日不下。公输子自以为至巧。
-子墨子谓公输子曰：“子之为鹊也，不如匠之为车辖，须臾刘三寸之木，而任五十石之重。故所为功利于人谓之巧，不利于人谓之拙。”
+子墨子谓公输子曰：“子之为鹊也，不如匠之为车辖，须臾刘三寸之木，而任五十石之重。”
+故所为功，利于人谓之巧，不利于人谓之拙。
 
 Machine learning has quickly grown into a big field, with applications from
 scientific research to daily life.
@@ -57,7 +67,7 @@ Furthermore, for an asymptotically normal estimator, we want to
 show efficiency, an optimality property. An efficient estimator achieves the smallest asymptotic variance
 in a class of asymptotically normal estimators.
 
-In addition, econometrician also care about
+In addition, econometrician also cares about
 model identification and economic interpretation of the empirical results.
 Econometrics workflow interacts the data at hand and the model of interest. At the population level,
 we think about the problem of identification. Once the parameter of interest is identified,

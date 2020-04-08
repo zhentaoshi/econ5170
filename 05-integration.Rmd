@@ -261,7 +261,7 @@ The underlying theory of the MH requies long derivation, but implementation is s
 Here we use MH to generate a sample of normally distributed observations with 
 $\mu = 1$ and $\sigma = 0.5$. 
 In the function `metrop`, we provide the logarithm of the density of 
-$$\log f(x) = -\frac{1}{2} \log (2\pi) - \log \sigma - \frac{1}{2\sigma^2} (x-\mu)^2$$, 
+$$\log f(x) = -\frac{1}{2} \log (2\pi) - \log \sigma - \frac{1}{2\sigma^2} (x-\mu)^2,$$
 and the first term can be omitted as it is irrelevant to the parameter. 
 
 ```{r,cache=TRUE}
@@ -286,9 +286,9 @@ plot(density(out$batch), main = "", lwd = 2)
 xbase <- seq(-2, 2, 0.01)
 ynorm <- dnorm(xbase, mean = 1, sd = 0.5)
 lines(x = xbase, y = ynorm, type = "l", col = "red")
-# the plot compare the density of the simulated sample
-# with the standard normal pdf
 ```
+
+
 The generated graph consists of three panels. The first panel is a time series where
 the marginal distribution of each observations follows $N(1,0.5^2)$. The time dependence 
 is visible, and flat regions are observed when the Markov chain rejects a new proposal 
