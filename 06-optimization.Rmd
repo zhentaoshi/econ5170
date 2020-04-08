@@ -37,7 +37,15 @@ However, there is little guarantee that these methods should locate the global m
 
 Optimization without the equality and/or inequality constraints is called
 an *unconstrained* problem; otherwise it is called a *constrained* problem.
-The constraints can be incorporated into the criterion function via Lagrangian. Economic students are very familiar with constrained optimization---consider utility maximization given a budget constraint.
+The constraints can be incorporated into the criterion function via Lagrangian. 
+Economic students are very familiar with constrained optimization---consider utility maximization given a budget constraint.
+
+In terms of implementation, we always face the tradeoff between convenience and efficiency.
+Convenience is about the readability of the mathematical expressions and the code, 
+while efficiency concerns the computing speed. We recommend that we put convenience as 
+priority at the trial-and-error stage, and improves efficiency when necessary at a later stage for full-scale execution.
+
+
 
 ## Methods
 
@@ -54,9 +62,15 @@ $$
 $$
 for the index of iteration $t=0,1,\cdots$, where
 $H(\theta) = \frac{ \partial s(\theta )}{ \partial \theta}$
-is the Hessian matrix.
-The algorithm iterates
-until $|\theta_{t+1} -\theta_{t}| < \epsilon$ (absolute criterion) and/or
+is the Hessian matrix. This formulate can be intuitively motivated from a Taylor expansion
+at $\theta_t$ round  $\theta_{\star}$, a root of $s(\cdot)$. Because $\theta_{ \star }$  is a root,
+$$
+0 = s(\theta_{\star}) = s(\theta_t) + H(\theta_t) (\theta_{t+1} - \theta_t) + O( (\theta_{t+1} - \theta_t)^2 ).
+$$
+Ignore the high-order term and rearrange,
+$\theta_{\star} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t),$ 
+and we obtain the iteration formula by replacing $\theta_{\star}$ with the updated $\theta_{t+1}$. 
+In other words, it is a first-order linear updating formula for a nonlinear $s(\cdot)$.  The algorithm iterates until $|\theta_{t+1} -\theta_{t}| < \epsilon$ (absolute criterion) and/or
 $|\theta_{t+1} -\theta_{t}|/|\theta_{t}| < \epsilon$ (relative criterion), where
 $\epsilon$ is a small positive number chosen as a tolerance level.
 
@@ -205,8 +219,6 @@ For problems that demand more accuracy,  third-party standalone solvers can be
 invoked via interfaces to `R`.
 For example, we can access [`NLopt`](http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation)
 through the packages [`nloptr`](http://cran.r-project.org/web/packages/nloptr/index.html).
-However, standalone solvers usually have to be compiled and configured.
-These steps are often not as straightforward as installing commercial Windows software.
 
 `NLopt` offers an [extensive list of algorithms](http://ab-initio.mit.edu/wiki/index.php/NLopt_Algorithms#SLSQP).
 
@@ -297,7 +309,7 @@ $$
  in convex in $\alpha, \gamma$. Many MLE estimators in econometric textbooks are convex. 
 
 In view of the importance of high-dimensional estimation problems, @gao2018two explore the infrastructure in R to carry out convex optimization with two econometric examples. There are several options. `CVXR` [@fu2018cvxr] is a convenient convex modeling language that supports proprietary convex solvers `CLEPX`, `MOSEK`, `Gurubi` as well as open-source solvers 	`ECOS` and `SDPT3`. While open-source solvers does not require license and can be installed in large scale in cloud computing, proprietary solvers are more faster and more reliable. `MOSEK` offers free academic license and we have had extensive experience with it. 
- [`Rmosek`](http://rmosek.r-forge.r-project.org/) offers an interface in `R` to access `Mosek` (`Rtools` is a prerequisite to install `Rmosek`.)
+ [`Rmosek`](http://rmosek.r-forge.r-project.org/) offers an interface in `R` to access `Mosek` (`Rtools` is a prerequisite to install `Rmosek` in Windows.)
 
 **Example: Relaxed empirical likelihood**
 
@@ -426,6 +438,7 @@ loop not optimized")
 
 * more convex optimization examples, for example Lasso, portfolio optimization (Shi, Su, and Xie 2020)
 * more implementation  from `CVXR` (REL as a separable problem)
+* Add `ROI`.
 
 
 ## References
