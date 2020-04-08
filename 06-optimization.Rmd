@@ -255,7 +255,7 @@ the function is correct.
 ```{r,cache=TRUE,tidy=TRUE}
 # check the numerical gradient and the analytical gradient
 b <- c(0, .5)
-numDeriv::grad(poisson.loglik, b) 
+numDeriv::grad(poisson.loglik, b)
 poisson.loglik.grad(b)
 ```
 
@@ -307,7 +307,7 @@ Consider a model with a "true" parameter $\beta_0$ satisfying the moment conditi
 is a low dimensional parameter of interest, and  $h$ is an $\mathbb{R}^{m}$-valued moment function. 
 Empirical likelihood (EL) [@owen1988empirical] [@qin1994empirical] solves
 $$
-\max_{\beta \in \mathcal{B}, \pi \Delta_n} \; \sum_{i=1}^n \log \pi_i \;\,\, \text{s.t.} \; \sum_{i=1}^n \pi_i g\left( Z_i, \beta \right) = 0_m
+\max_{\beta \in \mathcal{B}, \pi \Delta_n} \; \sum_{i=1}^n \log \pi_i \;\,\, \text{s.t.} \; \sum_{i=1}^n \pi_i h \left( Z_i, \beta \right) = 0_m
 $$
 where $\Delta_{n} = \left\{ \pi\in\left[0,1\right]^{n}:\sum_{i=1}^{n}\pi_{i}=1 \right\}$ is the $n$-dimensional probability simplex.
 
@@ -317,7 +317,7 @@ $$
 $$
 where 
 $$
-\Delta_{n}^{\lambda}\left(\beta\right)=\left\{ \pi\in\Delta_{n}:\big|\sum_{i=1}^{n}\pi_{i}h_{ij}\left(\beta\right)\big|\leq\lambda,\:j=1,2,\cdots,m\right\} 
+\Delta_{n}^{\lambda}\left(\beta\right)=\left\{ \pi_i \in\Delta_{n}:\big|\sum_{i=1}^{n}\pi_{i}h_{ij}\left(\beta\right)\big|\leq\lambda,\:j=1,2,\cdots,m\right\}
 $$
 is a relaxed simplex, $\lambda\geq0$ is a tuning parameter, $h_{ij}\left(\beta\right)=h_{j}\left(Z_{i},\beta\right)$
 is the $j$-th component of $h\left(Z_{i},\beta\right)$.
@@ -372,30 +372,34 @@ The constrained optimization is readily solvable in `Rmosek` by translating the 
 innerloop <- function(b, y, X, Z, tau) {
   n <- nrow(Z)
   m <- ncol(Z)
-  
+
   # Generate moment condition
   H <- MomentMatrix(y, X, Z, b)
-  
+
   # Initialize the mosek problem
   Prob <- list(sense = "max")
-  
+
   # Prob$dparam$intpnt_nl_tol_rel_gap <- 1e-5;
   Prob$dparam <- list(INTPNT_CO_TOL_REL_GAP = 1e-5)
-  
+
   # Linear coefficients of the objective
   Prob$c <- c(rep(0, n), rep(1, n), rep(0, n))
-  
+
   # Linear constraints
   H_tilde <- Matrix(rbind(rep(1, n), H), sparse = TRUE)
   A <-
-    rbind(cbind(H_tilde, Matrix(0, m + 1, 2 * n, sparse = TRUE)),
-          cbind(Matrix(0, n, 2 * n, sparse = TRUE), Diagonal(n)))
+    rbind(
+      cbind(H_tilde, Matrix(0, m + 1, 2 * n, sparse = TRUE)),
+      cbind(Matrix(0, n, 2 * n, sparse = TRUE), Diagonal(n))
+    )
   Prob$A <- A
   Prob$bc <-
     rbind(c(1, rep(-tau, m), rep(1, n)), c(1, rep(tau, m), rep(1, n)))
-  Prob$bx <- rbind(c(rep(0, n), rep(-Inf, n), rep(1, n)),
-                   c(rep(1, n), rep(0, n), rep(1, n)))
-  
+  Prob$bx <- rbind(
+    c(rep(0, n), rep(-Inf, n), rep(1, n)),
+    c(rep(1, n), rep(0, n), rep(1, n))
+  )
+
   # Exponential Cones
   NUMCONES <- n
   Prob$cones <- matrix(list(), nrow = 2, ncol = NUMCONES)
@@ -403,14 +407,14 @@ innerloop <- function(b, y, X, Z, tau) {
   for (i in 1:n) {
     Prob$cones[, i] <- list("PEXP", c(i, 2 * n + i, n + i))
   }
-  
+
   # Invoke Mosek
   mosek.out <- mosek(Prob, opts = list(verbose = 0, soldetail = 1))
-  
+
   if (mosek.out$sol$itr$solsta == "OPTIMAL") {
     # Since the default of NLOPTR is to do minimization, need to set it as negative
     return(-mosek.out$sol$itr$pobjval)
-  } else{
+  } else {
     warning("WARNING: Inner 
 loop not optimized")
     return(Inf)
