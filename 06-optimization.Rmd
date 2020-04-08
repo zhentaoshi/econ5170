@@ -272,15 +272,6 @@ print(res_BFGS)
 ```
 
 
-## Constrained Optimization
-
-* `optimx` can handle simple box-constrained problems.
-* Some algorithms in `nloptr`, for example, `NLOPT_LD_SLSQP`, can handle nonlinear constrained problems.
-
-
-* New packages to be elaborated next year:
- General R optimization infrastructure
-
 
 ## Convex Optimization
 
@@ -296,11 +287,12 @@ referred to @boyd2004convex for an accessible comprehensive treatment. They clai
 
 Normal MLE. The (negative) log-likelihood is
 $$
-\ell (\beta, \sigma) = \log \sigma + \frac{1}{\sigma^2}\sum_{i=1}^n (y_i - x_i' \beta)^2
+\ell (\beta, \sigma) = \log \sigma + \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i - x_i' \beta)^2
 $$
 This is not a convex problem, because $\log \sigma$ is concave. But if we re-parameterize the criterion function by $\gamma = 1/\sigma$ and $\alpha = \beta / \sigma$, then
 $$
-\ell (\alpha, \gamma) = -\log \gamma + \sum_{i=1}^n (\gamma y_i - x_i' \alpha)^2
+\ell (\alpha, \gamma) = -\log \gamma + \frac{1}{2}
+\sum_{i=1}^n (\gamma y_i - x_i' \alpha)^2
 $$
  in convex in $\alpha, \gamma$. Many MLE estimators in econometric textbooks are convex. 
 
@@ -315,7 +307,7 @@ Consider a model with a "true" parameter $\beta_0$ satisfying the moment conditi
 is a low dimensional parameter of interest, and  $h$ is an $\mathbb{R}^{m}$-valued moment function. 
 Empirical likelihood (EL) [@owen1988empirical] [@qin1994empirical] solves
 $$
-\max_{\beta \in \mathcal{B}, \pi \Delta_n} \; \sum_{i=1}^n \log\left(\pi_i\right) \; \text{s.t.} \; \sum_{i=1}^n \pi_i g\left( Z_i, \beta \right) = 0_m
+\max_{\beta \in \mathcal{B}, \pi \Delta_n} \; \sum_{i=1}^n \log \pi_i \;\,\, \text{s.t.} \; \sum_{i=1}^n \pi_i g\left( Z_i, \beta \right) = 0_m
 $$
 where $\Delta_{n} = \left\{ \pi\in\left[0,1\right]^{n}:\sum_{i=1}^{n}\pi_{i}=1 \right\}$ is the $n$-dimensional probability simplex.
 
@@ -334,7 +326,13 @@ Similar to standard EL, REL's optimization involves an inner loop
 and an outer loop. The outer loop for $\beta$ is a general low-dimensional
 nonlinear optimization, which can be solved by Newton-type methods.
 With the linear constraints and the logarithm objective, the inner
-loop is convex in $\pi=\left(\pi_{i}\right)_{i=1}^{n}$. By introducing auxiliary variable, $t_i$, the logarithm objective can be formulated as a linear objective function $\sum_{i=1}^n t_i$ and n exponential conic constraints, $\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}=\left\{\left(x_{1}, x_{2}, x_{3}\right): x_{1} \geq x_{2} \exp \left(x_{3} / x_{2}\right), x_{2}>0\right\} \cup\left\{\left(x_{1}, 0, x_{3}\right): x_{1} \geq 0, x_{3} \leq 0\right\}$, $i=1,2,\cdots,n$. For each $\beta$, the inner problem can be then formulated as a conic programming problem,
+loop is convex in $\pi=\left(\pi_{i}\right)_{i=1}^{n}$. 
+By introducing auxiliary variable, $t_i$, the logarithm objective can be formulated as a linear objective function $\sum_{i=1}^n t_i$ and $n$ exponential conic constraints, $\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}=\left\{\left(x_{1}, x_{2}, x_{3}\right): x_{1} \geq x_{2} \exp \left(x_{3} / x_{2}\right), x_{2}>0\right\} \cup\left\{\left(x_{1}, 0, x_{3}\right): x_{1} \geq 0, x_{3} \leq 0\right\}$, $i=1,2,\cdots,n$. 
+
+
+
+
+For each $\beta$, the inner problem can be then formulated as a conic programming problem,
 $$
 \begin{aligned}
 &\max _{\pi, t} \sum_{i=1}^{n} t_{i}\\
@@ -362,7 +360,13 @@ h_{1 m}(\beta) & h_{2 m}(\beta) & \cdots & h_{n m}(\beta)
 &\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}, 0 \leq \pi_{i} \leq 1, \text { for each } i=1,2, \cdots, n
 \end{aligned}
 $$
-and it is readily solvable in `Rmosek` by translating the mathematical expression into computer code.
+
+To understand the exponential cone, notice that 
+$\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}$ is equivalent to
+$\{ \pi_i \geq \exp(t_i): \pi_i\geq 0, t_i \leq 0 \}$. It implies 
+$t_i \leq \log \pi_i$. Since the problem maximizes $\sum t_i$, we must have 
+$t_i = \log \pi_i$. 
+The constrained optimization is readily solvable in `Rmosek` by translating the mathematical expression into computer code.
 
 ```{r, rel, cache=TRUE}
 innerloop <- function(b, y, X, Z, tau) {

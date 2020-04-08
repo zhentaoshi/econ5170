@@ -21,6 +21,10 @@ Programming is an essential skill for researchers in economic analysis.
 
 I believe the best way to learn programming is via examples. These notes contain many executable  examples that illustrate R usage and econometric computational ideas.
 
+
+**to be developed**: econometrics is interdiscplinary study involving economics, statistics, operational research, and computational science.
+
+
 ## Personal Reflection {-}
 
 Thirty years ago aspiring young econometricians picked up GAUSS.
