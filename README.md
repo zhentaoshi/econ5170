@@ -19,8 +19,8 @@ Zhentao covers the following topics. This README file will be updated as the cou
   * Lecture 3: Simulation and Integration [[pdf1]](https://github.com/zhentaoshi/econ5170/blob/master/04-simulation.pdf) [[pdf2]](https://github.com/zhentaoshi/econ5170/blob/master/05-integration.pdf)
   * Lecture 4: Numerical Optimization [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/06-optimization.pdf)
 * Part III: Machine Learning
-  * Lecture 5: Machine Learning I [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/07-ML.pdf)
-  * Lecture 6: Machine Learning II [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/08-ML2.pdf)
+  * Lecture 5: From Nonparametrics to Machine Learning [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/07-ML.pdf)
+  * Lecture 6: Prediction-Oriented Algorithms [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/08-ML2.pdf)
 
 #### Lecture Notes
 
@@ -38,7 +38,6 @@ Lecture notes are provided under this root folder in `*.pdf`.
 * **Recommended**
     * [Git](http://git-scm.com/)
     * Sign up [Github](https://github.com/)
-    * For Windows users, [PuTTY](http://www.putty.org/) and [WinSCP](http://winscp.net/eng/download.php)
 
 #### License
 
