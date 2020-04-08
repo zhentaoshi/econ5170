@@ -1,7 +1,7 @@
 ---
 title: 'Integration'
 author: "Zhentao Shi"
-date: "April 1, 2020"
+date: "April 2, 2020"
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
@@ -31,7 +31,7 @@ small nor arbitrarily large numbers; it can, at best, approximate the limiting b
 In this lecture, we first briefly talk about numerical differentiation and
 integration, and then we discuss stochastic methods with examples from 
 econometrics. In particular, we will introduce simulated method of moments,
-indirect inference, and Markov Chain Monte Carlo. These methods are beyond the 
+indirect inference, and Markov Chain Monte Carlo (MCMC). These methods are beyond the 
 in-class coverage of Econ5121A and Econ5150. 
 Interested readers are referred to @cameron2005microeconometrics (Chapters 12 and 13)
 for details. 
@@ -85,7 +85,7 @@ The reader is referred to the documentation for the algorithm behind numerical i
 Numerical methods are not panacea. Not all functions are differentiable or integrable.
 Before turning to numerical methods, it is always imperative to try to understand the behavior
 of the function at the first place.
-Some symbolic software, say `Mathematica` or `Wolfram Alpha`, is a useful tool for this purpose. R is weak in symbolic calculation despite the existence of a few packages
+Some symbolic software, such as `Mathematica` or `Wolfram Alpha`, is a useful tool for this purpose. R is weak in symbolic calculation despite the existence of a few packages
 for this purpose.
 
 
@@ -120,7 +120,8 @@ some elements unobservable to the econometrician dictate an economic agent's dec
 the foundation of self-selection in labor economics.
 
 
-In the original paper of the Roy model, an economic agent can work on one of the two occupations: farming or fishing.
+In the original paper of the Roy model, an economic agent
+must be either a farmer or a fisher. 
 The utility of being a farmer is $U_1^{*} = x' \beta_1 + e_1$ and that of
 being a fisher is $U_2^{*} = x' \beta_2 + e_2$,
 where $U_1^{*}$ and $U_2^{*}$ are latent (unobservable).
@@ -154,7 +155,7 @@ $$
 where $\Phi(\cdot)$ is the CDF of the standard normal.
 
 However, notice that the analytical form depends on the joint normal assumption and cannot be
-easily extended to other distributions. As long as the joint distribution of $e_{i1}, e_{i2}$
+easily extended to other distributions. As long as the joint distribution of $(e_{i1}, e_{i2})$, no matter it is normal or not,
 can be generated from the computer, we can use the stochastic method.
 We estimate
 $$
@@ -162,8 +163,8 @@ $$
 $$
 where $s=1,\ldots,S$ is the index of simulation and $S$ is the total number of simulation replications.
 
-Match moments generated the theoretical model with their empirical counterparts.
-The choice of the moments to be matched is not unique either.
+Next, we match moments generated the theoretical model with their empirical counterparts.
+The choice of the moments to be matched is to be decided by the user.
 A set of valid choice for the Roy model example is
 \begin{eqnarray*}
 g_1(\theta) & = & n^{-1} \sum_{i=1}^n x_i (y_i - \hat{p}(\theta | x_i))  \approx  0\\
@@ -181,8 +182,7 @@ We need to come up with more moment conditions for over-identification.
 Moreover, we need to choose a weighting matrix $W$ to form a quadratic criterion for GMM in
 over-identification.
 
-
-This above example can be viewed as an application of simulated maximum likelihood. In parallel,
+The above example can be viewed as an application of simulated maximum likelihood. In parallel,
 we can simulate a moment condition if its explicit form is unavailable.
 @pakes1989simulation provide the theoretical foundation of the
 simulated method of moments (SMM). Our co-teacher Prof. Guo [@guo2018] recently
@@ -193,7 +193,7 @@ applies SMM to estimate a structural labor model.
 
 ### Indirect Inference
 
-Indirect inference [@gourieroux1993indirect] 
+Indirect inference [@smith1993estimating, @gourieroux1993indirect] 
 is yet another simulated-based estimation method.
 Indirect inference is extensively used in structural model estimatoin [@li2010indirect]. 
 Theoretical analysis of indirect inference reveals its nice properties in 
@@ -206,7 +206,7 @@ The reduced-form regression ignores the underlying economic structure and is a p
 procedure; thus the reduced-form regression is relatively easier to implement.
 A *binding function* is a one-to-one mapping from the parameter space of the reduced-form to that
 of the structural form. Once the reduced-form parameter is estimated, we can recover the
-structural parameter via the binding function.
+structural parameter via the binding function. When the reduced-form parameter can be expressed in closed-form, we can utilize the analytical form to match the theoretical prediction and the empirical outcomes, as in @shi2018structural. In most cases however, the reduced-form implied by the structural model does not have a closed-form expression so simulation becomes necessary.
 
 The choice of the auxiliary model is not unique. In the Roy model example where $\theta$ is
 the structural parameter, a sensible starting point to construct the auxiliary model
@@ -236,7 +236,7 @@ W \left(\hat{b} - S^{-1} \sum_{s=1}^S \hat{b}^*(\theta)^{s}\right)
 $$
 where $s$ indexes the simulation and $W$ is a positive definite weighting matrix.
 The indirect inference estimator is $\hat{\theta} = \arg\min_{\theta} Q(\theta).$
-That is, we seek the $\theta$
+That is, we seek the value of $\theta$
 that minimizes the distance between the reduced-form parameter from the real data and that
 from the simulated artificial data.
 
@@ -258,16 +258,16 @@ examples of MCMC.
 ### Metropolis-Hastings Algorithm
 
 The underlying theory of the MH requies long derivation, but implementation is straightforward.
-Here we use MH to generate a sample of normally distributed observations. To
-generate a random variable with other pdf $f(x)$, we just need to replace the line
-`h = function(x){ y = -x^2 / 2 }` below by
-`h = function(x){ y = log( f(x) ) } `.
-
+Here we use MH to generate a sample of normally distributed observations with 
+$\mu = 1$ and $\sigma = 0.5$. 
+In the function `metrop`, we provide the logarithm of the density of 
+$$\log f(x) = -\frac{1}{2} \log (2\pi) - \log \sigma - \frac{1}{2\sigma^2} (x-\mu)^2$$, 
+and the first term can be omitted as it is irrelevant to the parameter. 
 
 ```{r,cache=TRUE}
 library(mcmc)
-h <- function(x) {
-  y <- -x^2 / 2
+h <- function(x, mu = 1, sd = 0.5) {
+  y <- -log(sd) - (x - mu)^2 / (2 * sd^2)
 } # un-normalized function (doesn't need to integrate as 1)
 
 out <- metrop(obj = h, initial = 0, nbatch = 100, nspac = 1)
@@ -283,12 +283,20 @@ plot(out$batch, type = "l") # a time series looks like a white noise
 out <- metrop(obj = h, initial = 0, nbatch = 10000, nspac = 10)
 plot(density(out$batch), main = "", lwd = 2)
 
-xbase <- seq(-3, 3, 0.01)
-ynorm <- dnorm(xbase)
+xbase <- seq(-2, 2, 0.01)
+ynorm <- dnorm(xbase, mean = 1, sd = 0.5)
 lines(x = xbase, y = ynorm, type = "l", col = "red")
 # the plot compare the density of the simulated sample
 # with the standard normal pdf
 ```
+The generated graph consists of three panels. The first panel is a time series where
+the marginal distribution of each observations follows $N(1,0.5^2)$. The time dependence 
+is visible, and flat regions are observed when the Markov chain rejects a new proposal 
+so the value does not update over two periods. To reduced time dependenc, the middle 
+panel collects the time series every 10 observations on the Markov chain. No flat region is observed 
+in this subgraph and the serial correlation is weakened. The third panel compares the 
+kernel density of the simulated observations (black curve) with the density function
+of $N(1,0.5^2)$ (red curve). 
 
 ### Laplace-type Estimator: An Application of MCMC
 
@@ -319,57 +327,38 @@ library(mcmc)
 set.seed(321)
 
 # DGP
-n <- 1000
-b0 <- c(1, 1)
+n <- 500
+b0 <- c(.1, .1)
 X <- cbind(1, rnorm(n))
 Y <- X %*% b0 + rnorm(n)
 
+b_OLS <- summary(lm(Y ~ -1 + X))
+# "-1" because X has contained intercept
+print(coef(b_OLS))
+
 # Laplace-type estimator
-L <- function(b) -sum((Y - X %*% b)^2) # use uniform prior
-# criterion function with a flat prior
+L <- function(b) -0.5 * sum((Y - X %*% b)^2) - 0.5 * crossprod(b - c(0, 0))
 # notice the "minus" sign of the OLS objective function
-nbatch <- 1100
-out <- metrop(obj = L, initial = c(1, 0), nbatch = nbatch, nspac = 20)
+# here we use a normal prior around (0,0).
+# results are very similar if we replace it with a flat prior so that
+# L <- function(b) -0.5*sum((Y - X %*% b)^2)
+
+nbatch <- 10000
+out <- metrop(obj = L, initial = c(0, 0), nbatch = nbatch, nspac = 20)
 
 # summarize the estimation
-bhat2 <- out$batch[-(1:(nbatch / 10)), 2] # remove the burn in
+bhat2 <- out$batch[-(1:round(nbatch / 10)), 2] # remove the burn in
 bhat2_point <- mean(bhat2)
 bhat2_sd <- sd(bhat2)
 bhat2_CI <- quantile(bhat2, c(.025, .975))
 
 # compare with OLS
-b_OLS <- summary(lm(Y ~ -1 + X))
-print(coef(b_OLS))
 print(cat(
   "The posterior mean =", bhat2_point, " sd = ", bhat2_sd,
   " and C.I. = ", bhat2_CI, "\n"
 ))
 
-# plot(density(bhat2), main = "posterior from uniform prior")
-```
-```{r, cache = TRUE}
-# Laplace-type estimator
-set.seed(456)
-L <- function(b) -sum((Y - X %*% b)^2) - 0.5 * crossprod(b - c(0, 0)) # the prior of b from N(0,1)
-# criterion function with a flat prior
-# notice the "minus" sign of the OLS objective function
-
-nbatch <- 1100
-out <- metrop(obj = L, initial = c(1, 0), nbatch = nbatch, nspac = 20)
-
-# summarize the estimation
-bhat2 <- out$batch[-(1:(nbatch / 10)), 2] # remove the burn in
-bhat2_point <- mean(bhat2)
-bhat2_sd <- sd(bhat2)
-bhat2_CI <- quantile(bhat2, c(.025, .975))
-
-# compare with OLS
-b_OLS <- summary(lm(Y ~ -1 + X))
-print(coef(b_OLS))
-print(cat(
-  "The posterior mean =", bhat2_point, " sd = ", bhat2_sd,
-  " and C.I. = ", bhat2_CI, "\n"
-))
+plot(density(bhat2), main = "posterior from normal prior")
 ```
 
 ## References
