@@ -336,7 +336,7 @@ referred to @boyd2004convex for an accessible comprehensive treatment. They clai
 ```{r}
 f1 <- function(x) x^2
 f2 <- function(x) abs(x)
-f3 <- function(x) (-x - 1) * (x <= -1) + (x - 1) * (x >= 1)
+f3 <- function(x) (-x - 1) * (x <= -1) + (0.4 * x - .2) * (x >= .5)
 
 par(mfrow = c(1, 3))
 par(mar = c(4, 2, 1, 2))
@@ -492,33 +492,34 @@ innerloop <- function(b, y, X, Z, tau) {
 }
 ```
 
-The innerloop optimization can also be carried out by `CVXR`.
+The inner loop optimization can also be carried out by `CVXR`.
+This code snippet is shorter than easier to read.
 
 ```{r, rel_cvxr, cache=TRUE}
-
-innerloop.cvxr <- function(b, y = NULL, X = NULL, Z = NULL, tau = NULL){
-  
+innerloop.cvxr <- function(b, y = NULL, X = NULL, Z = NULL, tau = NULL) {
   n <- nrow(Z)
   m <- ncol(Z)
-  
+
   H <- MomentMatrix(y, X, Z, b)
-  
-  p = Variable(n)
-  constr = list(sum(p) == 1,
-                p >= 0,
-                p <= 1,
-                H %*% p >= -tau,
-                H %*% p <= tau)
-  
-  obj = sum(log(p))
-  obj = Maximize(obj)
-  
-  Prob = Problem(obj, constr)
-  cvxr.out = solve(Prob)
-  
+
+  p <- Variable(n)
+  constr <- list(
+    sum(p) == 1,
+    p >= 0,
+    p <= 1,
+    H %*% p >= -tau,
+    H %*% p <= tau
+  )
+
+  obj <- sum(log(p))
+  obj <- Maximize(obj)
+
+  Prob <- Problem(obj, constr)
+  cvxr.out <- solve(Prob)
+
   if (cvxr.out$status == "optimal") {
     return(-cvxr.out$value)
-  } else{
+  } else {
     warning("WARNING: Inner loop not optimized")
     return(Inf)
   }
@@ -528,7 +529,7 @@ innerloop.cvxr <- function(b, y = NULL, X = NULL, Z = NULL, tau = NULL){
 ## Future writing plan
 
 * more convex optimization examples, for example Lasso, portfolio optimization (Shi, Su, and Xie 2020)
-* more implementation  from `CVXR` (REL as a separable problem)
+
 * Add `ROI`.
 
 
