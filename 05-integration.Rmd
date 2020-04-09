@@ -23,7 +23,6 @@ geometry: margin=1in
 ```{r setup}
 library(magrittr)
 set.seed(2020-4-9)
-
 ```
 
 

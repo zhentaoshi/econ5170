@@ -20,6 +20,10 @@ output:
 description: "nothing"
 geometry: margin=1in
 ---
+```{r setup}
+library(magrittr)
+```
+
 
 # Numerical Optimization
 
@@ -56,6 +60,24 @@ Many textbook MLE estimators are twice-differentiable but do not admit an explic
 A necessary condition for optimization is the first-order condition
 $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
+```{r}
+f = function(x)  0.1*(x-5)^2 + cos( x ) # criterion
+s = function(x)  0.2*(x-5) - sin(x) # gradient
+h = function(x)  0.2*x - cos(x) # Hessian
+
+# plot
+par(mfrow = c(3, 1))
+par(mar = c(2, 4, 1, 2))
+
+x_base = seq(0.1, 10, by = 0.1)
+plot( y = f(x_base), x = x_base, type = "l", lwd = 2, ylab = "f")
+plot( y = s(x_base), x = x_base, type = "l", ylab = "score")
+abline(h = 0, lty=2)
+plot( y = h(x_base), x = x_base, type = "l", ylab = "Hessian")
+abline(h = 0, lty=2)
+```
+
+
 At an initial trial value $\theta_0$, if $s(\theta_0) \neq 0$, the search is updated by
 $$
 \theta_{t+1} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
@@ -74,6 +96,23 @@ In other words, it is a first-order linear updating formula for a nonlinear $s(\
 $|\theta_{t+1} -\theta_{t}|/|\theta_{t}| < \epsilon$ (relative criterion), where
 $\epsilon$ is a small positive number chosen as a tolerance level.
 
+```{r}
+# Newton's method
+Newton = function(x){  x - s(x)/h(x) } # update formula
+
+x_init = 6 # can experiment with various initial values
+
+gap = 1
+epsilon = 0.0001 # tolerance
+while ( gap > epsilon ){
+  x_new = Newton(x_init) %>% print( )
+  gap = abs(x_init - x_new)
+  x_init = x_new
+}
+
+```
+
+
 
 
 **Newton's Method.** Newton's method seeks the solution to
@@ -85,6 +124,7 @@ global minimum.
 It is clear that Newton's method requires
 computing the gradient $s(\theta)$ and the Hessian $H(\theta)$.
 Newton's method numerically converges at quadratic rate.
+
 
 **Quasi-Newton Method.** The most well-known quasi-Newton algorithm is  
 [BFGS](http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm).
