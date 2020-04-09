@@ -61,20 +61,20 @@ A necessary condition for optimization is the first-order condition
 $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 
 ```{r}
-f = function(x)  0.1*(x-5)^2 + cos( x ) # criterion
-s = function(x)  0.2*(x-5) - sin(x) # gradient
-h = function(x)  0.2*x - cos(x) # Hessian
+f <- function(x) 0.1 * (x - 5)^2 + cos(x) # criterion
+s <- function(x) 0.2 * (x - 5) - sin(x) # gradient
+h <- function(x) 0.2 * x - cos(x) # Hessian
 
 # plot
 par(mfrow = c(3, 1))
 par(mar = c(2, 4, 1, 2))
 
-x_base = seq(0.1, 10, by = 0.1)
-plot( y = f(x_base), x = x_base, type = "l", lwd = 2, ylab = "f")
-plot( y = s(x_base), x = x_base, type = "l", ylab = "score")
-abline(h = 0, lty=2)
-plot( y = h(x_base), x = x_base, type = "l", ylab = "Hessian")
-abline(h = 0, lty=2)
+x_base <- seq(0.1, 10, by = 0.1)
+plot(y = f(x_base), x = x_base, type = "l", lwd = 2, ylab = "f")
+plot(y = s(x_base), x = x_base, type = "l", ylab = "score")
+abline(h = 0, lty = 2)
+plot(y = h(x_base), x = x_base, type = "l", ylab = "Hessian")
+abline(h = 0, lty = 2)
 ```
 
 
@@ -98,18 +98,19 @@ $\epsilon$ is a small positive number chosen as a tolerance level.
 
 ```{r}
 # Newton's method
-Newton = function(x){  x - s(x)/h(x) } # update formula
+Newton <- function(x) {
+  x - s(x) / h(x)
+} # update formula
 
-x_init = 6 # can experiment with various initial values
+x_init <- 6 # can experiment with various initial values
 
-gap = 1
-epsilon = 0.0001 # tolerance
-while ( gap > epsilon ){
-  x_new = Newton(x_init) %>% print( )
-  gap = abs(x_init - x_new)
-  x_init = x_new
+gap <- 1
+epsilon <- 0.0001 # tolerance
+while (gap > epsilon) {
+  x_new <- Newton(x_init) %>% print()
+  gap <- abs(x_init - x_new)
+  x_init <- x_new
 }
-
 ```
 
 
@@ -331,6 +332,24 @@ If a function is convex in its argument, then a local minimum is a global minimu
 Convex optimization is particularly important in high-dimensional problems. The readers are
 referred to @boyd2004convex for an accessible comprehensive treatment. They claim that
 "convex optimization is technology; all other optimizations are arts." This is true to some extent.
+
+```{r}
+f1 <- function(x) x^2
+f2 <- function(x) abs(x)
+f3 <- function(x) (-x - 1) * (x <= -1) + (x - 1) * (x >= 1)
+
+par(mfrow = c(1, 3))
+par(mar = c(4, 2, 1, 2))
+
+x_base <- seq(-3, 3, by = 0.1)
+plot(y = f1(x_base), x = x_base, type = "l", lwd = 2, xlab = "differentiable")
+plot(y = f2(x_base), x = x_base, type = "l", lwd = 2, xlab = "non-differentiable")
+plot(y = f3(x_base), x = x_base, type = "l", lwd = 2, xlab = "multiple minimizers")
+```
+
+
+
+
 
 **Example**
 
