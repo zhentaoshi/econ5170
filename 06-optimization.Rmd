@@ -427,8 +427,40 @@ innerloop <- function(b, y, X, Z, tau) {
     # Since the default of NLOPTR is to do minimization, need to set it as negative
     return(-mosek.out$sol$itr$pobjval)
   } else {
-    warning("WARNING: Inner 
-loop not optimized")
+    warning("WARNING: Inner loop not optimized")
+    return(Inf)
+  }
+}
+```
+
+The innerloop optimization can also be carried out by `CVXR`.
+
+```{r, rel_cvxr, cache=TRUE}
+
+innerloop.cvxr <- function(b, y = NULL, X = NULL, Z = NULL, tau = NULL){
+  
+  n <- nrow(Z)
+  m <- ncol(Z)
+  
+  H <- MomentMatrix(y, X, Z, b)
+  
+  p = Variable(n)
+  constr = list(sum(p) == 1,
+                p >= 0,
+                p <= 1,
+                H %*% p >= -tau,
+                H %*% p <= tau)
+  
+  obj = sum(log(p))
+  obj = Maximize(obj)
+  
+  Prob = Problem(obj, constr)
+  cvxr.out = solve(Prob)
+  
+  if (cvxr.out$status == "optimal") {
+    return(-cvxr.out$value)
+  } else{
+    warning("WARNING: Inner loop not optimized")
     return(Inf)
   }
 }

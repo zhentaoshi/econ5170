@@ -348,7 +348,32 @@ where $w_j = 1 \bigg/ \left|\hat{\beta}_j^{(1)}\right|^a$ and $a\geq 1$ is a con
 
 
 In R,  `glmnet` or `LARS` implements Lasso, and `ncvreg` carries out SCAD. Adaptive Lasso
-can be done by setting the weight via the argument `penalty.factor` in `glmnet`.
+can be done by setting the weight via the argument `penalty.factor` in `glmnet`. 
+
+```{r}
+library(glmnet)
+
+n <- 100
+p <- 1000
+b0 <- c(rep(1,10), rep(0,p - 10))
+x <- matrix(rnorm(n*p), n, p)
+y <- 0.5 + x %*% b0 + rnorm(n)
+
+# Implement Lasso by glmnet
+
+cv_lasso <- cv.glmnet(x, y)
+lasso_result <- glmnet(x, y, lambda = cv_lasso$lambda.min)
+
+# Get weights
+b_temp <- as.numeric(lasso_result$beta)
+b_temp[b_temp == 0] <- 1e-8
+w <- 1/abs(b_temp) # Let gamma = 1
+
+# Implement Adaptive Lasso by glmnet
+cv_alasso <- cv.glmnet(x, y, penalty.factor = w)
+alasso_result <-
+  glmnet(x, y, penalty.factor = w, lambda = cv_alasso$lambda.min)
+```
 
 More methods are available if prediction of the response variables is the sole purpose of the regression.
 An intuitive one is called *stagewise forward selection*.
