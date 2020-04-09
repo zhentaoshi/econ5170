@@ -1,5 +1,5 @@
 ---
-title: "Computational Methods in Economics"
+title: "A Primer on Economic Data Science"
 author: "Zhentao Shi"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -22,7 +22,11 @@ Programming is an essential skill for researchers in economic analysis.
 I believe the best way to learn programming is via examples. These notes contain many executable  examples that illustrate R usage and econometric computational ideas.
 
 
-**to be developed**: econometrics is interdiscplinary study involving economics, statistics, operational research, and computational science.
+**to be developed**: 
+
+* econometrics is interdisciplinary study involving economics, statistics, operational research, and computational science.
+* Reading materials are for peruse. They are not too long. Usually written by experts in the particular topic and offers a big picture. Survey papers, or at least with a survey.
+* Open-source attitude. Stand on the shoulder of giants. Do not tend to be comprehensive. Because many topics have excellent writings. We refer to them. Do not reinvent the wheel.
 
 
 ## Personal Reflection {-}
@@ -57,7 +61,7 @@ R is not the only language available for computing. Why not Python?
 Python is a general purpose language, not a scientific computing language. 
 We need to import external modules even for basic numerical operations.
 For example, I personally don't like `np.mean`, `np.var` and `np.log`, and its index from 0.
-For basic matrix manupulation, the default behavior of `numpy` is different from R.
+For basic matrix manipulation, the default behavior of `numpy` is different from R.
 
 Why not Julia? Julia is too young to have a big community. 
 We would wait until it grows into more stable status. 

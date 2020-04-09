@@ -404,6 +404,7 @@ which does not adjust the coefficients fitted earlier.
 ## Reading
 
 * Efron and Hastie: Ch. 16
+* @athey2018impact
 
 
 

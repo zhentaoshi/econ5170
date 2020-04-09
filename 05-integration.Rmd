@@ -364,4 +364,17 @@ print(cat(
 plot(density(bhat2), main = "posterior from normal prior")
 ```
 
+## Future Writing
+
+* EM algorithm
+
+
+
+## Reading
+
+* @li2010indirect
+* Peng (2018), [Advanced Statistical Computing](https://bookdown.org/rdpeng/advstatcomp/), Ch. 5, Ch. 7.1-2
+
+
+
 ## References

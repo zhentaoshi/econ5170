@@ -529,8 +529,13 @@ innerloop.cvxr <- function(b, y = NULL, X = NULL, Z = NULL, tau = NULL) {
 ## Future writing plan
 
 * more convex optimization examples, for example Lasso, portfolio optimization (Shi, Su, and Xie 2020)
-
 * Add `ROI`.
+
+## Reading
+
+* @fu2018cvxr
+* @gao2018two
+* @epubwu5858
 
 
 ## References
