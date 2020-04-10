@@ -517,6 +517,14 @@ In the folder of `data_example`, we give a preliminary example
 of `flexdashboard`. It is very easy to convert a ggplot2 graph 
 into an HTML interactive graph by `plotly::ggplotly()`.
 
+
+
+### Future writing plan
+
+* Shiny app [tutorial](https://shiny.rstudio.com/tutorial/). I have included a shiny app in `data_example/shiny`.
+
+
+
 ## Reading
 
 Wickham and Grolemund: Ch 3, 10, 11, 21, and 26-30
