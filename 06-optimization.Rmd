@@ -333,7 +333,7 @@ Convex optimization is particularly important in high-dimensional problems. The 
 referred to @boyd2004convex for an accessible comprehensive treatment. They claim that
 "convex optimization is technology; all other optimizations are arts." This is true to some extent.
 
-```{r}
+```{r, fig.width=6, fig.height=2}
 f1 <- function(x) x^2
 f2 <- function(x) abs(x)
 f3 <- function(x) (-x - 1) * (x <= -1) + (0.4 * x - .2) * (x >= .5)
