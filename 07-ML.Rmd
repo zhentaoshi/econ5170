@@ -22,6 +22,8 @@ header-includes:
   - \usepackage{pgfplots}
   - \usetikzlibrary{shapes.geometric, arrows,chains,matrix,scopes}
   - \usepackage{caption}
+  - \usepackage{setspace}
+  - \singlespacing
 ---
 
 
@@ -30,6 +32,12 @@ header-includes:
 公输子削竹木以为鹊，成而飞之，三日不下。公输子自以为至巧。
 子墨子谓公输子曰：“子之为鹊也，不如匠之为车辖，须臾刘三寸之木，而任五十石之重。”
 故所为功，利于人谓之巧，不利于人谓之拙。
+
+```{r setup}
+library(magrittr)
+set.seed(2020 - 4 - 15)
+```
+
 
 Machine learning has quickly grown into a big field, with applications from
 scientific research to daily life.
@@ -142,7 +150,17 @@ histogram depends on the partition of the support. If the grid system on the sup
 fine, then each bin will have only a few observations. Despite small bias, the estimation
 will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff is the defining feature not only for nonparametric estimation but for all machine learning methods.
 
-* [Add three graphs of histogram later]
+```{r,cache = TRUE, fig.width=6, fig.height=2}
+n <- 100
+x <- rnorm(n)
+
+par(mfrow = c(1, 3))
+par(mar = c(4, 2, 1, 2))
+
+hist(x, breaks = 5)
+hist(x, breaks = 15)
+hist(x, breaks = 60)
+```
 
 
 \begin{figure}
@@ -240,8 +258,8 @@ theoretical proposal is either using an *information criterion*
     (c) {(Out of Sample) Testing Data};
   \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a]
     (d) {Fitted model} ;
-  \node[ellipse, draw=blue,fill=black!0, right= of d, text width=3.5cm, align=center]
-    (e) {Best tuning Parameter \\ (Model)};
+  \node[ellipse, draw=blue,fill=black!0, right= 10 mm of d, text width=3.5cm, align=center]
+    (e) {Best tuning Parameter (Model)};
   \node[ellipse, draw, left = 20 mm of d, loosely dashed]
     (f)
     [label = below: \textcolor{black!40}{Many Sets of Tuning Parameters}]
@@ -325,6 +343,13 @@ distinguish the relevant variables from the irrelevant ones.
 \caption{Lasso with two parameters}
 \end{figure}
 
+
+\begin{figure}
+\centering
+\includegraphics[width = 10cm]{graph/SCAD}
+\caption{SCAD criterion and quadratic approximation}
+\end{figure}
+
 Another successful variable selection method is smoothly-clipped-absolute-deviation (SCAD)
 [@fan2001variable]. Its criterion function is
 $$
@@ -350,29 +375,41 @@ where $w_j = 1 \bigg/ \left|\hat{\beta}_j^{(1)}\right|^a$ and $a\geq 1$ is a con
 In R,  `glmnet` or `LARS` implements Lasso, and `ncvreg` carries out SCAD. Adaptive Lasso
 can be done by setting the weight via the argument `penalty.factor` in `glmnet`. 
 
-```{r}
-library(glmnet)
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+n <- 40
+p <- 50
+b0 <- c(rep(1, 10), rep(0, p - 10))
+x <- matrix(rnorm(n * p), n, p)
+y <- x %*% b0 + rnorm(n)
 
-n <- 100
-p <- 1000
-b0 <- c(rep(1,10), rep(0,p - 10))
-x <- matrix(rnorm(n*p), n, p)
-y <- 0.5 + x %*% b0 + rnorm(n)
-
+ols <- MASS::ginv(t(x) %*% x) %*% (t(x) %*% y) # OLS
 # Implement Lasso by glmnet
-
-cv_lasso <- cv.glmnet(x, y)
-lasso_result <- glmnet(x, y, lambda = cv_lasso$lambda.min)
+cv_lasso <- glmnet::cv.glmnet(x, y)
+lasso_result <- glmnet::glmnet(x, y, lambda = cv_lasso$lambda.min)
 
 # Get weights
 b_temp <- as.numeric(lasso_result$beta)
 b_temp[b_temp == 0] <- 1e-8
-w <- 1/abs(b_temp) # Let gamma = 1
+w <- 1 / abs(b_temp) # Let gamma = 1
 
 # Implement Adaptive Lasso by glmnet
-cv_alasso <- cv.glmnet(x, y, penalty.factor = w)
+cv_alasso <- glmnet::cv.glmnet(x, y, penalty.factor = w)
 alasso_result <-
-  glmnet(x, y, penalty.factor = w, lambda = cv_alasso$lambda.min)
+  glmnet::glmnet(x, y, penalty.factor = w, lambda = cv_alasso$lambda.min)
+
+plot(b0, ylim = c(-0.8, 1.5), pch = 4, xlab = "", ylab = "coefficient")
+points(lasso_result$beta, col = "red", pch = 6)
+points(alasso_result$beta, col = "blue", pch = 5)
+points(ols, col = "green", pch = 3)
+
+# out of sample prediction
+x_new <- matrix(rnorm(n * p), n, p)
+y_new <- x_new %*% b0 + rnorm(n)
+lasso_msfe <- (y_new - predict(lasso_result, newx = x_new )) %>% var()
+alasso_msfe <- (y_new - predict(alasso_result, newx = x_new )) %>% var()
+ols_msfe <- (y_new - x_new%*%ols ) %>% var()
+
+print(c(lasso_msfe, alasso_msfe, ols_msfe))
 ```
 
 More methods are available if prediction of the response variables is the sole purpose of the regression.
@@ -382,23 +419,17 @@ produce the biggest $R^2$. This method is similar to the idea of $L_2$ component
 which does not adjust the coefficients fitted earlier.
 
 
-
-## Unstructured Data
-
-* text [@gentzkow2017text]
-* speech recognition
-* photo recognition
-
 ## Shrinkage Estimation in Econometrics
 
-* @su2016identifying
-* @shi2016estimation
-* @lee2018
+* @su2016identifying: use shrinkage estimation for classification
+* @shi2016estimation: convergence rate of GMM Lasso
+* @lee2018: Lasso and adaptive Lasso in predictive regression
+* @shi2019forward: forward selection
 
 ## Empirical Applications
-* @lehrer2017box
-* @feng2019taming
-* @chinco2017sparse
+* @lehrer2017box: movie box office
+* @feng2019taming: factor zoo, compare machine learning methods
+* @chinco2017sparse: financial market, Lasso prediction
 
 
 ## Reading

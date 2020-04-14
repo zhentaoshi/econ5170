@@ -21,6 +21,8 @@ header-includes:
   - \usepackage{graphics}
   - \usepackage{pgfplots}
   - \usepackage{caption}
+  - \usepackage{setspace}
+  - \singlespacing
 ---
 
 # Prediction-Oriented Algorithms
@@ -137,8 +139,8 @@ tree in each iteration is the deepest descent direction, while the shrinkage tam
 
 
 * @shi2016econometric proposes a greedy algorithm in similar spirit to boosting for moment selection in GMM.
-* Phillips and Shi (2018, to be released) uses $L_2$-boosting as a boosted version of the Hodrick-Prescott filter.
-* Shi and Huang (2018, to be released)
+* @phillips2019boosting (2018, to be released) uses $L_2$-boosting as a boosted version of the Hodrick-Prescott filter.
+* @shi2019forward
 
 
 
