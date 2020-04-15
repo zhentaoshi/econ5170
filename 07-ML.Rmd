@@ -231,16 +231,16 @@ where $\lambda$ is the tuning parameter such that $\lambda \to 0$ as $n\to \inft
 $f_k(x_i) = \cos \left(\frac{k}{2}\pi x_i \right)$. In compact notation, let $y=(y_1,\ldots,y_n)'$ and
 $X = (X_{ik} = f_k(x_i) )$, the above problem can be written as
 $$
-(2n)^{-1} (Y-X\beta)'(Y-X\beta) + \lambda \Vert \beta \Vert_2 ^2
+(2n)^{-1} (Y-X\beta)'(Y-X\beta) + \lambda \Vert \beta \Vert_2 ^2,
 $$
-This is the *ridge regression* proposed in 1970's.
+and this optimization has an explicit solution $\hat{\beta} = (X'X+\lambda I)^{-1} X'Y$. This is the *ridge regression* proposed in 1970's.
  This penalization scheme is very similar
 to what we will discuss in the next section in variable selection.
 
 The practical question is, given a regularization problem, how to choose the tuning
 parameter? This is a difficult statistical problem with active research. The main
 theoretical proposal is either using an *information criterion*
-(for example, Akaike information criterion or Bayesian information criterion), or *cross validation*.
+(for example, Akaike information criterion $\log\hat{\sigma}^2 + 2K$ or Bayesian information criterion $\log\hat{\sigma}^2 + K\log n$ ), or *cross validation*.
 
 
 ## Data Splitting
@@ -290,16 +290,24 @@ In order to avoid overfitting it is essential to tune at least a few tuning para
 
 Most machine learning methods take an agnostic view about the DGP, and they explicitly
 acknowledge model uncertainty. To address the issue of model selection (tuning parameter selection),
-in a data rich environment we can split the data into three parts. A training dataset
-is used to fit the model parameter given the tuning parameters. A validation dataset is
+in a data rich environment we split the data into three parts. A *training dataset*
+is used to fit the model parameter given the tuning parameters. A *validation dataset* is
 used to compare the out-of-sample performance under different tuning parameters.
-It helps decide a set of desirable tuning parameters. Ideally, the testing sample should be
+It helps decide a set of desirable tuning parameters. Ideally, the *testing sample* should be
 kept by a third party away from the modeler. The testing sample is the final
 judge of the relative merit of the fitted models.
 
 The R package `caret` (Classification And REgression Training) provides a framework for many machine learning methods.
 The function [`createDataPartition`](https://topepo.github.io/caret/data-splitting.html)
-splits the sample for both cross sectional data and time series.
+splits the sample for both cross-sectional data and time series.
+
+
+
+### Cross Validation
+
+An $S$-fold cross validation partitions the dataset into $S$ disjoint sections. In each iteration, it picks one of the sections as the validation sample and the other $S-1$ sections as the training sample, and computes an out-of-sample goodness-of-fit measurement, for example *mean-squared prediction error* ${n_v}^{-1} \sum_{i \in val} (y_i - \hat{y}_i)^2$ where $val$ is the validation set and $n_v$ is its cardinality,  or *mean-absolute prediction error* ${n_v}^{-1}\sum_{i \in val} |y_i - \hat{y}_i|$. Repeat this process for $S$ times so that each of the $S$ sections are treated as the validation sample, and average the goodness-of-fit measurement over the $S$ sections to determined the best tuning parameter. If $S=n-1$, it is called *leave-one-out cross validation*, but it can be computationally too expensive when  $n$ is big. Instead, in practice we can  $S=5$ for 10, called 5-fold cross validation or 10-fold cross validation, respectively.
+
+
 
 
 ## Variable Selection and Prediction
@@ -331,7 +339,9 @@ The criterion function of Lasso is written as
 $$
 (2n)^{-1} (Y-X\beta)'(Y-X\beta) + \lambda \Vert \beta \Vert_1
 $$
-where $\lambda \geq 0$ is a tuning parameter. In a wide range of values of $\lambda$,
+where $\lambda \geq 0$ is a tuning parameter. Unlike OLS or ridge regression, Lasso does not have a closed-form solution. Fortunately, it is an convex optimization so numerical optimization is fast and reliable for high-dimensional parameter. 
+
+In a wide range of values of $\lambda$,
 Lasso can shrink some coefficients exactly to 0, which suggests that these variables are likely to be
 irrelevant in the regression. However, @zou2006adaptive finds that Lasso cannot consistently
 distinguish the relevant variables from the irrelevant ones.
@@ -405,12 +415,28 @@ points(ols, col = "green", pch = 3)
 # out of sample prediction
 x_new <- matrix(rnorm(n * p), n, p)
 y_new <- x_new %*% b0 + rnorm(n)
-lasso_msfe <- (y_new - predict(lasso_result, newx = x_new )) %>% var()
-alasso_msfe <- (y_new - predict(alasso_result, newx = x_new )) %>% var()
-ols_msfe <- (y_new - x_new%*%ols ) %>% var()
+lasso_msfe <- (y_new - predict(lasso_result, newx = x_new)) %>% var()
+alasso_msfe <- (y_new - predict(alasso_result, newx = x_new)) %>% var()
+ols_msfe <- (y_new - x_new %*% ols) %>% var()
 
 print(c(lasso_msfe, alasso_msfe, ols_msfe))
 ```
+We can DIY Lasso by `CVXR`. 
+
+```{r, cache=TRUE, message = FALSE, warning = FALSE}
+library(CVXR)
+
+lambda <- 2 * cv_lasso$lambda.min # tuning parameter
+
+# CVXR for Lasso
+beta_cvxr <- Variable(p)
+obj <- sum_squares(y - x %*% beta_cvxr) / (2 * n) + lambda * p_norm(beta_cvxr, 1)
+prob <- Problem(Minimize(obj))
+lasso_cvxr <- solve(prob)
+beta_cvxr_hat <- lasso_cvxr$getValue(beta_cvxr) %>% as.vector() %>% print()
+```
+
+
 
 More methods are available if prediction of the response variables is the sole purpose of the regression.
 An intuitive one is called *stagewise forward selection*.
