@@ -11,7 +11,7 @@ library(shiny)
 
 f <- function(x) 0.1 * (x - 5)^2 + cos(x) # criterion
 s <- function(x) 0.2 * (x - 5) - sin(x) # gradient
-h <- function(x) 0.2 * x - cos(x) # Hessian
+h <- function(x) 0.2 - cos(x) # Hessian
 
 
 ######################################################
@@ -46,11 +46,11 @@ ui <- fluidPage(
 
 
 server <- function(input, output) {
-  
-  
+
+
   genSeq <- function(x) {# generate the sequence of in the update
     # x: initial value
-    
+
     x_seq <- numeric()
     i <- 1
     gap <- 1
@@ -68,13 +68,13 @@ server <- function(input, output) {
     return(x_seq)
   }
 
-  
+
   output$distSeq <- renderTable({ # the values of the sequence
     x_seq <- genSeq(input$init)
     tibble::tibble(no = 1:length(x_seq), seq = x_seq)
   })
 
-  
+
   output$distPlot <- renderPlot({ # the graphic demo
 
     x_seq <- genSeq(input$init)

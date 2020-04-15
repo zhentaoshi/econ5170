@@ -63,7 +63,7 @@ $s(\theta) = \partial f(\theta) / \partial \theta = 0$.
 ```{r}
 f <- function(x) 0.1 * (x - 5)^2 + cos(x) # criterion
 s <- function(x) 0.2 * (x - 5) - sin(x) # gradient
-h <- function(x) 0.2 * x - cos(x) # Hessian
+h <- function(x) 0.2 - cos(x) # Hessian
 
 # plot
 par(mfrow = c(3, 1))
