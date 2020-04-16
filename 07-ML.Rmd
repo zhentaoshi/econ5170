@@ -89,7 +89,7 @@ Finally, we interpret the results and hopefully they shed light on economics.
 
 % Nodes
     \node [draw, ellipse] (a) at (2,6) {Model};
-    \node [draw, ellipse] (b) at (8,6) {Estimation};
+    \node [draw, ellipse] (b) at (8,6) {abstract data};
     \node [color=black!40](c) at (1,5) {Population};
     \node (d) at (5,4) {Estimation};
     \node [color=black!40](e) at (1,2) {Sample};
@@ -136,7 +136,6 @@ whereas *nonparametric* is associated with an infinite number of parameters.
 Nonparametric estimation is nothing new to statisticians. However, some ideas
 in this old topic is directly related to the underlying principles of machine learning methods.
 
-
 Consider the density estimation given a sample $(x_1,\ldots,x_n)$. If we assume that
 the sample is drawn from a parametric family, for example the normal distribution, then we can use the
 maximum likelihood estimation to learn the mean and the variance.
@@ -150,16 +149,22 @@ histogram depends on the partition of the support. If the grid system on the sup
 fine, then each bin will have only a few observations. Despite small bias, the estimation
 will suffer a large variance. On the other hand, if the grid system is too coarse, then each bin will be wide. It causes big bias, though the variance is small because each bin contains many observations. There is an bias-variance tradeoff. This tradeoff is the defining feature not only for nonparametric estimation but for all machine learning methods.
 
-```{r,cache = TRUE, fig.width=6, fig.height=2}
-n <- 100
-x <- rnorm(n)
+```{r,cache = TRUE, fig.width=7, fig.height=6}
+n <- 200
 
-par(mfrow = c(1, 3))
-par(mar = c(4, 2, 1, 2))
+par(mfrow = c(3, 3))
+par(mar = c(1, 1, 1, 1))
 
-hist(x, breaks = 5)
-hist(x, breaks = 15)
-hist(x, breaks = 60)
+x_base <- seq(0.01,1,by = 0.01)
+breaks_list = c(4, 12, 60)
+
+for (ii in 1:3){
+  x <- rbeta(n, 2, 2) # beta distribution
+  for ( bb in breaks_list){
+    hist(x, breaks = bb, main="", freq = FALSE, ylim = c(0,3),xlim = c(0,1))
+    lines( y = dbeta( x_base, 2, 2), x = x_base , col = "red" )
+  }
+}
 ```
 
 
@@ -282,7 +287,6 @@ theoretical proposal is either using an *information criterion*
 \caption{Learning workflow}
 \end{figure}
 
-
 The workflow of machine learning methods is quite different from econometrics. The main purpose is often prediction instead of interpretation.
 They use some "off-the-shelf" generic learning methods, and
 the models are measured by their performance in prediction.
@@ -343,7 +347,9 @@ where $\lambda \geq 0$ is a tuning parameter. Unlike OLS or ridge regression, La
 
 In a wide range of values of $\lambda$,
 Lasso can shrink some coefficients exactly to 0, which suggests that these variables are likely to be
-irrelevant in the regression. However, @zou2006adaptive finds that Lasso cannot consistently
+irrelevant in the regression. This phenomenon is similar to "corner solution" that we solve utility maximization in microeconomics. 
+
+In terms of theoretical property, @zou2006adaptive finds that Lasso cannot consistently
 distinguish the relevant variables from the irrelevant ones.
 
 
