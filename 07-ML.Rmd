@@ -329,6 +329,47 @@ widely used for analysis of demand theory and family consumption,
 consists of thousand of questions.
 @giannone2017economic [link](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3031893) experiment variable selection methods in 6 widely used economic datasets with many predictors.
 
+**Hazard of model selection** To elaborate the distortion of test size when the $t$ statistic is selected from two models in pursuit of significance.
+$$
+\begin{pmatrix}y\\
+x_{1}\\
+x_{2}
+\end{pmatrix}\sim N\left(0,\begin{pmatrix}1 & 0 & 0\\
+0 & 1 & \sqrt{0.5}\\
+0 & \sqrt{0.5} & 1
+\end{pmatrix}\right)
+$$
+Both $x_1$ and $x_2$ are independent of $y$. The test size dependens on the correlation between the two regressors.
+If the test is conducted for a single model, the size is the pre-specified 10%.
+If we try two models, the size is inflated to about 17%. 
+
+
+```{r, cache=TRUE}
+n <- 100
+Rep <- 5000
+
+t_stat <- function(y, x) {
+  beta_hat <- sum(x * y) / sum(x^2)
+  e_hat <- y - beta_hat * x
+  sigma2_hat <- var(e_hat)
+  t_stat <- beta_hat / sqrt(sigma2_hat / sum(x^2))
+  return(t_stat)
+}
+
+res <- matrix(NA, Rep, 2)
+
+for (r in 1:Rep) {
+  y <- rnorm(n)
+  x1 <- rnorm(n)
+  x2 <- sqrt(0.5) * x1 + sqrt(0.5) * rnorm(n)
+
+  res[r, ] <- c(t_stat(y, x1), t_stat(y, x2))
+}
+
+print(mean(apply(abs(res), 1, max) > qnorm(0.95)))
+```
+
+
 Conventionally, applied economists do not appreciate the problem of variable selection, even though they always select variables implicitly. They rely on their prior knowledge to
 choose variables from a large number of potential candidates.
 Recently years economists wake up from the long lasting negligence.
