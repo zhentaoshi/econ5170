@@ -313,6 +313,18 @@ An $S$-fold cross validation partitions the dataset into $S$ disjoint sections. 
 
 
 
+\begin{figure}
+\centering
+\includegraphics[width = 14cm]{graph/CV_Figure}
+\caption{Rolling window time series cross validation}
+\end{figure}
+
+
+
+In time series context, cross validation must preserve the dependence structure. If the time series is stationary, we can partition the data into $S$ consecutive blocks. If the purpose is ahead-of-time forecasting, then we can use nested CV. The figure shows a nested CV with fixed-length rolling window scheme, while the sub-training data can also be an extending rolling window. 
+
+
+
 
 ## Variable Selection and Prediction
 
