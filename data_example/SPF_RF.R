@@ -1,16 +1,27 @@
+# an example from Cheng, Huang and Shi (2020)
+# authored by Ka Yan Cheng
+# revised by Zhentao Shi (2020-4-20)
+
+
+# the script can be finished within 5 minutes
+
+
+
+
+
 # 1. Prepare the required packages
-library(readxl)
+
 library(doParallel)
 library(ranger)
 library(caret)
 
 # 2. Parallel Computing
-cluster <- makeCluster(detectCores() - 1)
+cluster <- makeCluster(detectCores() - 1) # leave only one idle core
 registerDoParallel(cluster)
 
 # 3. Import the data
 # SPF : Survey of Professional Forecasters;
-rawdata <- read_excel("SPF_Individual.xlsx")
+rawdata <- readxl::read_excel("SPF_Individual.xlsx")
 
 # 4. Data useful for analysis (Dropping the first column recording the date)
 mydata <- as.matrix(rawdata[, -c(1)])
@@ -82,12 +93,13 @@ validation_timecontrol <- lapply(fit_time_slices$train, function(x) {
 })
 
 
-# 7. Train data on the Random Forest Model (rf) using the "ranger" package
+# 7. Train data on the Random Forest Model (rf)
+# using the "ranger" package
 rf_tuneGrid <- expand.grid(
-  mtry = seq(5, 20, 5), # (5,10,15,20)
+  mtry = seq(5, 20, 5),
   splitrule = c("variance"),
   min.node.size = seq(30, 50, 10)
-) # (30,40,50)
+)
 
 n_models <- nrow(mydata) - sampling_setting$initialWindow - 1
 
@@ -104,7 +116,7 @@ for (i in 1:n_models) {
   rf.mod[[i]] <- train(Actual_inflation ~ .,
     data = mydata[start:end, ],
     metric = "RMSE",
-    method = "ranger",
+    method = "ranger", # call random forecast
     tuneGrid = rf_tuneGrid,
     trControl = valid
   )
@@ -122,7 +134,7 @@ for (i in 1:n_models) {
   predictions_rf.mod[i] <- predict(rf.mod[[i]]$finalModel, test_predictors)
 }
 
-predictions_rf.mod <- unlist(predictions_rf.mod)yes
+predictions_rf.mod <- unlist(predictions_rf.mod)
 
 
 
@@ -151,7 +163,7 @@ MAE_rf.mod <- mae(predictions = predictions_rf.mod, observe = testdata)
 # 10. Result
 result <- cbind(RMSE_rf.mod, MAE_rf.mod)
 
-result
+print(result)
 
 #                 RMSE_rf.mod MAE_rf.mod
 # rollwindow_f       1.127272  0.8453679
