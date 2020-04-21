@@ -31,7 +31,7 @@ library(keras)
 boston_housing <- dataset_boston_housing()
 # this data has training x y and test x y
 
-c(train_data, train_labels) %<-% boston_housing$train 
+c(train_data, train_labels) %<-% boston_housing$train
 # %<-% is a function in the packge `zeallot`
 # 'label` is the dependent variable y
 
@@ -43,7 +43,7 @@ c(test_data, test_labels) %<-% boston_housing$test
 
 
 library(tibble) # a package for data fame
-column_names <- c('CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 
+column_names <- c('CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE',
                   'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT')
 # give names to the feature dataset
 
@@ -55,7 +55,7 @@ train_data <- scale(train_data)
 
 
 # Here we use means and standard deviations from training set to normalize test set
-col_means_train <- attr(train_data, "scaled:center") 
+col_means_train <- attr(train_data, "scaled:center")
 col_stddevs_train <- attr(train_data, "scaled:scale")
 test_data <- scale(test_data, center = col_means_train, scale = col_stddevs_train)
 
@@ -64,32 +64,32 @@ test_data <- scale(test_data, center = col_means_train, scale = col_stddevs_trai
 
 
 ###################################################
-# Model Building 
+# Model Building
 # From this point on, I have difficulty understanding given limited knowledge
-# of statistical learning. I will refer to other useful links when needed. 
+# of statistical learning. I will refer to other useful links when needed.
 
 build_model <- function() {
-  
+
 # This is a sequential model with 2 hidden dense layers, and 1 output layer
 # Model types: Sequential -> linear layers; Functional -> other types
   # Details: https://tensorflow.rstudio.com/keras/articles/about_keras_models.html
 # Layer types: see https://tensorflow.rstudio.com/keras/articles/about_keras_layers.html
   # For dense layer we are using, see https://keras.rstudio.com/reference/layer_dense.html
 
-  
-  # this is a sequential model that allows the user to add one layer after another  
+
+  # this is a sequential model that allows the user to add one layer after another
   model <- keras_model_sequential() %>%
     layer_dense(units = 64, activation = "relu",  # "relu" is "rectifier linear unit"
-                input_shape = dim(train_data)[2]) %>%   
+                input_shape = dim(train_data)[2]) %>%
     layer_dense(units = 64, activation = "relu") %>%
     layer_dense(units = 1)
-  
+
   model %>% compile(
     loss = "mse",
     optimizer = optimizer_rmsprop(),
     metrics = list("mean_absolute_error")
   )
-  
+
   model
 }
 
@@ -112,7 +112,7 @@ history <- model %>% fit(
   train_data,
   train_labels,
   epochs = 500,verbose = 0,
-  validation_split = 0.2) 
+  validation_split = 0.2)
 # verbose=0 -> Silent when fitting
 # epochs = number of epochs to train the model (An epoch is one iteration over the entire input data)
 
