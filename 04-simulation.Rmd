@@ -28,7 +28,6 @@ geometry: margin=1in
 
 # Simulation
 
-若夫乘天地之正，而御六气之辩，以游无穷者，彼且恶乎待哉
 
 
 ```{r setup, include=TRUE}

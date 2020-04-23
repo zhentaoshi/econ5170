@@ -29,14 +29,7 @@ header-includes:
 
 # From Nonparametrics to Machine Learning
 
-公输子削竹木以为鹊，成而飞之，三日不下。公输子自以为至巧。
-子墨子谓公输子曰：“子之为鹊也，不如匠之为车辖，须臾刘三寸之木，而任五十石之重。”
-故所为功，利于人谓之巧，不利于人谓之拙。
 
-```{r setup}
-library(magrittr)
-set.seed(2020 - 4 - 15)
-```
 
 
 Machine learning has quickly grown into a big field, with applications from
@@ -82,35 +75,35 @@ we think about the problem of identification. Once the parameter of interest is 
 then we can proceed to parameter estimation and inference.
 Finally, we interpret the results and hopefully they shed light on economics.
 
-\begin{figure}
-\centering
-\begin{tikzpicture}[node distance=5mm]
-    %\draw[help lines] (0,0) grid (9,7);
+<!-- \begin{figure} -->
+<!-- \centering -->
+<!-- \begin{tikzpicture}[node distance=5mm] -->
+<!--     %\draw[help lines] (0,0) grid (9,7); -->
 
-% Nodes
-    \node [draw, ellipse] (a) at (2,6) {Model};
-    \node [draw, ellipse] (b) at (8,6) {abstract data};
-    \node [color=black!40](c) at (1,5) {Population};
-    \node (d) at (5,4) {Estimation};
-    \node [color=black!40](e) at (1,2) {Sample};
-    \node (f) at (5,2) {Inference};
-    \node (g) at (5,0) {Interpretation};
-    \node [color=black!40](h) at (1,0) {Economics};
+<!-- % Nodes -->
+<!--     \node [draw, ellipse] (a) at (2,6) {Model}; -->
+<!--     \node [draw, ellipse] (b) at (8,6) {abstract data}; -->
+<!--     \node [color=black!40](c) at (1,5) {Population}; -->
+<!--     \node (d) at (5,4) {Estimation}; -->
+<!--     \node [color=black!40](e) at (1,2) {Sample}; -->
+<!--     \node (f) at (5,2) {Inference}; -->
+<!--     \node (g) at (5,0) {Interpretation}; -->
+<!--     \node [color=black!40](h) at (1,0) {Economics}; -->
 
-% Arrows  
-    \draw[-latex] (a) to[bend right=10] node[above, yshift=2mm] {Identification}  (b);
-    \draw[-latex] (b) to[bend right=10]  (a);
-    \draw[-latex] (a) to[bend left=0]  (d);
-    \draw[-latex] (b) to[bend right=0]  (d);
-    \draw[-latex] (d) to[bend right=0]  (f);
-    \draw[-latex] (f) to[bend right=0]  (g);
+<!-- % Arrows   -->
+<!--     \draw[-latex] (a) to[bend right=10] node[above, yshift=2mm] {Identification}  (b); -->
+<!--     \draw[-latex] (b) to[bend right=10]  (a); -->
+<!--     \draw[-latex] (a) to[bend left=0]  (d); -->
+<!--     \draw[-latex] (b) to[bend right=0]  (d); -->
+<!--     \draw[-latex] (d) to[bend right=0]  (f); -->
+<!--     \draw[-latex] (f) to[bend right=0]  (g); -->
 
-% Lines
-    \draw[color=black!40,very thick] (0,1) -- (2,1);
-    \draw[color=black!40,very thick] (0,4) -- (2,4);
-\end{tikzpicture}
-\caption{Econometrics workflow}
-\end{figure}
+<!-- % Lines -->
+<!--     \draw[color=black!40,very thick] (0,1) -- (2,1); -->
+<!--     \draw[color=black!40,very thick] (0,4) -- (2,4); -->
+<!-- \end{tikzpicture} -->
+<!-- \caption{Econometrics workflow} -->
+<!-- \end{figure} -->
 
 Machine learning deviates from such routines.
 First, they argue efficiency is not crucial because the dataset itself is big enough so that the variance is usually small.
@@ -251,41 +244,42 @@ theoretical proposal is either using an *information criterion*
 ## Data Splitting
 
 
-\begin{figure}
-\centering
-\begin{tikzpicture}[node distance = 10 mm, thick, scale=1, transform shape]
-% Nodes
-  \node[ellipse, draw]
-    (a) [label=above left:$data$]{Training Data};
-  \node[ellipse, draw, right = of a]
-    (b) {Validation Data};
-  \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center]
-    (c) {(Out of Sample) Testing Data};
-  \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a]
-    (d) {Fitted model} ;
-  \node[ellipse, draw=blue,fill=black!0, right= 10 mm of d, text width=3.5cm, align=center]
-    (e) {Best tuning Parameter (Model)};
-  \node[ellipse, draw, left = 20 mm of d, loosely dashed]
-    (f)
-    [label = below: \textcolor{black!40}{Many Sets of Tuning Parameters}]
-    {Model};
+<!-- \begin{figure} -->
+<!-- \centering -->
+<!-- \begin{tikzpicture}[node distance = 10 mm, thick, scale=1, transform shape] -->
+<!-- % Nodes -->
+<!--   \node[ellipse, draw] -->
+<!--     (a) [label=above left:$data$]{Training Data}; -->
+<!--   \node[ellipse, draw, right = of a] -->
+<!--     (b) {Validation Data}; -->
+<!--   \node[ellipse, draw=red,fill=black!0, right = of b, text width=3cm, align=center] -->
+<!--     (c) {(Out of Sample) Testing Data}; -->
+<!--   \node[ellipse, draw=blue,fill=black!0, below right = 20 mm of a] -->
+<!--     (d) {Fitted model} ; -->
+<!--   \node[ellipse, draw=blue,fill=black!0, right= 10 mm of d, text width=3.5cm, align=center] -->
+<!--     (e) {Best tuning Parameter (Model)}; -->
+<!--   \node[ellipse, draw, left = 20 mm of d, loosely dashed] -->
+<!--     (f) -->
+<!--     [label = below: \textcolor{black!40}{Many Sets of Tuning Parameters}] -->
+<!--     {Model}; -->
 
-% Arrows
-    \draw [->, black] (a) -- (d);
-    \draw [->, blue] (d) -- (b);
-    \draw [->, blue] (b) -- (e);
-    \draw [->, blue] (e) -- (c);
-    \draw [->, black, loosely dashed] (f) -- (d);
+<!-- % Arrows -->
+<!--     \draw [->, black] (a) -- (d); -->
+<!--     \draw [->, blue] (d) -- (b); -->
+<!--     \draw [->, blue] (b) -- (e); -->
+<!--     \draw [->, blue] (e) -- (c); -->
+<!--     \draw [->, black, loosely dashed] (f) -- (d); -->
 
-% Caption    
-  \node[below = of d] {
-        \begin{tabular}{l}
-            $\bullet$ Data splitting can be done by cross validation \\
-            $\bullet$ A data driven approach for feature selection
-        \end{tabular}};
-\end{tikzpicture}
-\caption{Learning workflow}
-\end{figure}
+<!-- % Caption     -->
+<!--   \node[below = of d] { -->
+<!--         \begin{tabular}{l} -->
+<!--             $\bullet$ Data splitting can be done by cross validation \\ -->
+<!--             $\bullet$ A data driven approach for feature selection -->
+<!--         \end{tabular}}; -->
+<!-- \end{tikzpicture} -->
+<!-- \caption{Learning workflow} -->
+<!-- \end{figure} -->
+
 
 The workflow of machine learning methods is quite different from econometrics. The main purpose is often prediction instead of interpretation.
 They use some "off-the-shelf" generic learning methods, and

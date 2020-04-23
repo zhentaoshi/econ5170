@@ -20,14 +20,12 @@ output:
 description: "nothing"
 geometry: margin=1in
 ---
-```{r setup}
-library(magrittr)
-```
+
 
 
 # Numerical Optimization
 
-止于至善
+
 
 Except for a few Bayesian estimators, almost all estimators in econometrics, such as OLS, MLE, 2SLS, and GMM, are optimizers of some criterion functions. Understanding how to construct an optimization problem and how to implement optimization by oneself is the key step to transform from a consumer of econometrics to a developer of econometrics. Unfortunately,  traditionally econometrics curriculum does not pay enough attention in numerical optimization. The consequence is that many students rely on the procedures that the econometric packages offer. They are unable to tailor econometric methods for their purposes; instead, they modify their data to meet standard econometric methods.
 

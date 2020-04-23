@@ -31,7 +31,7 @@ geometry: margin=1in
 
 # Basic R
 
-安得倚天剑，跨海斩长鲸
+
 
 
 ## Introduction
@@ -196,7 +196,7 @@ alternative data frame type.
 
 This is a data set in a graduate-level econometrics textbook. We load the data into memory and display the first 6 records.
 
-```{r,message=FALSE}
+```{r,message=FALSE,warning=FALSE}
 library(AER)
 data("CreditCard")
 head(CreditCard)
