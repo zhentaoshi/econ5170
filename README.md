@@ -16,11 +16,11 @@ Zhentao covers the following topics. This README file will be updated as the cou
   * Lecture 1: Basic R [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/01-basic_R.pdf)
   * Lecture 2: Advanced R [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/02-advanced_R.pdf)
 * Part II: Econometrics
-  * Lecture 3: Simulation and Integration [[pdf1]](https://github.com/zhentaoshi/econ5170/blob/master/04-simulation.pdf) [[pdf2]](https://github.com/zhentaoshi/econ5170/blob/master/05-integration.pdf)
-  * Lecture 4: Numerical Optimization [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/06-optimization.pdf)
+  * Lecture 3: Simulation and Integration [[pdf1]](https://github.com/zhentaoshi/econ5170/blob/master/03-simulation.pdf) [[pdf2]](https://github.com/zhentaoshi/econ5170/blob/master/03-integration.pdf)
+  * Lecture 4: Numerical Optimization [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/04-optimization.pdf)
 * Part III: Machine Learning
-  * Lecture 5: From Nonparametrics to Machine Learning [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/07-ML.pdf)
-  * Lecture 6: Prediction-Oriented Algorithms [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/08-ML2.pdf)
+  * Lecture 5: From Nonparametrics to Machine Learning [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/05-ML.pdf)
+  * Lecture 6: Prediction-Oriented Algorithms [[pdf]](https://github.com/zhentaoshi/econ5170/blob/master/06-ML2.pdf)
 
 #### Lecture Notes
 
