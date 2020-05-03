@@ -1,4 +1,4 @@
-
+rm(list = ls())
 
 library(quantmod)
 
@@ -7,7 +7,7 @@ stock <- readr::read_csv(
 )
 
 
-data <- list()
+SH_data <- list()
 for (i in 1:length(stock$id)) {
   try(setSymbolLookup(TEMP = list(name = paste0(stock$id[i], ".ss"))))
   try(getSymbols("TEMP", warnings = F))
@@ -15,10 +15,13 @@ for (i in 1:length(stock$id)) {
 }
 
 
-library(plyr)
-closedata <- lapply(data, function(x) {
-  x <- as.data.frame(x)
-  return(list(x[, 4]))
-})
+# library(plyr)
+# closedata <- lapply(data, function(x) {
+#   x <- as.data.frame(x)
+#   return(list(x[, 4]))
+# })
+# 
+# ldply(closedata, function(x) summary(x[[1]]))
 
-ldply(closedata, function(x) summary(x[[1]]))
+save(SH_data, file = paste0("SH_data_", Sys.Date(), ".Rdata") )
+     
