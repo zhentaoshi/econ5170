@@ -510,6 +510,7 @@ which does not adjust the coefficients fitted earlier.
 * @shi2016estimation: convergence rate of GMM Lasso
 * @lee2018: Lasso and adaptive Lasso in predictive regression
 * @shi2019forward: forward selection
+* @shi2020high: latent group in forecast combination
 
 ## Empirical Applications
 * @lehrer2017box: movie box office
