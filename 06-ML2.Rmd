@@ -27,11 +27,6 @@ header-includes:
 
 # Prediction-Oriented Algorithms
 
-一切有为法，如梦幻泡影，如露亦如电。
-
-```{r setup, include=TRUE}
-set.seed(2020-4-22)
-```
 
 In this lecture, we introduce supervised learning methods that induces
 data-driven interaction of the covariates.
