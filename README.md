@@ -2,12 +2,6 @@ The Chinese University of Hong Kong
 
 ## Econ5170:  Computational Methods in Economics (2020 Spring)
 
-* Time: Starting from March 18, 20202. Every Wednesday 3:30--6:15, except public holidays
-
-Naijia Guo and Zhentao Shi co-teach Econ5170.
-
-Zhentao covers the following topics. This README file will be updated as the course progresses. Code scripts will be provided.
-
 
 #### Outline
 
@@ -40,4 +34,4 @@ Lecture notes are provided under this root folder in `*.pdf`.
 
 #### License
 
-All materials in this repository licensed under GNU General Public License v3.0.
+All materials in this repository are licensed under GNU General Public License v3.0.
