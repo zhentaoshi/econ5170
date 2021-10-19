@@ -1,5 +1,5 @@
 # Zhentao Shi, 4/11/2020
-# this is my first shiny app
+
 # it demonstrates the Newton's method to look for
 # local optimizer
 
