@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preface &#8212; A Primer on Economic Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Basic R" href="01-basic_R.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">A Primer on Economic Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 current">
+  <a class="reference internal" href="#">
+   Preface
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-basic_R.html">
+   Basic R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-advanced_R.html">
+   Advanced R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-simulation.html">
+   Simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-integration.html">
+   Integration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-optimization.html">
+   Numerical Optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-ML.html">
+   From Nonparametrics to Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-ML2.html">
+   Prediction-Oriented Algorithms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-data_work.html">
+   Data Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-git.html">
+   Git
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/zhentaoshi/econ5170"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/zhentaoshi/econ5170/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#personal-reflection">
+   Personal Reflection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisite">
+   Prerequisite
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#structure">
+   Structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Preface</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#personal-reflection">
+   Personal Reflection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisite">
+   Prerequisite
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#structure">
+   Structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="preface">
+<h1>Preface<a class="headerlink" href="#preface" title="Permalink to this headline">¶</a></h1>
+<p>This course was offered since 2015, as a response to postgraduate students’ repeatedly request for training in coding skills.
+Programming is an essential skill for researchers in economic analysis.
+In the time of big data, empirical economic research becomes main stream.</p>
+<p>I believe the best way to learn programming is to follow examples. These notes contain executable examples that illustrate R usage and econometric computational ideas.</p>
+<p>Econometrics is interdisciplinary study involving economics, statistics, operational research, and computational science. No matter how beautiful is the theory,
+it will be of little use if it cannot be implemented. Thus econometric procedure must be accompanied with computational code. Given that many existing methods
+are encapsulated in canned packages, they do not cover new methods, which must be developed by econometrics who propose these procedures.</p>
+<p>Our econometric procedures are difficult to commercialize.
+To facilitate spread, one way is to offer to code for free. The world runs on open-source software.
+Many open source software is indispensable for our daily work, for example, Linux, R, Python and LaTeX.</p>
+<p>These lecture notes are products of an ongoing writing project.
+They are not intended to be comprehensive.
+I don’t want to reinvent wheels.
+I refer to the relevant papers and surveys when there are excellent writings for mature topics.</p>
+<div class="section" id="personal-reflection">
+<h2>Personal Reflection<a class="headerlink" href="#personal-reflection" title="Permalink to this headline">¶</a></h2>
+<p>Thirty years ago aspiring young econometricians picked up GAUSS.
+Twenty years ago the new blood began with MATLAB.
+R raised ten years ago when the time came to my generation.
+I have been using R since I started my postgraduate study in Peking University in 2005.
+R helps me with my daily research and teaching.</p>
+<p>There are other candidates in statistical programming, for example Matlab, Python, Julia and Fortran.
+Each language has its own pros and cons.
+R has many advantages.
+First, it inherits the standard program syntax from C. It is quick to learn for anyone with prior programming experience.
+Moreover, once you master R, it is easy to switch to other language, if not R, in your workplace in the future.</p>
+<p>Second, backed by a vast statistician community, R enjoys a large selection of packages, including the most recent ones.
+When they publish a paper, often times statisticians write and upload a companion R package to facilitate user adoption.</p>
+<p>Third, R is free.
+It was the primary reason that I chose it at the very beginning.
+In the era of cloud computing, an algorithm written in R is easier to share, test, and improve.
+Anyone can run R code on any platform, free of license and fee headache.</p>
+<p>R is not without limitations. For example, speed is a concern when running big and complex jobs.
+However, it will not be an issue in the problems that we will encounter in the first-year postgraduate study.</p>
+<p>Lastly, learning a language is a non-trivial investment of our precious time.
+It is much more important to master one language with fluency than to know several languages.</p>
+<p>R is not the only language available for computing. Why not Python?
+Python is a general purpose language, not a scientific computing language.
+We need to import external modules even for basic numerical operations.
+For example, I personally don’t like <code class="docutils literal notranslate"><span class="pre">np.mean</span></code>, <code class="docutils literal notranslate"><span class="pre">np.var</span></code> and <code class="docutils literal notranslate"><span class="pre">np.log</span></code>, and its index rule starting from 0.
+For basic matrix manipulation, the default behavior of <code class="docutils literal notranslate"><span class="pre">numpy</span></code> is different from R.</p>
+<p>Why not Julia? Julia is too young to have a big community.
+We would wait until it grows into more stable status.
+Moreover, the speed advantage does not help much in interactive usage in empirical research.</p>
+<p>Over the years, I have had a taste of both Python and Julia.
+In my opinion, R so far best suits our purpose of learning a computing language for statistics and econometric analysis.</p>
+<p>I was an expert in MATLAB, which is proprietary. I wrote those first few papers during and after my Ph.D study. However, I was never a fan of MATLAB’s syntax, what was worse was its ugly functions.
+MATLAB may still linger in some areas in engineering, but it is a dinosaur fossil buried under the wonderland of big data.</p>
+</div>
+<div class="section" id="prerequisite">
+<h2>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h2>
+<p>For this course, please install <a class="reference external" href="http://www.r-project.org/">R</a> or <a class="reference external" href="https://mran.microsoft.com/open">Microsoft Open R</a>.
+An integrated development environment (IDE) is also highly desirable.
+It makes programming user-friendly and enjoyable.
+<a class="reference external" href="http://www.rstudio.com/">RStudio</a> is recommended.</p>
+</div>
+<div class="section" id="structure">
+<h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
+<p>The book version can be partitioned into three parts: R, Econometrics, and Machine Learning.</p>
+<p>The first two lectures cover basic R and advanced R. Advanced R taught skills about speeding up matrix manipulation, parallel computing and remote computing.
+The following two lectures cover simulation exercises and simulation-based methods in econometrics.
+The last two lectures talk about machine learning methods. Machine learning is relatively new for economists. Most economics programs only introduce a few
+algorithms but do not cover the theoretical components. We try to provide a review starting from the conventional nonparametric statistical methods.</p>
+</div>
+<div class="section" id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">install</span><span class="o">.</span><span class="n">packages</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;plyr&quot;</span><span class="p">,</span> <span class="s2">&quot;foreach&quot;</span><span class="p">,</span> <span class="s2">&quot;doParallel&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sampleSelection&quot;</span><span class="p">,</span> <span class="s2">&quot;AER&quot;</span><span class="p">,</span> <span class="s2">&quot;mcmc&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;randomForest&quot;</span><span class="p">,</span> <span class="s2">&quot;gbm&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='right-next' id="next-link" href="01-basic_R.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Basic R</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Zhentao Shi<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

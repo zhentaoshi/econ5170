@@ -1,0 +1,844 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulation &#8212; A Primer on Economic Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Integration" href="03-integration.html" />
+    <link rel="prev" title="Advanced R" href="02-advanced_R.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">A Primer on Economic Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-basic_R.html">
+   Basic R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-advanced_R.html">
+   Advanced R
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-integration.html">
+   Integration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-optimization.html">
+   Numerical Optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-ML.html">
+   From Nonparametrics to Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-ML2.html">
+   Prediction-Oriented Algorithms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-data_work.html">
+   Data Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-git.html">
+   Git
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/03-simulation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/zhentaoshi/econ5170"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/zhentaoshi/econ5170/issues/new?title=Issue%20on%20page%20%2F03-simulation.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/zhentaoshi/econ5170/master?urlpath=tree/docs/03-simulation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finite-sample-evaluation">
+   Finite Sample Evaluation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bootstrap">
+   Bootstrap
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bootstrap-estimation">
+     Bootstrap Estimation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bootstrap-test">
+     Bootstrap Test
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reference">
+   Reference
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Simulation</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finite-sample-evaluation">
+   Finite Sample Evaluation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bootstrap">
+   Bootstrap
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bootstrap-estimation">
+     Bootstrap Estimation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bootstrap-test">
+     Bootstrap Test
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reference">
+   Reference
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="simulation">
+<h1>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">magrittr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tibble</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">plyr</span><span class="p">)</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">888</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Probability theory has an infamous inception for its association with gambling.
+Monte Carlo, the European casino capital, is another unfortunate presence.
+However, naming it Macau simulation or Hong Kong Jockey Club simulation does not make me feel any better.
+I decide to simply call it “simulation”.</p>
+<p>Simulation has been widely used for (i) checking finite-sample performance of asymptotic theory; (ii) bootstrap, an automated data-driven inference procedure;
+(iii) generating non-standard distributions; (iv) approximating integrals with no analytic expressions. In this lecture, we will focus on (i) and (ii), whereas (iii) and (iv)
+will be deferred to the next lecture on integration.</p>
+<p>From now on, we will start to write script. A script is a piece of code for a particular
+purpose. A script of thousands of lines is not written from the beginning
+to the end; we develop it recursively. We cut a big job into small manageable tasks.
+Write a small piece, test it, and encapsulate it into a user-defined function
+whenever necessary.
+Small pieces are integrated by the super structure. This is just like building an Airbus 380.
+The engines and wings are made in UK, the fuselage is made in Germany and so on.
+All pieces are assembled in Toulouse, France, and then the giant steel bird can fly.
+Finally, add comments to the script to facilitate
+readability. Without comments you will forget
+what you did when you open the script again one month later.</p>
+<p><strong>Example</strong></p>
+<p>Zu Chongzhi (429–500 AD), an ancient Chinese mathematician, calculated <span class="math notranslate nohighlight">\(\pi\)</span> being between 3.1415926 and 3.1415927, which
+for 900 years held the world record of the most accurate <span class="math notranslate nohighlight">\(\pi\)</span>.
+He used a deterministic approximation algorithm.
+Now imagine that we present to Zu Chongzhi, with full respect and admiration,
+a modern computer. How can he achieve a better approximation?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">require</span><span class="p">(</span><span class="n">plotrix</span><span class="p">)</span>
+<span class="nf">require</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+
+<span class="nf">plot</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;n&quot;</span><span class="p">,</span> <span class="n">asp</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;y&quot;</span><span class="p">)</span>
+<span class="nf">rect</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+<span class="nf">draw.circle</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="nf">runif</span><span class="p">(</span><span class="m">100</span><span class="p">)</span> <span class="o">*</span> <span class="m">2</span> <span class="o">-</span> <span class="m">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nf">runif</span><span class="p">(</span><span class="m">100</span><span class="p">)</span> <span class="o">*</span> <span class="m">2</span> <span class="o">-</span> <span class="m">1</span><span class="p">,</span> <span class="n">pch</span> <span class="o">=</span> <span class="m">20</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Standing on the shoulder of laws of large numbers, <span class="math notranslate nohighlight">\(\pi\)</span> can be approximated by a stochastic algorithm. Since</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\pi r^{2}}{\left(2r\right)^{2}}=E\left[\boldsymbol{1}\left\{ x^{2}+y^{2}\leq1\right\} \right],
+\]</div>
+<p>it implies  <span class="math notranslate nohighlight">\(\pi=4\times E[ 1 \{  x^{2}+y^{2}\leq1 \}]\)</span>. The mathematical expectation is unknown, and
+it can be approximated by simulation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">&lt;-</span> <span class="m">10000000</span>
+<span class="n">Z</span> <span class="o">&lt;-</span> <span class="m">2</span> <span class="o">*</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ncol</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span> <span class="o">-</span> <span class="m">1</span> <span class="c1"># uniform distribution in [-1, 1]</span>
+
+<span class="n">inside</span> <span class="o">&lt;-</span> <span class="nf">mean</span><span class="p">(</span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">rowSums</span><span class="p">(</span><span class="n">Z</span><span class="o">^</span><span class="m">2</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="m">1</span><span class="p">)</span> <span class="c1"># the center of the cirle is (0, 0)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;The estimated pi = &quot;</span><span class="p">,</span> <span class="n">inside</span> <span class="o">*</span> <span class="m">4</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The sample size can be made as large as the computer’s memory permits, and
+we can iterate it with average of averages and so on, for higher accuracy.</p>
+<div class="section" id="finite-sample-evaluation">
+<h2>Finite Sample Evaluation<a class="headerlink" href="#finite-sample-evaluation" title="Permalink to this headline">¶</a></h2>
+<p>In the real world, a sample is finite. The distribution of a statistic in finite sample depends on
+the sample size <span class="math notranslate nohighlight">\(n\)</span>, which has only in rare cases a simple mathematical expression.
+Fortunately,
+the expression can often be simplified when we imagine the sample size being arbitrarily large.
+Asymptotic theory is such mathematical apparatus to approximate finite sample distributions.
+It is so far the most useful analytical tool that helps us
+understand the behavior of estimators and tests, either in econometrics or in statistics in general.
+Simulation is one way to evaluate the accuracy of approximation.</p>
+<p>Even though real-data empirical example can also be used to illustrate a statistical procedure,
+artificial data are convenient and informative. The prevalent paradigm in econometrics is
+to assume that the data are generated from a model. We, as researchers, check how close the estimate is to
+the model characterized by a set of unknown parameters. In simulations
+we have full control of the data generation process, including the
+true parameter.
+In a real example, however, we have no knowledge about the true model, so we cannot directly
+evaluate the quality of parameter estimation.</p>
+<p>(It would be a different story if we are mostly interested in prediction, as we often
+encounter in machine learning. In such cases, we can split the data into two parts: one part
+for modeling and estimation, and the other for verification.)</p>
+<p><strong>Example</strong></p>
+<p>In OLS theory, the classical views <span class="math notranslate nohighlight">\(X\)</span> as fixed regressions and only
+cares about the randomness of the error term.
+Modern econometrics textbook emphasizes that a random <span class="math notranslate nohighlight">\(X\)</span> is more appropriate
+for econometrics applications. In rigorous textbooks, the moment of <span class="math notranslate nohighlight">\(X\)</span> is explicitly
+stated as <span class="math notranslate nohighlight">\(E[X_i X_i'] &lt; \infty\)</span>.</p>
+<ul class="simple">
+<li><p>Is asymptotic inferential theory for the OLS estimator—consistency and asymptotic normality—valid when <span class="math notranslate nohighlight">\(X\)</span> follows a
+<a class="reference external" href="https://en.wikipedia.org/wiki/Pareto_distribution">Pareto distribution</a> with shape coefficient 1.5?</p></li>
+<li><p>A Pareto distribution with shape coefficient between 1 and 2 has finite population mean but infinite variance.
+Therefore this case violates the assumptions for OLS stated in most of econometric textbooks.</p></li>
+</ul>
+<p>We write a script to investigate this problem. The following steps develop the code.</p>
+<ol class="simple">
+<li><p>given a sample size, get the OLS <code class="docutils literal notranslate"><span class="pre">b_hat</span></code> and its associated <code class="docutils literal notranslate"><span class="pre">t_value</span></code>.</p></li>
+<li><p>wrap <code class="docutils literal notranslate"><span class="pre">t_value</span></code> as a user-defined function so that we can reuse it for many times.</p></li>
+<li><p>given a sample size, report the size under two distributions.</p></li>
+<li><p>wrap step 3 again as a user-defined function, ready for different sample sizes.</p></li>
+<li><p>develop the super structure to connect the workhorse functions.</p></li>
+<li><p>add comments and documentation.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># the workhorse functions</span>
+<span class="n">simulation</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1"># a function gives the t-value under the null</span>
+  <span class="nf">if </span><span class="p">(</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;Normal&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">e</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;T&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">e</span> <span class="o">&lt;-</span> <span class="nf">rt</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">X</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">VGAM</span><span class="o">::</span><span class="nf">rpareto</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="m">1.5</span><span class="p">))</span>
+  <span class="n">Y</span> <span class="o">&lt;-</span> <span class="n">X</span> <span class="o">%*%</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">e</span>
+  <span class="nf">rm</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+  <span class="n">bhat</span> <span class="o">&lt;-</span> <span class="nf">solve</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">X</span><span class="p">,</span> <span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">Y</span><span class="p">)</span>
+  <span class="n">bhat2</span> <span class="o">&lt;-</span> <span class="n">bhat</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="c1"># parameter we want to test</span>
+
+  <span class="n">e_hat</span> <span class="o">&lt;-</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">%*%</span> <span class="n">bhat</span>
+  <span class="n">sigma_hat_square</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">e_hat</span><span class="o">^</span><span class="m">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="m">2</span><span class="p">)</span>
+  <span class="n">sig_B</span> <span class="o">&lt;-</span> <span class="nf">solve</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_hat_square</span>
+  <span class="n">t_value_2</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">bhat2</span> <span class="o">-</span> <span class="n">b0</span><span class="p">[</span><span class="m">2</span><span class="p">])</span> <span class="o">/</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">sig_B</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">])</span>
+
+  <span class="nf">return</span><span class="p">(</span><span class="n">t_value_2</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># report the empirical test size</span>
+<span class="n">report</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1"># collect the test size from the two distributions</span>
+  <span class="c1"># this function contains some repetitive code, but is OK for such a simple one</span>
+  <span class="n">TEST_SIZE</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+
+  <span class="c1"># e ~ normal distribution, under which the t-dist is exact</span>
+  <span class="n">Res</span> <span class="o">&lt;-</span> <span class="n">plyr</span><span class="o">::</span><span class="nf">ldply</span><span class="p">(</span><span class="n">.data</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="n">Rep</span><span class="p">,</span> <span class="n">.fun</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="nf">simulation</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s">&quot;Normal&quot;</span><span class="p">))</span>
+  <span class="n">TEST_SIZE</span><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">Res</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nf">qt</span><span class="p">(</span><span class="n">.</span><span class="m">975</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="m">2</span><span class="p">))</span>
+  <span class="n">TEST_SIZE</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">Res</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nf">qnorm</span><span class="p">(</span><span class="n">.</span><span class="m">975</span><span class="p">))</span>
+
+  <span class="c1"># e ~ t-distribution, under which the exact distribution is complicated.</span>
+  <span class="c1"># we rely on asymptotic normal distribution for inference instead</span>
+  <span class="n">Res</span> <span class="o">&lt;-</span> <span class="n">plyr</span><span class="o">::</span><span class="nf">ldply</span><span class="p">(</span><span class="n">.data</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="n">Rep</span><span class="p">,</span> <span class="n">.fun</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="nf">simulation</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s">&quot;T&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">))</span>
+  <span class="n">TEST_SIZE</span><span class="p">[</span><span class="m">3</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">Res</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nf">qnorm</span><span class="p">(</span><span class="n">.</span><span class="m">975</span><span class="p">))</span>
+
+  <span class="nf">return</span><span class="p">(</span><span class="n">TEST_SIZE</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">## the super structure</span>
+<span class="c1"># set the parameters</span>
+<span class="n">Rep</span> <span class="o">&lt;-</span> <span class="m">1000</span>
+<span class="n">b0</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">&lt;-</span> <span class="m">1</span> <span class="c1"># t dist. with df = 1 is Cauchy</span>
+
+<span class="c1"># run the calculation of the empirical sizes for different sample sizes</span>
+<span class="n">NN</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">200</span><span class="p">,</span> <span class="m">5000</span><span class="p">)</span>
+<span class="n">RES</span> <span class="o">&lt;-</span> <span class="n">plyr</span><span class="o">::</span><span class="nf">ldply</span><span class="p">(</span><span class="n">.data</span> <span class="o">=</span> <span class="n">NN</span><span class="p">,</span> <span class="n">.fun</span> <span class="o">=</span> <span class="n">report</span><span class="p">)</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">RES</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;exact&quot;</span><span class="p">,</span> <span class="s">&quot;normal.asym&quot;</span><span class="p">,</span> <span class="s">&quot;cauchy.asym&quot;</span><span class="p">)</span> <span class="c1"># to make the results readable</span>
+<span class="n">RES</span><span class="o">$</span><span class="n">n</span> <span class="o">&lt;-</span> <span class="n">NN</span>
+<span class="n">RES</span> <span class="o">&lt;-</span> <span class="n">RES</span><span class="p">[,</span> <span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span> <span class="c1"># beautify the print</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">RES</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first column is the when the error is normal, and we use the exactly distribution theory to find the critical value (according to the <span class="math notranslate nohighlight">\(t\)</span> distribution.)
+The second column still uses the normal distribution in the error term, but change the
+critical value to be from the normal distribution, which is based on asymptotic approximation. When sample size is small, obvious size distortion is
+observed; but the deviation is mitigated when the sample size increases.
+When the error distribution is Cauchy, the so called “exact distribution” is no longer exact—
+it is exact only if the error is normal and independent from <span class="math notranslate nohighlight">\(x\)</span>.
+If we attempt to use the asymptotic normal approximation,
+we find that the asymptotic approximation breaks down. The test size does not converge to the
+nominal 5% as the sample size increases.</p>
+<p>In this simulation design, <span class="math notranslate nohighlight">\(X\)</span> is always Pareto while we vary the distribution of the error term.
+When we look at the table, we witness that the distribution of <span class="math notranslate nohighlight">\(X\)</span> indeed
+does not matter. Why? Since</p>
+<div class="math notranslate nohighlight">
+\[
+\sqrt{n} (\hat{\beta} - \beta_0) |X = (X'X/n)^{-1}  (X' e /\sqrt{n}),
+\]</div>
+<p>the <span class="math notranslate nohighlight">\(k\)</span>-th element of the vector coefficient conditional on <span class="math notranslate nohighlight">\(X\)</span> is
+$<span class="math notranslate nohighlight">\(
+\widehat{\beta}_{k}|X=\eta_{k}'\widehat{\beta}|X
+\sim N\left(\beta_{k},\sigma^{2}\left(X'X\right)_{kk}^{-1}\right).
+\)</span>$</p>
+<p>The <span class="math notranslate nohighlight">\(t\)</span>-statistic</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+T_{k}  =\frac{\widehat{\beta}_{k}-\beta_{k}}{\sqrt{s^{2}\left[\left(X'X\right)^{-1}\right]_{kk}}}\\
+  =\frac{\widehat{\beta}_{k}-\beta_{k}}{\sqrt{\sigma^{2}\left[\left(X'X\right)^{-1}\right]_{kk}}}\cdot\frac{\sqrt{\sigma^{2}}}{\sqrt{s^{2}}}\\
+  =\frac{\left(\widehat{\beta}_{k}-\beta_{k}\right)/\sqrt{\sigma^{2}\left[\left(X'X\right)^{-1}\right]_{kk}}}{\sqrt{\frac{e'}{\sigma}M_{X}\frac{e}{\sigma}/\left(n-K\right)}}.
+\end{split}\]</div>
+<p>Even though <span class="math notranslate nohighlight">\(X'X/n\)</span> does not converge to a stable probabilistic limit, the self-normalized <span class="math notranslate nohighlight">\(t\)</span> statistic does not break down.
+Regardless the distribution of <span class="math notranslate nohighlight">\(X\)</span>, when
+the error term is normal, the numerator of the above expression follows a standard normal distribution and the demonimator follows a <span class="math notranslate nohighlight">\(\chi^2\)</span>, and moreover these two components are independent. The resulting statistic follows a t-distribution.</p>
+</div>
+<div class="section" id="bootstrap">
+<h2>Bootstrap<a class="headerlink" href="#bootstrap" title="Permalink to this headline">¶</a></h2>
+<p>Bootstrap, originated from &#64;efron1979bootstrap, is an extremely powerful and influential idea for estimation and inference. Here we give a brief introduction.
+Textbook exposition can be found in &#64;cameron2005microeconometrics (Chapter 11).</p>
+<p>Let <span class="math notranslate nohighlight">\(X_1, X_2, \ldots, X_n \sim F\)</span> be an i.i.d. sample of <span class="math notranslate nohighlight">\(n\)</span> observations following a distribution <span class="math notranslate nohighlight">\(F\)</span>. The finite sample distribution of a statistic <span class="math notranslate nohighlight">\(T_n(\theta)\sim G_n(\cdot, F)\)</span> usually depends on the sample size <span class="math notranslate nohighlight">\(n\)</span>, as well as the known true distribution <span class="math notranslate nohighlight">\(F\)</span>. Asymptotic theory approximates <span class="math notranslate nohighlight">\(G_n(\cdot, F)\)</span> by its limit
+$<span class="math notranslate nohighlight">\(G(\cdot, F) := \lim_{n\to\infty} G_n(\cdot, F).\)</span><span class="math notranslate nohighlight">\( 
+In particular, if \)</span>T_n(\theta)<span class="math notranslate nohighlight">\( is *asymptotically pivotal*, then \)</span>G_n(\cdot, F)<span class="math notranslate nohighlight">\( is independent of \)</span>F<span class="math notranslate nohighlight">\( and it becomes \)</span>G(\cdot)$.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">runif</span><span class="p">(</span><span class="m">10</span><span class="p">)</span> <span class="o">%&gt;%</span>
+  <span class="nf">ecdf</span><span class="p">()</span> <span class="o">%&gt;%</span>
+  <span class="nf">plot</span><span class="p">(,</span> <span class="n">xlim</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="n">main</span> <span class="o">=</span> <span class="s">&quot;ECDF for uniform distribution&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Instead of referring to the limiting distribution, Bootstrap replaces the unknown distribution <span class="math notranslate nohighlight">\(F\)</span> in <span class="math notranslate nohighlight">\(G_n(\cdot, F)\)</span> by a consistent estimator <span class="math notranslate nohighlight">\(F_n\)</span> of the true distribution, for example, the empirical distribution function
+<span class="math notranslate nohighlight">\(\hat{F}_n(\cdot) = n^{-1} \sum_{i=1}^n 1\{\cdot \leq X_i\}\)</span>
+. Bootstrap inference is drawn from the bootstrap distribution
+$<span class="math notranslate nohighlight">\(
+G^{*}_n(\cdot):= G_n(\cdot, \hat{F}_n)
+\)</span>$</p>
+<p>Implementation of bootstrap is a simulation exercise. In an i.i.d. environment we sample over each observation with equal weight, which is called <em>nonparametric bootstrap</em>.
+However, the species of bootstrap creatures has many varieties adapted to their living environment.
+In a dependent dataset such as time series [&#64;chang2004bootstrap], clustering data or networks, we must adjust the sampling schedule to preserve the dependence structure. In regression context if we hold the independent variables fixed and only bootstrap the
+residual, we call it <em>parametric bootstrap</em>. If the error term is heteroskedascity,
+the relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(\hat{e}\)</span> can be preserved by <em>wild bootstrap</em> [&#64;davidson2010wild].</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">&lt;-</span> <span class="m">9</span> <span class="c1"># sample size</span>
+<span class="n">boot_Rep</span> <span class="o">&lt;-</span> <span class="m">3</span> <span class="c1"># bootstrap 3 times</span>
+
+<span class="n">real_sample</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c1"># the real sample</span>
+<span class="n">d0</span> <span class="o">&lt;-</span> <span class="nf">tibble</span><span class="p">(</span><span class="n">no</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">real_sample</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">d0</span><span class="p">)</span>
+
+<span class="n">d_boot</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">()</span> <span class="c1"># save the bootstrap sample</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">b</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">boot_Rep</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">boot_index</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+  <span class="n">d_boot</span><span class="p">[[</span><span class="n">b</span><span class="p">]]</span> <span class="o">&lt;-</span> <span class="nf">tibble</span><span class="p">(</span><span class="n">no</span> <span class="o">=</span> <span class="n">boot_index</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">real_sample</span><span class="p">[</span><span class="n">boot_index</span><span class="p">])</span>
+<span class="p">}</span>
+
+<span class="n">d_boot</span> <span class="o">%&gt;%</span> <span class="nf">as_tibble</span><span class="p">(,</span> <span class="n">.name_repair</span> <span class="o">=</span> <span class="s">&quot;minimal&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In many regular cases, it is possible to show in theory the <em>consistency</em> of bootstrap:
+the statistic of interest and its bootstrap version converge to the same asymptotic distribution, or <span class="math notranslate nohighlight">\(G^*_n(a) \stackrel{p}{ \to } G(a)\)</span> for <span class="math notranslate nohighlight">\(a\)</span> such that <span class="math notranslate nohighlight">\(G(a)\)</span> is continuous. However, bootstrap consistency can fail when the distribution of the statistic is discontinuous in the limit. Bootstrap is invalid in such cases. For instance, naïve bootstrap fails to replicate the asymptotic distribution of the two-stage least squares estimator under weak instruments. More sophisticated alternatives are need to fix the inconsistency of bootstrap, which we don’t mention in this lecture.</p>
+<div class="section" id="bootstrap-estimation">
+<h3>Bootstrap Estimation<a class="headerlink" href="#bootstrap-estimation" title="Permalink to this headline">¶</a></h3>
+<p>Bootstrap is simple enough to be done by a <code class="docutils literal notranslate"><span class="pre">ply</span></code>-family function for repeated simulations. Alternatively, R package <a class="reference external" href="http://cran.r-project.org/web/packages/boot/index.html">boot</a> provides a general function <code class="docutils literal notranslate"><span class="pre">boot()</span></code>.</p>
+<p>Bootstrap is useful when the analytic formula of the variance of an econometric estimator is too complex to derive or code up.</p>
+<p><strong>Example</strong></p>
+<p>One of the most popular estimators for a sample selection model is &#64;heckman1977sample’s two-step method. Let the outcome equation be</p>
+<div class="math notranslate nohighlight">
+\[
+y_i = x_i \beta + u_i
+\]</div>
+<p>and the selection equation be</p>
+<div class="math notranslate nohighlight">
+\[
+D_i = z_i \gamma + v_i
+\]</div>
+<p>To obtain a point estimator, we simply run a Probit in the selection model, predict the probability of participation, and then run an OLS of <span class="math notranslate nohighlight">\(y_i\)</span> on <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(\lambda (\hat{D}_i)\)</span> in the outcome model, where <span class="math notranslate nohighlight">\(\lambda(\cdot)\)</span> is the inverse Mill’s ratio. However, as we can see from Heckman (1979)’s original paper, the asymptotic variance expression of the two-step estimator is very complicated. Instead of following the analytic formula, we can simply bootstrap the variance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># the dataset comes from</span>
+<span class="c1"># Greene( 2003 ): example 22.8, page 786</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">sampleSelection</span><span class="p">)</span>
+<span class="nf">data</span><span class="p">(</span><span class="n">Mroz87</span><span class="p">)</span>
+<span class="c1"># equations</span>
+<span class="n">selection_eq</span> <span class="o">&lt;-</span> <span class="n">lfp</span> <span class="o">~</span> <span class="m">-1</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">faminc</span> <span class="o">+</span> <span class="n">exper</span> <span class="o">+</span> <span class="n">educ</span>
+<span class="n">outcome_eq</span> <span class="o">&lt;-</span> <span class="n">wage</span> <span class="o">~</span> <span class="n">exper</span> <span class="o">+</span> <span class="n">educ</span>
+
+<span class="c1"># Heckman two-step estimation</span>
+<span class="n">heck</span> <span class="o">&lt;-</span> <span class="n">sampleSelection</span><span class="o">::</span><span class="nf">heckit</span><span class="p">(</span><span class="n">selection_eq</span><span class="p">,</span> <span class="n">outcome_eq</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">Mroz87</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">lmtest</span><span class="o">::</span><span class="nf">coeftest</span><span class="p">(</span><span class="n">heck</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Below is the function for a single bootstrap. For convenience, we save the point estimates of <code class="docutils literal notranslate"><span class="pre">heckit</span></code> but ignore the estimated variance. (This is a lazy option though,  it must produce the same result if we take the effort to manually program the Heckit point estimation.)
+Implementation is just a repeated evaluation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">&lt;-</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">Mroz87</span><span class="p">)</span>
+<span class="n">boot_heck</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">indices</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span> <span class="c1"># resample the index set</span>
+  <span class="n">Mroz87_b</span> <span class="o">&lt;-</span> <span class="n">Mroz87</span><span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="p">]</span> <span class="c1"># generate the bootstrap sample</span>
+  <span class="n">heck_b</span> <span class="o">&lt;-</span> <span class="n">sampleSelection</span><span class="o">::</span><span class="nf">heckit</span><span class="p">(</span><span class="n">selection_eq</span><span class="p">,</span> <span class="n">outcome_eq</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">Mroz87_b</span><span class="p">)</span>
+  <span class="nf">return</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">heck_b</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="c1"># repeat the bootstrap</span>
+<span class="n">boot_Rep</span> <span class="o">&lt;-</span> <span class="m">199</span>
+<span class="n">Heck_B</span> <span class="o">&lt;-</span> <span class="n">plyr</span><span class="o">::</span><span class="nf">ldply</span><span class="p">(</span><span class="n">.data</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="n">boot_Rep</span><span class="p">,</span> <span class="n">.fun</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="nf">boot_heck</span><span class="p">())</span>
+
+<span class="c1"># collect the bootstrap outcomes</span>
+<span class="n">Heck_b_sd</span> <span class="o">&lt;-</span> <span class="nf">apply</span><span class="p">(</span><span class="n">Heck_B</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="n">sd</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">7</span><span class="p">]</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">Heck_b_sd</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The standard errors from the analytical expression and those from bootstrap are comparable.
+Both are asymptotically consistent. The bootstrap estimates can also be used to
+directly compute the confidence intervals.</p>
+</div>
+<div class="section" id="bootstrap-test">
+<h3>Bootstrap Test<a class="headerlink" href="#bootstrap-test" title="Permalink to this headline">¶</a></h3>
+<p>Bootstrap is particularly helpful in inference. Indeed,
+we can rigorously prove that bootstrap enjoys high-order improvement
+relative to analytic asymptotic approximation if the test statistic is asymptotically pivotal [&#64;hall1996bootstrap].
+Loosely speaking,
+if the test statistic is asymptotically pivotal, a bootstrap hypothesis testing
+can be more accurate than its analytic asymptotic counterpart.</p>
+<p><strong>Example</strong></p>
+<p>We use bootstrap to test a hypothesis about the population mean. The test is
+carried out by a <span class="math notranslate nohighlight">\(t\)</span>-statistic. The distribution of the sample is either
+<em>normal</em> or <em>zero-centered chi-square</em>. It will show that the bootstrap test size is
+more precise than that of the asymptotic approximation.</p>
+<p>We first prepare the workhorse functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># the t-statistic for a null hypothesis mu</span>
+<span class="n">T_stat</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="nf">sd</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+
+<span class="c1"># the bootstrap function</span>
+<span class="n">boot_test</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">boot_Rep</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1"># INPUT</span>
+  <span class="c1"># Y: the sample</span>
+  <span class="c1"># boot_Rep: number of bootstrap replications</span>
+
+  <span class="n">n</span> <span class="o">&lt;-</span> <span class="nf">length</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+  <span class="n">boot_T</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">boot_Rep</span><span class="p">)</span>
+
+  <span class="c1"># bootstrap in action</span>
+  <span class="nf">for </span><span class="p">(</span><span class="n">r</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">boot_Rep</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">indices</span> <span class="o">&lt;-</span> <span class="nf">sample.int</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span> <span class="c1"># resampling the index</span>
+    <span class="n">resampled_Y</span> <span class="o">&lt;-</span> <span class="n">Y</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="c1"># construct a bootstrap artificial sample</span>
+    <span class="n">boot_T</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">abs</span><span class="p">(</span><span class="nf">T_stat</span><span class="p">(</span><span class="n">resampled_Y</span><span class="p">,</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">)))</span>
+    <span class="c1"># the bootstrapped t-statistic</span>
+    <span class="c1"># mu is replaced by &quot;mean(Y)&quot; to mimic the situation under the null</span>
+  <span class="p">}</span>
+
+  <span class="c1"># bootstrap critical value</span>
+  <span class="n">boot_critical_value</span> <span class="o">&lt;-</span> <span class="nf">quantile</span><span class="p">(</span><span class="n">boot_T</span><span class="p">,</span> <span class="m">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span>
+  <span class="c1"># bootstrap test decision</span>
+  <span class="nf">return</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="nf">T_stat</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">mu</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">boot_critical_value</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A key point for bootstrap test is that the null hypothesis must be imposed no matter
+the hypothesized parameter is true value or not.
+Therefore the bootstrap t-statistic is</p>
+<div class="math notranslate nohighlight">
+\[
+T^{*}_{n} = \frac{\bar{X^{*}} - \bar{X}} { s^{*} / \sqrt{n} }.
+\]</div>
+<p>That is, the bootstrap <span class="math notranslate nohighlight">\(t\)</span>-statistic is centered at <span class="math notranslate nohighlight">\(\bar{X}\)</span>, the sample mean of <span class="math notranslate nohighlight">\(F_n\)</span>,
+rather than <span class="math notranslate nohighlight">\(\theta\)</span>, the population mean of <span class="math notranslate nohighlight">\(F\)</span>. This is because in the bootstrap world
+the ``true’’ distribution is <span class="math notranslate nohighlight">\(F_n\)</span>. If we wrongly center the bootstrap t-statistic at <span class="math notranslate nohighlight">\(\theta\)</span>,
+then the test will have no power when the null hypothesis is false.</p>
+<p>The following chuck of code report the rejection probability from three decision rules.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">compare</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1"># this function generates a sample of n observations</span>
+  <span class="c1"># and it returns the testing results from three decision rules</span>
+
+  <span class="nf">if </span><span class="p">(</span><span class="n">distribution</span> <span class="o">==</span> <span class="s">&quot;normal&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">X</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="n">distribution</span> <span class="o">==</span> <span class="s">&quot;chisq&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">X</span> <span class="o">&lt;-</span> <span class="nf">rchisq</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span> <span class="o">-</span> <span class="m">3</span>
+  <span class="p">}</span>
+
+  <span class="n">t_value_X</span> <span class="o">&lt;-</span> <span class="nf">T_stat</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span> <span class="c1"># T-statistic</span>
+
+  <span class="c1"># compare it to the 97.5% of t-distribution</span>
+  <span class="n">exact</span> <span class="o">&lt;-</span> <span class="nf">abs</span><span class="p">(</span><span class="n">t_value_X</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nf">qt</span><span class="p">(</span><span class="m">0.975</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="m">1</span><span class="p">)</span>
+  <span class="c1"># compare it to the 97.5% of normal distribution</span>
+  <span class="n">asym</span> <span class="o">&lt;-</span> <span class="nf">abs</span><span class="p">(</span><span class="n">t_value_X</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">1.96</span>
+  <span class="c1"># decision from bootstrap</span>
+  <span class="n">boot_rule</span> <span class="o">&lt;-</span> <span class="nf">boot_test</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">boot_Rep</span><span class="p">)</span>
+
+  <span class="nf">return</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">exact</span><span class="p">,</span> <span class="n">asym</span><span class="p">,</span> <span class="n">boot_rule</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1"># set the parameters</span>
+<span class="n">n</span> <span class="o">&lt;-</span> <span class="m">20</span>
+<span class="n">distribution</span> <span class="o">&lt;-</span> <span class="s">&quot;normal&quot;</span>
+<span class="n">boot_Rep</span> <span class="o">&lt;-</span> <span class="m">199</span>
+<span class="n">MC_rep</span> <span class="o">&lt;-</span> <span class="m">2000</span>
+<span class="n">alpha</span> <span class="o">&lt;-</span> <span class="m">0.05</span>
+<span class="n">mu</span> <span class="o">&lt;-</span> <span class="m">0</span>
+
+<span class="c1"># Monte Carlo simulation and report the rejection probability</span>
+<span class="n">res</span> <span class="o">&lt;-</span> <span class="n">plyr</span><span class="o">::</span><span class="nf">ldply</span><span class="p">(</span><span class="n">.data</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="n">MC_rep</span><span class="p">,</span> <span class="n">.fun</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="nf">compare</span><span class="p">())</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;exact&quot;</span><span class="p">,</span> <span class="s">&quot;asym&quot;</span><span class="p">,</span> <span class="s">&quot;bootstrap&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">colMeans</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here the nominal size of the test is 5%. The program reports the empirical size
+—the ratio between the number of rejections to the total number of replications.
+The closer is the empirical size to the nominal size, the more accurate is the test.
+We find here the bootstrap test is more accurate than the asymptotic test.</p>
+<p>When the underlying distribution is a <span class="math notranslate nohighlight">\(\chi^2\)</span>, the exact distribution is difficult
+to derive analytically.
+However, we can still compare the asymptotic size with the bootstrap size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">distribution</span> <span class="o">&lt;-</span> <span class="s">&quot;chisq&quot;</span>
+
+<span class="n">res</span> <span class="o">&lt;-</span> <span class="n">plyr</span><span class="o">::</span><span class="nf">ldply</span><span class="p">(</span><span class="n">.data</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="n">MC_rep</span><span class="p">,</span> <span class="n">.fun</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="nf">compare</span><span class="p">())</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;exact?&quot;</span><span class="p">,</span> <span class="s">&quot;asym&quot;</span><span class="p">,</span> <span class="s">&quot;bootstrap&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">colMeans</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Again, here the “exact test” is no longer exact. The asymptotic test works fairly
+reasonable, while the bootstrap is closer to the nominal size 5%.</p>
+</div>
+</div>
+<div class="section" id="reading">
+<h2>Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h2>
+<p>Efron and Hastie: Ch 10 and 11</p>
+</div>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="02-advanced_R.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Advanced R</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="03-integration.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Integration</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Zhentao Shi<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

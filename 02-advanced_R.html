@@ -1,0 +1,936 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced R &#8212; A Primer on Economic Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Simulation" href="03-simulation.html" />
+    <link rel="prev" title="Basic R" href="01-basic_R.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">A Primer on Economic Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-basic_R.html">
+   Basic R
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Advanced R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-simulation.html">
+   Simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-integration.html">
+   Integration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-optimization.html">
+   Numerical Optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-ML.html">
+   From Nonparametrics to Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-ML2.html">
+   Prediction-Oriented Algorithms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-data_work.html">
+   Data Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-git.html">
+   Git
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/02-advanced_R.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/zhentaoshi/econ5170"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/zhentaoshi/econ5170/issues/new?title=Issue%20on%20page%20%2F02-advanced_R.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/zhentaoshi/econ5170/master?urlpath=tree/docs/02-advanced_R.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vectorization">
+   Vectorization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#efficient-loop">
+   Efficient Loop
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parallel-computing">
+   Parallel Computing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cloud-computing">
+   Cloud Computing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#command-line">
+     Command Line
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rstudio-server">
+     RStudio Server
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#graphics">
+   Graphics
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#interactive-graph">
+     Interactive Graph
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#future-writing-plan">
+     Future writing plan
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Advanced R</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vectorization">
+   Vectorization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#efficient-loop">
+   Efficient Loop
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parallel-computing">
+   Parallel Computing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cloud-computing">
+   Cloud Computing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#command-line">
+     Command Line
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rstudio-server">
+     RStudio Server
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#graphics">
+   Graphics
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#interactive-graph">
+     Interactive Graph
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#future-writing-plan">
+     Future writing plan
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="advanced-r">
+<h1>Advanced R<a class="headerlink" href="#advanced-r" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In this lecture, we will talk about efficient computation in R.</p>
+<ul class="simple">
+<li><p>R is a vector-oriented language. In most cases, vectorization speeds up computation.</p></li>
+<li><p>We turn to more CPUs for parallel execution to save time if there is no more room to optimize the code to improve the speed.</p></li>
+<li><p>Servers are accessed remotely. Communicating with a remote cluster is different from operating a local machine.</p></li>
+</ul>
+</div>
+<div class="section" id="vectorization">
+<h2>Vectorization<a class="headerlink" href="#vectorization" title="Permalink to this headline">¶</a></h2>
+<p>Despite mathematical equivalence, various ways of calculation can perform distinctively in terms of computational speed.</p>
+<p>Does computational speed matter?
+For a job that takes less than a minutes, the time difference is not a big deal.
+But sometimes economic problems can be clumsy. For structural estimation commonly seen in industrial organization, a single estimation can take up to a week.
+In econometrics, other computational intensive procedures include bootstrap, simulated maximum likelihood and simulated method of moments. Even if a single execution does not take much time, repeating such a procedure for thousands of replications will consume a non-trivial duration.
+Moreover, machine learning methods that crunch
+big data usually involve tuning parameters, so the same procedure must be carried out
+at each point of a grid of tuning parameters.
+For example, the preferred algorithm in &#64;lin2020 takes 8 hours on a 24-core remote server to find out
+the best combination of tuning parameters.
+For those problems, code optimization is essential.</p>
+<p>Of course, optimizing code takes human time. It is a balance of human time and machine time.</p>
+<p><strong>Example</strong></p>
+<p>In OLS regression, under homoskedasticity</p>
+<div class="math notranslate nohighlight">
+\[
+\sqrt{n}\left(\widehat{\beta}-\beta_{0}\right)\stackrel{d}{\to}N\left(0,\sigma^{2}\left(E\left[x_{i}x_{i}'\right]\right)^{-1}\right)
+\]</div>
+<p>where the asymptotic variance can be consistently estimated by
+<span class="math notranslate nohighlight">\((X'X)^{-1} \sum_{i=1}^n \widehat{e}^{2}\)</span>. However, under heteroskedasticity</p>
+<div class="math notranslate nohighlight">
+\[
+\sqrt{n}\left(\widehat{\beta}-\beta_{0}\right)\stackrel{d}{\to}N\left(0,E\left[x_{i}x_{i}'\right]^{-1}\mathrm{var}\left(x_{i}e_{i}\right)E\left[x_{i}x_{i}'\right]^{-1}\right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathrm{var}\left(x_{i}e_{i}\right)\)</span> can be estimated by</p>
+<div class="math notranslate nohighlight">
+\[
+\underset{\mathrm{opt1}}{\frac{1}{n}\sum_{i=1}^{n}x_{i}x_{i}'\widehat{e}_{i}^{2}}=\underset{\mathrm{opt2,3}}{\frac{1}{n}X'DX}=\underset{\mathrm{opt 4}}{\frac{1}{n}\left(X'D^{1/2}\right)\left(D^{1/2}X\right)}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is a diagonal matrix of <span class="math notranslate nohighlight">\(\left(\widehat{\epsilon}_{1}^{2},\widehat{\epsilon}_{2,}^{2},\ldots,\widehat{\epsilon}_{n}^{2}\right)\)</span>.
+There are at least 4 mathematically equivalent ways to compute
+the “meat” of the sandwich form.</p>
+<ol class="simple">
+<li><p>literally sum <span class="math notranslate nohighlight">\(\hat{e}_i^2 x_i x_i'\)</span>  over <span class="math notranslate nohighlight">\(i=1,\ldots,n\)</span> one by one.</p></li>
+<li><p><span class="math notranslate nohighlight">\(X' \mathrm{diag}(\hat{e}^2) X\)</span>, with a dense central matrix.</p></li>
+<li><p><span class="math notranslate nohighlight">\(X' \mathrm{diag}(\hat{e}^2) X\)</span>, with a sparse central matrix.</p></li>
+<li><p>Do cross product to <code class="docutils literal notranslate"><span class="pre">X*e_hat</span></code>. It takes advantage of the element-by-element operation in R.</p></li>
+</ol>
+<p>We first generate the data of binary response and regressors. Due to the discrete nature of the dependent variable, the error term in the linear probability model is heteroskedastic. It is necessary to use the heteroskedastic-robust variance to consistently estimate the asymptotic variance of the OLS estimator. The code chunk below estimates the coefficients and obtains the residual.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># an example of robust variance matrix.</span>
+<span class="c1"># compare the implementation via matrix, Matrix (package) and vecteroization.</span>
+
+<span class="c1"># n = 5000; Rep = 10; # Matrix is quick, matrix is slow, adding is OK</span>
+
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;data_example/lec2.R&quot;</span><span class="p">)</span>
+
+<span class="n">n</span> <span class="o">&lt;-</span> <span class="m">50</span>
+<span class="n">Rep</span> <span class="o">&lt;-</span> <span class="m">1000</span> 
+
+<span class="n">data.Xe</span> <span class="o">&lt;-</span> <span class="nf">lpm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c1"># see the function in &quot;data_example/lec2.R&quot;</span>
+<span class="n">X</span> <span class="o">&lt;-</span> <span class="n">data.Xe</span><span class="o">$</span><span class="n">X</span>
+<span class="n">e_hat</span> <span class="o">&lt;-</span> <span class="n">data.Xe</span><span class="o">$</span><span class="n">e_hat</span>
+
+<span class="n">XXe2</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We run the 4 estimators for the same data, and compare the time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">for </span><span class="p">(</span><span class="n">opt</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">pts0</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span>
+
+  <span class="nf">for </span><span class="p">(</span><span class="n">iter</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">Rep</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">set.seed</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span> <span class="c1"># to make sure that the data used</span>
+    <span class="c1"># different estimation methods are the same</span>
+
+
+    <span class="nf">if </span><span class="p">(</span><span class="n">opt</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">XXe2</span> <span class="o">&lt;-</span> <span class="n">XXe2</span> <span class="o">+</span> <span class="n">e_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">^</span><span class="m">2</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">]</span> <span class="o">%*%</span> <span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">])</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="n">opt</span> <span class="o">==</span> <span class="m">2</span><span class="p">)</span> <span class="p">{</span> <span class="c1"># the vectorized version with dense matrix</span>
+      <span class="n">e_hat2_M</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="n">n</span><span class="p">)</span>
+      <span class="nf">diag</span><span class="p">(</span><span class="n">e_hat2_M</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">e_hat</span><span class="o">^</span><span class="m">2</span>
+      <span class="n">XXe2</span> <span class="o">&lt;-</span> <span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">e_hat2_M</span> <span class="o">%*%</span> <span class="n">X</span>
+    <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="n">opt</span> <span class="o">==</span> <span class="m">3</span><span class="p">)</span> <span class="p">{</span> <span class="c1"># the vectorized version with sparse matrix</span>
+      <span class="n">e_hat2_M</span> <span class="o">&lt;-</span> <span class="n">Matrix</span><span class="o">::</span><span class="nf">Matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="n">n</span><span class="p">)</span>
+      <span class="nf">diag</span><span class="p">(</span><span class="n">e_hat2_M</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">e_hat</span><span class="o">^</span><span class="m">2</span>
+      <span class="n">XXe2</span> <span class="o">&lt;-</span> <span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">e_hat2_M</span> <span class="o">%*%</span> <span class="n">X</span>
+    <span class="p">}</span> <span class="n">else</span> <span class="nf">if </span><span class="p">(</span><span class="n">opt</span> <span class="o">==</span> <span class="m">4</span><span class="p">)</span> <span class="p">{</span> <span class="c1"># the best vectorization method. No waste</span>
+      <span class="n">Xe</span> <span class="o">&lt;-</span> <span class="n">X</span> <span class="o">*</span> <span class="n">e_hat</span>
+      <span class="n">XXe2</span> <span class="o">&lt;-</span> <span class="nf">t</span><span class="p">(</span><span class="n">Xe</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">Xe</span>
+    <span class="p">}</span>
+
+
+    <span class="n">XX_inv</span> <span class="o">&lt;-</span> <span class="nf">solve</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">sig_B</span> <span class="o">&lt;-</span> <span class="n">XX_inv</span> <span class="o">%*%</span> <span class="n">XXe2</span> <span class="o">%*%</span> <span class="n">XX_inv</span>
+  <span class="p">}</span>
+  <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;n =&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s">&quot;, Rep =&quot;</span><span class="p">,</span> <span class="n">Rep</span><span class="p">,</span> <span class="s">&quot;, opt =&quot;</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="s">&quot;, time =&quot;</span><span class="p">,</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="o">-</span> <span class="n">pts0</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We clearly see the difference in running time, though the 4 methods are mathematically the same.
+When <span class="math notranslate nohighlight">\(n\)</span> is small, <code class="docutils literal notranslate"><span class="pre">matrix</span></code> is fast and <code class="docutils literal notranslate"><span class="pre">Matrix</span></code> is slow; the vectorized version is the fastest.
+When <span class="math notranslate nohighlight">\(n\)</span> is big, <code class="docutils literal notranslate"><span class="pre">matrix</span></code> is slow and <code class="docutils literal notranslate"><span class="pre">Matrix</span></code> is fast; the vectorized version is still the fastest.</p>
+<p>In this simulation exercise, we repeat the procedure many times to make the time comparison more evident, for a single execution takes very short time in this simple operation. A real-data example is in <code class="docutils literal notranslate"><span class="pre">data_example/IPUMS.R</span></code> with  234 thousand observations, where the time difference is dramatic but the intuitive solution indeed does not take much time.
+It demonstrates the usefulness of vectorization. Vectorization can
+significantly saves computing time in more complicated operations, for example, in
+heteroskedastic and autocorrelation consistent variance estimation (HAC)
+in econometrics which involves many layers of matrices.</p>
+</div>
+<div class="section" id="efficient-loop">
+<h2>Efficient Loop<a class="headerlink" href="#efficient-loop" title="Permalink to this headline">¶</a></h2>
+<p>R was the heir of S, an old language. R evolves with packages that are designed to
+adapt to new big data environment. Many examples can be found in &#64;wickham2016r.
+Here we introduce <a class="reference external" href="http://plyr.had.co.nz/"><code class="docutils literal notranslate"><span class="pre">plyr</span></code></a>.</p>
+<p>In standard <code class="docutils literal notranslate"><span class="pre">for</span></code> loops, we have to do a lot of housekeeping work. <a class="reference external" href="http://had.co.nz/">Hadley Wickham</a>’s <code class="docutils literal notranslate"><span class="pre">plyr</span></code> simplifies the job and facilitates parallelization.</p>
+<p><strong>Example</strong></p>
+<p>Here we calculate the empirical coverage probability of a Poisson distribution of degrees of freedom 2. We first write a user-defined function <code class="docutils literal notranslate"><span class="pre">CI</span></code> for confidence interval, which was used in the last lecture.</p>
+<p>This is a standard <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">Rep</span> <span class="o">&lt;-</span> <span class="m">100000</span>
+<span class="n">sample_size</span> <span class="o">&lt;-</span> <span class="m">1000</span>
+<span class="n">mu</span> <span class="o">&lt;-</span> <span class="m">2</span>
+
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;data_example/lec2.R&quot;</span><span class="p">)</span>
+<span class="c1"># append a new outcome after each loop</span>
+<span class="n">pts0</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="c1"># check time</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">Rep</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">rpois</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+  <span class="n">bounds</span> <span class="o">&lt;-</span> <span class="nf">CI</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">out_i</span> <span class="o">&lt;-</span> <span class="p">((</span><span class="n">bounds</span><span class="o">$</span><span class="n">lower</span> <span class="o">&lt;=</span> <span class="n">mu</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mu</span> <span class="o">&lt;=</span> <span class="n">bounds</span><span class="o">$</span><span class="n">upper</span><span class="p">))</span>
+  <span class="nf">if </span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">out</span> <span class="o">&lt;-</span> <span class="n">out_i</span>
+  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
+    <span class="n">out</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">out_i</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">pts1</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="o">-</span> <span class="n">pts0</span> <span class="c1"># check time elapse</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;loop without pre-definition takes&quot;</span><span class="p">,</span> <span class="n">pts1</span><span class="p">,</span> <span class="s">&quot;seconds\n&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># pre-define a container</span>
+<span class="n">out</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">Rep</span><span class="p">)</span>
+<span class="n">pts0</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="c1"># check time</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">Rep</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">rpois</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+  <span class="n">bounds</span> <span class="o">&lt;-</span> <span class="nf">CI</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="p">((</span><span class="n">bounds</span><span class="o">$</span><span class="n">lower</span> <span class="o">&lt;=</span> <span class="n">mu</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mu</span> <span class="o">&lt;=</span> <span class="n">bounds</span><span class="o">$</span><span class="n">upper</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">pts1</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="o">-</span> <span class="n">pts0</span> <span class="c1"># check time elapse</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;loop with pre-definition takes&quot;</span><span class="p">,</span> <span class="n">pts1</span><span class="p">,</span> <span class="s">&quot;seconds\n&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pay attention to the line <code class="docutils literal notranslate"><span class="pre">out</span> <span class="pre">=</span> <span class="pre">rep(0,</span> <span class="pre">Rep)</span></code>. It <em>pre-defines</em> a vector <code class="docutils literal notranslate"><span class="pre">out</span></code> to be filled by
+<code class="docutils literal notranslate"><span class="pre">out[i]</span> <span class="pre">=</span> <span class="pre">(</span> <span class="pre">(</span> <span class="pre">bounds$lower</span> <span class="pre">&lt;=</span> <span class="pre">mu</span>&#160; <span class="pre">)</span> <span class="pre">&amp;</span> <span class="pre">(mu</span> <span class="pre">&lt;=</span> <span class="pre">bounds$upper)</span> <span class="pre">)</span></code>. The computer opens a continuous patch of memory for the vector <code class="docutils literal notranslate"><span class="pre">out</span></code>. When new result comes in, the old element is replaced. If we do not pre-define <code class="docutils literal notranslate"><span class="pre">out</span></code>
+but append one more element in each loop, the length of <code class="docutils literal notranslate"><span class="pre">out</span></code> will change in each replication and
+every time a new patch of memory will be assigned to store it. The latter approach will spend much more time just to locate the vector in the memory.</p>
+<p><code class="docutils literal notranslate"><span class="pre">out</span></code> is the result container. In a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, we pre-define a container, and replace the elements
+of the container in each loop by explicitly calling the index.</p>
+<p>In contrast, a <code class="docutils literal notranslate"><span class="pre">plyr</span></code> loop saves the house keeping chores, and makes it easier to parallelize. In the example below, we encapsulate the chunk in the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop as a new function <code class="docutils literal notranslate"><span class="pre">capture</span></code>, and run the replication via <code class="docutils literal notranslate"><span class="pre">__ply</span></code>.
+<code class="docutils literal notranslate"><span class="pre">__ply</span></code> is a family of functions. <code class="docutils literal notranslate"><span class="pre">ldply</span></code> here means that the input is a list (<code class="docutils literal notranslate"><span class="pre">l</span></code>) and the output is a data frame (<code class="docutils literal notranslate"><span class="pre">d</span></code>) .</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">plyr</span><span class="p">)</span>
+
+<span class="n">capture</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">rpois</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+  <span class="n">bounds</span> <span class="o">&lt;-</span> <span class="nf">CI</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="nf">return</span><span class="p">((</span><span class="n">bounds</span><span class="o">$</span><span class="n">lower</span> <span class="o">&lt;=</span> <span class="n">mu</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mu</span> <span class="o">&lt;=</span> <span class="n">bounds</span><span class="o">$</span><span class="n">upper</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">pts0</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="c1"># check time</span>
+<span class="n">out</span> <span class="o">&lt;-</span> <span class="nf">ldply</span><span class="p">(</span><span class="n">.data</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="n">Rep</span><span class="p">,</span> <span class="n">.fun</span> <span class="o">=</span> <span class="n">capture</span><span class="p">)</span>
+
+<span class="n">pts1</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="o">-</span> <span class="n">pts0</span> <span class="c1"># check time elapse</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;plyr loop takes&quot;</span><span class="p">,</span> <span class="n">pts1</span><span class="p">,</span> <span class="s">&quot;seconds\n&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This example is so simple that the advantage of <code class="docutils literal notranslate"><span class="pre">plyr</span></code> is not dramatic. The difference in coding will be noticeable in complex problems with big data frames.
+In terms of speed, <code class="docutils literal notranslate"><span class="pre">plyr</span></code> does not run much faster than a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. They are of similar performance.
+Parallel computing will be our next topic. It is quite easy to implement parallel execution with <code class="docutils literal notranslate"><span class="pre">plyr</span></code>—we just need to change one argument in the function.</p>
+</div>
+<div class="section" id="parallel-computing">
+<h2>Parallel Computing<a class="headerlink" href="#parallel-computing" title="Permalink to this headline">¶</a></h2>
+<p>Parallel computing becomes essential when the data size is beyond the storage of a single computer, for example  &#64;li2018embracing.
+Here we explore the speed gain of parallel computing on a multicore machine.</p>
+<p>Here we introduce how to coordinate multiple cores on a single computer.
+The packages <code class="docutils literal notranslate"><span class="pre">foreach</span></code> and <code class="docutils literal notranslate"><span class="pre">doParallel</span></code> are useful for parallel computing.
+Below is the basic structure. <code class="docutils literal notranslate"><span class="pre">registerDoParallel(number)</span></code> prepares a few CPU cores
+to accept incoming jobs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">plyr</span><span class="p">);</span> <span class="nf">library</span><span class="p">(</span><span class="n">foreach</span><span class="p">);</span> <span class="nf">library</span><span class="p">(</span><span class="n">doParallel</span><span class="p">)</span>
+
+<span class="nf">registerDoParallel</span><span class="p">(</span><span class="n">a_number</span><span class="p">)</span> <span class="c1"># opens specified number of CPUs</span>
+
+<span class="n">out</span> <span class="o">&lt;-</span> <span class="nf">foreach</span><span class="p">(</span><span class="nf">icount</span><span class="p">(</span><span class="n">Rep</span><span class="p">),</span> <span class="n">.combine</span> <span class="o">=</span> <span class="n">option</span><span class="p">)</span> <span class="o">%dopar%</span> <span class="p">{</span>
+  <span class="n">my_expressions</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we have two CPUs running simultaneously, in theory we can cut the time to a half of that on a single CPU. Is that what happening in practice?</p>
+<p><strong>Example</strong></p>
+<p>Compare the speed of a parallel loop and a single-core sequential loop.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">foreach</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">doParallel</span><span class="p">)</span>
+
+<span class="nf">registerDoParallel</span><span class="p">(</span><span class="m">2</span><span class="p">)</span> <span class="c1"># open 2 CPUs</span>
+
+<span class="n">pts0</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="c1"># check time</span>
+
+<span class="n">out</span> <span class="o">&lt;-</span> <span class="nf">foreach</span><span class="p">(</span><span class="nf">icount</span><span class="p">(</span><span class="n">Rep</span><span class="p">),</span> <span class="n">.combine</span> <span class="o">=</span> <span class="n">c</span><span class="p">)</span> <span class="o">%dopar%</span> <span class="p">{</span>
+  <span class="nf">capture</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">pts1</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="o">-</span> <span class="n">pts0</span> <span class="c1"># check time elapse</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;parallel loop takes&quot;</span><span class="p">,</span> <span class="n">pts1</span><span class="p">,</span> <span class="s">&quot;seconds\n&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Surprisingly, the above code block of parallel computing runs even more slowly.
+It is because the task in each loop can be done in very short time.
+In contrast, the code chunk below will tell a different story.
+There the time in each loop is non-trivial,
+and then parallelism dominates the overhead of the CPU communication.
+The only difference between the two implementations below is
+that the first uses <code class="docutils literal notranslate"><span class="pre">%dopar%</span></code> and the latter uses <code class="docutils literal notranslate"><span class="pre">%do%</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">Rep</span> <span class="o">&lt;-</span> <span class="m">200</span>
+<span class="n">sample_size</span> <span class="o">&lt;-</span> <span class="m">2000000</span>
+
+<span class="nf">registerDoParallel</span><span class="p">(</span><span class="m">8</span><span class="p">)</span> <span class="c1"># change the number of open CPUs according to</span>
+<span class="c1"># the specification of your computer</span>
+
+<span class="n">pts0</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="c1"># check time</span>
+<span class="n">out</span> <span class="o">&lt;-</span> <span class="nf">foreach</span><span class="p">(</span><span class="nf">icount</span><span class="p">(</span><span class="n">Rep</span><span class="p">),</span> <span class="n">.combine</span> <span class="o">=</span> <span class="n">c</span><span class="p">)</span> <span class="o">%dopar%</span> <span class="p">{</span>
+  <span class="nf">capture</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;8-core parallel loop takes&quot;</span><span class="p">,</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="o">-</span> <span class="n">pts0</span> <span class="p">,</span> <span class="s">&quot;seconds\n&quot;</span><span class="p">)</span>
+
+<span class="n">pts0</span> <span class="o">&lt;-</span> <span class="nf">Sys.time</span><span class="p">()</span>
+<span class="n">out</span> <span class="o">&lt;-</span> <span class="nf">foreach</span><span class="p">(</span><span class="nf">icount</span><span class="p">(</span><span class="n">Rep</span><span class="p">),</span> <span class="n">.combine</span> <span class="o">=</span> <span class="n">c</span><span class="p">)</span> <span class="o">%do%</span> <span class="p">{</span>
+  <span class="nf">capture</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;single-core loop takes&quot;</span><span class="p">,</span> <span class="nf">Sys.time</span><span class="p">()</span> <span class="o">-</span> <span class="n">pts0</span> <span class="p">,</span> <span class="s">&quot;seconds\n&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="cloud-computing">
+<h2>Cloud Computing<a class="headerlink" href="#cloud-computing" title="Permalink to this headline">¶</a></h2>
+<p>Investing money from our own pocket to an extremely powerful laptop to conduct heavy-lifting computational work
+is unnecessary. (i) We do not run these long jobs every day, it is more cost efficient
+to share a workhorse. (ii) We cannot keep our laptop always on when we move it
+around. The right solution is cloud computing on a server.</p>
+<p>Many of us have experience with cloud storage, such as Dropbox and Baidu Netdisk.
+Few people are exposed to cloud computing. However, no fundamental difference lies between local and cloud computing.
+We prepare in the cloud serve the data and code, open a shell for communication, run the code, and collect the results.
+One potential obstacle is dealing with a command-line-based operation system.
+Such command line tools is the norm of life two or three decades ago, but today we mostly
+work in a graphic operating system like Windows or OSX.
+For Windows users (I am one of them), I recommend <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">Bash</span></code> as a shell, and <a class="reference external" href="http://winscp.net/eng/download.php"><code class="docutils literal notranslate"><span class="pre">WinSCP</span></code></a>, a graphic interface for input and output.</p>
+<p>Cloud computing also provides a strong justification for open-source languages such as R or Python. These open-source languages can be installed on as many remote serves as the resource permits. In contrast, proprietary software will be prohibitively expensive for server licensing.</p>
+<div class="section" id="command-line">
+<h3>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline">¶</a></h3>
+<p>Most servers run Unix/Linux operation system.
+Here are a few commands for basic operations.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mkdir</span></code>: make directory</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span></code>: change directory</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copy</span></code>: copy files</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">top</span></code>: check login status</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">screen</span></code>: a separated screen for isolation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ssh</span></code>: user&#64;address</p></li>
+<li><p>start a program</p></li>
+</ul>
+<p>Our department’s computation infrastructure has been improving.
+A server dedicated to professors is a 32-core machine. Students also have
+access to a powerful multi-core computer.</p>
+<p>\begin{figure}
+\centering
+\includegraphics[width = 15cm]{graph/econ_super}
+\caption{Log into \texttt{econsuper} and check CPU with \texttt{lscpu} }
+\end{figure}</p>
+<ol class="simple">
+<li><p>Log in <code class="docutils literal notranslate"><span class="pre">econsuper.econ.cuhk.edu.hk</span></code>;</p></li>
+<li><p>Upload R scripts and data to the server;</p></li>
+<li><p>In a shell, run <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">--vanilla</span> <span class="pre">&lt;file_name.R&gt;</span> <span class="pre">result_file_name.out</span></code>;</p></li>
+<li><p>To run a command in the background, add <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> at the end of the above command.</p></li>
+</ol>
+<p>This example comes from &#64;lin2020. As a demonstration, we only use 15% of the data and
+a sparse grid of tuning parameters. It makes about 9 minutes with 24 cores.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">ztshi</span><span class="o">@</span><span class="n">econsuper.econ.cuhk.edu.hk</span>
+<span class="n">cd</span> <span class="n">data_example</span>
+<span class="n">R</span> <span class="o">--</span><span class="n">vanilla</span> <span class="o">&lt;</span><span class="n">Beijing_housing_gbm.R</span><span class="o">&gt;</span> <span class="n">GBM_BJ.out</span> <span class="o">&amp;</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p><img alt="econ_super" src="_images/econ_super_top.png" /></p>
+</div>
+<div class="section" id="rstudio-server">
+<h3>RStudio Server<a class="headerlink" href="#rstudio-server" title="Permalink to this headline">¶</a></h3>
+<p>The command line shells lack a graphic interface for interactive data analysis.
+<a class="reference external" href="https://rstudio.com/products/rstudio/#rstudio-server">RStudio server</a> offers a local-like
+environment via a web browser to communicate with a remote server.
+The remote server can be specified for users’ need.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RStudio</span> <span class="pre">Cloud</span></code> is a free service to facilitate teaching and demonstration. The underlying computation unit is
+too weak to execute serious tasks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Econsuper</span></code> is our department’s service, which resembles a workplace environment in a small company. We can contact the technicians for our needs. The service is always online (with VPN connection), and much more powerful than the
+best local computer we can afford.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Amazon</span> <span class="pre">Web</span> <span class="pre">Service</span> <span class="pre">Cloud</span></code> is commercial service that can be tailored according to one’s budget, from tiny demonstrative display to big enterprise business applications.</p></li>
+</ul>
+<p><img alt="AWS" src="_images/AWS.png" /></p>
+</div>
+</div>
+<div class="section" id="graphics">
+<h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
+<p>An English cliché says “One picture is worth ten thousand words”.
+John Tukey, a renowned mathematical statistician, was one of the pioneers of statistical graphs
+in the computer era. Nowadays, powerful software is able to produce dazzling statistical graphs,
+sometimes web-based and interactive. Outside of academia, journalism hooks a wide readership with
+professional data-based graphs. New York Times and The Economists are first-rate examples;
+South China Morning Post sometimes also does a respectable job.
+A well designed statistical graph can deliver an intuitive and powerful message.
+I consider graph prior to table when writing a research report or an academic paper.
+Graph is lively and engaging. Table is tedious and boring.</p>
+<p>We have seen an example of R graph in the OLS regression linear example in Lecture 1.
+<code class="docutils literal notranslate"><span class="pre">plot</span></code> is a generic command for graphs, and is the default R graphic engine.
+It is capable of producing preliminary statistical graphs.</p>
+<p>Over the years, developers all over the world have had many proposals for
+more sophisticated statistical graphs. Hadley Wickham’s
+<code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> is among the most successful.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> is an advanced graphic system that generates high-quality statistical graphs.
+It is not possible to cover it in a lecture. Fortunately, the author wrote a comprehensive reference
+<a class="reference external" href="http://link.springer.com/book/10.1007%2F978-0-387-98141-3"><strong>ggplot2 book</strong></a>,
+which can be downloaded via the CUHK campus network (VPN needed).</p>
+<p><code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> accommodates data frames of a particular format. <code class="docutils literal notranslate"><span class="pre">reshape2</span></code> is a package that helps prepare the data frames for <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code>.</p>
+<p>The workflow of ggplot is to add the elements in a graph one by one, and then print out
+the graph all together.
+In contrast, <code class="docutils literal notranslate"><span class="pre">plot</span></code> draws the main graph at first, and then adds the supplementary elements later.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> is particularly good at drawing multiple graphs, either of the same pattern or of
+different patterns. Multiple subgraphs convey rich information and easy comparison.</p>
+<p><strong>Example</strong></p>
+<p>Plot the density of two estimators under three different data generating processes.
+This is an example to generate subgraphs of the same pattern.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">load</span><span class="p">(</span><span class="s">&quot;data_example/big150.Rdata&quot;</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span>
+
+<span class="n">big150_1</span> <span class="o">&lt;-</span> <span class="n">big150</span><span class="p">[,</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;typb&quot;</span><span class="p">,</span> <span class="s">&quot;b1&quot;</span><span class="p">,</span> <span class="s">&quot;b1_c&quot;</span><span class="p">)]</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">head</span><span class="p">(</span><span class="n">big150_1</span><span class="p">))</span>
+
+<span class="n">big150_1</span> <span class="o">&lt;-</span> <span class="nf">melt</span><span class="p">(</span><span class="n">big150_1</span><span class="p">,</span> <span class="n">id.vars</span> <span class="o">=</span> <span class="s">&quot;typb&quot;</span><span class="p">,</span> <span class="n">measure.vars</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;b1&quot;</span><span class="p">,</span> <span class="s">&quot;b1_c&quot;</span><span class="p">))</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">big150_1</span><span class="p">)[</span><span class="m">2</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;estimator&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">head</span><span class="p">(</span><span class="n">big150_1</span><span class="p">))</span>
+
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="nf">ggplot</span><span class="p">(</span><span class="n">big150_1</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="n">p1</span> <span class="o">+</span> <span class="nf">geom_area</span><span class="p">(</span>
+  <span class="n">stat</span> <span class="o">=</span> <span class="s">&quot;density&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">.</span><span class="m">25</span><span class="p">,</span>
+  <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">value</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">),</span> <span class="n">position</span> <span class="o">=</span> <span class="s">&quot;identity&quot;</span>
+<span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="n">p1</span> <span class="o">+</span> <span class="nf">facet_grid</span><span class="p">(</span><span class="n">.</span> <span class="o">~</span> <span class="n">typb</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="n">p1</span> <span class="o">+</span> <span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="m">0</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="n">p1</span> <span class="o">+</span> <span class="nf">theme_bw</span><span class="p">()</span>
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="n">p1</span> <span class="o">+</span> <span class="nf">theme</span><span class="p">(</span>
+  <span class="n">strip.text</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">12</span><span class="p">),</span>
+  <span class="n">axis.text</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">12</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">ggplot</span></code> specifies which dataset to use for the graph. <code class="docutils literal notranslate"><span class="pre">geom_***</span></code> determines the shape to draw, for example scatter dots, lines, curves or areas. <code class="docutils literal notranslate"><span class="pre">theme</span></code> is to tune the supplementary elements like the background, the size and font of the axis text and so on.</p>
+<p><strong>Example</strong></p>
+<p>This example aligns two graphs of different patterns in one page.
+Similar graphs appear in &#64;shi2018structural.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># graph packages</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">lattice</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">gridExtra</span><span class="p">)</span>
+
+<span class="nf">load</span><span class="p">(</span><span class="s">&quot;data_example/multigraph.Rdata&quot;</span><span class="p">)</span> <span class="c1"># load data</span>
+
+
+<span class="c1"># unify the theme in the two graphs</span>
+<span class="n">theme1</span> <span class="o">&lt;-</span> <span class="nf">theme_bw</span><span class="p">()</span> <span class="o">+</span> <span class="nf">theme</span><span class="p">(</span>
+  <span class="n">axis.title.x</span> <span class="o">=</span> <span class="nf">element_blank</span><span class="p">(),</span>
+  <span class="n">strip.text</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">12</span><span class="p">),</span>
+  <span class="n">axis.text</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">12</span><span class="p">),</span>
+  <span class="n">legend.position</span> <span class="o">=</span> <span class="s">&quot;bottom&quot;</span><span class="p">,</span> <span class="n">legend.title</span> <span class="o">=</span> <span class="nf">element_blank</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># sub-graph 1</span>
+<span class="n">d1</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="n">month</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">480</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">m_vec</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="nf">qplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">month</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">d1</span><span class="p">,</span> <span class="n">geom</span> <span class="o">=</span> <span class="s">&quot;line&quot;</span><span class="p">)</span>
+<span class="n">p1</span> <span class="o">&lt;-</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">theme1</span> <span class="o">+</span> <span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;fraction of chartists&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># sug-graph 2</span>
+<span class="n">d2</span><span class="o">$</span><span class="n">month</span> <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">480</span>
+<span class="n">p2</span> <span class="o">&lt;-</span> <span class="nf">ggplot</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">&lt;-</span> <span class="n">p2</span> <span class="o">+</span> <span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">month</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">value</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">variable</span><span class="p">))</span>
+<span class="n">p2</span> <span class="o">&lt;-</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">theme1</span> <span class="o">+</span> <span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;price and fundamental&quot;</span><span class="p">)</span>
+
+<span class="c1"># generate the grahp</span>
+<span class="nf">grid.arrange</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In order to unify the theme of the two distinctive subgraphs,
+we define an object <code class="docutils literal notranslate"><span class="pre">theme1</span></code> and apply it in both graphic objects
+<code class="docutils literal notranslate"><span class="pre">p1</span></code> and <code class="docutils literal notranslate"><span class="pre">p2</span></code>.</p>
+<div class="section" id="interactive-graph">
+<h3>Interactive Graph<a class="headerlink" href="#interactive-graph" title="Permalink to this headline">¶</a></h3>
+<p>In the folder of <code class="docutils literal notranslate"><span class="pre">data_example</span></code>, we give a preliminary example
+of <code class="docutils literal notranslate"><span class="pre">flexdashboard</span></code>. It is very easy to convert a ggplot2 graph
+into an HTML interactive graph by <code class="docutils literal notranslate"><span class="pre">plotly::ggplotly()</span></code>.</p>
+</div>
+<div class="section" id="future-writing-plan">
+<h3>Future writing plan<a class="headerlink" href="#future-writing-plan" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Shiny app <a class="reference external" href="https://shiny.rstudio.com/tutorial/">tutorial</a>. I have included a shiny app in <code class="docutils literal notranslate"><span class="pre">data_example/shiny</span></code>.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="reading">
+<h2>Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h2>
+<p>Wickham and Grolemund: Ch 3, 10, 11, 21, and 26-30</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="01-basic_R.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Basic R</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="03-simulation.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Simulation</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Zhentao Shi<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

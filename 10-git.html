@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git &#8212; A Primer on Economic Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Data Processing" href="09-data_work.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">A Primer on Economic Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-basic_R.html">
+   Basic R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-advanced_R.html">
+   Advanced R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-simulation.html">
+   Simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-integration.html">
+   Integration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-optimization.html">
+   Numerical Optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-ML.html">
+   From Nonparametrics to Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-ML2.html">
+   Prediction-Oriented Algorithms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-data_work.html">
+   Data Processing
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Git
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/10-git.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/zhentaoshi/econ5170"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/zhentaoshi/econ5170/issues/new?title=Issue%20on%20page%20%2F10-git.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-commands">
+   Basic Commands
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#local">
+     Local
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#eraser-like-features">
+       Eraser-like features
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#branch">
+       Branch
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#remote">
+     Remote
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#conflict">
+       Conflict
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Git</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-commands">
+   Basic Commands
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#local">
+     Local
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#eraser-like-features">
+       Eraser-like features
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#branch">
+       Branch
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#remote">
+     Remote
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#conflict">
+       Conflict
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="git">
+<h1>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h1>
+<p>Git is a version control system useful when developing and maintaining
+coding projects as well as preparing long documents.</p>
+<p>Git helps me manage course materials, and I use Github <a class="reference external" href="https://github.com/zhentaoshi/econ5170">https://github.com/zhentaoshi/econ5170</a> to share them.
+Free Git books and tutorials are available online.
+Self-learning is important.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.atlassian.com/git/tutorials">Atlassian Online Tutorial</a></p></li>
+<li><p><a class="reference external" href="https://www.udacity.com/course/how-to-use-git-and-github--ud775">Udacity Course</a></p></li>
+<li><p><a class="reference external" href="https://www.codecademy.com/learn/learn-git">CodeAcademy Course</a></p></li>
+<li><p><a class="reference external" href="http://git-scm.com/book/en/v2">Pro Git</a></p></li>
+<li><p>Many video tutorials, for example <a class="reference external" href="https://www.youtube.com/watch?v=SWYqp7iY_Tc">this one</a>.</p></li>
+</ul>
+<p>We introduce some essential Git commands.
+There are two ways to interact with Git. Git provides a command line tool Git Bash,
+and there are many free Git GUIs available (I recommend <a class="reference external" href="https://www.sourcetreeapp.com/">SourceTree</a>).
+Even if we use a GUI, knowing the basic commands is helpful.</p>
+<div class="section" id="basic-commands">
+<h2>Basic Commands<a class="headerlink" href="#basic-commands" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="local">
+<h3>Local<a class="headerlink" href="#local" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> inspects the contents of the working directory and staging area.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">filename</span></code> adds files to the staging area from working directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">filename1</span> <span class="pre">filename2</span></code> adds multiple files to the staging area.</p></li>
+<li><p>If the file is changed, we can use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">filename</span></code> to see the difference between the file in the working directory and the staging area. Reuse <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">filename</span></code> to add the updated file to the staging area.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code> stores changes from the staging area to the repository.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;Commit</span> <span class="pre">Message&quot;</span></code> The commit message must be in the quotation marks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> displays historical commits stored chronologically in the repository.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--global</span> <span class="pre">user.name</span> <span class="pre">&lt;name&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--global</span> <span class="pre">user.email</span> <span class="pre">&lt;email&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">v1.0</span> <span class="pre">-m</span> <span class="pre">'message'</span> <span class="pre">[optional:commit-id]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rm</span> <span class="pre">--cached</span> <span class="pre">filename</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">[brach_name]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">[commit_id</span> <span class="pre">or</span> <span class="pre">branch</span> <span class="pre">name]</span></code></p></li>
+<li><p>.gitignore</p></li>
+</ul>
+<div class="section" id="eraser-like-features">
+<h4>Eraser-like features<a class="headerlink" href="#eraser-like-features" title="Permalink to this headline">¶</a></h4>
+<p>The latest commit is called <strong>HEAD</strong> commit</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span> <span class="pre">HEAD</span></code>  to view the HEAD commit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">HEAD</span> <span class="pre">filename</span></code> to restore the file in the working directory to what you made in last commit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">HEAD</span> <span class="pre">filename</span></code> this command unstages the file from committing in the staging area. This command resets the file in the staging area to be the same as the HEAD commit. It does not discard file changes from the working directory, it just removes them from the staging area.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">SHA</span></code> This command works by using <strong>the first 7 characters</strong> of the SHA of a previous commit.</p></li>
+</ul>
+</div>
+<div class="section" id="branch">
+<h4>Branch<a class="headerlink" href="#branch" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> displays the current branch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">brach_name</span></code> creates a new branch. The branch name cannot contain white-space</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">branch_name</span></code> switch to a branch</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">branch_name</span></code> merging the branch into master
+<strong>merge conflict</strong>: Git doesn’t know which changes you want to keep. Modify the file in the working directory and commit it again to avoid conflict.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">-d</span> <span class="pre">branch_name</span></code> deletes a branch from the project.</p></li>
+</ul>
+<p>In Git, branches are usually a means to an end. We create them to work on a new project feature, but the ultimate goal is to merge that feature into the master branch.</p>
+</div>
+</div>
+<div class="section" id="remote">
+<h3>Remote<a class="headerlink" href="#remote" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/zhentaoshi/econ5170</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">origin</span></code> adds the origin remote’s URL.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code> lists git project’s remote copies.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">master</span></code> upload local commits to the remote repository.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> download the remote copy and merge.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code> fetches the remote copy to the local hard disk. <strong>Note:</strong> This command will not merge changes from the remote into your local repository. It inspects the changes on the remote branch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">set-url</span> <span class="pre">origin</span> <span class="pre">https://github.com/zhentaoshi/econ5170</span></code> changes the remote’s URL.</p></li>
+</ul>
+<p>Collaboration typically works as follows:</p>
+<ol class="simple">
+<li><p>Fetch and merge changes from the remote;</p></li>
+<li><p>Create a branch to work on a new project feature;</p></li>
+<li><p>Develop the feature on your branch and commit your work;</p></li>
+<li><p>Fetch and merge from the remote again (in case new commits have been uploaded while you were working);</p></li>
+<li><p>Push your branch up to the remote for review.</p></li>
+</ol>
+<div class="section" id="conflict">
+<h4>Conflict<a class="headerlink" href="#conflict" title="Permalink to this headline">¶</a></h4>
+<p>Collaborators working on the same file separately might cause conflicts. In such situations, the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> will not merge chanegs from the remote into your local repository automatically due to the conflict. You are expected to see a similar message on the shell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">pull</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Counting</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Total</span> <span class="mi">3</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">0</span><span class="p">),</span> <span class="n">reused</span> <span class="mi">0</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">Unpacking</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">From</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">bitbucket</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">your</span><span class="o">-</span><span class="n">user</span><span class="o">-</span><span class="n">name</span><span class="o">/</span><span class="n">repo</span><span class="o">-</span><span class="n">name</span>
+   <span class="mi">9</span><span class="n">b02654</span><span class="o">.</span><span class="mf">.0462</span><span class="n">f26</span>  <span class="n">master</span>     <span class="o">-&gt;</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span>
+<span class="n">Auto</span><span class="o">-</span><span class="n">merging</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">CONFLICT</span> <span class="p">(</span><span class="n">content</span><span class="p">):</span> <span class="n">Merge</span> <span class="n">conflict</span> <span class="ow">in</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">Automatic</span> <span class="n">merge</span> <span class="n">failed</span><span class="p">;</span> <span class="n">fix</span> <span class="n">conflicts</span> <span class="ow">and</span> <span class="n">then</span> <span class="n">commit</span> <span class="n">the</span> <span class="n">result</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>If you check the status by <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>, you would be told that you have unmerged paths.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">status</span>
+<span class="n">On</span> <span class="n">branch</span> <span class="n">master</span>
+<span class="n">Your</span> <span class="n">branch</span> <span class="ow">and</span> <span class="s1">&#39;origin/master&#39;</span> <span class="n">have</span> <span class="n">diverged</span><span class="p">,</span>
+<span class="ow">and</span> <span class="n">have</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">1</span> <span class="n">different</span> <span class="n">commits</span> <span class="n">each</span><span class="p">,</span> <span class="n">respectively</span><span class="o">.</span>
+  <span class="p">(</span><span class="n">use</span> <span class="s2">&quot;git pull&quot;</span> <span class="n">to</span> <span class="n">merge</span> <span class="n">the</span> <span class="n">remote</span> <span class="n">branch</span> <span class="n">into</span> <span class="n">yours</span><span class="p">)</span>
+<span class="n">You</span> <span class="n">have</span> <span class="n">unmerged</span> <span class="n">paths</span><span class="o">.</span>
+  <span class="p">(</span><span class="n">fix</span> <span class="n">conflicts</span> <span class="ow">and</span> <span class="n">run</span> <span class="s2">&quot;git commit&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">use</span> <span class="s2">&quot;git merge --abort&quot;</span> <span class="n">to</span> <span class="n">abort</span> <span class="n">the</span> <span class="n">merge</span><span class="p">)</span>
+
+<span class="n">Unmerged</span> <span class="n">paths</span><span class="p">:</span>
+  <span class="p">(</span><span class="n">use</span> <span class="s2">&quot;git add &lt;file&gt;...&quot;</span> <span class="n">to</span> <span class="n">mark</span> <span class="n">resolution</span><span class="p">)</span>
+
+        <span class="n">both</span> <span class="n">modified</span><span class="p">:</span>   <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+
+<span class="n">no</span> <span class="n">changes</span> <span class="n">added</span> <span class="n">to</span> <span class="n">commit</span> <span class="p">(</span><span class="n">use</span> <span class="s2">&quot;git add&quot;</span> <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="s2">&quot;git commit -a&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To resolve the conflicts, we simply use a text editor, say <em>Sublime Text 3</em>, <em>Atom</em> or <em>Visual Studio Code</em>, to open the file with conflicts. In the illustrative example, it is the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conflict-Resolving</span>
+
+<span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="n">HEAD</span>
+<span class="n">Local</span> <span class="n">changes</span><span class="o">.</span>
+<span class="o">=======</span>
+<span class="n">Remote</span> <span class="n">changes</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="mi">0462</span><span class="n">f26ddfe83c35424168c2d7a0bed62c653413</span>
+</pre></div>
+</div>
+<p>You can see conflicts indicated by Git. The content between <code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="pre">HEAD</span></code> and <code class="docutils literal notranslate"><span class="pre">=======</span></code> is on HEAD and content between <code class="docutils literal notranslate"><span class="pre">=======</span></code> and <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span></code> is from the commit <code class="docutils literal notranslate"><span class="pre">0462f26ddfe83c35424168c2d7a0bed62c653413</span></code>. To resolve the conflicts, you just remove <code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="pre">HEAD</span></code>, <code class="docutils literal notranslate"><span class="pre">=======</span></code> and <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="pre">0462f26ddfe83c35424168c2d7a0bed62c653413</span></code>, and keep what you want keep in the file.</p>
+<p>In some cases, the difference between the local branch and the remote branch is significant, or the file with conflicts is of a special format, say Lyx file. It might be cumbersome to resolve all conflicts in the text editor. Another way to resovle conflicts is simply to open two versions of the files and copy and paste new updates and then commit the updated file. It easy to do so in <em>SourceTree</em>: select the commit -&gt; right click the file -&gt; click <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Selected</span> <span class="pre">Version</span></code>.</p>
+<p>In addition, we can resolve conflicts with <em>SourceTree</em> (<strong>preferred</strong>) or external merge tools, for example <a class="reference external" href="http://kdiff3.sourceforge.net/"><em>KDiff3</em></a>. For details, it is recommended to refer to <a class="reference external" href="https://stackoverflow.com/questions/16800280/how-to-interactively-visually-resolve-conflicts-in-sourcetree-git">the answer on Stack Overflow</a>.</p>
+<p><strong>Acknowledgment</strong>: Part of this notes is based on the course offered by CodeAcademy.</p>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="09-data_work.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Data Processing</p>
+        </div>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Zhentao Shi<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,919 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Numerical Optimization &#8212; A Primer on Economic Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="From Nonparametrics to Machine Learning" href="05-ML.html" />
+    <link rel="prev" title="Integration" href="03-integration.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">A Primer on Economic Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-basic_R.html">
+   Basic R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-advanced_R.html">
+   Advanced R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-simulation.html">
+   Simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-integration.html">
+   Integration
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Numerical Optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-ML.html">
+   From Nonparametrics to Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-ML2.html">
+   Prediction-Oriented Algorithms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-data_work.html">
+   Data Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-git.html">
+   Git
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/04-optimization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/zhentaoshi/econ5170"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/zhentaoshi/econ5170/issues/new?title=Issue%20on%20page%20%2F04-optimization.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/zhentaoshi/econ5170/master?urlpath=tree/docs/04-optimization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#methods">
+   Methods
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#convex-optimization">
+   Convex Optimization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#future-writing-plan">
+   Future writing plan
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Numerical Optimization</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#methods">
+   Methods
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#convex-optimization">
+   Convex Optimization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#future-writing-plan">
+   Future writing plan
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="numerical-optimization">
+<h1>Numerical Optimization<a class="headerlink" href="#numerical-optimization" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">magrittr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Except for a few Bayesian estimators, almost all estimators in econometrics, such as OLS, MLE, 2SLS, and GMM, are optimizers of some criterion functions. Understanding how to construct an optimization problem and how to implement optimization by oneself is the key step to transform from a consumer of econometrics to a developer of econometrics. Unfortunately,  traditionally econometrics curriculum does not pay enough attention in numerical optimization. The consequence is that many students rely on the procedures that the econometric packages offer. They are unable to tailor econometric methods for their purposes; instead, they modify their data to meet standard econometric methods.</p>
+<p>A general optimization problem is formulated as</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\theta \in \Theta } f(\theta) \,\, \mathrm{ s.t. }  g(\theta) = 0, h(\theta) \leq 0,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(\cdot)\in \mathbb{R}\)</span> is a scalar-valued criterion function, <span class="math notranslate nohighlight">\(g(\theta) = 0\)</span> is a vector of equality constraints,
+and <span class="math notranslate nohighlight">\(h(\theta)\leq 0\)</span> is a vector of inequality constraints.</p>
+<p>Most established numerical optimization algorithms aim at finding a local minimum.
+However, there is little guarantee that these methods should locate the global minimum when multiple local minima exist.</p>
+<p>Optimization without the equality and/or inequality constraints is called
+an <em>unconstrained</em> problem; otherwise it is called a <em>constrained</em> problem.
+The constraints can be incorporated into the criterion function via Lagrangian.
+Economic students are very familiar with constrained optimization—consider utility maximization given a budget constraint.</p>
+<p>In terms of implementation, we always face the tradeoff between convenience and efficiency.
+Convenience is about the readability of the mathematical expressions and the code,
+while efficiency concerns the computing speed. We recommend that we put convenience as
+priority at the trial-and-error stage, and improves efficiency when necessary at a later stage for full-scale execution.</p>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<p>There are many optimization algorithms in the field of operational research;
+they are variants of a small handful of fundamental principles.</p>
+<p>Many textbook MLE estimators are twice-differentiable but do not admit an explicit solution, for example Logit, Probit, and Tobit. The essential idea for optimizing a twice-differentiable objective function is the Newton’s method.
+A necessary condition for optimization is the first-order condition
+<span class="math notranslate nohighlight">\(s(\theta) = \partial f(\theta) / \partial \theta = 0\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="m">0.1</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="m">5</span><span class="p">)</span><span class="o">^</span><span class="m">2</span> <span class="o">+</span> <span class="nf">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># criterion</span>
+<span class="n">s</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="m">0.2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="m">5</span><span class="p">)</span> <span class="o">-</span> <span class="nf">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># gradient</span>
+<span class="n">h</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="m">0.2</span> <span class="o">-</span> <span class="nf">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Hessian</span>
+
+<span class="c1"># plot</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">1</span><span class="p">))</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+
+<span class="n">x_base</span> <span class="o">&lt;-</span> <span class="nf">seq</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="nf">f</span><span class="p">(</span><span class="n">x_base</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x_base</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">lwd</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;f&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="nf">s</span><span class="p">(</span><span class="n">x_base</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x_base</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;score&quot;</span><span class="p">)</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">h</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">lty</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="nf">h</span><span class="p">(</span><span class="n">x_base</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x_base</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;Hessian&quot;</span><span class="p">)</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">h</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">lty</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>At an initial trial value <span class="math notranslate nohighlight">\(\theta_0\)</span>, if <span class="math notranslate nohighlight">\(s(\theta_0) \neq 0\)</span>, the search is updated by</p>
+<div class="math notranslate nohighlight">
+\[
+\theta_{t+1} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t)
+\]</div>
+<p>for the index of iteration <span class="math notranslate nohighlight">\(t=0,1,\cdots\)</span>, where
+<span class="math notranslate nohighlight">\(H(\theta) = \frac{ \partial s(\theta )}{ \partial \theta}\)</span>
+is the Hessian matrix. This formulate can be intuitively motivated from a Taylor expansion
+at <span class="math notranslate nohighlight">\(\theta_t\)</span> round  <span class="math notranslate nohighlight">\(\theta_{\star}\)</span>, a root of <span class="math notranslate nohighlight">\(s(\cdot)\)</span>. Because <span class="math notranslate nohighlight">\(\theta_{ \star }\)</span>  is a root,</p>
+<div class="math notranslate nohighlight">
+\[
+0 = s(\theta_{\star}) = s(\theta_t) + H(\theta_t) (\theta_{t+1} - \theta_t) + O( (\theta_{t+1} - \theta_t)^2 ).
+\]</div>
+<p>Ignore the high-order term and rearrange,
+<span class="math notranslate nohighlight">\(\theta_{\star} = \theta_{t} -  \left( H(\theta_t)  \right)^{-1}  s(\theta_t),\)</span>
+and we obtain the iteration formula by replacing <span class="math notranslate nohighlight">\(\theta_{\star}\)</span> with the updated <span class="math notranslate nohighlight">\(\theta_{t+1}\)</span>.
+In other words, it is a first-order linear updating formula for a nonlinear <span class="math notranslate nohighlight">\(s(\cdot)\)</span>.  The algorithm iterates until <span class="math notranslate nohighlight">\(|\theta_{t+1} -\theta_{t}| &lt; \epsilon\)</span> (absolute criterion) and/or
+<span class="math notranslate nohighlight">\(|\theta_{t+1} -\theta_{t}|/|\theta_{t}| &lt; \epsilon\)</span> (relative criterion), where
+<span class="math notranslate nohighlight">\(\epsilon\)</span> is a small positive number chosen as a tolerance level.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Newton&#39;s method</span>
+<span class="n">Newton</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">x</span> <span class="o">-</span> <span class="nf">s</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="nf">h</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="p">}</span> <span class="c1"># update formula</span>
+
+<span class="n">x_init</span> <span class="o">&lt;-</span> <span class="m">6</span> <span class="c1"># can experiment with various initial values</span>
+
+<span class="n">gap</span> <span class="o">&lt;-</span> <span class="m">1</span>
+<span class="n">epsilon</span> <span class="o">&lt;-</span> <span class="m">0.0001</span> <span class="c1"># tolerance</span>
+<span class="nf">while </span><span class="p">(</span><span class="n">gap</span> <span class="o">&gt;</span> <span class="n">epsilon</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">x_new</span> <span class="o">&lt;-</span> <span class="nf">Newton</span><span class="p">(</span><span class="n">x_init</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+  <span class="n">gap</span> <span class="o">&lt;-</span> <span class="nf">abs</span><span class="p">(</span><span class="n">x_init</span> <span class="o">-</span> <span class="n">x_new</span><span class="p">)</span>
+  <span class="n">x_init</span> <span class="o">&lt;-</span> <span class="n">x_new</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Newton’s Method.</strong> Newton’s method seeks the solution to
+<span class="math notranslate nohighlight">\(s(\theta) = 0\)</span>. Recall that the first-order condition is a necessary condition but not a sufficient
+condition. We need to verify the second-order condition for each root of <span class="math notranslate nohighlight">\(s(\theta)\)</span> to decide whether it is a minimizer, maximizer or saddle point.
+If there are multiple minima, we compare the value at each to decide the
+global minimum.</p>
+<p>It is clear that Newton’s method requires
+computing the gradient <span class="math notranslate nohighlight">\(s(\theta)\)</span> and the Hessian <span class="math notranslate nohighlight">\(H(\theta)\)</span>.
+Newton’s method numerically converges at quadratic rate.</p>
+<p><strong>Quasi-Newton Method.</strong> The most well-known quasi-Newton algorithm is<br />
+<a class="reference external" href="http://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</a>.
+It avoids explicit calculation of the computationally expensive Hessian matrix. Instead, starting from an initial (inverse)
+Hessian, it updates the Hessian by an explicit formula motivated from the idea of quadratic approximation.</p>
+<p><strong>Derivative-Free Method.</strong> <a class="reference external" href="http://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method">Nelder-Mead</a>
+is a simplex method. It searches a local minimum by reflection, expansion and contraction.</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>R’s optimization infrastructure has been constantly improving.
+<a class="reference external" href="http://cran.r-project.org/web/views/Optimization.html">R Optimization Task View</a>
+gives a survey of the available CRAN packages. For general-purpose nonlinear optimization, the package
+<a class="reference external" href="http://cran.r-project.org/web/packages/optimx/index.html"><code class="docutils literal notranslate"><span class="pre">optimx</span></code></a> [&#64;nash2014best]
+effectively replaces R’s default optimization commands. <code class="docutils literal notranslate"><span class="pre">optimx</span></code> provides a unified
+interface for various widely-used optimization algorithms. Moreover,
+it facilitates comparison among optimization algorithms. A relatively new package <a class="reference external" href="https://cran.r-project.org/web/packages/ROI/index.html"><code class="docutils literal notranslate"><span class="pre">ROI</span></code></a> [&#64;epubwu5858] attempts to offer a consistent modeling framework to communicate with solvers. We will incorporate <code class="docutils literal notranslate"><span class="pre">ROI</span></code> in a future draft.</p>
+<p><strong>Example</strong></p>
+<p>We use <code class="docutils literal notranslate"><span class="pre">optimx</span></code> to solve pseudo Poisson maximum likelihood estimation (PPML), which is a popular estimator in international trade for cross-country bilateral trade [&#64;silva2006log]. If <span class="math notranslate nohighlight">\(y_i\)</span> is a continuous random variable, it obviously does not follow a Poisson
+distribution whose support consists of non-negative integers. However, if the conditional mean model
+$<span class="math notranslate nohighlight">\(E[y_i | x_i] = \exp( x_i' \beta),\)</span><span class="math notranslate nohighlight">\(
+is satisfied, we can still use the Poisson regression to obtain a consistent
+estimator of the parameter \)</span>\beta<span class="math notranslate nohighlight">\( even if \)</span>y_i$ does not follow a conditional
+Poisson distribution.</p>
+<p>If <span class="math notranslate nohighlight">\(Z\)</span> follows a Poisson distribution with mean <span class="math notranslate nohighlight">\(\lambda\)</span>, the probability mass function</p>
+<div class="math notranslate nohighlight">
+\[
+\Pr(Z = k) = \frac{\mathrm{e}^{-\lambda} \lambda^k}{k!}, \mathrm{ for }\, \, k=0,1,2,\ldots,
+\]</div>
+<p>so that</p>
+<div class="math notranslate nohighlight">
+\[
+\log \Pr(Y = y | x) =  -\exp(x'\beta) + y\cdot x'\beta - \log k!
+\]</div>
+<p>Since the last term is irrelevant to the parameter, the
+log-likelihood function is</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\beta) = \log \Pr( \mathbf{y} | \mathbf{x};\beta ) =
+-\sum_{i=1}^n \exp(x_i'\beta) + \sum_{i=1}^n y_i x_i'\beta.
+\]</div>
+<p>In addition, it is easy to write the gradient</p>
+<div class="math notranslate nohighlight">
+\[
+s(\beta) =\frac{\partial \ell(\beta)}{\partial \beta} =
+-\sum_{i=1}^n \exp(x_i'\beta)x_i + \sum_{i=1}^n y_i x_i.
+\]</div>
+<p>and verify that the Hessian</p>
+<div class="math notranslate nohighlight">
+\[
+H(\beta) = \frac{\partial^2 \ell(\beta)}{\partial \beta \partial \beta'} =
+-\sum_{i=1}^n \exp(x_i'\beta)x_i x_i'
+\]</div>
+<p>is negative definite. Therefore, <span class="math notranslate nohighlight">\(\ell(\beta)\)</span> is strictly concave
+in <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<p>In operational research, the default optimization is minimization, although
+utility is maximized in economics and likelihood is maximized in statistics.
+To follow this convention in operational research, here we formulate the <em>negative</em> log-likelihood.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Poisson likelihood</span>
+<span class="n">poisson.loglik</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">b</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+  <span class="n">lambda</span> <span class="o">&lt;-</span> <span class="nf">exp</span><span class="p">(</span><span class="n">X</span> <span class="o">%*%</span> <span class="n">b</span><span class="p">)</span>
+  <span class="n">ell</span> <span class="o">&lt;-</span> <span class="o">-</span><span class="nf">sum</span><span class="p">(</span><span class="o">-</span><span class="n">lambda</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="nf">log</span><span class="p">(</span><span class="n">lambda</span><span class="p">))</span>
+  <span class="nf">return</span><span class="p">(</span><span class="n">ell</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To implement optimization in <code class="docutils literal notranslate"><span class="pre">R</span></code>, it is recommended to write the criterion as a
+function of the parameter. Data can be fed inside or outside of the function.
+If the data is provided as additional arguments, these arguments must be explicit.
+(In contrast, in <code class="docutils literal notranslate"><span class="pre">Matlab</span></code> the parameter must be the sole argument for the function to be
+optimized, and data can only be injected through a nested function.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># implement both BFGS and Nelder-Mead for comparison.</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">AER</span><span class="p">)</span>
+
+<span class="c1">## prepare the data</span>
+<span class="nf">data</span><span class="p">(</span><span class="s">&quot;RecreationDemand&quot;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="n">RecreationDemand</span><span class="o">$</span><span class="n">trips</span>
+<span class="n">X</span> <span class="o">&lt;-</span> <span class="nf">with</span><span class="p">(</span><span class="n">RecreationDemand</span><span class="p">,</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">income</span><span class="p">))</span>
+
+<span class="c1">## estimation</span>
+<span class="n">b.init</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="c1"># initial value</span>
+<span class="n">b.hat</span> <span class="o">&lt;-</span> <span class="n">optimx</span><span class="o">::</span><span class="nf">optimx</span><span class="p">(</span><span class="n">b.init</span><span class="p">,</span> <span class="n">poisson.loglik</span><span class="p">,</span>
+  <span class="n">method</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;BFGS&quot;</span><span class="p">,</span> <span class="s">&quot;Nelder-Mead&quot;</span><span class="p">),</span>
+  <span class="n">control</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span>
+    <span class="n">reltol</span> <span class="o">=</span> <span class="m">1e-7</span><span class="p">,</span>
+    <span class="n">abstol</span> <span class="o">=</span> <span class="m">1e-7</span>
+  <span class="p">)</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">b.hat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Given the conditional mean model, nonlinear least squares (NLS) is also consistent in theory.
+NLS minimizes</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{i=1}^n (y_i - \exp(x_i \beta))^2
+\]</div>
+<p>A natural question is: why do we prefer PPML to NLS?  PPML’s optimization for the linear index is globally convex, while NLS is not.
+It implies that the numerical optimization of PPML is easier and more robust than that of NLS. I leave the derivation of the non-convexity of NLS as an exercise.</p>
+<p>In practice no algorithm suits all problems. Simulation, where the true parameter is known,
+is helpful to check the accuracy of one’s optimization routine before applying to an empirical problem,
+where the true parameter is unknown.
+Contour plot is a useful tool to visualize the function surface/manifold in a low dimension.</p>
+<p><strong>Example</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">x.grid</span> <span class="o">&lt;-</span> <span class="nf">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1.8</span><span class="p">,</span> <span class="m">0.02</span><span class="p">)</span>
+<span class="n">x.length</span> <span class="o">&lt;-</span> <span class="nf">length</span><span class="p">(</span><span class="n">x.grid</span><span class="p">)</span>
+<span class="n">y.grid</span> <span class="o">&lt;-</span> <span class="nf">seq</span><span class="p">(</span><span class="m">-.5</span><span class="p">,</span> <span class="n">.</span><span class="m">2</span><span class="p">,</span> <span class="m">0.01</span><span class="p">)</span>
+<span class="n">y.length</span> <span class="o">&lt;-</span> <span class="nf">length</span><span class="p">(</span><span class="n">y.grid</span><span class="p">)</span>
+
+<span class="n">z.contour</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="n">x.length</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="n">y.length</span><span class="p">)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">x.length</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nf">for </span><span class="p">(</span><span class="n">j</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">y.length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">z.contour</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">poisson.loglik</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">x.grid</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y.grid</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nf">contour</span><span class="p">(</span><span class="n">x.grid</span><span class="p">,</span> <span class="n">y.grid</span><span class="p">,</span> <span class="n">z.contour</span><span class="p">,</span> <span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For problems that demand more accuracy,  third-party standalone solvers can be
+invoked via interfaces to <code class="docutils literal notranslate"><span class="pre">R</span></code>.
+For example, we can access <a class="reference external" href="http://ab-initio.mit.edu/wiki/index.php/NLopt_Installation"><code class="docutils literal notranslate"><span class="pre">NLopt</span></code></a>
+through the packages <a class="reference external" href="http://cran.r-project.org/web/packages/nloptr/index.html"><code class="docutils literal notranslate"><span class="pre">nloptr</span></code></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">NLopt</span></code> offers an <a class="reference external" href="http://ab-initio.mit.edu/wiki/index.php/NLopt_Algorithms#SLSQP">extensive list of algorithms</a>.</p>
+<p><strong>Example</strong></p>
+<p>We first carry out the Nelder-Mead algorithm in NLOPT.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1">## optimization with NLoptr</span>
+
+<span class="n">opts</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span>
+  <span class="s">&quot;algorithm&quot;</span> <span class="o">=</span> <span class="s">&quot;NLOPT_LN_NELDERMEAD&quot;</span><span class="p">,</span>
+  <span class="s">&quot;xtol_rel&quot;</span> <span class="o">=</span> <span class="m">1.0e-7</span><span class="p">,</span>
+  <span class="n">maxeval</span> <span class="o">=</span> <span class="m">500</span>
+<span class="p">)</span>
+
+<span class="n">res_NM</span> <span class="o">&lt;-</span> <span class="n">nloptr</span><span class="o">::</span><span class="nf">nloptr</span><span class="p">(</span>
+  <span class="n">x0</span> <span class="o">=</span> <span class="n">b.init</span><span class="p">,</span>
+  <span class="n">eval_f</span> <span class="o">=</span> <span class="n">poisson.loglik</span><span class="p">,</span>
+  <span class="n">opts</span> <span class="o">=</span> <span class="n">opts</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">res_NM</span><span class="p">)</span>
+
+<span class="c1"># &quot;SLSQP&quot; is indeed the BFGS algorithm in NLopt,</span>
+<span class="c1"># though &quot;BFGS&quot; doesn&#39;t appear in the name</span>
+<span class="n">opts</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="s">&quot;algorithm&quot;</span> <span class="o">=</span> <span class="s">&quot;NLOPT_LD_SLSQP&quot;</span><span class="p">,</span> <span class="s">&quot;xtol_rel&quot;</span> <span class="o">=</span> <span class="m">1.0e-7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To invoke BFGS in NLOPT, we must code up the gradient <span class="math notranslate nohighlight">\(s(\beta)\)</span>,
+as in the function <code class="docutils literal notranslate"><span class="pre">poisson.log.grad()</span></code> below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">poisson.loglik.grad</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">b</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+  <span class="n">lambda</span> <span class="o">&lt;-</span> <span class="nf">exp</span><span class="p">(</span><span class="n">X</span> <span class="o">%*%</span> <span class="n">b</span><span class="p">)</span>
+  <span class="n">ell</span> <span class="o">&lt;-</span> <span class="o">-</span><span class="nf">colSums</span><span class="p">(</span><span class="o">-</span><span class="nf">as.vector</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span>
+  <span class="nf">return</span><span class="p">(</span><span class="n">ell</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We compare the analytical gradient with the numerical gradient to make sure
+the function is correct.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the numerical gradient and the analytical gradient</span>
+<span class="n">b</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">.</span><span class="m">5</span><span class="p">)</span>
+<span class="n">numDeriv</span><span class="o">::</span><span class="nf">grad</span><span class="p">(</span><span class="n">poisson.loglik</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nf">poisson.loglik.grad</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the function of gradient, we are ready for BFGS.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">res_BFGS</span> <span class="o">&lt;-</span> <span class="n">nloptr</span><span class="o">::</span><span class="nf">nloptr</span><span class="p">(</span>
+  <span class="n">x0</span> <span class="o">=</span> <span class="n">b.init</span><span class="p">,</span>
+  <span class="n">eval_f</span> <span class="o">=</span> <span class="n">poisson.loglik</span><span class="p">,</span>
+  <span class="n">eval_grad_f</span> <span class="o">=</span> <span class="n">poisson.loglik.grad</span><span class="p">,</span>
+  <span class="n">opts</span> <span class="o">=</span> <span class="n">opts</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">res_BFGS</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="convex-optimization">
+<h2>Convex Optimization<a class="headerlink" href="#convex-optimization" title="Permalink to this headline">¶</a></h2>
+<p>If a function is convex in its argument, then a local minimum is a global minimum.
+Convex optimization is particularly important in high-dimensional problems. The readers are
+referred to &#64;boyd2004convex for an accessible comprehensive treatment. They claim that
+“convex optimization is technology; all other optimizations are arts.” This is true to some extent.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">x</span><span class="o">^</span><span class="m">2</span>
+<span class="n">f2</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">f3</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">-</span> <span class="m">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="m">-1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="m">0.4</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">.</span><span class="m">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">.</span><span class="m">5</span><span class="p">)</span>
+
+<span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">))</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+
+<span class="n">x_base</span> <span class="o">&lt;-</span> <span class="nf">seq</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="nf">f1</span><span class="p">(</span><span class="n">x_base</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x_base</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">lwd</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;differentiable&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="nf">f2</span><span class="p">(</span><span class="n">x_base</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x_base</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">lwd</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;non-differentiable&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="nf">f3</span><span class="p">(</span><span class="n">x_base</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x_base</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">lwd</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;multiple minimizers&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Example</strong></p>
+<ul class="simple">
+<li><p>linear regression model MLE</p></li>
+</ul>
+<p>Normal MLE. The (negative) log-likelihood is</p>
+<div class="math notranslate nohighlight">
+\[
+\ell (\beta, \sigma) = \log \sigma + \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i - x_i' \beta)^2
+\]</div>
+<p>This is not a convex problem, because <span class="math notranslate nohighlight">\(\log \sigma\)</span> is concave. But if we re-parameterize the criterion function by <span class="math notranslate nohighlight">\(\gamma = 1/\sigma\)</span> and <span class="math notranslate nohighlight">\(\alpha = \beta / \sigma\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+\ell (\alpha, \gamma) = -\log \gamma + \frac{1}{2}
+\sum_{i=1}^n (\gamma y_i - x_i' \alpha)^2
+\]</div>
+<p>in convex in <span class="math notranslate nohighlight">\(\alpha, \gamma\)</span>. Many MLE estimators in econometric textbooks are convex.</p>
+<p>In view of the importance of high-dimensional estimation problems, &#64;gao2018two explore the infrastructure in R to carry out convex optimization with two econometric examples. There are several options. <code class="docutils literal notranslate"><span class="pre">CVXR</span></code> [&#64;fu2018cvxr] is a convenient convex modeling language that supports proprietary convex solvers <code class="docutils literal notranslate"><span class="pre">CLEPX</span></code>, <code class="docutils literal notranslate"><span class="pre">MOSEK</span></code>, <code class="docutils literal notranslate"><span class="pre">Gurubi</span></code> as well as open-source solvers 	<code class="docutils literal notranslate"><span class="pre">ECOS</span></code> and <code class="docutils literal notranslate"><span class="pre">SDPT3</span></code>. While open-source solvers does not require license and can be installed in large scale in cloud computing, proprietary solvers are more faster and more reliable. <code class="docutils literal notranslate"><span class="pre">MOSEK</span></code> offers free academic license and we have had extensive experience with it.
+<a class="reference external" href="http://rmosek.r-forge.r-project.org/"><code class="docutils literal notranslate"><span class="pre">Rmosek</span></code></a> offers an interface in <code class="docutils literal notranslate"><span class="pre">R</span></code> to access <code class="docutils literal notranslate"><span class="pre">Mosek</span></code> (<code class="docutils literal notranslate"><span class="pre">Rtools</span></code> is a prerequisite to install <code class="docutils literal notranslate"><span class="pre">Rmosek</span></code> in Windows.)</p>
+<p><strong>Example: Relaxed empirical likelihood</strong></p>
+<p>Consider a model with a “true” parameter <span class="math notranslate nohighlight">\(\beta_0\)</span> satisfying the moment condition <span class="math notranslate nohighlight">\(\mathrm{E}\left[  h\left(Z_i, \beta_0 \right)\right] = 0_m\)</span>, where <span class="math notranslate nohighlight">\(\left\{Z_i \right\}_{i=1}^n\)</span> is the observed data, <span class="math notranslate nohighlight">\(\beta\)</span>
+is a low dimensional parameter of interest, and  <span class="math notranslate nohighlight">\(h\)</span> is an <span class="math notranslate nohighlight">\(\mathbb{R}^{m}\)</span>-valued moment function.
+Empirical likelihood (EL) [&#64;owen1988empirical] [&#64;qin1994empirical] solves</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{\beta \in \mathcal{B}, \pi \Delta_n} \; \sum_{i=1}^n \log \pi_i \;\,\, \text{s.t.} \; \sum_{i=1}^n \pi_i h \left( Z_i, \beta \right) = 0_m
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Delta_{n} = \left\{ \pi\in\left[0,1\right]^{n}:\sum_{i=1}^{n}\pi_{i}=1 \right\}\)</span> is the <span class="math notranslate nohighlight">\(n\)</span>-dimensional probability simplex.</p>
+<p>To handle the high-dimensional case, i.e., <span class="math notranslate nohighlight">\(m &gt; n\)</span>, &#64;shi2016econometric proposes the relaxed empirical likelihood (REL),  defined as the solution to</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{\beta\in\mathcal{B}}\max_{\pi\in\Delta_{n}^{\lambda}\left(\beta\right)}\,\sum_{i=1}^{n}\log\pi_{i}
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta_{n}^{\lambda}\left(\beta\right)=\left\{ \pi_i \in\Delta_{n}:\big|\sum_{i=1}^{n}\pi_{i}h_{ij}\left(\beta\right)\big|\leq\lambda,\:j=1,2,\cdots,m\right\}
+\]</div>
+<p>is a relaxed simplex, <span class="math notranslate nohighlight">\(\lambda\geq0\)</span> is a tuning parameter, <span class="math notranslate nohighlight">\(h_{ij}\left(\beta\right)=h_{j}\left(Z_{i},\beta\right)\)</span>
+is the <span class="math notranslate nohighlight">\(j\)</span>-th component of <span class="math notranslate nohighlight">\(h\left(Z_{i},\beta\right)\)</span>.</p>
+<p>Similar to standard EL, REL’s optimization involves an inner loop
+and an outer loop. The outer loop for <span class="math notranslate nohighlight">\(\beta\)</span> is a general low-dimensional
+nonlinear optimization, which can be solved by Newton-type methods.
+With the linear constraints and the logarithm objective, the inner
+loop is convex in <span class="math notranslate nohighlight">\(\pi=\left(\pi_{i}\right)_{i=1}^{n}\)</span>.
+By introducing auxiliary variable, <span class="math notranslate nohighlight">\(t_i\)</span>, the logarithm objective can be formulated as a linear objective function <span class="math notranslate nohighlight">\(\sum_{i=1}^n t_i\)</span> and <span class="math notranslate nohighlight">\(n\)</span> exponential conic constraints, <span class="math notranslate nohighlight">\(\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}=\left\{\left(x_{1}, x_{2}, x_{3}\right): x_{1} \geq x_{2} \exp \left(x_{3} / x_{2}\right), x_{2}&gt;0\right\} \cup\left\{\left(x_{1}, 0, x_{3}\right): x_{1} \geq 0, x_{3} \leq 0\right\}\)</span>, <span class="math notranslate nohighlight">\(i=1,2,\cdots,n\)</span>.</p>
+<p>For each <span class="math notranslate nohighlight">\(\beta\)</span>, the inner problem can be then formulated as a conic programming problem,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+&amp;\max _{\pi, t} \sum_{i=1}^{n} t_{i}\\
+\text { s.t. }&amp;\left[\begin{array}{c}
+1 \\
+-\lambda \\
+\vdots \\
+-\lambda
+\end{array}\right] \leq\left[\begin{array}{cccc}
+1 &amp; 1 &amp; \cdots &amp; 1 \\
+h_{11}(\beta) &amp; h_{21}(\beta) &amp; \cdots &amp; h_{n 1}(\beta) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+h_{1 m}(\beta) &amp; h_{2 m}(\beta) &amp; \cdots &amp; h_{n m}(\beta)
+\end{array}\right]\left[\begin{array}{c}
+\pi_{1} \\
+\pi_{2} \\
+\vdots \\
+\pi_{n}
+\end{array}\right] \leq\left[\begin{array}{c}
+1 \\
+\lambda \\
+\vdots \\
+\lambda
+\end{array}\right]\\
+&amp;\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}, 0 \leq \pi_{i} \leq 1, \text { for each } i=1,2, \cdots, n
+\end{aligned}
+\end{split}\]</div>
+<p>To understand the exponential cone, notice that
+<span class="math notranslate nohighlight">\(\left(\pi_{i}, 1, t_{i}\right) \in \mathcal{K}_{\mathrm{exp}}\)</span> is equivalent to
+<span class="math notranslate nohighlight">\(\{ \pi_i \geq \exp(t_i): \pi_i\geq 0, t_i \leq 0 \}\)</span>. It implies
+<span class="math notranslate nohighlight">\(t_i \leq \log \pi_i\)</span>. Since the problem maximizes <span class="math notranslate nohighlight">\(\sum t_i\)</span>, we must have
+<span class="math notranslate nohighlight">\(t_i = \log \pi_i\)</span>.
+The constrained optimization is readily solvable in <code class="docutils literal notranslate"><span class="pre">Rmosek</span></code> by translating the mathematical expression into computer code.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">innerloop</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">n</span> <span class="o">&lt;-</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+  <span class="n">m</span> <span class="o">&lt;-</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+
+  <span class="c1"># Generate moment condition</span>
+  <span class="n">H</span> <span class="o">&lt;-</span> <span class="nf">MomentMatrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+  <span class="c1"># Initialize the mosek problem</span>
+  <span class="n">Prob</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">sense</span> <span class="o">=</span> <span class="s">&quot;max&quot;</span><span class="p">)</span>
+
+  <span class="c1"># Prob$dparam$intpnt_nl_tol_rel_gap &lt;- 1e-5;</span>
+  <span class="n">Prob</span><span class="o">$</span><span class="n">dparam</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">INTPNT_CO_TOL_REL_GAP</span> <span class="o">=</span> <span class="m">1e-5</span><span class="p">)</span>
+
+  <span class="c1"># Linear coefficients of the objective</span>
+  <span class="n">Prob</span><span class="o">$</span><span class="n">c</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+  <span class="c1"># Linear constraints</span>
+  <span class="n">H_tilde</span> <span class="o">&lt;-</span> <span class="nf">Matrix</span><span class="p">(</span><span class="nf">rbind</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">H</span><span class="p">),</span> <span class="n">sparse</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+  <span class="n">A</span> <span class="o">&lt;-</span>
+    <span class="nf">rbind</span><span class="p">(</span>
+      <span class="nf">cbind</span><span class="p">(</span><span class="n">H_tilde</span><span class="p">,</span> <span class="nf">Matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">sparse</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)),</span>
+      <span class="nf">cbind</span><span class="p">(</span><span class="nf">Matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="m">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">sparse</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> <span class="nf">Diagonal</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="p">)</span>
+  <span class="n">Prob</span><span class="o">$</span><span class="n">A</span> <span class="o">&lt;-</span> <span class="n">A</span>
+  <span class="n">Prob</span><span class="o">$</span><span class="n">bc</span> <span class="o">&lt;-</span>
+    <span class="nf">rbind</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="o">-</span><span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)),</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)))</span>
+  <span class="n">Prob</span><span class="o">$</span><span class="n">bx</span> <span class="o">&lt;-</span> <span class="nf">rbind</span><span class="p">(</span>
+    <span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="o">-</span><span class="kc">Inf</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)),</span>
+    <span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+  <span class="p">)</span>
+
+  <span class="c1"># Exponential Cones</span>
+  <span class="n">NUMCONES</span> <span class="o">&lt;-</span> <span class="n">n</span>
+  <span class="n">Prob</span><span class="o">$</span><span class="n">cones</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">list</span><span class="p">(),</span> <span class="n">nrow</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="n">NUMCONES</span><span class="p">)</span>
+  <span class="nf">rownames</span><span class="p">(</span><span class="n">Prob</span><span class="o">$</span><span class="n">cones</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;type&quot;</span><span class="p">,</span> <span class="s">&quot;sub&quot;</span><span class="p">)</span>
+  <span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Prob</span><span class="o">$</span><span class="n">cones</span><span class="p">[,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="s">&quot;PEXP&quot;</span><span class="p">,</span> <span class="nf">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="m">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span>
+  <span class="p">}</span>
+
+  <span class="c1"># Invoke Mosek</span>
+  <span class="n">mosek.out</span> <span class="o">&lt;-</span> <span class="nf">mosek</span><span class="p">(</span><span class="n">Prob</span><span class="p">,</span> <span class="n">opts</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">verbose</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">soldetail</span> <span class="o">=</span> <span class="m">1</span><span class="p">))</span>
+
+  <span class="nf">if </span><span class="p">(</span><span class="n">mosek.out</span><span class="o">$</span><span class="n">sol</span><span class="o">$</span><span class="n">itr</span><span class="o">$</span><span class="n">solsta</span> <span class="o">==</span> <span class="s">&quot;OPTIMAL&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1"># Since the default of NLOPTR is to do minimization, need to set it as negative</span>
+    <span class="nf">return</span><span class="p">(</span><span class="o">-</span><span class="n">mosek.out</span><span class="o">$</span><span class="n">sol</span><span class="o">$</span><span class="n">itr</span><span class="o">$</span><span class="n">pobjval</span><span class="p">)</span>
+  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
+    <span class="nf">warning</span><span class="p">(</span><span class="s">&quot;WARNING: Inner loop not optimized&quot;</span><span class="p">)</span>
+    <span class="nf">return</span><span class="p">(</span><span class="kc">Inf</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The inner loop optimization can also be carried out by <code class="docutils literal notranslate"><span class="pre">CVXR</span></code>.
+This code snippet is shorter than easier to read.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">innerloop.cvxr</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">n</span> <span class="o">&lt;-</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+  <span class="n">m</span> <span class="o">&lt;-</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+
+  <span class="n">H</span> <span class="o">&lt;-</span> <span class="nf">MomentMatrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+  <span class="n">p</span> <span class="o">&lt;-</span> <span class="nf">Variable</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="n">constr</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span>
+    <span class="nf">sum</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="m">1</span><span class="p">,</span>
+    <span class="n">p</span> <span class="o">&gt;=</span> <span class="m">0</span><span class="p">,</span>
+    <span class="n">p</span> <span class="o">&lt;=</span> <span class="m">1</span><span class="p">,</span>
+    <span class="n">H</span> <span class="o">%*%</span> <span class="n">p</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="n">tau</span><span class="p">,</span>
+    <span class="n">H</span> <span class="o">%*%</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="n">tau</span>
+  <span class="p">)</span>
+
+  <span class="n">obj</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+  <span class="n">obj</span> <span class="o">&lt;-</span> <span class="nf">Maximize</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+  <span class="n">Prob</span> <span class="o">&lt;-</span> <span class="nf">Problem</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">constr</span><span class="p">)</span>
+  <span class="n">cvxr.out</span> <span class="o">&lt;-</span> <span class="nf">solve</span><span class="p">(</span><span class="n">Prob</span><span class="p">)</span>
+
+  <span class="nf">if </span><span class="p">(</span><span class="n">cvxr.out</span><span class="o">$</span><span class="n">status</span> <span class="o">==</span> <span class="s">&quot;optimal&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">return</span><span class="p">(</span><span class="o">-</span><span class="n">cvxr.out</span><span class="o">$</span><span class="n">value</span><span class="p">)</span>
+  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
+    <span class="nf">warning</span><span class="p">(</span><span class="s">&quot;WARNING: Inner loop not optimized&quot;</span><span class="p">)</span>
+    <span class="nf">return</span><span class="p">(</span><span class="kc">Inf</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="future-writing-plan">
+<h2>Future writing plan<a class="headerlink" href="#future-writing-plan" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>more convex optimization examples, for example Lasso, portfolio optimization (Shi, Su, and Xie 2020)</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">ROI</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="reading">
+<h2>Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>&#64;fu2018cvxr</p></li>
+<li><p>&#64;gao2018two</p></li>
+<li><p>&#64;epubwu5858</p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="03-integration.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Integration</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="05-ML.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">From Nonparametrics to Machine Learning</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Zhentao Shi<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

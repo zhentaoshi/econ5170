@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic R &#8212; A Primer on Economic Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Advanced R" href="02-advanced_R.html" />
+    <link rel="prev" title="Preface" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">A Primer on Economic Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Basic R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-advanced_R.html">
+   Advanced R
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-simulation.html">
+   Simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-integration.html">
+   Integration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-optimization.html">
+   Numerical Optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-ML.html">
+   From Nonparametrics to Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-ML2.html">
+   Prediction-Oriented Algorithms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-data_work.html">
+   Data Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-git.html">
+   Git
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/01-basic_R.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/zhentaoshi/econ5170"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/zhentaoshi/econ5170/issues/new?title=Issue%20on%20page%20%2F01-basic_R.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/zhentaoshi/econ5170/master?urlpath=tree/docs/01-basic_R.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#help-system">
+   Help System
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vector">
+   Vector
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#array-and-matrix">
+   Array and Matrix
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package">
+   Package
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mixed-data-types">
+   Mixed Data Types
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-and-output">
+   Input and Output
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistics">
+   Statistics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#user-defined-function">
+   User-defined Function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#flow-control">
+   Flow Control
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistical-model">
+   Statistical Model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-linear-regression-example">
+     A Linear Regression Example
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Basic R</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#help-system">
+   Help System
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vector">
+   Vector
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#array-and-matrix">
+   Array and Matrix
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package">
+   Package
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mixed-data-types">
+   Mixed Data Types
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-and-output">
+   Input and Output
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistics">
+   Statistics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#user-defined-function">
+   User-defined Function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#flow-control">
+   Flow Control
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistical-model">
+   Statistical Model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-linear-regression-example">
+     A Linear Regression Example
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading">
+   Reading
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="basic-r">
+<h1>Basic R<a class="headerlink" href="#basic-r" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>One cannot acquire a new programming language without investing numerous hours.
+<a class="reference external" href="https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf">R-Introduction</a> is an official manual
+maintained by the R core team.
+It was the first document that I perused painstakingly when I began to learn R in 2005.
+After so many years, this is still the best starting point for you to have a taste.</p>
+<p>This lecture quickly sketches some key points of the manual, while you should carefully go over R-Introduction
+after today’s lecture.</p>
+</div>
+<div class="section" id="help-system">
+<h2>Help System<a class="headerlink" href="#help-system" title="Permalink to this headline">¶</a></h2>
+<p>The help system is the first thing we must learn for a new language.
+In R, if we know the exact name of a function and want to check its usage, we can either call <code class="docutils literal notranslate"><span class="pre">help(function_name)</span></code> or a single question mark <code class="docutils literal notranslate"><span class="pre">?function_name</span></code>.
+If we do not know the exact function name, we can instead use the double question mark <code class="docutils literal notranslate"><span class="pre">??key_words</span></code>. It will provide a list of related function names from a fuzzy search.</p>
+<p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">?seq</span></code>, <code class="docutils literal notranslate"><span class="pre">??sequence</span></code></p>
+</div>
+<div class="section" id="vector">
+<h2>Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h2>
+<p>A <em>vector</em> is a collection of elements of the same type, say, integer, logical value, real number, complex number, characters or factor.R does not require explicit type declaration.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;-</span></code> assigns the value on its right-hand side to a self-defined variable name on its left-hand side. <code class="docutils literal notranslate"><span class="pre">=</span></code> is an alternative for assignment.</p>
+<p><code class="docutils literal notranslate"><span class="pre">c()</span></code>  combines two or more vectors into a long vector.</p>
+<p>Binary arithmetic operations <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code> are performed element by element by default.
+So are the binary logical operations <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> <code class="docutils literal notranslate"><span class="pre">|</span></code> <code class="docutils literal notranslate"><span class="pre">!=</span></code>.</p>
+<p><em>Factor</em> is a categorical number. <em>Character</em> is text.</p>
+<p>Missing values in R is represented as <code class="docutils literal notranslate"><span class="pre">NA</span></code> (Not Available). When some operations are not allowed, say, <code class="docutils literal notranslate"><span class="pre">log(-1)</span></code>, R returns  <code class="docutils literal notranslate"><span class="pre">NaN</span></code> (Not a Number).</p>
+<p>Vector selection is specified in square bracket <code class="docutils literal notranslate"><span class="pre">a[</span> <span class="pre">]</span></code> by either positive integer or logical vector.
+The index initiates from 1, not 0 (Python’s rule).</p>
+<p><strong>Example</strong></p>
+<p>Logical vector operation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># logical vectors</span>
+<span class="n">logi_1</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span> <span class="bp">T</span><span class="p">,</span> <span class="bp">F</span><span class="p">)</span>
+<span class="n">logi_2</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span> <span class="bp">T</span><span class="p">,</span> <span class="bp">T</span><span class="p">)</span>
+
+<span class="n">logi_12</span> <span class="o">&lt;-</span> <span class="n">logi_1</span> <span class="o">&amp;</span> <span class="n">logi_2</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">logi_12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="array-and-matrix">
+<h2>Array and Matrix<a class="headerlink" href="#array-and-matrix" title="Permalink to this headline">¶</a></h2>
+<p>An array is a table of numbers.<br />
+A matrix is a 2-dimensional array.</p>
+<ul class="simple">
+<li><p>array arithmetic: element-by-element. Caution must be exercised in binary operations involving two objects of different length. This is error-prone.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%*%</span></code>, <code class="docutils literal notranslate"><span class="pre">solve</span></code>, <code class="docutils literal notranslate"><span class="pre">eigen</span></code></p></li>
+</ul>
+<p><strong>Example</strong></p>
+<p>OLS estimation with one <span class="math notranslate nohighlight">\(x\)</span> regressor and a constant.
+Graduate textbook expresses the OLS in matrix form</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\beta} = (X' X)^{-1} X'y.
+\]</div>
+<p>To conduct OLS estimation in R, we literally translate the mathematical expression into code.</p>
+<p>Step 1: We need data <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(X\)</span> to run OLS. We simulate an artificial dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate data</span>
+<span class="nf">rm</span><span class="p">(</span><span class="n">list</span> <span class="o">=</span> <span class="nf">ls</span><span class="p">())</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">111</span><span class="p">)</span> <span class="c1"># can be removed to allow the result to change</span>
+
+<span class="c1"># set the parameters</span>
+<span class="n">n</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">b0</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+
+<span class="c1"># generate the data</span>
+<span class="n">e</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+<span class="n">Y</span> <span class="o">&lt;-</span> <span class="n">X</span> <span class="o">%*%</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">e</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Step 2: translate the formula to code</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># OLS estimation</span>
+<span class="n">bhat</span> <span class="o">&lt;-</span> <span class="nf">solve</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">X</span><span class="p">,</span> <span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Step 3 (additional): plot the regression graph with the scatter points and the regression line.
+Further compare the regression line (black) with the true coefficient line (red).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">[,</span> <span class="m">2</span><span class="p">],</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;X&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;Y&quot;</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="s">&quot;regression&quot;</span><span class="p">)</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">bhat</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="n">b</span> <span class="o">=</span> <span class="n">bhat</span><span class="p">[</span><span class="m">2</span><span class="p">])</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">b0</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b0</span><span class="p">[</span><span class="m">2</span><span class="p">],</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">h</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">lty</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">v</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">lty</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Step 4: In econometrics we are often interested in hypothesis testing.
+The <em>t</em>-statistic is widely used.
+To test the null <span class="math notranslate nohighlight">\(H_0: \beta_2 = 1\)</span>, we compute the associated <em>t</em>-statistic.
+Again, this is a translation.</p>
+<div class="math notranslate nohighlight">
+\[
+t  =  \frac{\hat{\beta}_2 - \beta_{02}}{ \hat{\sigma}_{\hat{\beta}_2}  }
+   =  \frac{\hat{\beta}_2 - \beta_{02}}{ \sqrt{ \left[ (X'X)^{-1} \hat{\sigma}^2 \right]_{22} } }.
+\]</div>
+<p>where <span class="math notranslate nohighlight">\([\cdot]_{22}\)</span> is the (2,2)-element of a matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate the t-value</span>
+<span class="n">bhat2</span> <span class="o">&lt;-</span> <span class="n">bhat</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="c1"># the parameter we want to test</span>
+<span class="n">e_hat</span> <span class="o">&lt;-</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">%*%</span> <span class="n">bhat</span>
+<span class="n">sigma_hat_square</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">e_hat</span><span class="o">^</span><span class="m">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="m">2</span><span class="p">)</span>
+<span class="n">Sigma_B</span> <span class="o">&lt;-</span> <span class="nf">solve</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">%*%</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_hat_square</span>
+<span class="n">t_value_2</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">bhat2</span> <span class="o">-</span> <span class="n">b0</span><span class="p">[</span><span class="m">2</span><span class="p">])</span> <span class="o">/</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">Sigma_B</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">])</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;The t-statistic =&quot;</span><span class="p">,</span> <span class="n">t_value_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="package">
+<h2>Package<a class="headerlink" href="#package" title="Permalink to this headline">¶</a></h2>
+<p>A pure clean installation of R is small, but R has an extensive ecosystem of add-on packages.
+This is the unique treasure for R users, and other languages like Python or MATLAB are not even close.
+Most packages are hosted on <a class="reference external" href="https://cran.r-project.org/web/packages/">CRAN</a>.
+A common practice today is that statisticians upload a package to CRAN after they write or publish a paper with a new statistical method.
+They promote their work via CRAN, and users have easy access to the state-of-the-art methods.</p>
+<p>A package can be installed by
+<code class="docutils literal notranslate"><span class="pre">install.packages(&quot;package_name&quot;)</span></code>. To invoke a function of a package, we can either call the function name after import the package by <code class="docutils literal notranslate"><span class="pre">library(package_name)</span></code> into the current session, or use
+<code class="docutils literal notranslate"><span class="pre">package_name::function_name</span></code>. The former imports all functions in the package, and sometimes
+can cause conflict with other functions of the same name. The latter method is preferred to
+keep the environment clean.</p>
+<p><a class="reference external" href="http://www.springer.com/gp/book/9780387773162">Applied Econometrics with R</a> by Christian Kleiber and Achim Zeileis is a useful book.
+It also has a companion package
+<code class="docutils literal notranslate"><span class="pre">AER</span></code> that contains popular econometric methods such as instrumental variable regression and robust variance.</p>
+<p>Before we can “knit” in R-studio the Rmd file to produce the pdf document you are reading at this moment,
+we have to install several packages such as <a class="reference external" href="https://yihui.name/knitr/">knitr</a> and those it depends on.</p>
+</div>
+<div class="section" id="mixed-data-types">
+<h2>Mixed Data Types<a class="headerlink" href="#mixed-data-types" title="Permalink to this headline">¶</a></h2>
+<p>A vector only contains one type of elements.
+<em>list</em> is a basket for objects of various types.
+It can serve as a container when a procedure returns more than one useful object.
+For example, when we invoke <code class="docutils literal notranslate"><span class="pre">eigen</span></code>, we are
+interested in both eigenvalues and eigenvectors,
+which are stored into <code class="docutils literal notranslate"><span class="pre">$value</span></code> and <code class="docutils literal notranslate"><span class="pre">$vector</span></code>, respectively.</p>
+<p><em>data.frame</em> is a two-dimensional table that stores the data, similar to a spreadsheet in Excel.
+A matrix is also a two-dimensional table, but it only accommodates one type of elements.
+Real world data can be a collection of integers, real numbers, characters, categorical numbers and so on.
+Data frame is the default way to organize data of mixed type in R. <code class="docutils literal notranslate"><span class="pre">tibble</span></code> is a new and refined
+alternative data frame type.</p>
+<p><strong>Example</strong></p>
+<p>This is a data set in a graduate-level econometrics textbook. We load the data into memory and display the first 6 records.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">AER</span><span class="p">)</span>
+<span class="nf">data</span><span class="p">(</span><span class="s">&quot;CreditCard&quot;</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">CreditCard</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">tibble</span><span class="o">::</span><span class="nf">as_tibble</span><span class="p">(</span><span class="n">CreditCard</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="input-and-output">
+<h2>Input and Output<a class="headerlink" href="#input-and-output" title="Permalink to this headline">¶</a></h2>
+<p>Raw data is often saved in ASCII file or Excel.
+I discourage the use of Excel spreadsheet in data analysis, because the underlying structure of an
+Excel file is too complicated for statistical software to read.
+I recommend the use of <code class="docutils literal notranslate"><span class="pre">csv</span></code> format, a plain ASCII file format.</p>
+<p><code class="docutils literal notranslate"><span class="pre">read.table()</span></code> or <code class="docutils literal notranslate"><span class="pre">read.csv()</span></code> imports data from an ASCII file into an R session.
+<code class="docutils literal notranslate"><span class="pre">write.table()</span></code> or <code class="docutils literal notranslate"><span class="pre">write.csv()</span></code> exports the data in an R session to an ASCII file.</p>
+<p><strong>Example</strong></p>
+<p>Besides loading a data file on the local hard disk, We can directly download data from internet.
+Here we show how to retrieve the stock daily data of <em>Apple Inc.</em> from <em>Yahoo Finance</em>, and save the dataset locally. A package called <code class="docutils literal notranslate"><span class="pre">quantmod</span></code> is used.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">quantmod</span><span class="o">::</span><span class="nf">getSymbols</span><span class="p">(</span><span class="s">&quot;AAPL&quot;</span><span class="p">,</span> <span class="n">src</span> <span class="o">=</span> <span class="s">&quot;yahoo&quot;</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">AAPL</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">AAPL</span><span class="o">$</span><span class="n">AAPL.Close</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another example: <a class="reference external" href="https://fred.stlouisfed.org/series/IPB50001SQ">Quarterly US Industrial Production Index</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">quantmod</span><span class="o">::</span><span class="nf">getSymbols.FRED</span><span class="p">(</span><span class="n">Symbols</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;IPB50001SQ&quot;</span><span class="p">),</span> <span class="n">env</span> <span class="o">=</span> <span class="n">.GlobalEnv</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">IPB50001SQ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="statistics">
+<h2>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h2>
+<p>R is a language created by statisticians.
+It has elegant built-in statistical functions.
+<code class="docutils literal notranslate"><span class="pre">p</span></code> (probability), <code class="docutils literal notranslate"><span class="pre">d</span></code> (density for a continuous random variable, or mass for a discrete random variable), <code class="docutils literal notranslate"><span class="pre">q</span></code> (quantile), <code class="docutils literal notranslate"><span class="pre">r</span></code> (random variable generator) are used ahead of the name of a probability distribution, such as <code class="docutils literal notranslate"><span class="pre">norm</span></code> (normal), <code class="docutils literal notranslate"><span class="pre">chisq</span></code> (<span class="math notranslate nohighlight">\(\chi^2\)</span>), <code class="docutils literal notranslate"><span class="pre">t</span></code> (<em>t</em>),
+<code class="docutils literal notranslate"><span class="pre">weibull</span></code> (Weibull), <code class="docutils literal notranslate"><span class="pre">cauchy</span></code> (Cauchy), <code class="docutils literal notranslate"><span class="pre">binomial</span></code> (binomial), <code class="docutils literal notranslate"><span class="pre">pois</span></code> (Poisson), to name a few.</p>
+<p><strong>Example</strong></p>
+<p>This example illustrates the sampling error.</p>
+<ol class="simple">
+<li><p>Plot the density of <span class="math notranslate nohighlight">\(\chi^2(3)\)</span> over an equally spaced grid system <code class="docutils literal notranslate"><span class="pre">x_axis</span> <span class="pre">=</span> <span class="pre">seq(0.01,</span> <span class="pre">15,</span> <span class="pre">by</span> <span class="pre">=</span> <span class="pre">0.01)</span></code> (black line).</p></li>
+<li><p>Generate 1000 observations from <span class="math notranslate nohighlight">\(\chi^2(3)\)</span> distribution. Plot the kernel density, a nonparametric estimation of the density (red line).</p></li>
+<li><p>Calculate the 95th quantile and the empirical probability of observing a value greater than the 95-th quantile.
+In population, this value should be 5%. What is the number in this experiment?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">888</span><span class="p">)</span>
+<span class="n">x_axis</span> <span class="o">&lt;-</span> <span class="nf">seq</span><span class="p">(</span><span class="m">0.01</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="m">0.01</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">dchisq</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x_axis</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;density&quot;</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">&lt;-</span> <span class="nf">rchisq</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+<span class="nf">lines</span><span class="p">(</span><span class="nf">density</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">crit</span> <span class="o">&lt;-</span> <span class="nf">qchisq</span><span class="p">(</span><span class="n">.</span><span class="m">95</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+
+<span class="nf">mean</span><span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="n">crit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="user-defined-function">
+<h2>User-defined Function<a class="headerlink" href="#user-defined-function" title="Permalink to this headline">¶</a></h2>
+<p>R has numerous built-in functions. However, in practice we will almost always have some<br />
+DIY functionality to be used repeatedly. It is highly recommended to encapsulate it into a user-defined function.
+There are important advantages:</p>
+<ol class="simple">
+<li><p>In the developing stage, it allows us to focus on a small chunk of code. It cuts an overwhelmingly big project into manageable pieces.</p></li>
+<li><p>A long script can have hundreds or thousands of variables. Variables defined inside a function are local. They will not be mixed up with those outside of a function. Only the input and the output of a function have interaction with the outside world.</p></li>
+<li><p>If a revision is necessary, We just need to change one place. We don’t have to repeat the work in every place where it is invoked.</p></li>
+</ol>
+<p>The format of a user-defined function in R is</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">expressions</span>
+  <span class="nf">return</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Example</strong></p>
+<p>If the central limit theorem is applicable, then
+we can calculate the 95% two-sided asymptotic confidence interval as</p>
+<div class="math notranslate nohighlight">
+\[
+\left(\hat{\mu} - \frac{1.96}{\sqrt{n}} \hat{\sigma}, \hat{\mu} + \frac{1.96}{\sqrt{n}} \hat{\sigma} \right)
+\]</div>
+<p>from a given sample.
+It is an easy job, but I am not aware there is a built-in function in R to do this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># construct confidence interval</span>
+
+<span class="n">CI</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1"># x is a vector of random variables</span>
+
+  <span class="n">n</span> <span class="o">&lt;-</span> <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">mu</span> <span class="o">&lt;-</span> <span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">sig</span> <span class="o">&lt;-</span> <span class="nf">sd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">upper</span> <span class="o">&lt;-</span> <span class="n">mu</span> <span class="o">+</span> <span class="m">1.96</span> <span class="o">/</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">sig</span>
+  <span class="n">lower</span> <span class="o">&lt;-</span> <span class="n">mu</span> <span class="o">-</span> <span class="m">1.96</span> <span class="o">/</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">sig</span>
+  <span class="nf">return</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">upper</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="flow-control">
+<h2>Flow Control<a class="headerlink" href="#flow-control" title="Permalink to this headline">¶</a></h2>
+<p>Flow control is common in all programming languages.
+<code class="docutils literal notranslate"><span class="pre">if</span></code> is used for choice, and <code class="docutils literal notranslate"><span class="pre">for</span></code> or <code class="docutils literal notranslate"><span class="pre">while</span></code> is used for loops.</p>
+<p><strong>Example</strong></p>
+<p>Calculate the empirical coverage probability of a Poisson distribution of degrees of freedom 2.
+We conduct this experiment for 1000 times.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">Rep</span> <span class="o">&lt;-</span> <span class="m">1000</span>
+<span class="n">sample_size</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">capture</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">Rep</span><span class="p">)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">Rep</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">mu</span> <span class="o">&lt;-</span> <span class="m">2</span>
+  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">rpois</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+  <span class="n">bounds</span> <span class="o">&lt;-</span> <span class="nf">CI</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">capture</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="p">((</span><span class="n">bounds</span><span class="o">$</span><span class="n">lower</span> <span class="o">&lt;=</span> <span class="n">mu</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mu</span> <span class="o">&lt;=</span> <span class="n">bounds</span><span class="o">$</span><span class="n">upper</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;the emprical size = &quot;</span><span class="p">,</span> <span class="nf">mean</span><span class="p">(</span><span class="n">capture</span><span class="p">))</span> <span class="c1"># empirical size</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="statistical-model">
+<h2>Statistical Model<a class="headerlink" href="#statistical-model" title="Permalink to this headline">¶</a></h2>
+<p>Statistical models are formulated as <code class="docutils literal notranslate"><span class="pre">y~x</span></code>, where <code class="docutils literal notranslate"><span class="pre">y</span></code> on the left-hand side is the dependent variable,
+and <code class="docutils literal notranslate"><span class="pre">x</span></code> on the right-hand side is the explanatory variable.
+The built-in OLS function is <code class="docutils literal notranslate"><span class="pre">lm</span></code>. It is called by <code class="docutils literal notranslate"><span class="pre">lm(y~x,</span> <span class="pre">data</span> <span class="pre">=</span> <span class="pre">data_frame)</span></code>.</p>
+<p>All built-in regression functions in R share the same structure. Once one type of regression is understood,
+it is easy to extend to other regressions.</p>
+<div class="section" id="a-linear-regression-example">
+<h3>A Linear Regression Example<a class="headerlink" href="#a-linear-regression-example" title="Permalink to this headline">¶</a></h3>
+<p>This is a toy example with simulated data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="bp">T</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">p</span> <span class="o">&lt;-</span> <span class="m">1</span>
+
+<span class="n">b0</span> <span class="o">&lt;-</span> <span class="m">1</span>
+<span class="c1"># Generate data</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="bp">T</span> <span class="o">*</span> <span class="n">p</span><span class="p">),</span> <span class="bp">T</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="n">x</span> <span class="o">%*%</span> <span class="n">b0</span> <span class="o">+</span> <span class="nf">rnorm</span><span class="p">(</span><span class="bp">T</span><span class="p">)</span>
+
+<span class="c1"># Linear Model</span>
+<span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">x</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">result</span></code> object is a list containing the regression results. As shown in the results, we can easily read the estimated coefficients, t-test results, F-test results, and the R-squared.</p>
+<p>We can plot the true value of <span class="math notranslate nohighlight">\(y\)</span> and fitted value to examine whether the regression model fit the data well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot</span><span class="p">(</span><span class="n">result</span><span class="o">$</span><span class="n">fitted.values</span><span class="p">,</span>
+  <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;y&quot;</span><span class="p">,</span>
+  <span class="n">main</span> <span class="o">=</span> <span class="s">&quot;Fitted Value&quot;</span>
+<span class="p">)</span>
+<span class="nf">lines</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> <span class="n">lty</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="nf">legend</span><span class="p">(</span><span class="s">&quot;bottomleft&quot;</span><span class="p">,</span>
+  <span class="n">legend</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Fitted Value&quot;</span><span class="p">,</span> <span class="s">&quot;True Value&quot;</span><span class="p">),</span>
+  <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">),</span> <span class="n">lty</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">,</span> <span class="n">cex</span> <span class="o">=</span> <span class="m">0.75</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we plot the best fitted line.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="s">&quot;Fitted Line&quot;</span><span class="p">)</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">result</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="n">b</span> <span class="o">=</span> <span class="n">result</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">2</span><span class="p">])</span>
+<span class="nf">abline</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b0</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span>
+
+<span class="nf">legend</span><span class="p">(</span><span class="s">&quot;bottomright&quot;</span><span class="p">,</span>
+  <span class="n">legend</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Fitted Line&quot;</span><span class="p">,</span> <span class="s">&quot;True Coef&quot;</span><span class="p">),</span>
+  <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;black&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">),</span> <span class="n">lty</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="n">cex</span> <span class="o">=</span> <span class="m">0.75</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we give another example about the relationship between the height and weight of women.
+The women dataset is from the package <code class="docutils literal notranslate"><span class="pre">datasets</span></code>, which is a built-in package shipped with R installation.
+This package contains a variety of datasets. For a complete list, use <code class="docutils literal notranslate"><span class="pre">library(help</span> <span class="pre">=</span> <span class="pre">&quot;datasets&quot;)</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># univariate</span>
+<span class="n">reg1</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">height</span> <span class="o">~</span> <span class="n">weight</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">women</span><span class="p">)</span>
+
+<span class="c1"># multivariate</span>
+<span class="n">reg2</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">height</span> <span class="o">~</span> <span class="n">weight</span> <span class="o">+</span> <span class="nf">I</span><span class="p">(</span><span class="n">weight</span><span class="o">^</span><span class="m">2</span><span class="p">),</span> <span class="n">data</span> <span class="o">=</span> <span class="n">women</span><span class="p">)</span>
+<span class="c1"># &quot;weight^2&quot; is a square term.</span>
+<span class="c1"># &quot;I()&quot; is used to inhibit the formula operator &quot;+&quot;</span>
+<span class="c1"># from being interpreted as an arithmetical one.</span>
+
+<span class="nf">summary</span><span class="p">(</span><span class="n">reg1</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">reg2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="reading">
+<h2>Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://r4ds.had.co.nz/">Wickham and Grolemund</a>: Ch 1, 2, 4, 8, 19 and 20</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Preface</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="02-advanced_R.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Advanced R</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Zhentao Shi<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
