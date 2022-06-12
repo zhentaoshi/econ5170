@@ -19,6 +19,7 @@ __packages
 *.rdb
 *.rdx
 _book/
+_build/
 
 ## Pandoc
 *.md
