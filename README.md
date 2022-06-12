@@ -2,6 +2,7 @@ The Chinese University of Hong Kong
 
 ## Econ5170:  Computational Methods in Economics (2020 Spring)
 
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 
 #### Outline
 
@@ -32,6 +33,14 @@ Lecture notes are provided under this root folder in `*.pdf`.
     * [Git](http://git-scm.com/)
     * Sign up [Github](https://github.com/)
 
-#### License
+## License
 
-All materials in this repository are licensed under GNU General Public License v3.0.
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
